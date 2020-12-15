@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pal/Constant/color.dart';
 
 AppBar appBar(
     {@required BuildContext context,
@@ -17,7 +18,7 @@ AppBar appBar(
       splashRadius: 25,
     );
   return AppBar(
-    backgroundColor: backgroundColor ?? Colors.transparent,
+    backgroundColor: backgroundColor ?? AppColors.primaryColor,
     title: Text(
       title != null ? title : "",
       style: Theme.of(context).textTheme.bodyText1.copyWith(

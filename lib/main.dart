@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pal/Pages/Others/category.dart';
+import 'package:pal/Pages/Others/weekly_update.dart';
+import 'package:pal/Pages/Signin_Signup/forgot_password.dart';
 import 'package:pal/Pages/Signin_Signup/signin.dart';
 import 'Pages/Home/home.dart';
 
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignIn(),
+      home: Category(),
     );
   }
 }

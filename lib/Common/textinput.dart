@@ -7,6 +7,7 @@ Widget input(
     GestureTapCallback onTap,
     TextEditingController controller,
     bool obscureText,
+    bool autoFocus,
     ValueChanged<String> onChanged,
     String text,
     TextInputType keyboardType,
@@ -18,7 +19,7 @@ Widget input(
   Size size = MediaQuery.of(context).size;
   return Container(
     padding:
-        padding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding ?? const EdgeInsets.all(10),
     width: size.width ?? width,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,13 +29,14 @@ Widget input(
           style: labelStyle ??
               Theme.of(context).textTheme.bodyText1.copyWith(
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 10,
         ),
         TextField(
+          autofocus: autoFocus ?? false,
           maxLines: maxLines ?? 1,
           decoration: decoration ?? null,
           style: style ?? null,

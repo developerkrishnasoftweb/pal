@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/carousel.dart';
+import 'package:pal/Constant/color.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
             height: size.height > 500 ? size.height * 0.3 : 180,
             width: size.width,
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: AppColors.primaryColor,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30)),
