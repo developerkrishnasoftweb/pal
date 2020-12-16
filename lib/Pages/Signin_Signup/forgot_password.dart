@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/button.dart';
+import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Common/input_border.dart';
 import 'package:pal/Common/textinput.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -36,10 +37,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 text: "Mobile Number",
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(20),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.grey)),
-                )),
+                  border: border(),)),
             SizedBox(height: 40,),
             button(context: context, onPressed: (){}, text: "GET OTP", height: 65, width: size.width),
           ],

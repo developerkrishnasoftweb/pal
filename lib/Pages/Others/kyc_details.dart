@@ -20,10 +20,10 @@ class _KYCState extends State<KYC> {
           children: [
             SizedBox(width: size.width, height: 20,),
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(200),
               child: Image.network("https://static01.nyt.com/images/2018/08/01/dining/01Grocery1-alpha/01Grocery1-superJumbo-v2.jpg",
-                height: 250,
-                width: size.width,
+                height: 200,
+                width: 200,
                 fit: BoxFit.fill,
                 loadingBuilder: (context, child, progress){
                   return progress == null ? child : Container(

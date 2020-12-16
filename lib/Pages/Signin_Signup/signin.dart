@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pal/Common/button.dart';
+import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Common/input_border.dart';
 import 'package:pal/Common/textinput.dart';
 
 class SignIn extends StatefulWidget {
@@ -39,20 +40,14 @@ class _SignInState extends State<SignIn> {
                   autoFocus: true,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(20),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey)),
-                  )),
+                    border: border())),
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
                   text: "Password",
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(20),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey)),
-                  )),
+                    border: border())),
               Align(
                 child: GestureDetector(
                   child: Padding(

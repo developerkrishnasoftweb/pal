@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/button.dart';
+import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Common/input_border.dart';
 import 'package:pal/Common/textinput.dart';
 
 class TrackComplaint extends StatefulWidget {
@@ -15,14 +16,18 @@ class _TrackComplaintState extends State<TrackComplaint> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Track Complaint"),
-      body: input(
-        autoFocus: true,
-        context: context,
-        text: "Enter Complaint No.",
-        padding: EdgeInsets.all(20),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey)),
-        )
+      body: Column(
+        children: [
+          input(
+            autoFocus: true,
+            context: context,
+            text: "Enter Complaint No.",
+            padding: EdgeInsets.all(20),
+            decoration: InputDecoration(
+              border: border(),
+            )
+          ),
+        ],
       ),
       floatingActionButton: button(context: context, onPressed: (){}, height: 60, width: size.width, text: "SEARCH"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

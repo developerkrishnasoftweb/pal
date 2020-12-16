@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
+import 'package:pal/Common/input_border.dart';
 import 'package:pal/Common/textinput.dart';
 
 class ProductDemo extends StatefulWidget {
@@ -26,7 +27,7 @@ class _ProductDemoState extends State<ProductDemo> {
           input(context: context,
               padding: EdgeInsets.symmetric(horizontal: 25),
               decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey)),
+                  border: border(),
                   hintText: "Search product...",
                   suffixIcon: Icon(Icons.search)
               )
