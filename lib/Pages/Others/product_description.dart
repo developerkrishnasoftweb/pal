@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Constant/color.dart';
 
 class ProductDescription extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     height: 200,
                     width: 200,
                     alignment: Alignment.center,
-                    child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.grey))),
+                    child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor))),
                   );
                 },
               ),
