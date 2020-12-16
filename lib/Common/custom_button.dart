@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-dynamic button({@required BuildContext context, double height, String text, @required VoidCallback onPressed, Widget child, double width, Color color, EdgeInsets padding}){
+dynamic button({@required BuildContext context, double height, String text, @required VoidCallback onPressed, Widget child, double width, Color color, EdgeInsets padding, Color textColor}){
   Size size = MediaQuery.of(context).size;
   Widget childData;
   if(text != null && text != "") {
     childData = Text(text ?? " ",
-      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      style: Theme.of(context).textTheme.bodyText1.copyWith(color: textColor ?? Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
     );
   } else if(child != null) {
     childData = child;
