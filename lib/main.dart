@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pal/Pages/Others/category.dart';
+import 'package:pal/Pages/Others/kyc_details.dart';
 import 'package:pal/Pages/Others/product_demo.dart';
 import 'package:pal/Pages/Others/service_request.dart';
 import 'package:pal/Pages/Others/track_complaint.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TrackComplaint(),
+      home: KYC(),
     );
   }
 }
