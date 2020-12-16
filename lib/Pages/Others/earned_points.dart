@@ -43,8 +43,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey[300],
-                      blurRadius: 5,
+                      color: Colors.grey[200],
+                      blurRadius: 10,
                     )
                   ],
                   borderRadius: BorderRadius.circular(10)
@@ -67,6 +67,34 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 ),
               ),
               SizedBox(height: 10,),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 5,
+                itemBuilder: (context, index){
+                  return Container(
+                    height: 180,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[200],
+                            blurRadius: 10,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                })
             ],
           ),
         )
