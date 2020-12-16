@@ -72,34 +72,87 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 shrinkWrap: true,
                 itemCount: 5,
                 itemBuilder: (context, index){
-                  return Container(
-                    height: 180,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[200],
-                            blurRadius: 10,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                  return buildCard();
                 })
             ],
           ),
         )
     );
   }
+
+  Widget buildCard(){
+    Size size = MediaQuery.of(context).size;
+    TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
+    TextStyle style1 = Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 15);
+    TextStyle style2 = Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
+    return Container(
+      height: 180,
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey[200],
+              blurRadius: 10,
+            )
+          ],
+          borderRadius: BorderRadius.circular(10)
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Cycle No.: 52", style: style2,),
+              Text("30 Nov - 27 Dec", style: style2,),
+            ],
+          ),
+          SizedBox(height: 10,),
+          Text("Purchase for this cycle : 3585", style: style1),
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: size.width * 0.4,
+                child: RichText(
+                  text: TextSpan(
+                      text: "Earned Point : ",
+                      style: style1,
+                      children: [
+                        TextSpan(
+                            text: "973.93",
+                            style: style
+                        )
+                      ]
+                  ),
+                ),
+              ),
+              Container(
+                width: size.width * 0.4,
+                child: RichText(
+                  text: TextSpan(
+                      text: "Closing Point : ",
+                      style: style1,
+                      children: [
+                        TextSpan(
+                            text: "1925.6",
+                            style: style
+                        )
+                      ]
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   Widget buildRedeemedAmount(
       {String title, String amount, bool leadingTrailing, double fontSize}) {
     TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
