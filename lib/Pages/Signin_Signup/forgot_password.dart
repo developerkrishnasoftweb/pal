@@ -39,7 +39,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   contentPadding: EdgeInsets.all(20),
                   border: border(),)),
             SizedBox(height: 40,),
-            button(context: context, onPressed: (){}, text: "GET OTP", height: 65, width: size.width),
+            customButton(context: context, onPressed: (){}, text: "GET OTP", height: 65, width: size.width),
           ],
         ),
       ),

@@ -58,7 +58,7 @@ class _SignInState extends State<SignIn> {
                 alignment: Alignment.centerRight,
               ),
               SizedBox(height: 30,),
-              button(context: context, onPressed: (){}, text: "LOGIN", height: 65, width: size.width),
+              customButton(context: context, onPressed: (){}, text: "LOGIN", height: 65, width: size.width),
             ],
           ),
         ),

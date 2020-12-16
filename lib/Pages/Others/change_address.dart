@@ -88,7 +88,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           ],
         ),
       ),
-      floatingActionButton: button(context: context, onPressed: (){}, height: 60, width: size.width, text: "PROCEED"),
+      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "PROCEED"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

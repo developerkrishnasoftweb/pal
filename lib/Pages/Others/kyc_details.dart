@@ -27,8 +27,8 @@ class _KYCState extends State<KYC> {
                 fit: BoxFit.fill,
                 loadingBuilder: (context, child, progress){
                   return progress == null ? child : Container(
-                    height: size.width * 0.8,
-                    width: size.width * 0.8,
+                    height: 200,
+                    width: 200,
                     alignment: Alignment.center,
                     child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.grey),)),
                   );

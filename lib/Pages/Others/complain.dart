@@ -19,7 +19,7 @@ class _ComplainState extends State<Complain> {
         padding: EdgeInsets.only(top: 30, bottom: 100),
         child: Column(
           children: [
-            button(
+            customButton(
                 context: context,
                 onPressed: () {},
                 text: "Scan QR Code",
@@ -39,13 +39,13 @@ class _ComplainState extends State<Complain> {
           ],
         ),
       ),
-      floatingActionButton: button(
+      floatingActionButton: customButton(
           context: context, onPressed: () {}, height: 60, text: "SUBMIT"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
   Widget attachButton({String text,  @required VoidCallback onPressed}){
-    return button(
+    return customButton(
         context: context,
         onPressed: onPressed,
         child: Row(

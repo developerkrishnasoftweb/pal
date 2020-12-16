@@ -24,7 +24,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
           ],
         ),
       ),
-      floatingActionButton: button(context: context, onPressed: (){}, height: 60, width: size.width, text: "NEW SERVICE REQUEST"),
+      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "NEW SERVICE REQUEST"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

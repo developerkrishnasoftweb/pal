@@ -29,7 +29,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
           ),
         ],
       ),
-      floatingActionButton: button(context: context, onPressed: (){}, height: 60, width: size.width, text: "SEARCH"),
+      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "SEARCH"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

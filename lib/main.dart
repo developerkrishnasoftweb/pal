@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pal/Pages/Others/change_address.dart';
+import 'package:pal/Pages/Others/complain.dart';
+import 'package:pal/Pages/Others/kyc_details.dart';
+import 'package:pal/Pages/Others/product_description.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ChangeAddress(),
+      home: ProductDescription(),
     );
   }
 }
