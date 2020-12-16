@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/carousel.dart';
 import 'package:pal/Constant/color.dart';
+import 'package:pal/Pages/Others/drawer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
+      drawer: drawer(context: context, scaffoldKey: scaffoldKey),
       body: Stack(
         children: [
           Container(

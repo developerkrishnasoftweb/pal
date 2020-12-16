@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pal/Pages/Others/delivery_address.dart';
+import 'package:pal/Pages/Home/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: DeliveryAddress(),
+      home: Home(),
     );
   }
 }
