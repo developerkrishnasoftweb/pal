@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget customButton({@required BuildContext context, double height, String text, @required VoidCallback onPressed, Widget child, double width, Color color, EdgeInsets padding, Color textColor}){
+Widget customButton({@required BuildContext context, double height, String text, @required VoidCallback onPressed, Widget child, double width, Color color, EdgeInsets padding, Color textColor, EdgeInsets outerPadding}){
   Size size = MediaQuery.of(context).size;
   Widget childData;
   if(text != null && text != "") {
@@ -13,7 +13,7 @@ Widget customButton({@required BuildContext context, double height, String text,
   } else return Container();
 
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
+    padding: outerPadding ?? const EdgeInsets.symmetric(horizontal: 10),
     width: width ?? size.width,
     height: height ?? 60,
     child: FlatButton(
