@@ -11,12 +11,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey;
 
   List<CarouselItems> carouselItems = [
-    CarouselItems(image: AssetImage("assets/images/splash-screen.jpg")),
-    CarouselItems(image: AssetImage("assets/images/splash-screen.jpg")),
-    CarouselItems(image: AssetImage("assets/images/splash-screen.jpg")),
+    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
+    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
+    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
   ];
 
   List<ItemListBuilder> itemList = [
@@ -25,6 +25,12 @@ class _HomeState extends State<Home> {
     ItemListBuilder(title: "Redeem Gift", image: AssetImage("assets/images/redeem-gift.png")),
     ItemListBuilder(title: "Service Request", image: AssetImage("assets/images/service-request.png")),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    scaffoldKey = GlobalKey<ScaffoldState>();
+  }
 
   @override
   Widget build(BuildContext context) {

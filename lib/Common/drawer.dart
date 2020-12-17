@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pal/Constant/color.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/Pages/Others/kyc_details.dart';
 
 Drawer drawer({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey}) {
   List<DrawerItem> items = [
@@ -10,9 +11,7 @@ Drawer drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
     DrawerItem(
         text: "Update KYC", icon: Icon(Icons.book_online), onTap: () {
       scaffoldKey.currentState.openEndDrawer();
-    }),
-    DrawerItem(text: "My Profile", icon: Icon(Icons.person), onTap: () {
-      scaffoldKey.currentState.openEndDrawer();
+      Navigator.push(context, CustomPageRoute(widget: KYC()));
     }),
     DrawerItem(
         text: "Logout",
@@ -27,20 +26,21 @@ Drawer drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
   return Drawer(
     child: Column(
       children: [
-        Expanded(
-          flex: 0,
-          child: DrawerHeader(
-            child: Column(
-              children: [
-
-              ],
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-            ),
-          ),
+        SizedBox(height: MediaQuery.of(context).padding.top,),
+        ListTile(
+          title: Text("Home"),
         ),
-        Expanded(
+        ExpansionTile(title: Text("Retailer Bonding Program"),
+          children: [
+            ListTile(
+              title: Text("My Weekly Update"),
+            ),
+            ListTile(
+              title: Text("My Earned Points"),
+            ),
+          ],
+        ),
+        /*Expanded(
           child: ListView.builder(
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
@@ -60,7 +60,7 @@ Drawer drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                   onTap: items[index].onTap,
                 );
               }),
-        )
+        )*/
       ],
     ),
   );
