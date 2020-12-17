@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/input_border.dart';
 import 'package:pal/Common/textinput.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 
 class Complain extends StatefulWidget {
   @override
@@ -11,6 +14,26 @@ class Complain extends StatefulWidget {
 }
 
 class _ComplainState extends State<Complain> {
+  TextEditingController qrCodeTextField = TextEditingController();
+  Future _scanQrCode() async {
+    try{
+      var result = await BarcodeScanner.scan();
+      setState(() {
+        qrCodeTextField.text = result.rawContent;
+      });
+    } on PlatformException catch(e) {
+      if(e.code == BarcodeScanner.cameraAccessDenied){
+        Fluttertoast.showToast(msg: "Permission Denied");
+      } else {
+        Fluttertoast.showToast(msg: "Something went wrong " + e.toString());
+      }
+    } on FormatException{
+      Fluttertoast.showToast(msg: "Closed");
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +44,7 @@ class _ComplainState extends State<Complain> {
           children: [
             customButton(
                 context: context,
-                onPressed: () {},
+                onPressed: _scanQrCode,
                 text: "Scan QR Code",
                 color: Colors.grey[100],
                 height: 70,
@@ -30,7 +53,7 @@ class _ComplainState extends State<Complain> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Text("OR", style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontWeight: FontWeight.bold),),
             ),
-            input(context: context, text: "Enter QR Code", decoration: InputDecoration(border: border())),
+            input(context: context, text: "Enter QR Code", decoration: InputDecoration(border: border()), controller: qrCodeTextField),
             input(context: context, text: "Brief Description", decoration: InputDecoration(border: border()), maxLines: 5),
             SizedBox(height: 20,),
             attachButton(onPressed: (){}, text: "Attach Image"),

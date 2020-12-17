@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/carousel.dart';
 import 'package:pal/Constant/color.dart';
-import 'package:pal/Pages/Others/drawer.dart';
+import 'file:///F:/projects/pal/lib/Common/drawer.dart';
 
 class Home extends StatefulWidget {
   @override
