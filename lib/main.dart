@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:pal/Pages/Home/home.dart';
+import 'package:flutter/services.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Pages/HOME/home.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+  getCredential().then((status) {
+    runApp(MaterialApp(
       title: 'PAL',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Poppins",
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(),
-    );
-  }
+      home:  status ? Home() : SignIn(),
+      debugShowCheckedModeBanner: false,
+    ));
+  });
+}
+
+Future<bool> getCredential() async {
+  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+  if (sharedPreference.getString("email") != null && sharedPreference.getString("password") != null && sharedPreference.getString("mobile") != null && sharedPreference.getString("userdata") != null)
+    return true;
+  else
+    return false;
 }

@@ -28,15 +28,41 @@ Drawer drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
       children: [
         SizedBox(height: MediaQuery.of(context).padding.top,),
         ListTile(
-          title: Text("Home"),
+          title: Text("HOME"),
         ),
-        ExpansionTile(title: Text("Retailer Bonding Program"),
+        ListTile(
+          title: Text("Update KYC"),
+        ),
+        ListTile(
+          title: Text("PRODUCT CATALOG"),
+        ),
+        ExpansionTile(title: Text("RETAILER BONDING PROGRAM"),
           children: [
             ListTile(
               title: Text("My Weekly Update"),
             ),
             ListTile(
               title: Text("My Earned Points"),
+            ),
+          ],
+        ),
+        ExpansionTile(title: Text("SERVICE REQUEST"),
+          children: [
+            ListTile(
+              title: Text("New Service Request"),
+            ),
+            ListTile(
+              title: Text("View Service Request"),
+            ),
+          ],
+        ),
+        ListTile(
+          title: Text("TRACK COMPLAINT"),
+        ),
+        ExpansionTile(title: Text("PRODUCTS"),
+          children: [
+            ListTile(
+              title: Text("Product Demo"),
             ),
           ],
         ),

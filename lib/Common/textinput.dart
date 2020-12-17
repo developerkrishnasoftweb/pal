@@ -9,12 +9,14 @@ Widget input(
     bool obscureText,
     bool autoFocus,
     ValueChanged<String> onChanged,
+    VoidCallback onEditingComplete,
     String text,
     TextInputType keyboardType,
     bool readOnly,
     EdgeInsetsGeometry padding,
     double width,
     TextStyle labelStyle,
+    TextInputAction textInputAction,
     int maxLines}) {
   Size size = MediaQuery.of(context).size;
   return Container(
@@ -35,7 +37,7 @@ Widget input(
         SizedBox(
           height: 10,
         ),
-        TextField(
+        TextFormField(
           autofocus: autoFocus ?? false,
           maxLines: maxLines ?? 1,
           decoration: decoration ?? null,
@@ -44,6 +46,8 @@ Widget input(
           controller: controller ?? null,
           obscureText: obscureText ?? false,
           onChanged: onChanged ?? null,
+          onEditingComplete: onEditingComplete ?? null,
+          textInputAction: textInputAction ?? null,
           keyboardType: keyboardType,
           readOnly: readOnly ?? false,
         ),

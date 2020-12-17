@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 
-class Category extends StatefulWidget {
+class CategoryBuilder extends StatefulWidget {
   @override
   _CategoryState createState() => _CategoryState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryState extends State<CategoryBuilder> {
   List<CategoryItem> categoryItems = [
     CategoryItem(title: "Cosmetic"),
     CategoryItem(title: "General Goods"),
