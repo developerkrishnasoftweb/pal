@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pal/Pages/OTHERS/track_complaint.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
 import '../../Common/carousel.dart';
@@ -104,7 +105,10 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      drawer: Drawer(
+      drawer: Container(
+        width: size.width * 0.85,
+        color: Colors.white,
+        height: size.height,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -147,17 +151,8 @@ class _HomeState extends State<Home> {
               ),
               ListTile(
                 title: Align(
-                    alignment: Alignment(-1.2, 0.0), child: Text("Update KYC")),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(context, CustomPageRoute(widget: KYC()));
-                },
-                leading: Icon(Icons.book_online_outlined),
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("PRODUCT CATALOG")),
+                    alignment: Alignment(-1.3, 0.0),
+                    child: Text("Product Catalog")),
                 onTap: () {
                   scaffoldKey.currentState.openEndDrawer();
                   Navigator.push(
@@ -165,60 +160,175 @@ class _HomeState extends State<Home> {
                 },
                 leading: Icon(Icons.book_outlined),
               ),
+
               ListTile(
                 title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("My Weekly Update")),
+                    alignment: Alignment(-1.2, 0.0), child: Text("Update KYC")),
+                onTap: () {
+                  scaffoldKey.currentState.openEndDrawer();
+                  Navigator.push(context, CustomPageRoute(widget: KYC()));
+                },
+                leading: Icon(Icons.book_online_outlined),
+              ),
+              ExpansionTile(
+                title:  Align(
+                    alignment: Alignment(-2.4, 0.0),
+                    child: Text("Retailer Bonding Program", style: TextStyle(color: Colors.black),)),
+                initiallyExpanded: true,
                 leading: Icon(
                   Icons.table_chart_outlined,
                   color: Colors.grey,
                 ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: WeeklyUpdate()));
-                },
+                childrenPadding: EdgeInsets.only(left: 50),
+                children: [
+                  ListTile(
+                    title: Align(
+                        alignment: Alignment(-1.2, 0.0),
+                        child: Text("My Weekly Update")),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: WeeklyUpdate()));
+                    },
+                  ),
+                  ListTile(
+                    title: Align(
+                        alignment: Alignment(-1.2, 0.0),
+                        child: Text("My Earned Points")),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: EarnedPoints()));
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                title: Align(
+              ExpansionTile(
+                title:  Align(
                     alignment: Alignment(-1.2, 0.0),
-                    child: Text("My Earned Points")),
-                leading: Icon(
-                  Icons.table_chart,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: EarnedPoints()));
-                },
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("New Service Request")),
+                    child: Text("Service Request", style: TextStyle(color: Colors.black),)),
+                initiallyExpanded: true,
                 leading: Icon(
                   Icons.pages,
                   color: Colors.grey,
                 ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: Complain()));
-                },
+                childrenPadding: EdgeInsets.only(left: 50),
+                children: [
+                  ListTile(
+                    title: Align(
+                        alignment: Alignment(-1.2, 0.0),
+                        child: Text("New Service Request")),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: Complain()));
+                    },
+                  ),
+                  ListTile(
+                    title: Align(
+                        alignment: Alignment(-1.2, 0.0),
+                        child: Text("View Service Request")),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: ServiceRequest()));
+                    },
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title:  Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("Products", style: TextStyle(color: Colors.black),)),
+                initiallyExpanded: true,
+                leading: Icon(
+                  Icons.pages,
+                  color: Colors.grey,
+                ),
+                childrenPadding: EdgeInsets.only(left: 50),
+                children: [
+                  ListTile(
+                    title: Text("Product Demo"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Focused Products"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title:  Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("Sales Order", style: TextStyle(color: Colors.black),)),
+                initiallyExpanded: true,
+                leading: Icon(
+                  Icons.pages,
+                  color: Colors.grey,
+                ),
+                childrenPadding: EdgeInsets.only(left: 50),
+                children: [
+                  ListTile(
+                    title: Text("Outstanding & PDC Reports"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Sales Order"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Sales Order Report"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title:  Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("Omni Channel", style: TextStyle(color: Colors.black),)),
+                initiallyExpanded: true,
+                leading: Icon(
+                  Icons.pages,
+                  color: Colors.grey,
+                ),
+                childrenPadding: EdgeInsets.only(left: 50),
+                children: [
+                  ListTile(
+                    title: Text("Omni Channel Declaration"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                  ListTile(
+                    title: Text("Web Order Delivery"),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                    },
+                  ),
+                ],
               ),
               ListTile(
                 title: Align(
                     alignment: Alignment(-1.2, 0.0),
-                    child: Text("View Service Request")),
+                    child: Text("Track Complaints")),
                 leading: Icon(
-                  Icons.pages_outlined,
+                  Icons.card_giftcard,
                   color: Colors.grey,
                 ),
                 onTap: () {
                   scaffoldKey.currentState.openEndDrawer();
                   Navigator.push(
-                      context, CustomPageRoute(widget: ServiceRequest()));
+                      context, CustomPageRoute(widget: TrackComplaint()));
                 },
               ),
               ListTile(
@@ -239,6 +349,20 @@ class _HomeState extends State<Home> {
                 title: Align(
                     alignment: Alignment(-1.2, 0.0),
                     child: Text("Reports")),
+                leading: Icon(
+                  Icons.report,
+                  color: Colors.grey,
+                ),
+                onTap: () {
+                  scaffoldKey.currentState.openEndDrawer();
+                  Navigator.push(
+                      context, CustomPageRoute(widget: RedeemGift()));
+                },
+              ),
+              ListTile(
+                title: Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("My Notification")),
                 leading: Icon(
                   Icons.report,
                   color: Colors.grey,
