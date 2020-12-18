@@ -1,17 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/carousel.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Pages/OTHERS/category.dart';
-import 'package:pal/Pages/OTHERS/kyc_details.dart';
-import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/earned_points.dart';
-import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/weekly_update.dart';
-import 'package:pal/Pages/SERVICE_REQUEST/complain.dart';
-import 'package:pal/Pages/SERVICE_REQUEST/service_request.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../Common/appbar.dart';
+import '../../Common/carousel.dart';
+import '../../Common/page_route.dart';
+import '../../Constant/color.dart';
+import '../../Pages/OTHERS/category.dart';
+import '../../Pages/OTHERS/kyc_details.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/earned_points.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/weekly_update.dart';
+import '../../Pages/SERVICE_REQUEST/complain.dart';
+import '../../Pages/SERVICE_REQUEST/service_request.dart';
+import '../../Pages/SIGNIN_SIGNUP/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -72,25 +73,30 @@ class _HomeState extends State<Home> {
     CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
   ];
 
-  List<ItemListBuilder> itemList = [
-    ItemListBuilder(
-        title: "Product Catalog",
-        image: AssetImage("assets/images/product-catalog.png")),
-    ItemListBuilder(
-        title: "Earned Point",
-        image: AssetImage("assets/images/earned-point.png")),
-    ItemListBuilder(
-        title: "Redeem Gift",
-        image: AssetImage("assets/images/redeem-gift.png")),
-    ItemListBuilder(
-        title: "Service Request",
-        image: AssetImage("assets/images/service-request.png")),
-  ];
+  List<ItemListBuilder> itemList;
 
   @override
   void initState() {
     super.initState();
     scaffoldKey = GlobalKey<ScaffoldState>();
+    itemList = [
+      ItemListBuilder(
+          title: "Product Catalog",
+          onTap: () => Navigator.push(context, CustomPageRoute(widget: CategoryBuilder())),
+          image: AssetImage("assets/images/product-catalog.png")),
+      ItemListBuilder(
+          title: "Earned Point",
+          onTap: () => Navigator.push(context, CustomPageRoute(widget: EarnedPoints())),
+          image: AssetImage("assets/images/earned-point.png")),
+      ItemListBuilder(
+          title: "Redeem Gift",
+          onTap: () => Navigator.push(context, CustomPageRoute(widget: RedeemGift())),
+          image: AssetImage("assets/images/redeem-gift.png")),
+      ItemListBuilder(
+          title: "Service Request",
+          onTap: () => Navigator.push(context, CustomPageRoute(widget: ServiceRequest())),
+          image: AssetImage("assets/images/service-request.png")),
+    ];
   }
 
   @override
@@ -217,6 +223,34 @@ class _HomeState extends State<Home> {
               ),
               ListTile(
                 title: Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("Redeem Gift")),
+                leading: Icon(
+                  Icons.card_giftcard,
+                  color: Colors.grey,
+                ),
+                onTap: () {
+                  scaffoldKey.currentState.openEndDrawer();
+                  Navigator.push(
+                      context, CustomPageRoute(widget: RedeemGift()));
+                },
+              ),
+              ListTile(
+                title: Align(
+                    alignment: Alignment(-1.2, 0.0),
+                    child: Text("Reports")),
+                leading: Icon(
+                  Icons.report,
+                  color: Colors.grey,
+                ),
+                onTap: () {
+                  scaffoldKey.currentState.openEndDrawer();
+                  Navigator.push(
+                      context, CustomPageRoute(widget: RedeemGift()));
+                },
+              ),
+              ListTile(
+                title: Align(
                     alignment: Alignment(-1.2, 0.0), child: Text("Logout")),
                 onTap: showDialogBox,
                 leading: Icon(Icons.logout),
@@ -295,6 +329,7 @@ class _HomeState extends State<Home> {
                           return buildItems(
                               context: context,
                               image: itemList[index].image,
+                              onTap: itemList[index].onTap,
                               title: itemList[index].title);
                         }))
               ],
@@ -307,13 +342,13 @@ class _HomeState extends State<Home> {
 }
 
 Widget buildItems(
-    {@required BuildContext context, ImageProvider image, String title}) {
+    {@required BuildContext context, ImageProvider image, String title, GestureTapCallback onTap}) {
   return Card(
     elevation: 2,
     shadowColor: Colors.black.withOpacity(0.15),
     child: InkWell(
       borderRadius: BorderRadius.circular(3),
-      onTap: () {},
+      onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -343,5 +378,6 @@ Widget buildItems(
 class ItemListBuilder {
   final ImageProvider image;
   final String title;
-  ItemListBuilder({this.image, this.title});
+  final GestureTapCallback onTap;
+  ItemListBuilder({this.image, this.title, this.onTap});
 }
