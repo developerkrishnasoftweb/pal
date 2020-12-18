@@ -64,7 +64,12 @@ class _HomeState extends State<Home> {
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {
       Navigator.pushAndRemoveUntil(
-          context, CustomPageRoute(widget: SignIn(email: sharedPreferences.getString("username"),)), (route) => false);
+          context,
+          CustomPageRoute(
+              widget: SignIn(
+            email: sharedPreferences.getString("username"),
+          )),
+          (route) => false);
     }
   }
 
@@ -83,19 +88,23 @@ class _HomeState extends State<Home> {
     itemList = [
       ItemListBuilder(
           title: "Product Catalog",
-          onTap: () => Navigator.push(context, CustomPageRoute(widget: CategoryBuilder())),
+          onTap: () => Navigator.push(
+              context, CustomPageRoute(widget: CategoryBuilder())),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
           title: "Earned Point",
-          onTap: () => Navigator.push(context, CustomPageRoute(widget: EarnedPoints())),
+          onTap: () =>
+              Navigator.push(context, CustomPageRoute(widget: EarnedPoints())),
           image: AssetImage("assets/images/earned-point.png")),
       ItemListBuilder(
           title: "Redeem Gift",
-          onTap: () => Navigator.push(context, CustomPageRoute(widget: RedeemGift())),
+          onTap: () =>
+              Navigator.push(context, CustomPageRoute(widget: RedeemGift())),
           image: AssetImage("assets/images/redeem-gift.png")),
       ItemListBuilder(
           title: "Service Request",
-          onTap: () => Navigator.push(context, CustomPageRoute(widget: ServiceRequest())),
+          onTap: () => Navigator.push(
+              context, CustomPageRoute(widget: ServiceRequest())),
           image: AssetImage("assets/images/service-request.png")),
     ];
   }
@@ -129,7 +138,7 @@ class _HomeState extends State<Home> {
                       children: [
                         Text("134312"),
                         Text(
-                          "Version 4.5",
+                          "Version 1.0.0",
                           style: TextStyle(color: Colors.red[400]),
                         ),
                       ],
@@ -140,40 +149,28 @@ class _HomeState extends State<Home> {
               Divider(
                 height: 0,
               ),
-              ListTile(
-                title:
-                    Align(alignment: Alignment(-1.2, 0.0), child: Text("HOME")),
-                onTap: () {
-                  Navigator.pushAndRemoveUntil(context,
-                      CustomPageRoute(widget: Home()), (route) => false);
-                },
-                leading: Icon(Icons.home),
-              ),
+              buildDrawerItems("HOME", () {
+                Navigator.pushAndRemoveUntil(
+                    context, CustomPageRoute(widget: Home()), (route) => false);
+              }, Icon(Icons.home)),
               ListTile(
                 title: Align(
                     alignment: Alignment(-1.3, 0.0),
                     child: Text("Product Catalog")),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: CategoryBuilder()));
-                },
+                onTap: () {},
                 leading: Icon(Icons.book_outlined),
               ),
-
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0), child: Text("Update KYC")),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(context, CustomPageRoute(widget: KYC()));
-                },
-                leading: Icon(Icons.book_online_outlined),
-              ),
+              buildDrawerItems("Update KYC", () {
+                scaffoldKey.currentState.openEndDrawer();
+                Navigator.push(context, CustomPageRoute(widget: KYC()));
+              }, Icon(Icons.book_online_outlined)),
               ExpansionTile(
-                title:  Align(
+                title: Align(
                     alignment: Alignment(-2.4, 0.0),
-                    child: Text("Retailer Bonding Program", style: TextStyle(color: Colors.black),)),
+                    child: Text(
+                      "Retailer Bonding Program",
+                      style: TextStyle(color: Colors.black),
+                    )),
                 initiallyExpanded: true,
                 leading: Icon(
                   Icons.table_chart_outlined,
@@ -182,9 +179,7 @@ class _HomeState extends State<Home> {
                 childrenPadding: EdgeInsets.only(left: 50),
                 children: [
                   ListTile(
-                    title: Align(
-                        alignment: Alignment(-1.2, 0.0),
-                        child: Text("My Weekly Update")),
+                    title: Text("My Weekly Update"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -192,9 +187,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
                   ListTile(
-                    title: Align(
-                        alignment: Alignment(-1.2, 0.0),
-                        child: Text("My Earned Points")),
+                    title: Text("My Earned Points"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -204,9 +197,12 @@ class _HomeState extends State<Home> {
                 ],
               ),
               ExpansionTile(
-                title:  Align(
+                title: Align(
                     alignment: Alignment(-1.2, 0.0),
-                    child: Text("Service Request", style: TextStyle(color: Colors.black),)),
+                    child: Text(
+                      "Service Request",
+                      style: TextStyle(color: Colors.black),
+                    )),
                 initiallyExpanded: true,
                 leading: Icon(
                   Icons.pages,
@@ -215,9 +211,7 @@ class _HomeState extends State<Home> {
                 childrenPadding: EdgeInsets.only(left: 50),
                 children: [
                   ListTile(
-                    title: Align(
-                        alignment: Alignment(-1.2, 0.0),
-                        child: Text("New Service Request")),
+                    title: Text("New Service Request"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -225,9 +219,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
                   ListTile(
-                    title: Align(
-                        alignment: Alignment(-1.2, 0.0),
-                        child: Text("View Service Request")),
+                    title: Text("View Service Request"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -237,12 +229,15 @@ class _HomeState extends State<Home> {
                 ],
               ),
               ExpansionTile(
-                title:  Align(
+                title: Align(
                     alignment: Alignment(-1.2, 0.0),
-                    child: Text("Products", style: TextStyle(color: Colors.black),)),
+                    child: Text(
+                      "Products",
+                      style: TextStyle(color: Colors.black),
+                    )),
                 initiallyExpanded: true,
                 leading: Icon(
-                  Icons.pages,
+                  Icons.pages_outlined,
                   color: Colors.grey,
                 ),
                 childrenPadding: EdgeInsets.only(left: 50),
@@ -261,124 +256,38 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              ExpansionTile(
-                title:  Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("Sales Order", style: TextStyle(color: Colors.black),)),
-                initiallyExpanded: true,
-                leading: Icon(
-                  Icons.pages,
-                  color: Colors.grey,
-                ),
-                childrenPadding: EdgeInsets.only(left: 50),
-                children: [
-                  ListTile(
-                    title: Text("Outstanding & PDC Reports"),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                  ListTile(
-                    title: Text("Sales Order"),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                  ListTile(
-                    title: Text("Sales Order Report"),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                ],
-              ),
-              ExpansionTile(
-                title:  Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("Omni Channel", style: TextStyle(color: Colors.black),)),
-                initiallyExpanded: true,
-                leading: Icon(
-                  Icons.pages,
-                  color: Colors.grey,
-                ),
-                childrenPadding: EdgeInsets.only(left: 50),
-                children: [
-                  ListTile(
-                    title: Text("Omni Channel Declaration"),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                  ListTile(
-                    title: Text("Web Order Delivery"),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                    },
-                  ),
-                ],
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("Track Complaints")),
-                leading: Icon(
-                  Icons.card_giftcard,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: TrackComplaint()));
-                },
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("Redeem Gift")),
-                leading: Icon(
-                  Icons.card_giftcard,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: RedeemGift()));
-                },
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("Reports")),
-                leading: Icon(
-                  Icons.report,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: RedeemGift()));
-                },
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0),
-                    child: Text("My Notification")),
-                leading: Icon(
-                  Icons.report,
-                  color: Colors.grey,
-                ),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: RedeemGift()));
-                },
-              ),
-              ListTile(
-                title: Align(
-                    alignment: Alignment(-1.2, 0.0), child: Text("Logout")),
-                onTap: showDialogBox,
-                leading: Icon(Icons.logout),
-              ),
+              buildDrawerItems("Track Complaints", () {
+                scaffoldKey.currentState.openEndDrawer();
+                Navigator.push(
+                    context, CustomPageRoute(widget: TrackComplaint()));
+              },
+                  Icon(
+                    Icons.outgoing_mail,
+                    color: Colors.grey,
+                  )),
+              buildDrawerItems("Redeem Gift", () {
+                scaffoldKey.currentState.openEndDrawer();
+                Navigator.push(context, CustomPageRoute(widget: RedeemGift()));
+              },
+                  Icon(
+                    Icons.card_giftcard,
+                    color: Colors.grey,
+                  )),
+              buildDrawerItems("Reports", () {
+                scaffoldKey.currentState.openEndDrawer();
+              },
+                  Icon(
+                    Icons.report,
+                    color: Colors.grey,
+                  )),
+              buildDrawerItems("My Notification", () {
+                scaffoldKey.currentState.openEndDrawer();
+              },
+                  Icon(
+                    Icons.notifications_on_outlined,
+                    color: Colors.grey,
+                  )),
+              buildDrawerItems("Logout", showDialogBox, Icon(Icons.logout)),
             ],
           ),
         ),
@@ -463,10 +372,21 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  Widget buildDrawerItems(String text, GestureTapCallback onTap, Icon icon) {
+    return ListTile(
+      title: Align(alignment: Alignment(-1.2, 0.0), child: Text(text)),
+      leading: icon ?? null,
+      onTap: onTap,
+    );
+  }
 }
 
 Widget buildItems(
-    {@required BuildContext context, ImageProvider image, String title, GestureTapCallback onTap}) {
+    {@required BuildContext context,
+    ImageProvider image,
+    String title,
+    GestureTapCallback onTap}) {
   return Card(
     elevation: 2,
     shadowColor: Colors.black.withOpacity(0.15),

@@ -150,14 +150,14 @@ class _SignUpState extends State<SignUp> {
               ),
               customButton(
                   context: context,
-                  onPressed: _signUp,
+                  onPressed: !signUpStatus ? _signUp : null,
                   height: 55,
                   child: signUpStatus
                       ? SizedBox(
                           height: 30,
                           width: 30,
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
                           ),
                         )
                       : Text(
@@ -221,25 +221,25 @@ class _SignUpState extends State<SignUp> {
             } else
               firstName = fullName;
             FormData formData = FormData.fromMap({
-              "first_name": firstName,
-              "last_name": lastName ?? "",
+              "name": fullName,
               "email": email,
               "mobile": mobile,
-              "gender": null,
+              "gender": "male",
               "password": password,
+              "token" : "1234",
+              "api_key" : "abc123"
             });
-            print(formData.fields);
             await Services.signUp(formData).then((value) {
               if (value.response == 1) {
                 Fluttertoast.showToast(msg: value.message);
                 setState(() => signUpStatus = false);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SignIn(
-                          email: email,
-                        )),
-                        (route) => false);
+                // Navigator.pushAndRemoveUntil(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => SignIn(
+                //           email: email,
+                //         )),
+                //         (route) => false);
               } else {
                 Fluttertoast.showToast(msg: value.message);
                 setState(() => signUpStatus = false);
