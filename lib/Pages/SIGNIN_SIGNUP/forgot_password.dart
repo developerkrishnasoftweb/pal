@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_border.dart';
+import 'package:pal/Common/input_decoration.dart';
 import 'package:pal/Common/textinput.dart';
 
 class ForgotPassword extends StatefulWidget {

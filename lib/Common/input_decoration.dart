@@ -7,3 +7,7 @@ OutlineInputBorder border({double borderRadius}){
     borderSide: BorderSide(color: Colors.grey)
   );
 }
+
+class AppTextFieldDecoration{
+  static EdgeInsets textFieldPadding = EdgeInsets.symmetric(horizontal: 20, vertical: 15);
+}

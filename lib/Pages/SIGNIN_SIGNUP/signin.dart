@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_border.dart';
+import 'package:pal/Common/input_decoration.dart';
 import 'package:pal/Common/page_route.dart';
 import 'package:pal/Common/textinput.dart';
 import 'package:pal/Constant/color.dart';
 import 'package:pal/Pages/HOME/home.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/forgot_password.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/signup.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +34,7 @@ class _SignInState extends State<SignIn> {
     });
     super.initState();
     myFocusNode = FocusNode();
-    if(widget.email != null){
+    if (widget.email != null) {
       myFocusNode.requestFocus();
     }
   }
@@ -43,6 +44,7 @@ class _SignInState extends State<SignIn> {
     myFocusNode.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -74,32 +76,35 @@ class _SignInState extends State<SignIn> {
                   keyboardType: TextInputType.emailAddress,
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
                   textInputAction: TextInputAction.next,
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
                       username = value;
                     });
                   },
                   controller: emailController,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(20), border: border())),
+                      contentPadding: AppTextFieldDecoration.textFieldPadding,
+                      border: border())),
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
                   text: "Password",
                   obscureText: true,
                   onEditingComplete: _signIn,
-                  onChanged: (value){
+                  onChanged: (value) {
                     setState(() {
                       password = value;
                     });
                   },
                   focusNode: myFocusNode,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(20), border: border())),
+                      contentPadding: AppTextFieldDecoration.textFieldPadding,
+                      border: border())),
               Align(
                 child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, CustomPageRoute(widget: ForgotPassword()));
+                  onTap: () {
+                    Navigator.push(
+                        context, CustomPageRoute(widget: ForgotPassword()));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -131,6 +136,36 @@ class _SignInState extends State<SignIn> {
                   ),
                   height: 65,
                   width: size.width),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: RichText(
+                  text: TextSpan(
+                      text: "Don't have an account?\t",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Color(0xffa8a8a8),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                      children: [
+                        WidgetSpan(
+                            child: GestureDetector(
+                          child: Text(
+                            "Sign Up",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context, CustomPageRoute(widget: SignUp()));
+                          },
+                        ))
+                      ]),
+                ),
+              ),
             ],
           ),
         ),
@@ -143,21 +178,19 @@ class _SignInState extends State<SignIn> {
       isLogging = true;
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(username.isNotEmpty && password.isNotEmpty){
-      FormData formData = FormData.fromMap({
-        "username" : username,
-        "password" : password,
-        "api_key" : "abc123"
-      });
+    if (username.isNotEmpty && password.isNotEmpty) {
+      FormData formData = FormData.fromMap(
+          {"username": username, "password": password, "api_key": "abc123"});
       await Services.signIn(formData).then((result) {
-        if(result.response == "y"){
+        if (result.response == "y") {
           setState(() {
             isLogging = false;
           });
           sharedPreferences.setString("userdata", jsonEncode(result.data));
           sharedPreferences.setString("username", username);
           sharedPreferences.setString("password", result.data[0]["password"]);
-          Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
+          Navigator.pushAndRemoveUntil(
+              context, CustomPageRoute(widget: Home()), (route) => false);
           Fluttertoast.showToast(msg: result.message);
         } else {
           setState(() {
