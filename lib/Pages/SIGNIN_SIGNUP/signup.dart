@@ -17,7 +17,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool terms = false;
   bool signUpStatus = false;
-  String fullName, email, mobile, password;
+  String fullName = "", email = "", mobile = "", password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -203,13 +203,9 @@ class _SignUpState extends State<SignUp> {
     );
   }
   _signUp() async {
-    if (fullName != null &&
-        fullName != "" &&
-        email != null &&
+    if (fullName != "" &&
         email != "" &&
-        mobile != null &&
         mobile != "" &&
-        password != null &&
         password != "") {
       if (terms) {
         if (RegExp(
