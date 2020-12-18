@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Constant/color.dart';
 
 class KYC extends StatefulWidget {
@@ -129,8 +128,6 @@ class _KYCState extends State<KYC> {
       ),
     );
   }
-
-  Widget alertButton() {}
 
   void onMapCreated(GoogleMapController controller) {
     setState(() {

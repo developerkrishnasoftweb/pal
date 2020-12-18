@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +14,9 @@ import 'package:pal/SERVICES/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
+  final String email;
+  SignIn({this.email});
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -23,20 +24,25 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   bool isLogging = false;
   String username = "", password = "";
-  String getStoredUserName = "";
-  void getUserName() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      getStoredUserName = sharedPreferences.getString("email") ?? "";
-      username = getStoredUserName;
-    });
-  }
+  TextEditingController emailController = TextEditingController();
+  FocusNode myFocusNode;
   @override
   void initState() {
-    getUserName();
+    setState(() {
+      emailController.text = username = widget.email ?? "";
+    });
     super.initState();
+    myFocusNode = FocusNode();
+    if(widget.email != null){
+      myFocusNode.requestFocus();
+    }
   }
 
+  @override
+  void dispose() {
+    myFocusNode.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,6 +50,7 @@ class _SignInState extends State<SignIn> {
       body: Container(
         height: size.height,
         width: size.width,
+        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         alignment: Alignment.center,
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -51,16 +58,13 @@ class _SignInState extends State<SignIn> {
           fit: BoxFit.fill,
         )),
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 30),
+          padding: EdgeInsets.only(bottom: 30, left: 20, right: 20),
           child: Column(
             children: [
               Image(
                 image: AssetImage("assets/images/pal-logo.png"),
                 height: 200,
                 width: 200,
-              ),
-              SizedBox(
-                height: 50,
               ),
               input(
                   context: context,
@@ -75,6 +79,7 @@ class _SignInState extends State<SignIn> {
                       username = value;
                     });
                   },
+                  controller: emailController,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20), border: border())),
               input(
@@ -88,6 +93,7 @@ class _SignInState extends State<SignIn> {
                       password = value;
                     });
                   },
+                  focusNode: myFocusNode,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20), border: border())),
               Align(
@@ -149,8 +155,7 @@ class _SignInState extends State<SignIn> {
             isLogging = false;
           });
           sharedPreferences.setString("userdata", jsonEncode(result.data));
-          sharedPreferences.setString("email", result.data[0]["email"]);
-          sharedPreferences.setString("mobile", result.data[0]["mobile"]);
+          sharedPreferences.setString("username", username);
           sharedPreferences.setString("password", result.data[0]["password"]);
           Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
           Fluttertoast.showToast(msg: result.message);

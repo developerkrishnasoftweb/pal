@@ -12,7 +12,6 @@ import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/weekly_update.dart';
 import 'package:pal/Pages/SERVICE_REQUEST/complain.dart';
 import 'package:pal/Pages/SERVICE_REQUEST/service_request.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
-import 'file:///F:/projects/pal/lib/Common/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -63,7 +62,7 @@ class _HomeState extends State<Home> {
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {
       Navigator.pushAndRemoveUntil(
-          context, CustomPageRoute(widget: SignIn()), (route) => false);
+          context, CustomPageRoute(widget: SignIn(email: sharedPreferences.getString("username"),)), (route) => false);
     }
   }
 

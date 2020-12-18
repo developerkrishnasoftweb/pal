@@ -17,6 +17,7 @@ Widget input(
     double width,
     TextStyle labelStyle,
     TextInputAction textInputAction,
+    FocusNode focusNode,
     int maxLines}) {
   Size size = MediaQuery.of(context).size;
   return Container(
@@ -50,6 +51,7 @@ Widget input(
           textInputAction: textInputAction ?? null,
           keyboardType: keyboardType,
           readOnly: readOnly ?? false,
+          focusNode: focusNode,
         ),
       ],
     ),
