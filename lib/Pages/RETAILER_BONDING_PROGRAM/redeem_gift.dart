@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/page_route.dart';
 import 'package:pal/Constant/userdata.dart';
 import 'package:pal/Pages/OTHERS/product_description.dart';
@@ -14,7 +15,7 @@ import '../../Constant/color.dart';
 class RedeemGift extends StatefulWidget {
   final String minPoints;
   final String maxPoints;
-  RedeemGift({this.maxPoints, this.minPoints});
+  RedeemGift({@required this.maxPoints, @required this.minPoints});
   @override
   _RedeemGiftState createState() => _RedeemGiftState();
 }
@@ -22,23 +23,28 @@ class RedeemGift extends StatefulWidget {
 class _RedeemGiftState extends State<RedeemGift> {
   List<GiftData> giftList = [];
   String points = "0";
+  bool dataFound = false;
   @override
   void initState() {
     getUserData();
-    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey, "min" : "100", "max" : "15000"})).then((value) {
+    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey, "min" : widget.minPoints, "max" : widget.maxPoints})).then((value) {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {
             giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], points: value.data[i]["point"], desc: value.data[i]["description"], image: value.data[i]["image"]));
           });
         }
+      } else {
+        setState(() {
+          Fluttertoast.showToast(msg: "No gifts available");
+          dataFound = true;
+        });
       }
     });
     super.initState();
   }
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print(sharedPreferences.getString(UserParams.point));
     setState(() {
       points = sharedPreferences.getString(UserParams.point) ?? "0";
     });
@@ -89,7 +95,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                 })
           ],
         ),
-      ) : Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),)
+      ) : Center(child: !dataFound ? SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),)) : Image(image: AssetImage("assets/images/no-gifts2.png"), height: 150, width: 150,))
     );
   }
 

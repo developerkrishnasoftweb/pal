@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/userdata.dart';
 import 'package:pal/SERVICES/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -14,6 +17,19 @@ class ProductDescription extends StatefulWidget {
 }
 
 class _ProductDescriptionState extends State<ProductDescription> {
+  String points = "0";
+  void getUserData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      points = sharedPreferences.getString(UserParams.point) ?? "0";
+    });
+  }
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,42 +40,95 @@ class _ProductDescriptionState extends State<ProductDescription> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(width: size.width, height: 20,),
+            SizedBox(
+              width: size.width,
+              height: 20,
+            ),
             Align(
               alignment: Alignment.center,
-              child: Image.network(Urls.imageBaseUrl + widget.giftData.image,
+              child: Image.network(
+                Urls.imageBaseUrl + widget.giftData.image,
                 height: 250,
                 width: size.width,
                 fit: BoxFit.fill,
-                loadingBuilder: (context, child, progress){
-                  return progress == null ? child : Container(
-                    height: 200,
-                    width: 200,
-                    alignment: Alignment.center,
-                    child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor))),
-                  );
+                loadingBuilder: (context, child, progress) {
+                  return progress == null
+                      ? child
+                      : Container(
+                          height: 200,
+                          width: 200,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(
+                                      AppColors.primaryColor))),
+                        );
                 },
               ),
             ),
-            Align(alignment: Alignment.center, child: Text(widget.giftData.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 20),)),
-            SizedBox(height: 30,),
+            SizedBox(height: 20,),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.giftData.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                )),
             buildTitledRow(title: "Points", value: widget.giftData.points),
-            buildTitledRow(title: "Product Description", value: widget.giftData.desc),
-            SizedBox(height: 10,),
-            Text("Gift Specification : ", style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 16),),
-            SizedBox(height: 10,),
-            Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n\n"
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\n"
-                "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 14),),
+            buildTitledRow(
+                title: "Product Description", value: widget.giftData.desc),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Gift Specification : ",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n\n"
+              "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\n"
+              "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.grey, fontSize: 14),
+            ),
           ],
         ),
       ),
-      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "REDEEM"),
+      floatingActionButton: customButton(
+        context: context,
+        color: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.grey[200],
+        textColor: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.black,
+        onPressed: int.parse(points) > int.parse(widget.giftData.points)
+            ? _redeem
+            : () {
+                Fluttertoast.showToast(
+                    msg: "You don't have enough points to redeem this gift.");
+              },
+        height: 60,
+        width: size.width,
+        text: "REDEEM",
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-  Widget buildTitledRow({String title, String value}){
+
+  _redeem() {
+    print("Redeem");
+  }
+
+  Widget buildTitledRow({String title, String value}) {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -67,9 +136,21 @@ class _ProductDescriptionState extends State<ProductDescription> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),),
-          SizedBox(height: 5,),
-          Text(value, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.bold),)
+          Text(
+            title,
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            value,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+          )
         ],
       ),
     );

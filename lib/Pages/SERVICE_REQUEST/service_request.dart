@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/Pages/SERVICE_REQUEST/complain.dart';
 
 class ServiceRequest extends StatefulWidget {
   @override
@@ -24,7 +26,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
           ],
         ),
       ),
-      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "NEW SERVICE REQUEST"),
+      floatingActionButton: customButton(context: context, onPressed: () => Navigator.push(context, CustomPageRoute(widget: Complain())), height: 60, width: size.width, text: "NEW SERVICE REQUEST"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

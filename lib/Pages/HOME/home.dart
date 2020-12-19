@@ -8,7 +8,6 @@ import 'package:pal/Pages/OTHERS/track_complaint.dart';
 import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
-import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
 import '../../Common/carousel.dart';
 import '../../Common/page_route.dart';
@@ -259,7 +258,7 @@ class _HomeState extends State<Home> {
                   )),
               buildDrawerItems("Redeem Gift", () {
                 scaffoldKey.currentState.openEndDrawer();
-                Navigator.push(context, CustomPageRoute(widget: RedeemGift()));
+                Navigator.push(context, CustomPageRoute(widget: GiftCategory()));
               },
                   Icon(
                     Icons.card_giftcard,

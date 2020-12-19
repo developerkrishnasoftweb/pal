@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
 import 'package:pal/Constant/userdata.dart';
+import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ class _GiftState extends State<GiftCategory> {
                 title: value.data[i]["title"],
                 max: value.data[i]["max"],
                 min: value.data[i]["min"],
+                image: value.data[i]["image"],
                 status: value.data[i]["status"]));
           });
         }
@@ -42,7 +44,6 @@ class _GiftState extends State<GiftCategory> {
 
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print(sharedPreferences.getString(UserParams.point));
     setState(() {
       points = sharedPreferences.getString(UserParams.point) ?? "0";
     });
@@ -86,7 +87,7 @@ class _GiftState extends State<GiftCategory> {
                         physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.all(10),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 1.2,
+                            childAspectRatio: 0.9,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
                             crossAxisCount: 2),
@@ -108,9 +109,10 @@ class _GiftState extends State<GiftCategory> {
   }
 
   Widget giftCard(GiftCategoryData giftCategoryData) {
+    Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: (){
-
+        Navigator.push(context, CustomPageRoute(widget: RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -121,8 +123,33 @@ class _GiftState extends State<GiftCategory> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              giftCategoryData.title,
+            Image.network(
+              Urls.imageBaseUrl + giftCategoryData.image,
+              height: size.width * 0.15,
+              width: size.width * 0.15,
+              fit: BoxFit.fill,
+              errorBuilder: (context, object, stackTrace) {
+                return Icon(
+                  Icons.signal_cellular_connected_no_internet_4_bar,
+                  color: AppColors.primaryColor,
+                );
+              },
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(
+                            AppColors.primaryColor), strokeWidth: 1,)),
+                );
+              },
+            ),
+            SizedBox(height: 10,),
+            Text("${int.parse(giftCategoryData.min) > 0 ? giftCategoryData.min + " - " : ""}${giftCategoryData.max} Points",
               textAlign: TextAlign.center,
               softWrap: true,
               maxLines: 2,
@@ -131,14 +158,6 @@ class _GiftState extends State<GiftCategory> {
                   .bodyText1
                   .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
             ),
-            Text("${giftCategoryData.min} - ${giftCategoryData.max} Points",
-                softWrap: true,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey)),
           ],
         ),
       ),
@@ -183,6 +202,7 @@ class GiftCategoryData {
   final String title;
   final String min;
   final String max;
+  final String image;
   final String status;
-  GiftCategoryData({this.id, this.title, this.max, this.min, this.status});
+  GiftCategoryData({this.id, this.title, this.max, this.min, this.status, this.image});
 }
