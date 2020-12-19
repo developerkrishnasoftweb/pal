@@ -22,7 +22,7 @@ class _RedeemGiftState extends State<RedeemGift> {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {
-            giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], amount: value.data[i]["amount"], desc: value.data[i]["description"], image: value.data[i]["image"]));
+            giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], points: value.data[i]["point"], desc: value.data[i]["description"], image: value.data[i]["image"]));
           });
         }
       }
@@ -123,7 +123,7 @@ class _RedeemGiftState extends State<RedeemGift> {
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 fontSize: 17, fontWeight: FontWeight.bold),
           ),
-          Text("${giftData.amount} Points",
+          Text("${giftData.points} Points",
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -199,7 +199,7 @@ class GiftData{
   final String title;
   final String image;
   final String desc;
-  final String amount;
+  final String points;
   final String specs;
-  GiftData({this.id, this.title, this.image, this.amount, this.desc, this.specs});
+  GiftData({this.id, this.title, this.image, this.points, this.desc, this.specs});
 }

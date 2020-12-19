@@ -43,7 +43,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
             Align(alignment: Alignment.center, child: Text(widget.giftData.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 20),)),
             SizedBox(height: 30,),
-            buildTitledRow(title: "Points", value: widget.giftData.amount),
+            buildTitledRow(title: "Points", value: widget.giftData.points),
             buildTitledRow(title: "Product Description", value: widget.giftData.desc),
             SizedBox(height: 10,),
             Text("Gift Specification : ", style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 16),),
