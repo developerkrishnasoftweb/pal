@@ -31,7 +31,7 @@ class _CarouselState extends State<Carousel> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: item.image,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                     borderRadius: widget.borderRadius ?? null,
                   ),

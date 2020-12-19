@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pal/Constant/color.dart';
+import 'package:pal/SERVICES/services.dart';
+import 'package:pal/SERVICES/urls.dart';
 import '../../Common/appbar.dart';
 
 class CategoryBuilder extends StatefulWidget {
@@ -8,24 +12,31 @@ class CategoryBuilder extends StatefulWidget {
 }
 
 class _CategoryState extends State<CategoryBuilder> {
-  List<CategoryItem> categoryItems = [
-    CategoryItem(title: "Cosmetic"),
-    CategoryItem(title: "General Goods"),
-    CategoryItem(title: "Grocery"),
-    CategoryItem(title: "Kids Fashion"),
-    CategoryItem(title: "Stylish and Casual Footwear"),
-    CategoryItem(title: "Ladies Fashion"),
-    CategoryItem(title: "Men's Fashion and Accessories"),
-    CategoryItem(title: "Babies Section"),
-    CategoryItem(title: "Home Furnishing"),
-    CategoryItem(title: "Kitchen and cookwear"),
-  ];
+  List<CategoryItem> categoryItems = [];
   ShapeBorder shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
+  @override
+  void initState() {
+    Services.category(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
+      if(value.response == "y"){
+        for(int i = 0; i < value.data.length; i++){
+          setState(() {
+            categoryItems.add(
+                CategoryItem(
+                  title: value.data[i]["title"],
+                  id: value.data[i]["id"],
+                )
+            );
+          });
+        }
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context: context, title: "By Category"),
-      body: SingleChildScrollView(
+      body: categoryItems.length != 0 ? SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
@@ -35,7 +46,7 @@ class _CategoryState extends State<CategoryBuilder> {
             ],
           ],
         ),
-      ),
+      ) : Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),)
     );
   }
   Widget categoryBuilder(CategoryItem item){
@@ -54,5 +65,8 @@ class _CategoryState extends State<CategoryBuilder> {
 }
 class CategoryItem{
   final String title;
-  CategoryItem({this.title});
+  final String id;
+  final String image;
+  final String promo;
+  CategoryItem({this.title, this.id, this.image, this.promo});
 }

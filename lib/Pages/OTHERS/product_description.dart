@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pal/SERVICES/urls.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Constant/color.dart';
 
 class ProductDescription extends StatefulWidget {
+  final GiftData giftData;
+  ProductDescription({@required this.giftData});
   @override
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
@@ -23,7 +27,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             SizedBox(width: size.width, height: 20,),
             Align(
               alignment: Alignment.center,
-              child: Image.network("https://s.aolcdn.com/dims-global/dims3/GLOB/legacy_thumbnail/360x200/quality/85/https://s.aolcdn.com/commerce/autodata/images/USD00MBCBJ3A021001.jpg",
+              child: Image.network(Urls.imageBaseUrl + widget.giftData.image,
                 height: 250,
                 width: size.width,
                 fit: BoxFit.fill,
@@ -37,9 +41,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 },
               ),
             ),
+            Align(alignment: Alignment.center, child: Text(widget.giftData.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 20),)),
             SizedBox(height: 30,),
-            buildTitledRow(title: "Points", value: "55,00,000"),
-            buildTitledRow(title: "Product Description", value: "Mercedes C2020 Prime, Petrol, Based Model"),
+            buildTitledRow(title: "Points", value: widget.giftData.amount),
+            buildTitledRow(title: "Product Description", value: widget.giftData.desc),
             SizedBox(height: 10,),
             Text("Gift Specification : ", style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 16),),
             SizedBox(height: 10,),

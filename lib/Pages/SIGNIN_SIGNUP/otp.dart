@@ -1,18 +1,31 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/input_decoration.dart';
+import 'package:pal/Constant/color.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
+import 'package:pal/SERVICES/services.dart';
 
 class OTP extends StatefulWidget {
+  final String otp;
+  final FormData formData;
+  OTP({this.otp, this.formData});
   @override
   _OTPState createState() => _OTPState();
 }
 
 class _OTPState extends State<OTP> {
   FocusNode textFocusNode = new FocusNode();
-  String otp = "";
+  String otp = "", OTP1 = "", OTP2 = "", OTP3 = "", OTP4 = "";
+  bool signUpStatus = false;
+  TextEditingController otpText1 = TextEditingController();
+  TextEditingController otpText2 = TextEditingController();
+  TextEditingController otpText3 = TextEditingController();
+  TextEditingController otpText4 = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,18 +55,41 @@ class _OTPState extends State<OTP> {
           SizedBox(height: 40,),
         ],
       ),
-      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "SUBMIT"),
+      floatingActionButton: customButton(context: context, onPressed: !signUpStatus ? _register : null, height: 60, width: size.width, text: !signUpStatus ? "SUBMIT" : null, child: SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+  _register() async {
+    if(widget.otp == otp){
+      setState(() => signUpStatus = true);
+      await Services.signUp(widget.formData).then((value) {
+        if (value.response == "y") {
+          Fluttertoast.showToast(msg: value.message);
+          setState(() => signUpStatus = false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SignIn()),
+                  (route) => false);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
+          setState(() => signUpStatus = false);
+          Navigator.pop(context);
+        }
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Invalid OTP");
+    }
   }
 
   Widget buildOtpTextField(int pos){
     return SizedBox(
-      height: 60,
-      width: 60,
+      height: 50,
+      width: 50,
       child: TextFormField(
         decoration: InputDecoration(
-          border: border(),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          contentPadding: EdgeInsets.all(10)
         ),
         keyboardType: TextInputType.number,
         maxLength: 1,
@@ -78,6 +114,7 @@ class _OTPState extends State<OTP> {
         onEditingComplete: () => FocusScope.of(context).nextFocus(),
         textInputAction: TextInputAction.next,
         textAlign: TextAlign.center,
+        textAlignVertical: TextAlignVertical.center,
       ),
     );
   }

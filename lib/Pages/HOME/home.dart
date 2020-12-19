@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Pages/OTHERS/track_complaint.dart';
+import 'package:pal/SERVICES/services.dart';
+import 'package:pal/SERVICES/urls.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
 import '../../Common/carousel.dart';
@@ -73,23 +76,28 @@ class _HomeState extends State<Home> {
     }
   }
 
-  List<CarouselItems> carouselItems = [
-    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
-    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
-    CarouselItems(image: AssetImage("assets/images/pal-logo1.png")),
-  ];
+  List<CarouselItems> carouselItems = [];
 
   List<ItemListBuilder> itemList;
 
   @override
   void initState() {
+    Services.banners(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
+      if(value.response == "y"){
+        for(int i = 0; i < value.data.length; i++){
+          setState(() {
+            carouselItems.add(CarouselItems(image: NetworkImage(Urls.imageBaseUrl + value.data[i]["image"]), title: value.data[i]["title"], categoryId: value.data[i]["id"]));
+          });
+        }
+      }
+    });
     super.initState();
     scaffoldKey = GlobalKey<ScaffoldState>();
     itemList = [
       ItemListBuilder(
           title: "Product Catalog",
           onTap: () => Navigator.push(
-              context, CustomPageRoute(widget: CategoryBuilder())),
+              context, createRoute(CategoryBuilder())),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
           title: "Earned Point",
@@ -150,14 +158,16 @@ class _HomeState extends State<Home> {
                 height: 0,
               ),
               buildDrawerItems("HOME", () {
-                Navigator.pushAndRemoveUntil(
-                    context, CustomPageRoute(widget: Home()), (route) => false);
+                scaffoldKey.currentState.openEndDrawer();
               }, Icon(Icons.home)),
               ListTile(
                 title: Align(
                     alignment: Alignment(-1.3, 0.0),
                     child: Text("Product Catalog")),
-                onTap: () {},
+                onTap: () {
+                  scaffoldKey.currentState.openEndDrawer();
+                  Navigator.push(context, CustomPageRoute(widget: CategoryBuilder()));
+                },
                 leading: Icon(Icons.book_outlined),
               ),
               buildDrawerItems("Update KYC", () {
@@ -330,7 +340,8 @@ class _HomeState extends State<Home> {
                             AssetImage("assets/icons/notification-icon.png"),
                             color: Colors.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           splashRadius: 23,
                           iconSize: 20,
                         )

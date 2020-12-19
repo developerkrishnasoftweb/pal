@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/input_decoration.dart';
+import 'package:pal/Common/page_route.dart';
 import 'package:pal/Common/textinput.dart';
 import 'package:pal/Constant/color.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/otp.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
 import 'package:pal/SERVICES/services.dart';
+import 'package:pal/SERVICES/urls.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -82,6 +87,7 @@ class _SignUpState extends State<SignUp> {
                       fullName = value;
                     });
                   },
+                  textInputAction: TextInputAction.next,
                   text: "Full Name"),
               input(
                   context: context,
@@ -95,6 +101,7 @@ class _SignUpState extends State<SignUp> {
                       email = value;
                     });
                   },
+                  textInputAction: TextInputAction.next,
                   text: "Email"),
               input(
                   context: context,
@@ -108,6 +115,7 @@ class _SignUpState extends State<SignUp> {
                       mobile = value;
                     });
                   },
+                  textInputAction: TextInputAction.next,
                   text: "Mobile No."),
               input(
                   context: context,
@@ -120,6 +128,7 @@ class _SignUpState extends State<SignUp> {
                       password = value;
                     });
                   },
+                  onEditingComplete: _signUp,
                   obscureText: true,
                   text: "Password"),
               Container(
@@ -213,6 +222,7 @@ class _SignUpState extends State<SignUp> {
             .hasMatch(email)) {
           if (RegExp(r"^(?:[+0]9)?[0-9]{10}$")
               .hasMatch(mobile)) {
+            String otp = RandomInt.generate().toString();
             setState(() => signUpStatus = true);
             String firstName, lastName;
             if (fullName.split(" ").length >= 2) {
@@ -220,29 +230,31 @@ class _SignUpState extends State<SignUp> {
               lastName = fullName.split(" ")[1];
             } else
               firstName = fullName;
-            FormData formData = FormData.fromMap({
+            FormData userData = FormData.fromMap({
               "name": fullName,
               "email": email,
               "mobile": mobile,
               "gender": "male",
               "password": password,
               "token" : "1234",
-              "api_key" : "abc123"
+              "api_key" : Urls.apiKey
             });
-            await Services.signUp(formData).then((value) {
-              if (value.response == 1) {
-                Fluttertoast.showToast(msg: value.message);
+            FormData smsData = FormData.fromMap({
+              "user" : Urls.user,
+              "password" : Urls.password,
+              "msisdn" : mobile,
+              "sid" : Urls.sID,
+              "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+              "fl" : Urls.fl,
+              "gwid" : Urls.gwID
+            });
+            Services.sms(smsData).then((value) {
+              if(value.response == "000"){
                 setState(() => signUpStatus = false);
-                // Navigator.pushAndRemoveUntil(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => SignIn(
-                //           email: email,
-                //         )),
-                //         (route) => false);
+                Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData,)));
               } else {
-                Fluttertoast.showToast(msg: value.message);
                 setState(() => signUpStatus = false);
+                Fluttertoast.showToast(msg: value.message);
               }
             });
           } else {
@@ -258,5 +270,11 @@ class _SignUpState extends State<SignUp> {
     } else {
       Fluttertoast.showToast(msg: "All fields are required!");
     }
+  }
+}
+extension RandomInt on int {
+  static int generate({int min = 1000, int max = 9999}){
+    final _random = Random();
+    return min + _random.nextInt(max - min);
   }
 }
