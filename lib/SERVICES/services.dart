@@ -193,4 +193,34 @@ class Services{
       return data;
     }
   }
+
+  /*
+  * gift category Api
+  * */
+  static Future<Data> giftCategory(body) async{
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["ErrorMessage"];
+        data.response = jsonResponse["ErrorCode"];
+        data.data = jsonResponse["MessageData"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
 }

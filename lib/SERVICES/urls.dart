@@ -20,4 +20,5 @@ class Urls{
   static String category = "category";
   static String gift = "gift";
   static String banners = "sliders";
+  static String giftCategory = "gift_category";
 }

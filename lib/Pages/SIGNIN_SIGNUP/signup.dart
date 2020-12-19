@@ -10,7 +10,6 @@ import 'package:pal/Common/page_route.dart';
 import 'package:pal/Common/textinput.dart';
 import 'package:pal/Constant/color.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/otp.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
 
@@ -228,6 +227,7 @@ class _SignUpState extends State<SignUp> {
             if (fullName.split(" ").length >= 2) {
               firstName = fullName.split(" ")[0];
               lastName = fullName.split(" ")[1];
+              print(firstName + lastName);
             } else
               firstName = fullName;
             FormData userData = FormData.fromMap({

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_decoration.dart';
 import 'package:pal/Constant/color.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
 import 'package:pal/SERVICES/services.dart';
@@ -20,12 +19,8 @@ class OTP extends StatefulWidget {
 
 class _OTPState extends State<OTP> {
   FocusNode textFocusNode = new FocusNode();
-  String otp = "", OTP1 = "", OTP2 = "", OTP3 = "", OTP4 = "";
+  String otp = "";
   bool signUpStatus = false;
-  TextEditingController otpText1 = TextEditingController();
-  TextEditingController otpText2 = TextEditingController();
-  TextEditingController otpText3 = TextEditingController();
-  TextEditingController otpText4 = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
