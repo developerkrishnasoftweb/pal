@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/show_dialog.dart';
 import 'package:pal/Constant/userdata.dart';
 import 'package:pal/Pages/OTHERS/track_complaint.dart';
+import 'package:pal/Pages/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> {
       ItemListBuilder(
           title: "Redeem Gift",
           onTap: () =>
-              Navigator.push(context, CustomPageRoute(widget: RedeemGift())),
+              Navigator.push(context, CustomPageRoute(widget: GiftCategory())),
           image: AssetImage("assets/images/redeem-gift.png")),
       ItemListBuilder(
           title: "Service Request",

@@ -198,15 +198,16 @@ class Services{
   * gift category Api
   * */
   static Future<Data> giftCategory(body) async{
+    String url = Urls.baseUrl + Urls.giftCategory;
     try{
       dio.Response response;
-      response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
+      response = await dio.Dio().post(url, data: body);
       if(response.statusCode == 200){
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
-        data.message = jsonResponse["ErrorMessage"];
-        data.response = jsonResponse["ErrorCode"];
-        data.data = jsonResponse["MessageData"];
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = jsonResponse["data"];
         return data;
       }
       return null;

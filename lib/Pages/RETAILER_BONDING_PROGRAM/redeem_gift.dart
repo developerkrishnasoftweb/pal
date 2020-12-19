@@ -12,6 +12,9 @@ import '../../Common/custom_button.dart';
 import '../../Constant/color.dart';
 
 class RedeemGift extends StatefulWidget {
+  final String minPoints;
+  final String maxPoints;
+  RedeemGift({this.maxPoints, this.minPoints});
   @override
   _RedeemGiftState createState() => _RedeemGiftState();
 }
