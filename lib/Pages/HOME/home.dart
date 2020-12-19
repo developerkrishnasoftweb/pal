@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
       ItemListBuilder(
           title: "Product Catalog",
           onTap: () => Navigator.push(
-              context, createRoute(CategoryBuilder())),
+              context, CustomPageRoute(widget: CategoryBuilder())),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
           title: "Earned Point",
