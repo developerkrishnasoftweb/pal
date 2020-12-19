@@ -2,9 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pal/Common/page_route.dart';
+import 'package:pal/Constant/userdata.dart';
 import 'package:pal/Pages/OTHERS/product_description.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Constant/color.dart';
@@ -16,8 +18,10 @@ class RedeemGift extends StatefulWidget {
 
 class _RedeemGiftState extends State<RedeemGift> {
   List<GiftData> giftList = [];
+  String points = "0";
   @override
   void initState() {
+    getUserData();
     Services.gift(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
@@ -28,6 +32,12 @@ class _RedeemGiftState extends State<RedeemGift> {
       }
     });
     super.initState();
+  }
+  void getUserData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      points = sharedPreferences.getString(UserParams.point);
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class _RedeemGiftState extends State<RedeemGift> {
             ),
             buildRedeemedAmount(
                 title: "My Earned Points : ",
-                amount: "196604",
+                amount: points,
                 leadingTrailing: false,
                 fontSize: 17),
             SizedBox(

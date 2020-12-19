@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pal/Common/show_dialog.dart';
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 
@@ -10,24 +11,24 @@ class KYC extends StatefulWidget {
 }
 
 class _KYCState extends State<KYC> {
-  Future showDialogBox() {
-    return showDialog(barrierDismissible: true, context: context, builder: (_) => AlertDialog(
-      title: Text("Alert"),
-      content: Text("Are you sure you want to proceed?"),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      actions: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FlatButton(onPressed: (){}, child: Text("MODIFY EXISTING ADDRESS", style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.primaryColor, fontSize: 14, fontWeight: FontWeight.bold),),),
-            FlatButton(onPressed: (){}, child: Text("NEW ADDRESS", style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.bold),),),
-          ],
-        )
-      ],
-    ));
-  }
+  // Future showDialogBox() {
+  //   return showDialog(barrierDismissible: true, context: context, builder: (_) => AlertDialog(
+  //     title: Text("Alert"),
+  //     content: Text("Are you sure you want to proceed?"),
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(10),
+  //     ),
+  //     actions: [
+  //       Column(
+  //         crossAxisAlignment: CrossAxisAlignment.end,
+  //         children: [
+  //           FlatButton(onPressed: (){}, child: Text("MODIFY EXISTING ADDRESS", style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.primaryColor, fontSize: 14, fontWeight: FontWeight.bold),),),
+  //           FlatButton(onPressed: (){}, child: Text("NEW ADDRESS", style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.bold),),),
+  //         ],
+  //       )
+  //     ],
+  //   ));
+  // }
 
   GoogleMapController googleMapController;
   @override
@@ -36,7 +37,23 @@ class _KYCState extends State<KYC> {
     return Scaffold(
       appBar: appBar(context: context, title: "KYC Details", actions: [
         IconButton(
-          onPressed: showDialogBox,
+          onPressed: () =>
+              showDialogBox(context: context, title: "Alert", actions: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                buildAlertButton(
+                    context: context,
+                    text: "MODIFY EXISTING ADDRESS",
+                    onPressed: () {}),
+                buildAlertButton(
+                    context: context,
+                    text: "NEW ADDRESS",
+                    onPressed: () {},
+                    textColor: Colors.grey),
+              ],
+            )
+          ]),
           icon: Icon(Icons.edit),
         )
       ]),

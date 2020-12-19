@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pal/Common/show_dialog.dart';
+import 'package:pal/Constant/userdata.dart';
 import 'package:pal/Pages/OTHERS/track_complaint.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
@@ -26,38 +28,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
-  Future showDialogBox() {
-    return showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (_) => AlertDialog(
-              content: Text("Are you sure you want to Logout?"),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              actions: [
-                FlatButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    "NO",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: _logout,
-                  child: Text(
-                    "YES",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ));
+  String points = "0";
+
+  void getUserData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      points = sharedPreferences.getString(UserParams.point);
+    });
   }
 
   _logout() async {
@@ -82,11 +59,14 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    Services.banners(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
-      if(value.response == "y"){
-        for(int i = 0; i < value.data.length; i++){
+    Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
+      if (value.response == "y") {
+        for (int i = 0; i < value.data.length; i++) {
           setState(() {
-            carouselItems.add(CarouselItems(image: NetworkImage(Urls.imageBaseUrl + value.data[i]["image"]), title: value.data[i]["title"], categoryId: value.data[i]["id"]));
+            carouselItems.add(CarouselItems(
+                image: NetworkImage(Urls.imageBaseUrl + value.data[i]["image"]),
+                title: value.data[i]["title"],
+                categoryId: value.data[i]["id"]));
           });
         }
       }
@@ -166,7 +146,8 @@ class _HomeState extends State<Home> {
                     child: Text("Product Catalog")),
                 onTap: () {
                   scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(context, CustomPageRoute(widget: CategoryBuilder()));
+                  Navigator.push(
+                      context, CustomPageRoute(widget: CategoryBuilder()));
                 },
                 leading: Icon(Icons.book_outlined),
               ),
@@ -297,7 +278,22 @@ class _HomeState extends State<Home> {
                     Icons.notifications_on_outlined,
                     color: Colors.grey,
                   )),
-              buildDrawerItems("Logout", showDialogBox, Icon(Icons.logout)),
+              buildDrawerItems(
+                  "Logout",
+                  () => showDialogBox(
+                      context: context,
+                      actions: [
+                        buildAlertButton(
+                            text: "NO",
+                            context: context,
+                            onPressed: () => Navigator.pop(context),
+                            textColor: Colors.grey),
+                        buildAlertButton(
+                            text: "YES", context: context, onPressed: _logout),
+                      ],
+                      title: "Alert",
+                      content: "Are you sure you want to exit?"),
+                  Icon(Icons.logout)),
             ],
           ),
         ),
@@ -340,8 +336,7 @@ class _HomeState extends State<Home> {
                             AssetImage("assets/icons/notification-icon.png"),
                             color: Colors.white,
                           ),
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           splashRadius: 23,
                           iconSize: 20,
                         )

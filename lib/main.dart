@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pal/Constant/userdata.dart';
 import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Pages/HOME/home.dart';
@@ -26,7 +27,7 @@ Future<void> main() async {
 
 Future<bool> getCredential() async {
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-  if (sharedPreference.getString("username") != null && sharedPreference.getString("password") != null && sharedPreference.getString("userdata") != null)
+  if (sharedPreference.getString("username") != null && sharedPreference.getString(UserParams.password) != null)
     return true;
   else
     return false;

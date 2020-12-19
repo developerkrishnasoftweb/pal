@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-_UserDataState userData;
-class UserData extends StatefulWidget {
-  @override
-  _UserDataState createState() {
-    userData = _UserDataState();
-    return userData;
-  }
+class UserParams{
+  static String id = "id";
+  static String name = "name";
+  static String mobile = "mobile";
+  static String email = "email";
+  static String gender = "gender";
+  static String image = "image";
+  static String status = "status";
+  static String point = "point";
+  static String token = "token";
+  static String password = "password";
 }
 
-class _UserDataState extends State<UserData> {
-  String name = "Gaurav";
-  @override
-  Widget build(BuildContext context) {
-    return null;
-  }
-}

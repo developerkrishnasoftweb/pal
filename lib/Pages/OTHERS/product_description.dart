@@ -55,7 +55,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ],
         ),
       ),
-      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "ADD TO CART"),
+      floatingActionButton: customButton(context: context, onPressed: (){}, height: 60, width: size.width, text: "REDEEM"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
