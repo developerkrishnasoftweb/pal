@@ -22,7 +22,7 @@ class _RedeemGiftState extends State<RedeemGift> {
   @override
   void initState() {
     getUserData();
-    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
+    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey, "min" : "100", "max" : "15000"})).then((value) {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {
@@ -35,8 +35,9 @@ class _RedeemGiftState extends State<RedeemGift> {
   }
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print(sharedPreferences.getString(UserParams.point));
     setState(() {
-      points = sharedPreferences.getString(UserParams.point);
+      points = sharedPreferences.getString(UserParams.point) ?? "0";
     });
   }
   @override
@@ -68,7 +69,7 @@ class _RedeemGiftState extends State<RedeemGift> {
             ),
             buildRedeemedAmount(
                 title: "Cumulative Purchase : ",
-                amount: "394230.00",
+                amount: "0.0",
                 leadingTrailing: true),
             GridView.builder(
                 shrinkWrap: true,

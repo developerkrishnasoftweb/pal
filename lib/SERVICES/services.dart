@@ -17,37 +17,11 @@ class Services{
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
-        List userData;
         if(jsonResponse["data"].length != 0){
-          userData = [
-            {
-              "id" : jsonResponse["data"]["id"],
-              "name" : jsonResponse["data"]["name"],
-              "mobile" : jsonResponse["data"]["mobile"],
-              "email" : jsonResponse["data"]["email"],
-              "image" : jsonResponse["data"]["image"],
-              "gender" : jsonResponse["data"]["gender"],
-              "password" : jsonResponse["data"]["password"],
-              "status" : jsonResponse["data"]["status"],
-              "inserted" : jsonResponse["data"]["inserted"],
-              "modified" : jsonResponse["data"]["modified"],
-              "token" : jsonResponse["data"]["token"],
-              "mem_det_no" : jsonResponse["data"]["mem_det_no"],
-              "branch_name" : jsonResponse["data"]["branch_name"],
-              "house_no" : jsonResponse["data"]["house_no"],
-              "address" : jsonResponse["data"]["address"],
-              "mem_det_no" : jsonResponse["data"]["mem_det_no"],
-              "branch_code" : jsonResponse["data"]["branch_code"],
-              "first_name" : jsonResponse["data"]["first_name"],
-              "middle_name" : jsonResponse["data"]["middle_name"],
-              "last_name" : jsonResponse["data"]["last_name"],
-              "last_purchase" : jsonResponse["data"]["last_purchase"],
-              "total_order" : jsonResponse["data"]["total_order"],
-              "membership_series" : jsonResponse["data"]["membership_series"],
-            }
-          ];
+          data.data = [jsonResponse["data"]];
+        } else {
+          data.data = [];
         }
-        data.data = userData;
         return data;
       }
       return null;

@@ -188,6 +188,7 @@ class _SignInState extends State<SignIn> {
           setState(() {
             isLogging = false;
           });
+          print(result.data[0]);
           sharedPreferences.setString(UserParams.name, result.data[0][UserParams.name]);
           sharedPreferences.setString(UserParams.mobile, result.data[0][UserParams.mobile]);
           sharedPreferences.setString(UserParams.email, result.data[0][UserParams.email]);
