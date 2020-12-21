@@ -23,15 +23,15 @@ class _ComplainState extends State<Complain> {
   File video;
   final picker = ImagePicker();
 
-  Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source);
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedFile != null)
         image = File(pickedFile.path);
     });
   }
-  Future getVideo(ImageSource source) async {
-    final pickedFile = await picker.getVideo(source: source, maxDuration: Duration(seconds: 30), preferredCameraDevice: CameraDevice.rear);
+  Future getVideo() async {
+    final pickedFile = await picker.getVideo(source: ImageSource.gallery, maxDuration: Duration(seconds: 30), preferredCameraDevice: CameraDevice.rear);
     setState(() {
       if(pickedFile != null)
         video = File(pickedFile.path);
@@ -82,16 +82,12 @@ class _ComplainState extends State<Complain> {
                 input(context: context, text: "Brief Description", decoration: InputDecoration(border: border()), maxLines: 5),
                 SizedBox(height: 20,),
                 attachButton(onPressed: (){
-                  scaffoldKey.currentState.showBottomSheet((context){
-                    return bottomSheet(TYPE.image);
-                  }, backgroundColor: Colors.white, elevation: 10, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))));
-                }, text: "Attach Image"),
+                  getImage();
+                }, text: image != null ? "A file selected" : "Attach Image"),
                 SizedBox(height: 20,),
                 attachButton(onPressed: (){
-                  scaffoldKey.currentState.showBottomSheet((context){
-                    return bottomSheet(TYPE.video);
-                  }, backgroundColor: Colors.white, elevation: 10, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))));
-                }, text: "Attach Video"),
+                  getVideo();
+                }, text: video != null ? "A file selected" : "Attach Video"),
               ],
             ),
           ),
@@ -104,35 +100,6 @@ class _ComplainState extends State<Complain> {
       ),
     );
   }
-  Widget bottomSheet(TYPE type){
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      height: 120,
-      width: size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          customButton(context: context, onPressed: (){
-            type == TYPE.image ? getImage(ImageSource.camera) : getImage(ImageSource.gallery);
-          }, child: Column(
-            children: [
-              Icon(Icons.camera_alt_rounded),
-              Text("Camera", style: TextStyle(fontSize: 12),)
-            ],
-          ), color: Colors.grey[100], width: size.width * 0.3, padding: EdgeInsets.only(top: 20), height: 80),
-          customButton(context: context, onPressed: (){
-            type == TYPE.video ? getVideo(ImageSource.camera) : getVideo(ImageSource.gallery);
-          }, child: Column(
-            children: [
-              Icon(Icons.image_outlined),
-              Text("Gallery", style: TextStyle(fontSize: 12),)
-            ],
-          ), color: Colors.grey[100], width: size.width * 0.3, padding: EdgeInsets.only(top: 20), height: 80)
-        ],
-      ),
-    );
-  }
   Widget attachButton({String text,  @required VoidCallback onPressed}){
     return customButton(
         context: context,
@@ -142,14 +109,10 @@ class _ComplainState extends State<Complain> {
           children: [
             Icon(Icons.attach_file, color: Colors.blue[500],),
             SizedBox(width: 10,),
-            Text(text, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue[500], fontWeight: FontWeight.bold),)
+            Text(text, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue[500], fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
           ],
         ),
         color: Colors.grey[100],
         height: 70);
   }
-}
-enum TYPE{
-  image,
-  video
 }
