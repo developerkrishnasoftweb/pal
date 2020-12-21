@@ -33,7 +33,7 @@ dependencies:
   barcode_scan:
   fluttertoast:
   google_maps_flutter:
-  dio:
+  dio: ^3.0.10
   shared_preferences:
   image_picker: ^0.6.7+17
 dev_dependencies:

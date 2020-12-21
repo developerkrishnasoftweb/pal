@@ -9,8 +9,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/input_decoration.dart';
+import 'package:pal/Common/page_route.dart';
 import 'package:pal/Common/textinput.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:pal/Constant/color.dart';
+import 'package:pal/Constant/userdata.dart';
+import 'package:pal/Pages/SERVICE_REQUEST/service_request.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,10 +28,9 @@ class _ComplainState extends State<Complain> {
   TextEditingController qrCodeTextField = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  File image;
-  File video;
+  File image, video;
   final picker = ImagePicker();
-
+  bool isLoading = false;
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
@@ -98,7 +101,7 @@ class _ComplainState extends State<Complain> {
           ),
           Align(
             child: customButton(
-                context: context, onPressed: _addComplain, height: 60, text: "SUBMIT"),
+                context: context, onPressed: isLoading ? null : _addComplain, height: 60, text: isLoading ? null : "SUBMIT", child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null),
             alignment: Alignment(0.0, 0.95),
           )
         ]
@@ -122,8 +125,11 @@ class _ComplainState extends State<Complain> {
   }
 
   _addComplain() async {
+    setState(() {
+      isLoading = true;
+    });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString("id");
+    String id = sharedPreferences.getString(UserParams.id);
     if(id.isNotEmpty && descriptionText.text.isNotEmpty && qrCodeTextField.text.isNotEmpty){
       FormData data = FormData.fromMap({
         "customer_id" : id,
@@ -137,11 +143,18 @@ class _ComplainState extends State<Complain> {
         if(value.response == "y") {
           Fluttertoast.showToast(msg: value.message);
           Navigator.pop(context);
+          Navigator.push(context, CustomPageRoute(widget: ServiceRequest()));
         } else {
+          setState(() {
+            isLoading = false;
+          });
           Fluttertoast.showToast(msg: value.message);
         }
       });
     } else {
+      setState(() {
+        isLoading = false;
+      });
       Fluttertoast.showToast(msg: "Please provide QR Code and Description");
     }
   }
