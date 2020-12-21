@@ -21,4 +21,5 @@ class Urls{
   static String gift = "gift";
   static String banners = "sliders";
   static String giftCategory = "gift_category";
+  static String addComplain = "add_complain";
 }

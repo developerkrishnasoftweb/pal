@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,9 @@ import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/input_decoration.dart';
 import 'package:pal/Common/textinput.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:pal/SERVICES/services.dart';
+import 'package:pal/SERVICES/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Complain extends StatefulWidget {
   @override
@@ -18,6 +22,7 @@ class Complain extends StatefulWidget {
 
 class _ComplainState extends State<Complain> {
   TextEditingController qrCodeTextField = TextEditingController();
+  TextEditingController descriptionText = TextEditingController();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   File image;
   File video;
@@ -79,7 +84,7 @@ class _ComplainState extends State<Complain> {
                   child: Text("OR", style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontWeight: FontWeight.bold),),
                 ),
                 input(context: context, text: "Enter QR Code", decoration: InputDecoration(border: border()), controller: qrCodeTextField),
-                input(context: context, text: "Brief Description", decoration: InputDecoration(border: border()), maxLines: 5),
+                input(context: context, text: "Brief Description", decoration: InputDecoration(border: border()), maxLines: 5, controller: descriptionText),
                 SizedBox(height: 20,),
                 attachButton(onPressed: (){
                   getImage();
@@ -93,7 +98,7 @@ class _ComplainState extends State<Complain> {
           ),
           Align(
             child: customButton(
-                context: context, onPressed: () {}, height: 60, text: "SUBMIT"),
+                context: context, onPressed: _addComplain, height: 60, text: "SUBMIT"),
             alignment: Alignment(0.0, 0.95),
           )
         ]
@@ -114,5 +119,30 @@ class _ComplainState extends State<Complain> {
         ),
         color: Colors.grey[100],
         height: 70);
+  }
+
+  _addComplain() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String id = sharedPreferences.getString("id");
+    if(id.isNotEmpty && descriptionText.text.isNotEmpty && qrCodeTextField.text.isNotEmpty){
+      FormData data = FormData.fromMap({
+        "customer_id" : id,
+        "api_key" : Urls.apiKey,
+        "description" : descriptionText.text,
+        "code" : qrCodeTextField.text,
+        "image" : image != null ? await MultipartFile.fromFile(image.path, filename: image.path.split("/").last) : "",
+        "video" : video != null ? await MultipartFile.fromFile(video.path, filename: video.path.split("/").last) : ""
+      });
+      Services.addComplain(data).then((value) {
+        if(value.response == "y") {
+          Fluttertoast.showToast(msg: value.message);
+          Navigator.pop(context);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
+        }
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Please provide QR Code and Description");
+    }
   }
 }

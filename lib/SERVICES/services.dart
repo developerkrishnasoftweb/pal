@@ -224,4 +224,32 @@ class Services{
       return data;
     }
   }
+
+  /*
+  * add category Api
+  * */
+  static Future<Data> addComplain(body) async{
+    String url = Urls.baseUrl + Urls.addComplain;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: body,);
+      Data data = Data();
+      final jsonResponse = jsonDecode(response.toString());
+      data.message = jsonResponse["message"];
+      data.response = jsonResponse["status"];
+      data.data = jsonResponse["data"];
+      return data;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
 }

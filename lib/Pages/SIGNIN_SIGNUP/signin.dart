@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -187,7 +189,6 @@ class _SignInState extends State<SignIn> {
           setState(() {
             isLogging = false;
           });
-          print(result.data[0]);
           sharedPreferences.setString(UserParams.name, result.data[0][UserParams.name]);
           sharedPreferences.setString(UserParams.mobile, result.data[0][UserParams.mobile]);
           sharedPreferences.setString(UserParams.email, result.data[0][UserParams.email]);
@@ -197,6 +198,7 @@ class _SignInState extends State<SignIn> {
           sharedPreferences.setString(UserParams.status, result.data[0][UserParams.status]);
           sharedPreferences.setString(UserParams.token, result.data[0][UserParams.token]);
           sharedPreferences.setString(UserParams.id, result.data[0][UserParams.id]);
+          sharedPreferences.setString("userdata", jsonEncode(result.data));
           sharedPreferences.setString("username", username);
           sharedPreferences.setString(UserParams.password, result.data[0][UserParams.password]);
           Navigator.pushAndRemoveUntil(
