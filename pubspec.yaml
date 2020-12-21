@@ -35,6 +35,7 @@ dependencies:
   google_maps_flutter:
   dio:
   shared_preferences:
+  image_picker: ^0.6.7+17
 dev_dependencies:
   flutter_test:
     sdk: flutter

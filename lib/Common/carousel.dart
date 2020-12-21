@@ -7,12 +7,14 @@ class Carousel extends StatefulWidget {
   final List<CarouselItems> items;
   final double width, height;
   final BorderRadiusGeometry borderRadius;
-  Carousel({@required this.items, @required this.width, this.height, this.borderRadius}) : assert(items != null && width != null);
+  final bool autoplay;
+  Carousel({@required this.items, @required this.width, this.height, this.borderRadius, this.autoplay}) : assert(items != null && width != null);
   @override
   _CarouselState createState() => _CarouselState();
 }
 class _CarouselState extends State<Carousel> {
   int _index = 0;
+  bool error = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,10 +33,16 @@ class _CarouselState extends State<Carousel> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: item.image,
+                      onError: (dynamic data, StackTrace trace){
+                        setState(() {
+                          error = true;
+                        });
+                      },
                       fit: BoxFit.fill,
                     ),
                     borderRadius: widget.borderRadius ?? null,
                   ),
+                  child: error ? Icon(Icons.broken_image_outlined, color: Colors.white, size: 30,) : null,
                 ),
                 onTap: item.onTap,
               );
@@ -42,7 +50,7 @@ class _CarouselState extends State<Carousel> {
             options: CarouselOptions(
                 initialPage: 1,
                 height: widget.height ?? 200,
-                autoPlay: true,
+                autoPlay: widget.autoplay ?? true,
                 viewportFraction: 1,
                 aspectRatio: 16 / 9,
                 // autoPlayCurve: Curves.easeInToLinear,
