@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../../Common/page_route.dart';
+import '../../Constant/userdata.dart';
+import '../../Pages/OTHERS/delivery_address.dart';
+import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../Common/appbar.dart';
@@ -95,9 +97,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
               height: 10,
             ),
             Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n\n"
-              "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\n"
-              "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              widget.giftData.specs,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -111,21 +111,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
         color: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.grey[200],
         textColor: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.black,
         onPressed: int.parse(points) > int.parse(widget.giftData.points)
-            ? _redeem
+            ? () => Navigator.push(context, CustomPageRoute(widget: DeliveryAddress(giftData: widget.giftData,)))
             : () {
                 Fluttertoast.showToast(
                     msg: "You don't have enough points to redeem this gift.");
               },
         height: 60,
-        width: size.width,
         text: "REDEEM",
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  _redeem() {
-    print("Redeem");
   }
 
   Widget buildTitledRow({String title, String value}) {

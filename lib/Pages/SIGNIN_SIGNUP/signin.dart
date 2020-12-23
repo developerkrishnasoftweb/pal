@@ -1,20 +1,18 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_decoration.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Common/textinput.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/Pages/HOME/home.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/forgot_password.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/signup.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../../Common/custom_button.dart';
+import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
+import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../Pages/HOME/home.dart';
+import '../../Pages/SIGNIN_SIGNUP/forgot_password.dart';
+import '../../Pages/SIGNIN_SIGNUP/signup.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {

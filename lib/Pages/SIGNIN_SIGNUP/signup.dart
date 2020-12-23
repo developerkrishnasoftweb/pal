@@ -1,17 +1,16 @@
 import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_decoration.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Common/textinput.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/otp.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../../Common/custom_button.dart';
+import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
+import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Pages/SIGNIN_SIGNUP/otp.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 
 class SignUp extends StatefulWidget {
   @override

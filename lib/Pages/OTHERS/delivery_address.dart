@@ -1,18 +1,45 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../Common/page_route.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../Pages/HOME/home.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 
 class DeliveryAddress extends StatefulWidget {
+  final GiftData giftData;
+  DeliveryAddress({@required this.giftData});
   @override
   _DeliveryAddressState createState() => _DeliveryAddressState();
 }
 
 class _DeliveryAddressState extends State<DeliveryAddress> {
-  String addressType = "Select Delivery Type";
-  bool collectToShop = false;
+  String addressType = "Select Delivery Type",
+      address = "",
+      state = "",
+      city = "",
+      area = "",
+      pincode = "";
+  bool collectToShop = false, isLoading = false;
+  File image;
+  final picker = ImagePicker();
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) image = File(pickedFile.path);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +70,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 isExpanded: true,
                 onChanged: (value) {
                   setState(() {
+                    image = null;
                     addressType = value;
                     if (value == "Collect to shop") {
                       collectToShop = true;
@@ -78,10 +106,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       ),
       floatingActionButton: customButton(
           context: context,
-          onPressed: () {},
+          onPressed: isLoading ? null : _redeem,
           height: 60,
           width: size.width,
-          text: "CONFIRM"),
+          child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null,
+          text: isLoading ? null : "CONFIRM"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -93,6 +122,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         input(
             context: context,
             text: "Address",
+            onChanged: (value) {
+              setState(() {
+                address = value;
+              });
+            },
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               border: border(),
             ),
@@ -100,18 +135,43 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         input(
             context: context,
             text: "State",
+            onChanged: (value) {
+              setState(() {
+                state = value;
+              });
+            },
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(border: border())),
         input(
             context: context,
             text: "City",
+            onChanged: (value) {
+              setState(() {
+                city = value;
+              });
+            },
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(border: border())),
         input(
             context: context,
             text: "Area",
+            onChanged: (value) {
+              setState(() {
+                area = value;
+              });
+            },
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(border: border())),
         input(
             context: context,
             text: "Pincode",
+            onChanged: (value) {
+              setState(() {
+                pincode = value;
+              });
+            },
+            onEditingComplete: _redeem,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(border: border())),
         Padding(
           padding: const EdgeInsets.all(10.0),
@@ -121,7 +181,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
           ),
         ),
-        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence")
+        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence",
+            onTap: getImage)
       ],
     );
   }
@@ -145,14 +206,15 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 10,
         ),
-        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence")
+        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence",
+            onTap: getImage)
       ],
     );
   }
 
-  Widget proofBuilder(String text) {
+  Widget proofBuilder(String text, {GestureTapCallback onTap}) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Container(
         height: 120,
@@ -163,8 +225,14 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey[300]),
+          image: image != null
+              ? DecorationImage(
+                  image: AssetImage(image.path),
+                  fit: BoxFit.fill,
+                )
+              : null,
         ),
-        child: Text(text),
+        child: image == null ? Text(text) : null,
       ),
     );
   }
@@ -195,5 +263,57 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         ],
       ),
     );
+  }
+
+  _redeem() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var id = sharedPreferences.getString(UserParams.id);
+    if (addressType == "Home delivery") {
+      setState(() {
+        isLoading = true;
+      });
+      if (address.isNotEmpty &&
+          state.isNotEmpty &&
+          city.isNotEmpty &&
+          area.isNotEmpty &&
+          pincode.isNotEmpty &&
+          image != null) {
+        FormData data = FormData.fromMap({
+          "customer_id": id,
+          "api_key": Urls.apiKey,
+          "gift_id": widget.giftData.id,
+          "point": widget.giftData.points,
+          "address": address,
+          "area": area,
+          "city": city,
+          "pincode": pincode,
+          "state": state,
+          "proof": await MultipartFile.fromFile(image.path,
+              filename: image.path.split("/").last),
+        });
+        await Services.redeemGift(data).then((value) async {
+          if(value.response == "y"){
+            await userData(value.data[0]["customer"]);
+            Fluttertoast.showToast(msg: value.message);
+            Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            Fluttertoast.showToast(msg: value.message);
+            setState(() {
+              isLoading = false;
+            });
+          }
+        });
+      } else {
+        Fluttertoast.showToast(msg: "All fields are required");
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Unable to process request");
+    }
   }
 }

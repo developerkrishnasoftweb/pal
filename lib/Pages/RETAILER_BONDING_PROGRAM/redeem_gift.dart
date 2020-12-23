@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/Pages/OTHERS/product_description.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../../Common/page_route.dart';
+import '../../Constant/userdata.dart';
+import '../../Pages/OTHERS/product_description.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -31,7 +31,7 @@ class _RedeemGiftState extends State<RedeemGift> {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {
-            giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], points: value.data[i]["point"], desc: value.data[i]["description"], image: value.data[i]["image"]));
+            giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], points: value.data[i]["point"], desc: value.data[i]["description"], image: value.data[i]["image"], specs: value.data[i]["specification"]));
           });
         }
       } else {

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Pages/SIGNIN_SIGNUP/signin.dart';
-import 'package:pal/SERVICES/services.dart';
+import '../../Common/appbar.dart';
+import '../../Common/custom_button.dart';
+import '../../Constant/color.dart';
+import '../../Pages/SIGNIN_SIGNUP/signin.dart';
+import '../../SERVICES/services.dart';
 
 class OTP extends StatefulWidget {
   final String otp;

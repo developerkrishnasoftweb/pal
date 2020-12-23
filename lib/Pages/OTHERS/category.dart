@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../Constant/color.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import '../../Common/appbar.dart';
 
 class CategoryBuilder extends StatefulWidget {
@@ -28,6 +29,8 @@ class _CategoryState extends State<CategoryBuilder> {
             );
           });
         }
+      } else {
+        Fluttertoast.showToast(msg: value.message);
       }
     });
     super.initState();

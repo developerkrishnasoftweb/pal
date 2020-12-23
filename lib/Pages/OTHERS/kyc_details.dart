@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pal/Common/show_dialog.dart';
+import '../../Common/show_dialog.dart';
 import '../../Common/appbar.dart';
 
 class KYC extends StatefulWidget {

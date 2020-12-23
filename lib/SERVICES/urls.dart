@@ -24,5 +24,6 @@ class Urls{
   static String addComplain = "add_complain";
   static String getComplain = "get_complain";
   static String trackComplaint = "track_complain";
-  static String getUserData = "";
+  static String getUserData = "get_customer";
+  static String redeemGift = "redeem";
 }

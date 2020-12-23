@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:pal/Common/show_dialog.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../Constant/userdata.dart';
+import '../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/data.dart';
 class Services{
@@ -323,6 +319,37 @@ class Services{
     }
   }
 
+  /*
+  * redeem gifts
+  * */
+  static Future<Data> redeemGift(body) async{
+    String url = Urls.baseUrl + Urls.redeemGift;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: body);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
 
   /*
   * get userdata and save to shared preferences
@@ -333,13 +360,13 @@ class Services{
     var id = sharedPreferences.getString(UserParams.id);
     try{
       dio.Response response;
-      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey, "customer_id" : id}));
+      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey, "id" : id}));
       if(response.statusCode == 200){
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
-        data.data = [jsonResponse["data"]];
+        data.data = jsonResponse["data"];
         await userData(data.data);
         return data;
       }

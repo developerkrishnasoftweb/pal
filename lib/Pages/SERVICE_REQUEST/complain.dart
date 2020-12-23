@@ -1,22 +1,21 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_decoration.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Common/textinput.dart';
+import '../../Common/appbar.dart';
+import '../../Common/custom_button.dart';
+import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
+import '../../Common/textinput.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/Pages/SERVICE_REQUEST/service_request.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../Pages/SERVICE_REQUEST/service_request.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Complain extends StatefulWidget {

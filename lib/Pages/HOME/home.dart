@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../Pages/PRODUCTS/product_demo.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/userdata.dart';
 import '../../Pages/OTHERS/track_complaint.dart';
@@ -69,11 +71,14 @@ class _HomeState extends State<Home> {
                 categoryId: value.data[i]["id"]));
           });
         }
+      } else {
+        Fluttertoast.showToast(msg: value.message);
       }
     });
     super.initState();
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
+    Services.getUserData();
   }
   void setItemList() {
     itemList = [
@@ -239,6 +244,7 @@ class _HomeState extends State<Home> {
                     title: Text("Product Demo"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(context, CustomPageRoute(widget: ProductDemo()));
                     },
                   ),
                   ListTile(
