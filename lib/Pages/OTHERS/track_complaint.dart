@@ -86,7 +86,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
                 Divider(endIndent: 20,),
                 Align(child: Text("Progress", style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 17)), alignment: Alignment.centerLeft,),
                 for(int i = 0; i < details.progress.length; i++)...[
-                  Container(child: Text(details.progress[i]["comment"]), padding: EdgeInsets.symmetric(vertical: 10), alignment: Alignment.centerLeft,),
+                  Container(child: Text(details.progress[i]["comment"]), padding: EdgeInsets.symmetric(vertical: 5), alignment: Alignment.centerLeft,),
                 ]
               ],
             ) : isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : SizedBox()
