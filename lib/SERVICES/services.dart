@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
+import 'package:pal/Constant/userdata.dart';
 import 'package:pal/SERVICES/urls.dart';
 import '../services/data.dart';
 class Services{
@@ -300,6 +301,39 @@ class Services{
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+
+  /*
+  * get all requested services
+  * */
+  static Future<Data> getUserData(body) async{
+    String url = Urls.baseUrl + Urls.setUserData;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: body);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = [jsonResponse["data"]];
+        userData(data.data);
         return data;
       }
       return null;
