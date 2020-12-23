@@ -72,7 +72,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
             ),
             SizedBox(height: 10,),
             details != null ? ExpansionTile(
-              title: Text("Complain No.:" + details.complainNo),
+              title: Text("Complain No : " + details.complainNo),
               initiallyExpanded: true,
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

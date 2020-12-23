@@ -282,7 +282,7 @@ class _HomeState extends State<Home> {
                   )),
               buildDrawerItems(
                   "Logout",
-                  () => showDialogBox(
+                      () => showDialogBox(
                       context: context,
                       actions: [
                         buildAlertButton(
