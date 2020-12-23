@@ -1,7 +1,12 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:pal/Common/show_dialog.dart';
+import 'package:pal/Constant/color.dart';
 import 'package:pal/Constant/userdata.dart';
 import 'package:pal/SERVICES/urls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/data.dart';
 class Services{
   static String errorMessage = "Something went wrong !!!";
@@ -320,20 +325,22 @@ class Services{
 
 
   /*
-  * get all requested services
+  * get userdata and save to shared preferences
   * */
-  static Future<Data> getUserData(body) async{
-    String url = Urls.baseUrl + Urls.setUserData;
+  static Future<Data> getUserData() async{
+    String url = Urls.baseUrl + Urls.getUserData;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var id = sharedPreferences.getString(UserParams.id);
     try{
       dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey, "customer_id" : id}));
       if(response.statusCode == 200){
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = [jsonResponse["data"]];
-        userData(data.data);
+        await userData(data.data);
         return data;
       }
       return null;

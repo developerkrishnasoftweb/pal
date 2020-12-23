@@ -73,6 +73,9 @@ class _HomeState extends State<Home> {
     });
     super.initState();
     scaffoldKey = GlobalKey<ScaffoldState>();
+    setItemList();
+  }
+  void setItemList() {
     itemList = [
       ItemListBuilder(
           title: "Product Catalog",
@@ -96,7 +99,6 @@ class _HomeState extends State<Home> {
           image: AssetImage("assets/images/service-request.png")),
     ];
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pal/Constant/color.dart';
 
-Future showDialogBox({BuildContext context, List<Widget> actions, String title, String content}) {
-  return showDialog(barrierDismissible: true, context: context, builder: (_) => AlertDialog(
-    title: title != null ? Text(title) : null,
+Future showDialogBox({@required BuildContext context, List<Widget> actions, String title, String content, Widget widget, bool barrierDismissible}) {
+  return showDialog(barrierDismissible: barrierDismissible ?? true, context: context, builder: (_) => AlertDialog(
+    title: title != null ? Text(title) : widget != null ? widget : null,
     content: content != null ? Text(content) : null,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),

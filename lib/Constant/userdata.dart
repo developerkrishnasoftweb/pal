@@ -14,7 +14,7 @@ class UserParams{
   static String token = "token";
   static String password = "password";
 }
-void userData(List<dynamic> data) async {
+Future<void> userData(List<dynamic> data) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   sharedPreferences.setString(UserParams.name, data[0][UserParams.name]);
   sharedPreferences.setString(UserParams.mobile, data[0][UserParams.mobile]);
