@@ -21,7 +21,8 @@ class _TrackComplaintState extends State<TrackComplaint> {
     if(complainNo.isNotEmpty){
       Services.trackComplaint(FormData.fromMap({"api_key" : Urls.apiKey, "ticket_no" : complainNo})).then((value) {
         if(value.response == "y"){
-          details = ComplainDetails(complainNo: value.data[0]["detail"]["ticket_no"]);
+          print(value.data[0]["progress"]);
+          details = ComplainDetails(complainNo: value.data[0]["detail"]["ticket_no"], status: value.data[0]["detail"]["status"], desc: value.data[0]["detail"]["description"], progress: value.data[0]["progress"]);
         } else {
           Fluttertoast.showToast(msg: value.message);
         }

@@ -235,15 +235,9 @@ class Services{
       response = await dio.Dio().post(url, data: body,);
       Data data = Data();
       final jsonResponse = jsonDecode(response.toString());
-      if(response.toString() != ""){
-        data.message = "Complain added successfully";
-        data.response = "y";
-        data.data = [];
-      } else {
-        data.message = "";
-        data.response = "n";
-        data.data = [];
-      }
+      data.message = jsonResponse["message"];
+      data.response = jsonResponse["status"];
+      data.data = [jsonResponse["data"]];
       return data;
     } on dio.DioError catch (e) {
       if(dio.DioErrorType.DEFAULT == e.type){
@@ -305,7 +299,7 @@ class Services{
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
-        data.data = jsonResponse["data"];
+        data.data = [jsonResponse["data"]];
         return data;
       }
       return null;
