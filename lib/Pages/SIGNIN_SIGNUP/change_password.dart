@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/appbar.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/input_decoration.dart';
-import 'package:pal/Common/textinput.dart';
-import 'package:pal/Constant/color.dart';
+import '../../Common/appbar.dart';
+import '../../Common/custom_button.dart';
+import '../../Common/input_decoration.dart';
+import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
