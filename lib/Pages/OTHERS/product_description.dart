@@ -13,7 +13,8 @@ import '../../Constant/color.dart';
 
 class ProductDescription extends StatefulWidget {
   final GiftData giftData;
-  ProductDescription({@required this.giftData});
+  final bool readOnly;
+  ProductDescription({@required this.giftData, this.readOnly : false});
   @override
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
@@ -106,7 +107,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ],
         ),
       ),
-      floatingActionButton: customButton(
+      floatingActionButton: widget.readOnly ? null : customButton(
         context: context,
         color: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.grey[200],
         textColor: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.black,

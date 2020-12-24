@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Pages/RETAILER_BONDING_PROGRAM/redeemed_gifts.dart';
 import '../../Pages/PRODUCTS/product_demo.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/userdata.dart';
@@ -267,6 +268,14 @@ class _HomeState extends State<Home> {
               buildDrawerItems("Redeem Gift", () {
                 scaffoldKey.currentState.openEndDrawer();
                 Navigator.push(context, CustomPageRoute(widget: GiftCategory()));
+              },
+                  Icon(
+                    Icons.card_giftcard,
+                    color: Colors.grey,
+                  )),
+              buildDrawerItems("Redeemed Gifts", () {
+                scaffoldKey.currentState.openEndDrawer();
+                Navigator.push(context, CustomPageRoute(widget: RedeemedGift()));
               },
                   Icon(
                     Icons.card_giftcard,

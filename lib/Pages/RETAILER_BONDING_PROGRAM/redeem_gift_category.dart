@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../SERVICES/services.dart';
@@ -54,13 +53,7 @@ class _GiftState extends State<GiftCategory> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Redeem Gift", actions: [
-          IconButton(
-            onPressed: () {},
-            splashRadius: 25,
-            icon: Icon(Icons.shopping_cart),
-          )
-        ]),
+        appBar: appBar(context: context, title: "Redeem Gift"),
         body: giftCategoryList.length != 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -113,7 +106,7 @@ class _GiftState extends State<GiftCategory> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: (){
-        Navigator.push(context, CustomPageRoute(widget: RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
       },
       child: Container(
         decoration: BoxDecoration(

@@ -53,13 +53,7 @@ class _RedeemGiftState extends State<RedeemGift> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Redeem Gift", actions: [
-        IconButton(
-          onPressed: () {},
-          splashRadius: 25,
-          icon: Icon(Icons.shopping_cart),
-        )
-      ]),
+      appBar: appBar(context: context, title: "Redeem Gift"),
       body: giftList.length != 0 ? SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
