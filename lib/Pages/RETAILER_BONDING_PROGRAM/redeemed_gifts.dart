@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Constant/userdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 import '../../Pages/OTHERS/product_description.dart';
@@ -19,7 +21,13 @@ class _RedeemedGiftState extends State<RedeemedGift> {
   bool dataFound = false;
   @override
   void initState() {
-    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey, "min" : "0", "max" : "00"})).then((value) {
+    getRedeemedGifts();
+    super.initState();
+  }
+  void getRedeemedGifts() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String id = sharedPreferences.getString(UserParams.id);
+    Services.redeemedGifts(FormData.fromMap({"api_key" : Urls.apiKey, "id" : id})).then((value) {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {
@@ -28,12 +36,11 @@ class _RedeemedGiftState extends State<RedeemedGift> {
         }
       } else {
         setState(() {
-          Fluttertoast.showToast(msg: "No gifts available");
+          Fluttertoast.showToast(msg: value.message);
           dataFound = true;
         });
       }
     });
-    super.initState();
   }
   @override
   Widget build(BuildContext context) {

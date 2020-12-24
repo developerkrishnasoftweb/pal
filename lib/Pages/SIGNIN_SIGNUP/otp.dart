@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/change_password.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Constant/color.dart';
@@ -12,7 +14,8 @@ import '../../SERVICES/services.dart';
 class OTP extends StatefulWidget {
   final String otp;
   final FormData formData;
-  OTP({this.otp, this.formData});
+  final bool onlyCheckOtp;
+  OTP({this.otp, this.formData, this.onlyCheckOtp : false});
   @override
   _OTPState createState() => _OTPState();
 }
@@ -50,9 +53,13 @@ class _OTPState extends State<OTP> {
           SizedBox(height: 40,),
         ],
       ),
-      floatingActionButton: customButton(context: context, onPressed: !signUpStatus ? _register : null, height: 60, width: size.width, text: !signUpStatus ? "SUBMIT" : null, child: SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),)),
+      floatingActionButton: customButton(context: context, onPressed: widget.onlyCheckOtp ? _forgotPassword : !signUpStatus ? _register : null, height: 60, width: size.width, text: !signUpStatus ? "SUBMIT" : null, child: SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  _forgotPassword () async {
+    Navigator.push(context, CustomPageRoute(widget: ResetPassword()));
   }
   _register() async {
     if(widget.otp == otp){
@@ -104,7 +111,6 @@ class _OTPState extends State<OTP> {
               otp += value;
             });
           }
-          print(otp);
         },
         onEditingComplete: () => FocusScope.of(context).nextFocus(),
         textInputAction: TextInputAction.next,

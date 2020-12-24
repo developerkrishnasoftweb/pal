@@ -1,5 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/Constant/color.dart';
+import 'package:pal/Pages/SIGNIN_SIGNUP/otp.dart';
+import 'package:pal/SERVICES/services.dart';
+import '../../Pages/SIGNIN_SIGNUP/signup.dart';
+import '../../SERVICES/urls.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
@@ -11,6 +19,8 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  String mobile = "";
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -18,11 +28,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       appBar: appBar(context: context, title: "Forgot Password"),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/login_register_background.png"),
-            fit: BoxFit.fill
-          )
-        ),
+            image: DecorationImage(
+                image:
+                    AssetImage("assets/images/login_register_background.png"),
+                fit: BoxFit.fill)),
         child: Column(
           children: [
             Image(
@@ -35,14 +44,65 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 autoFocus: true,
                 context: context,
                 text: "Mobile Number",
+                onChanged: (value) {
+                  setState(() {
+                    mobile = value;
+                  });
+                },
+                keyboardType: TextInputType.number,
+                onEditingComplete: _forgotPassword,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(20),
-                  border: border(),)),
-            SizedBox(height: 40,),
-            customButton(context: context, onPressed: (){}, text: "GET OTP", height: 65, width: size.width),
+                  border: border(),
+                )),
+            SizedBox(
+              height: 40,
+            ),
+            customButton(
+                context: context,
+                onPressed: isLoading ? null : _forgotPassword,
+                text: isLoading ? null : "GET OTP",
+                height: 65,
+                child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null,
+                width: size.width),
           ],
         ),
       ),
     );
+  }
+
+  _forgotPassword() async {
+    if (mobile.isNotEmpty &&
+        RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
+      setState(() {
+        isLoading = true;
+      });
+      String otp = RandomInt.generate().toString();
+      FormData smsData = FormData.fromMap({
+        "user" : Urls.user,
+        "password" : Urls.password,
+        "msisdn" : mobile,
+        "sid" : Urls.sID,
+        "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+        "fl" : Urls.fl,
+        "gwid" : Urls.gwID
+      });
+      await Services.sms(smsData).then((value) {
+        if(value.response == "000"){
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.pop(context);
+          Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: smsData, onlyCheckOtp: true,)));
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          Fluttertoast.showToast(msg: value.message);
+        }
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Please enter valid mobile number");
+    }
   }
 }
