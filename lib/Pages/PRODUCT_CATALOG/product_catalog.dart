@@ -2,17 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Pages/PRODUCT_CATALOG/catalog_preview.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../Common/appbar.dart';
 
-class CategoryBuilder extends StatefulWidget {
+class ProductCatalog extends StatefulWidget {
   @override
-  _CategoryState createState() => _CategoryState();
+  _ProductState createState() => _ProductState();
 }
 
-class _CategoryState extends State<CategoryBuilder> {
+class _ProductState extends State<ProductCatalog> {
   List<CategoryItem> categoryItems = [];
   ShapeBorder shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
   @override
@@ -25,6 +26,7 @@ class _CategoryState extends State<CategoryBuilder> {
                 CategoryItem(
                   title: value.data[i]["title"],
                   id: value.data[i]["id"],
+                  catalog: value.data[i]["catalog"]
                 )
             );
           });
@@ -60,7 +62,7 @@ class _CategoryState extends State<CategoryBuilder> {
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         title: Text(item.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
         trailing: Icon(Icons.arrow_forward_ios, size: 15,),
-        onTap: (){},
+        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CatalogPreview()));},
         shape: shape,
       ),
     );
@@ -69,7 +71,7 @@ class _CategoryState extends State<CategoryBuilder> {
 class CategoryItem{
   final String title;
   final String id;
-  final String image;
+  final String catalog;
   final String promo;
-  CategoryItem({this.title, this.id, this.image, this.promo});
+  CategoryItem({this.title, this.id, this.catalog, this.promo});
 }

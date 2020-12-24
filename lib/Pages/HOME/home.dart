@@ -15,7 +15,7 @@ import '../../Common/appbar.dart';
 import '../../Common/carousel.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
-import '../../Pages/OTHERS/category.dart';
+import '../PRODUCT_CATALOG/product_catalog.dart';
 import '../../Pages/OTHERS/kyc_details.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/earned_points.dart';
 import '../../Pages/RETAILER_BONDING_PROGRAM/weekly_update.dart';
@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
       ItemListBuilder(
           title: "Product Catalog",
           onTap: () => Navigator.push(
-              context, CustomPageRoute(widget: CategoryBuilder())),
+              context, CustomPageRoute(widget: ProductCatalog())),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
           title: "Earned Point",
@@ -155,7 +155,7 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   scaffoldKey.currentState.openEndDrawer();
                   Navigator.push(
-                      context, CustomPageRoute(widget: CategoryBuilder()));
+                      context, CustomPageRoute(widget: ProductCatalog()));
                 },
                 leading: Icon(Icons.book_outlined),
               ),
