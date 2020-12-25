@@ -38,8 +38,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   Future getImage() async {
     File result = await FilePicker.getFile(allowedExtensions: ["pdf", "jpg", "jpeg", "png"], type: FileType.custom);
-    ext = result.path.split("/").last.split(".").last;
     if(result != null) {
+      setState(() {
+        ext = result.path.split("/").last.split(".").last;
+      });
       if(ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg"){
         setState(() {
           file = File(result.path);
