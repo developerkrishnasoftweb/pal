@@ -219,20 +219,15 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       child: Container(
         height: 120,
         width: 180,
-        margin: EdgeInsets.only(left: 10),
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        alignment: Alignment(0.0, 0.7),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey[300]),
-          image: image != null
-              ? DecorationImage(
-                  image: AssetImage(image.path),
-                  fit: BoxFit.fill,
-                )
-              : null,
         ),
-        child: image == null ? Text(text) : null,
+        child: image == null ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(text),
+        ) : Image.file(File(image.path), fit: BoxFit.fill,),
       ),
     );
   }
