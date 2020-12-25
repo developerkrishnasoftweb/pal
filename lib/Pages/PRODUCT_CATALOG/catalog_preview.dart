@@ -19,6 +19,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
   String filePath = "";
   String loaded = "0";
   String pageNo = "0/0";
+  File file;
   @override
   void initState() {
     loadPDF().then((value) {
@@ -28,16 +29,30 @@ class _CatalogPreviewState extends State<CatalogPreview> {
     });
     super.initState();
   }
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/' + widget.url.split("/").last);
+  }
 
   Future<String> loadPDF() async {
     Dio dio = Dio();
+    file = await _localFile;
+    if(await file.exists()){
+      return file.path;
+    }
     Response response = await dio.get(Urls.imageBaseUrl + widget.url, onReceiveProgress: showDownloadProgress, options: Options(
         responseType: ResponseType.bytes,
         followRedirects: false,
         validateStatus: (status) { return status < 500; }
     ),);
-    var dir = await getTemporaryDirectory();
-    File file = new File(dir.path + "/data.pdf");
+    var path = await _localPath;
+    setState(() {
+      file = new File(path + "/" + widget.url.split("/").last);
+    });
     await file.writeAsBytes(response.data, flush: true);
     return file.path;
   }
@@ -46,8 +61,6 @@ class _CatalogPreviewState extends State<CatalogPreview> {
       setState(() {
         loaded = (received / total * 100).toStringAsFixed(0);
       });
-    } else {
-      Navigator.pop(context);
     }
   }
   @override

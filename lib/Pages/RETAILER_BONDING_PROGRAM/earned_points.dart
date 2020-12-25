@@ -9,6 +9,7 @@ class EarnedPoints extends StatefulWidget {
 
 class _EarnedPointsState extends State<EarnedPoints> {
   String lastCycles = "Last 12 Cycles";
+  List<EarnedPoints> earnedLists = [];
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   },
                   underline: SizedBox.shrink(),
                   value: lastCycles,
-                  items: ["Last 12 Cycles"].map((text) {
+                  items: ["Show all cycles", "Last 12 Cycles", "Last 24 Cycles", "Last 36 Cycles", "Last 48 Cycles", "Last 60 Cycles"].map((text) {
                     return DropdownMenuItem(
                       value: text,
                       child: Text(text),
@@ -184,4 +185,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
       ]),
     );
   }
+}
+class CycleData{
+  final String cycleNo, dateFrom, dateTo, purchase, earnedPoints, closingPoints;
+  CycleData({this.closingPoints, this.cycleNo, this.dateFrom, this.dateTo, this.earnedPoints, this.purchase});
 }
