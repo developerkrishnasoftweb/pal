@@ -63,9 +63,6 @@ class _CatalogPreviewState extends State<CatalogPreview> {
         enableSwipe: true,
         fitEachPage: true,
         fitPolicy: FitPolicy.BOTH,
-        onError: (error){
-          print(error);
-        },
         pageFling: true,
         onPageChanged: _pageChanged,
       ) : Center(child: Container(
@@ -97,7 +94,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
 
   void _pageChanged(int page, int total) {
     setState(() {
-      pageNo = page.toString() + "/" + total.toString();
+      pageNo = (page + 1).toString() + "/" + total.toString();
     });
   }
 }
