@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,15 +31,23 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       state = "",
       city = "",
       area = "",
+      ext = "",
       pincode = "";
   bool collectToShop = false, isLoading = false;
-  File image;
-  final picker = ImagePicker();
+  File file;
+
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) image = File(pickedFile.path);
-    });
+    File result = await FilePicker.getFile(allowedExtensions: ["pdf", "jpg", "jpeg", "png"], type: FileType.custom);
+    ext = result.path.split("/").last.split(".").last;
+    if(result != null) {
+      if(ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg"){
+        setState(() {
+          file = File(result.path);
+        });
+      } else {
+        Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
+      }
+    }
   }
 
   @override
@@ -70,7 +79,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 isExpanded: true,
                 onChanged: (value) {
                   setState(() {
-                    image = null;
+                    file = null;
                     addressType = value;
                     if (value == "Collect to shop") {
                       collectToShop = true;
@@ -224,10 +233,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey[300]),
         ),
-        child: image == null ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(text),
-        ) : Image.file(File(image.path), fit: BoxFit.fill,),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: file == null ? Text(text) : Text(file.path.split("/").last),
+        ) //Image.file(File(file.path), fit: BoxFit.fill,),
       ),
     );
   }
@@ -272,7 +281,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           city.isNotEmpty &&
           area.isNotEmpty &&
           pincode.isNotEmpty &&
-          image != null) {
+          file != null) {
         FormData data = FormData.fromMap({
           "customer_id": id,
           "api_key": Urls.apiKey,
@@ -283,8 +292,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           "city": city,
           "pincode": pincode,
           "state": state,
-          "proof": await MultipartFile.fromFile(image.path,
-              filename: image.path.split("/").last),
+          "proof": await MultipartFile.fromFile(file.path,
+              filename: file.path.split("/").last),
         });
         await Services.redeemGift(data).then((value) async {
           if(value.response == "y"){
