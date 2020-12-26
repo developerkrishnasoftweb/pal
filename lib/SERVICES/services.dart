@@ -415,4 +415,35 @@ class Services{
       return data;
     }
   }
+
+  /*
+  * redeem gifts
+  * */
+  static Future<Data> getPinData(String pinCode) async{
+    String url = Urls.pinCodeData + pinCode;
+    try{
+      dio.Response response;
+      response = await dio.Dio().get(url);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = response.data;
+        data.message = jsonResponse[0]["Message"];
+        data.response = jsonResponse[0]["Status"];
+        data.data = jsonResponse[0]["PostOffice"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
 }

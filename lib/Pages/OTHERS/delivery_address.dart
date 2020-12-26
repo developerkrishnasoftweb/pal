@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:pal/Common/show_dialog.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
@@ -28,21 +28,27 @@ class DeliveryAddress extends StatefulWidget {
 class _DeliveryAddressState extends State<DeliveryAddress> {
   String addressType = "Select Delivery Type",
       address = "",
-      state = "",
-      city = "",
-      area = "",
+      // state = "",
+      // city = "",
+      // area = "",
       ext = "",
       pincode = "";
   bool collectToShop = false, isLoading = false;
   File file;
+  TextEditingController stateAPI = TextEditingController();
+  TextEditingController areaAPI = TextEditingController();
+  TextEditingController cityAPI = TextEditingController();
+  List<String> listAreas = [];
 
   Future getImage() async {
-    File result = await FilePicker.getFile(allowedExtensions: ["pdf", "jpg", "jpeg", "png"], type: FileType.custom);
-    if(result != null) {
+    File result = await FilePicker.getFile(
+        allowedExtensions: ["pdf", "jpg", "jpeg", "png"],
+        type: FileType.custom);
+    if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
       });
-      if(ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg"){
+      if (ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg") {
         setState(() {
           file = File(result.path);
         });
@@ -120,7 +126,15 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           onPressed: isLoading ? null : _redeem,
           height: 60,
           width: size.width,
-          child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null,
+          child: isLoading
+              ? SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                  ),
+                )
+              : null,
           text: isLoading ? null : "CONFIRM"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -145,45 +159,63 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             maxLines: 5),
         input(
             context: context,
-            text: "State",
-            onChanged: (value) {
-              setState(() {
-                state = value;
-              });
-            },
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(border: border())),
-        input(
-            context: context,
-            text: "City",
-            onChanged: (value) {
-              setState(() {
-                city = value;
-              });
-            },
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(border: border())),
-        input(
-            context: context,
-            text: "Area",
-            onChanged: (value) {
-              setState(() {
-                area = value;
-              });
-            },
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(border: border())),
-        input(
-            context: context,
             text: "Pincode",
             onChanged: (value) {
               setState(() {
                 pincode = value;
               });
+              _getPinCodeData();
             },
-            onEditingComplete: _redeem,
+            onEditingComplete: _getPinCodeData,
             keyboardType: TextInputType.number,
+            decoration: InputDecoration(border: border(), prefixIcon: Padding(padding: EdgeInsets.all(10), child: Image.asset("assets/icons/indian-flag-icon.png", height: 30, width: 30, fit: BoxFit.fill, alignment: Alignment.center,)))),
+        input(
+            context: context,
+            text: "State",
+            controller: stateAPI,
             decoration: InputDecoration(border: border())),
+        input(
+            context: context,
+            text: "City",
+            controller: cityAPI,
+            decoration: InputDecoration(border: border())),
+        listAreas.length > 1
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Area",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: Colors.grey,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    DropdownButtonFormField(
+                        value: areaAPI.text,
+                        isExpanded: true,
+                        decoration: InputDecoration(border: border()),
+                        items: listAreas.map((area) {
+                          return DropdownMenuItem(
+                              child: Text(area), value: area);
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            areaAPI.text = value;
+                          });
+                        }),
+                  ],
+                ),
+              )
+            : input(
+                context: context,
+                text: "Area",
+                controller: areaAPI,
+                decoration: InputDecoration(border: border())),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
@@ -196,6 +228,60 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             onTap: getImage)
       ],
     );
+  }
+
+  _getPinCodeData() {
+    setState(() {
+      listAreas = [];
+    });
+    if (pincode.length == 6) {
+      showDialogBox(
+          context: context,
+          widget: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                "Please wait...",
+                style: Theme.of(context).textTheme.bodyText1,
+              )
+            ],
+          ),
+          barrierDismissible: false);
+      Services.getPinData(pincode).then((value) {
+        if (value.response == "Success") {
+          for (int i = 0; i < value.data.length; i++) {
+            setState(() {
+              listAreas.add(value.data[i]["Name"]);
+            });
+          }
+          setState(() {
+            stateAPI.text = value.data[0]["Circle"];
+            cityAPI.text = value.data[0]["District"];
+            areaAPI.text = value.data[0]["Name"];
+          });
+          Navigator.pop(context);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
+          setState(() {
+            stateAPI.clear();
+            cityAPI.clear();
+            areaAPI.clear();
+          });
+          Navigator.pop(context);
+        }
+      });
+    }
   }
 
   Widget buildCollectToShop() {
@@ -228,18 +314,18 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
       child: Container(
-        height: 120,
-        width: 180,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey[300]),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: file == null ? Text(text) : Text(file.path.split("/").last),
-        ) //Image.file(File(file.path), fit: BoxFit.fill,),
-      ),
+          height: 120,
+          width: 180,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey[300]),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: file == null ? Text(text) : Text(file.path.split("/").last),
+          ) //Image.file(File(file.path), fit: BoxFit.fill,),
+          ),
     );
   }
 
@@ -276,12 +362,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     var id = sharedPreferences.getString(UserParams.id);
     if (addressType == "Home delivery") {
       setState(() {
-        isLoading = true;
+        isLoading = false;
       });
       if (address.isNotEmpty &&
-          state.isNotEmpty &&
-          city.isNotEmpty &&
-          area.isNotEmpty &&
+          stateAPI.text.isNotEmpty &&
+          cityAPI.text.isNotEmpty &&
+          areaAPI.text.isNotEmpty &&
           pincode.isNotEmpty &&
           file != null) {
         FormData data = FormData.fromMap({
@@ -290,18 +376,19 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           "gift_id": widget.giftData.id,
           "point": widget.giftData.points,
           "address": address,
-          "area": area,
-          "city": city,
+          "area": areaAPI.text,
+          "city": cityAPI.text,
           "pincode": pincode,
-          "state": state,
+          "state": stateAPI.text,
           "proof": await MultipartFile.fromFile(file.path,
               filename: file.path.split("/").last),
         });
         await Services.redeemGift(data).then((value) async {
-          if(value.response == "y"){
+          if (value.response == "y") {
             await userData(value.data[0]["customer"]);
             Fluttertoast.showToast(msg: value.message);
-            Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context, CustomPageRoute(widget: Home()), (route) => false);
             setState(() {
               isLoading = false;
             });

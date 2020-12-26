@@ -15,6 +15,7 @@ class Urls{
   static String baseUrl = "http://generalstore.krishnasoftweb.com/api/";
   static String imageBaseUrl = "http://generalstore.krishnasoftweb.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
+  static String pinCodeData = "https://api.postalpincode.in/pincode/";
   static String signIn = "login";
   static String signUp = "registration";
   static String category = "category";
