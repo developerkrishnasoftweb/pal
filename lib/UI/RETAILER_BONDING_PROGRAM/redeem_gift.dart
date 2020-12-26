@@ -27,11 +27,21 @@ class _RedeemGiftState extends State<RedeemGift> {
   @override
   void initState() {
     getUserData();
-    Services.gift(FormData.fromMap({"api_key" : Urls.apiKey, "min" : widget.minPoints, "max" : widget.maxPoints})).then((value) {
-      if(value.response == "y"){
-        for(int i = 0; i < value.data.length; i++){
+    Services.gift(FormData.fromMap({
+      "api_key": Urls.apiKey,
+      "min": widget.minPoints,
+      "max": widget.maxPoints
+    })).then((value) {
+      if (value.response == "y") {
+        for (int i = 0; i < value.data.length; i++) {
           setState(() {
-            giftList.add(GiftData(id: value.data[i]["id"], title: value.data[i]["title"], points: value.data[i]["point"], desc: value.data[i]["description"], image: value.data[i]["image"], specs: value.data[i]["specification"]));
+            giftList.add(GiftData(
+                id: value.data[i]["id"],
+                title: value.data[i]["title"],
+                points: value.data[i]["point"],
+                desc: value.data[i]["description"],
+                image: value.data[i]["image"],
+                specs: value.data[i]["specification"]));
           });
         }
       } else {
@@ -43,64 +53,79 @@ class _RedeemGiftState extends State<RedeemGift> {
     });
     super.initState();
   }
+
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       points = sharedPreferences.getString(UserParams.point) ?? "0";
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Redeem Gift"),
-      body: giftList.length != 0 ? SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              width: size.width,
-              height: 20,
-            ),
-            buildRedeemedAmount(
-                title: "My Earned Points : ",
-                amount: points,
-                leadingTrailing: false,
-                fontSize: 17),
-            SizedBox(
-              height: 10,
-            ),
-            buildRedeemedAmount(
-                title: "Cumulative Purchase : ",
-                amount: "0.0",
-                leadingTrailing: true),
-            GridView.builder(
-                shrinkWrap: true,
-                itemCount: giftList.length,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.all(10),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.9,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  return giftCard(giftList[index]);
-                })
-          ],
-        ),
-      ) : Center(child: !dataFound ? SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),)) : Image(image: AssetImage("assets/images/no-gifts2.png"), height: 150, width: 150,))
-    );
+        appBar: appBar(context: context, title: "Redeem Gift"),
+        body: giftList.length != 0
+            ? SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(
+                width: size.width,
+                height: 20,
+              ),
+              buildRedeemedAmount(
+                  title: "My Earned Points : ",
+                  amount: points,
+                  leadingTrailing: false,
+                  fontSize: 17),
+              SizedBox(
+                height: 10,
+              ),
+              buildRedeemedAmount(
+                  title: "Cumulative Purchase : ",
+                  amount: "0.0",
+                  leadingTrailing: true),
+              GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: giftList.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.all(10),
+                  gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.9,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return giftCard(giftList[index]);
+                  })
+            ],
+          ),
+        )
+            : Center(
+            child: !dataFound
+                ? SizedBox(
+                height: 40,
+                width: 40,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(
+                      AppColors.primaryColor),
+                ))
+                : Image(
+              image: AssetImage("assets/images/no-gifts2.png"),
+              height: 150,
+              width: 150,
+            )),);
   }
 
-  Widget giftCard(GiftData giftData){
+  Widget giftCard(GiftData giftData) {
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.grey[200], blurRadius: 5)
-          ],
+          boxShadow: [BoxShadow(color: Colors.grey[200], blurRadius: 5)],
           borderRadius: BorderRadius.circular(10)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -121,33 +146,39 @@ class _RedeemGiftState extends State<RedeemGift> {
               return progress == null
                   ? child
                   : Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                            AppColors.primaryColor), strokeWidth: 1,)),
-                  );
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation(AppColors.primaryColor),
+                            strokeWidth: 1,
+                          )),
+                    );
             },
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Text(
             giftData.title,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                fontSize: 17, fontWeight: FontWeight.bold),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
           ),
           Text("${giftData.points} Points",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey)),
           customButton(
               context: context,
-              onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductDescription(giftData: giftData,))),
+              onPressed: () => Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: ProductDescription(giftData: giftData,))),
               height: 35,
               width: size.width * 0.3,
               color: Colors.white,
@@ -208,12 +239,19 @@ class _RedeemGiftState extends State<RedeemGift> {
   }
 }
 
-class GiftData{
+class GiftData {
   final String id;
   final String title;
   final String image;
   final String desc;
   final String points;
   final String specs;
-  GiftData({this.id, this.title, this.image, this.points, this.desc, this.specs});
+  GiftData(
+      {this.id, this.title, this.image, this.points, this.desc, this.specs});
+}
+
+class FilterList {
+  final String min, max;
+  bool value;
+  FilterList({this.value: false, this.min, this.max});
 }

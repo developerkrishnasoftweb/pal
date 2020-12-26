@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../../Common/page_route.dart';
+import '../../Pages/PRODUCTS/product_preview.dart';
 import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
@@ -56,7 +58,7 @@ class _ProductDemoState extends State<ProductDemo> {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         title: Text(item.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
-        trailing: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,),
+        trailing: IconButton(icon: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,), onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductPreview())), splashRadius: 25,),
         onTap: (){},
         shape: shape,
       ),

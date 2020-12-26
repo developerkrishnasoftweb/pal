@@ -6,9 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/data.dart';
 class Services{
   static String errorMessage = "Something went wrong !!!";
-  /*
-  * signIn Api
-  * */
+
   static Future<Data> signIn(body) async{
     String url = Urls.baseUrl + Urls.signIn;
     try{
@@ -41,9 +39,6 @@ class Services{
     }
   }
 
-  /*
-  * signUp Api
-  * */
   static Future<Data> signUp(body) async{
     String url = Urls.baseUrl + Urls.signUp;
     try{
@@ -73,9 +68,7 @@ class Services{
       return data;
     }
   }
-  /*
-  * category Api
-  * */
+
   static Future<Data> category(body) async{
     String url = Urls.baseUrl + Urls.category;
     try{
@@ -104,9 +97,6 @@ class Services{
     }
   }
 
-  /*
-  * gift Api
-  * */
   static Future<Data> gift(body) async{
     String url = Urls.baseUrl + Urls.gift;
     try{
@@ -135,9 +125,6 @@ class Services{
     }
   }
 
-  /*
-  * gift Api
-  * */
   static Future<Data> redeemedGifts(body) async{
     String url = Urls.baseUrl + Urls.redeemedGifts;
     try{
@@ -166,9 +153,6 @@ class Services{
     }
   }
 
-  /*
-  * banners Api
-  * */
   static Future<Data> banners(body) async{
     String url = Urls.baseUrl + Urls.banners;
     try{
@@ -197,9 +181,6 @@ class Services{
     }
   }
 
-  /*
-  * sms Api
-  * */
   static Future<Data> sms(body) async{
     try{
       dio.Response response;
@@ -227,9 +208,6 @@ class Services{
     }
   }
 
-  /*
-  * gift category Api
-  * */
   static Future<Data> giftCategory(body) async{
     String url = Urls.baseUrl + Urls.giftCategory;
     try{
@@ -258,9 +236,6 @@ class Services{
     }
   }
 
-  /*
-  * add category Api
-  * */
   static Future<Data> addComplain(body) async{
     String url = Urls.baseUrl + Urls.addComplain;
     try{
@@ -286,10 +261,6 @@ class Services{
     }
   }
 
-
-  /*
-  * get all requested services
-  * */
   static Future<Data> serviceRequests(body) async{
     String url = Urls.baseUrl + Urls.getComplain;
     try{
@@ -318,10 +289,6 @@ class Services{
     }
   }
 
-
-  /*
-  * get all requested services
-  * */
   static Future<Data> trackComplaint(body) async{
     String url = Urls.baseUrl + Urls.trackComplaint;
     try{
@@ -350,9 +317,6 @@ class Services{
     }
   }
 
-  /*
-  * redeem gifts
-  * */
   static Future<Data> redeemGift(body) async{
     String url = Urls.baseUrl + Urls.redeemGift;
     try{
@@ -381,10 +345,6 @@ class Services{
     }
   }
 
-
-  /*
-  * get userdata and save to shared preferences
-  * */
   static Future<Data> getUserData() async{
     String url = Urls.baseUrl + Urls.getUserData;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -416,9 +376,6 @@ class Services{
     }
   }
 
-  /*
-  * get details of pincode valid in india only
-  * */
   static Future<Data> getPinData(String pinCode) async{
     String url = Urls.pinCodeData + pinCode;
     try{
@@ -447,12 +404,36 @@ class Services{
     }
   }
 
-
-  /*
-  * forgot password
-  * */
   static Future<Data> forgotPassword(body) async{
     String url = Urls.baseUrl + Urls.forgotPassword;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: body);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = jsonResponse["data"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+  static Future<Data> getEarnedPoints(body) async{
+    String url = Urls.baseUrl + Urls.getEarnedPoints;
     try{
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
