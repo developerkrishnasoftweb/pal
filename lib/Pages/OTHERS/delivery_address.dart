@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/show_dialog.dart';
+import '../../Common/show_dialog.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
@@ -224,8 +224,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
           ),
         ),
-        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence",
-            onTap: getImage)
+        proofBuilder(onTap: getImage)
       ],
     );
   }
@@ -296,37 +295,49 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           height: 15,
         ),
         Text(
-          "Upload Proof (Any one) :",
+          "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 10,
         ),
-        proofBuilder("Aadhaar, Pan, Voter Card, Driving Licence",
-            onTap: getImage)
+        proofBuilder(onTap: getImage)
       ],
     );
   }
 
-  Widget proofBuilder(String text, {GestureTapCallback onTap}) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-          height: 120,
-          width: 180,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey[300]),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: file == null ? Text(text) : Text(file.path.split("/").last),
-          ) //Image.file(File(file.path), fit: BoxFit.fill,),
-          ),
+  Widget proofBuilder({GestureTapCallback onTap}) {
+    return Container(
+        height: 120,
+        width: 180,
+        padding: const EdgeInsets.all(10.0),
+        alignment: Alignment.center,
+        child: file == null ? Column(children: [
+          attachButton(onPressed: getImage, text: "Attach File"),
+        ],) : file != null && ext != "pdf" ? Image.file(File(file.path), fit: BoxFit.fill,) : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset("assets/icons/pdf-icon.png", height: 50, width: 50, fit: BoxFit.fill,),
+            Text(file.path.split("/").last, style: TextStyle(fontSize: 13, color: Colors.grey),),
+          ],
+        ), //Image.file(File(file.path), fit: BoxFit.fill,),
     );
+  }
+  Widget attachButton({String text,  @required VoidCallback onPressed}){
+    return customButton(
+        context: context,
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.attach_file, color: Colors.blue[500],),
+            Text(text, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue[500], fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
+          ],
+        ),
+        color: Colors.grey[100],
+        height: 50);
   }
 
   Widget buildTitledRow({String title, String value}) {
