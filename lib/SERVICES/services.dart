@@ -417,7 +417,7 @@ class Services{
   }
 
   /*
-  * redeem gifts
+  * get details of pincode valid in india only
   * */
   static Future<Data> getPinData(String pinCode) async{
     String url = Urls.pinCodeData + pinCode;
@@ -430,6 +430,38 @@ class Services{
         data.message = jsonResponse[0]["Message"];
         data.response = jsonResponse[0]["Status"];
         data.data = jsonResponse[0]["PostOffice"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+
+  /*
+  * forgot password
+  * */
+  static Future<Data> forgotPassword(body) async{
+    String url = Urls.baseUrl + Urls.forgotPassword;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: body);
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = jsonResponse["data"];
         return data;
       }
       return null;

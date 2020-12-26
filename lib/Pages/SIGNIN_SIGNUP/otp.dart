@@ -12,10 +12,10 @@ import '../../Pages/SIGNIN_SIGNUP/signin.dart';
 import '../../SERVICES/services.dart';
 
 class OTP extends StatefulWidget {
-  final String otp;
+  final String otp, mobile;
   final FormData formData;
   final bool onlyCheckOtp;
-  OTP({this.otp, this.formData, this.onlyCheckOtp : false});
+  OTP({this.otp, this.formData, this.onlyCheckOtp : false, this.mobile});
   @override
   _OTPState createState() => _OTPState();
 }
@@ -59,7 +59,8 @@ class _OTPState extends State<OTP> {
   }
 
   _forgotPassword () async {
-    Navigator.push(context, CustomPageRoute(widget: ResetPassword()));
+    Navigator.pop(context);
+    Navigator.push(context, CustomPageRoute(widget: ResetPassword(mobile: widget.mobile,)));
   }
   _register() async {
     if(widget.otp == otp){

@@ -93,7 +93,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             isLoading = false;
           });
           Navigator.pop(context);
-          Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: smsData, onlyCheckOtp: true,)));
+          Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, onlyCheckOtp: true, mobile: mobile,)));
         } else {
           setState(() {
             isLoading = false;
