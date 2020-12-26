@@ -30,4 +30,5 @@ class Urls{
   static String redeemedGifts = "get_redeem";
   static String forgotPassword = "forget_password";
   static String getEarnedPoints = "get_earned_point";
+  static String getProducts = "get_product";
 }

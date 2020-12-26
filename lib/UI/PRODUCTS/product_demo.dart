@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/color.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import '../../Common/page_route.dart';
 import '../../UI/PRODUCTS/product_preview.dart';
 import '../../Common/appbar.dart';
@@ -7,19 +12,41 @@ import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 
 class ProductDemo extends StatefulWidget {
+  final String type;
+  ProductDemo({@required this.type});
   @override
   _ProductDemoState createState() => _ProductDemoState();
 }
 
 class _ProductDemoState extends State<ProductDemo> {
   ShapeBorder shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
-  List<ProductItem> categoryItems = [
-    ProductItem(title: "Bajaj Calenta Digi 25L (150764)"),
-    ProductItem(title: "Bajaj Calenta 6L (150765)"),
-    ProductItem(title: "Shakti PC Deluxe 25L (150772)"),
-    ProductItem(title: "Majesty One Dry iron (150772)"),
-    ProductItem(title: "Ebony Concave Griddle 26cm with lb (IECG26)"),
-  ];
+  List<ProductItem> categoryItems = [];
+  bool dataFound = false;
+  @override
+  void initState() {
+    getProducts();
+    super.initState();
+  }
+  void getProducts() {
+    FormData body = FormData.fromMap({
+      "api_key" : Urls.apiKey,
+      "type" : widget.type
+    });
+    Services.getProducts(body).then((value) {
+      if(value.response == "y"){
+        for(int i = 0; i < value.data.length; i++){
+          setState(() {
+            categoryItems.add(ProductItem(max: value.data[i]["max_price"], min: value.data[i]["min_price"], image: value.data[i]["image"], video: value.data[i]["promo"], id: value.data[i]["id"], name: value.data[i]["name"]));
+          });
+        }
+      } else {
+        setState(() {
+          dataFound = true;
+        });
+        Fluttertoast.showToast(msg: value.message);
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +62,7 @@ class _ProductDemoState extends State<ProductDemo> {
               )
           ),
           Expanded(
-            child: SingleChildScrollView(
+            child: categoryItems.length > 0 ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
@@ -45,7 +72,7 @@ class _ProductDemoState extends State<ProductDemo> {
                     ],
                   ],
                 )
-            ),
+            ) : Center(child: dataFound ? Text("No products found !!!") : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),)
           )
         ],
       ),
@@ -57,8 +84,8 @@ class _ProductDemoState extends State<ProductDemo> {
       elevation: 0.3,
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-        title: Text(item.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
-        trailing: IconButton(icon: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,), onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductPreview())), splashRadius: 25,),
+        title: Text(item.name, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
+        trailing: IconButton(icon: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,), onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductPreview(path: item.video,))), splashRadius: 25,),
         onTap: (){},
         shape: shape,
       ),
@@ -66,6 +93,6 @@ class _ProductDemoState extends State<ProductDemo> {
   }
 }
 class ProductItem{
-  final String title;
-  ProductItem({this.title});
+  final String name, video, image, id, min, max;
+  ProductItem({this.name, this.min, this.max, this.image, this.id, this.video});
 }

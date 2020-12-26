@@ -245,13 +245,14 @@ class _HomeState extends State<Home> {
                     title: Text("Product Demo"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(context, CustomPageRoute(widget: ProductDemo()));
+                      Navigator.push(context, CustomPageRoute(widget: ProductDemo(type: "demo",)));
                     },
                   ),
                   ListTile(
                     title: Text("Focused Products"),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(context, CustomPageRoute(widget: ProductDemo(type: "focused",)));
                     },
                   ),
                 ],

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../SERVICES/urls.dart';
 import 'package:video_player/video_player.dart';
 
 class ProductPreview extends StatefulWidget {
-  ProductPreview({Key key}) : super(key: key);
+  final String path;
+  ProductPreview({Key key, @required this.path}) : super(key: key);
   @override
   _ProductPreviewState createState() => _ProductPreviewState();
 }
@@ -15,9 +15,11 @@ class _ProductPreviewState extends State<ProductPreview> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      Urls.imageBaseUrl + 'assets/video/product/20201210165209.mp4',
-    )..initialize();
+      'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
+    )..initialize().then((value) {setState(() {
+    });});
     _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.setVolume(1);
     super.initState();
   }
 
@@ -43,7 +45,7 @@ class _ProductPreviewState extends State<ProductPreview> {
         ),
       ),
       body: FutureBuilder(builder: (context, snapshot){
-        if(snapshot.connectionState == ConnectionState.done){
+        if(snapshot.hasData){
           return Center(
             child: AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
