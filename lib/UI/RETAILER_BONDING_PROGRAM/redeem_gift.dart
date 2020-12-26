@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
-import '../../Pages/OTHERS/product_description.dart';
+import '../../UI/OTHERS/product_description.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';

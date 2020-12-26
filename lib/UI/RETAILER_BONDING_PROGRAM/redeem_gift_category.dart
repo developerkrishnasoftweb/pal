@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Constant/userdata.dart';
-import '../../Pages/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';

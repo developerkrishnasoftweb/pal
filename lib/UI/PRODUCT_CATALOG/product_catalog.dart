@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Pages/PRODUCT_CATALOG/catalog_preview.dart';
+import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';

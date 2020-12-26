@@ -13,7 +13,7 @@ import '../../Common/textinput.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
-import '../../Pages/SERVICE_REQUEST/service_request.dart';
+import '../../UI/SERVICE_REQUEST/service_request.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';

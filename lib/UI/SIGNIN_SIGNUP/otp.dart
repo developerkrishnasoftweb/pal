@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/page_route.dart';
-import '../../Pages/SIGNIN_SIGNUP/change_password.dart';
+import '../../UI/SIGNIN_SIGNUP/change_password.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Constant/color.dart';
-import '../../Pages/SIGNIN_SIGNUP/signin.dart';
+import '../../UI/SIGNIN_SIGNUP/signin.dart';
 import '../../SERVICES/services.dart';
 
 class OTP extends StatefulWidget {

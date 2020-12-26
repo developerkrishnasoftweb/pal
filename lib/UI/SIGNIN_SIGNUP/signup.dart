@@ -8,7 +8,7 @@ import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
-import '../../Pages/SIGNIN_SIGNUP/otp.dart';
+import '../../UI/SIGNIN_SIGNUP/otp.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 

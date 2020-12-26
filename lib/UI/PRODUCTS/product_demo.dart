@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../../Common/page_route.dart';
-import '../../Pages/PRODUCTS/product_preview.dart';
+import '../../UI/PRODUCTS/product_preview.dart';
 import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';

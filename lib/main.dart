@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Constant/userdata.dart';
-import 'Pages/SIGNIN_SIGNUP/signin.dart';
+import 'UI/SIGNIN_SIGNUP/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Pages/HOME/home.dart';
+import 'UI/HOME/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
