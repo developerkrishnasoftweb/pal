@@ -109,9 +109,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
       ),
       floatingActionButton: widget.readOnly ? null : customButton(
         context: context,
-        color: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.grey[200],
-        textColor: int.parse(points) > int.parse(widget.giftData.points) ? null : Colors.black,
-        onPressed: int.parse(points) > int.parse(widget.giftData.points)
+        color: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.grey[200],
+        textColor: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.black,
+        onPressed: int.parse(points) >= int.parse(widget.giftData.points)
             ? () => Navigator.push(context, CustomPageRoute(widget: DeliveryAddress(giftData: widget.giftData,)))
             : () {
                 Fluttertoast.showToast(

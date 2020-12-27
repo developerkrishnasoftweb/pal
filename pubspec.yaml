@@ -38,7 +38,6 @@ dependencies:
   flutter_pdfview: ^1.0.4
   path_provider: ^1.6.24
   file_picker: 1.9.0+1
-  video_player: ^1.0.1
   intl:
 dev_dependencies:
   flutter_test:

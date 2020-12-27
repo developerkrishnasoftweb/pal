@@ -85,7 +85,7 @@ class _ProductDemoState extends State<ProductDemo> {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         title: Text(item.name, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
-        trailing: IconButton(icon: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,), onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductPreview(path: item.video,))), splashRadius: 25,),
+        trailing: IconButton(icon: ImageIcon(AssetImage("assets/icons/play-button.png"), color: Colors.red,), onPressed: () {}, splashRadius: 25,),
         onTap: (){},
         shape: shape,
       ),

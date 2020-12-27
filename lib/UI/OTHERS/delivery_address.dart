@@ -28,9 +28,6 @@ class DeliveryAddress extends StatefulWidget {
 class _DeliveryAddressState extends State<DeliveryAddress> {
   String addressType = "Select Delivery Type",
       address = "",
-      // state = "",
-      // city = "",
-      // area = "",
       ext = "",
       pincode = "";
   bool collectToShop = false, isLoading = false;
