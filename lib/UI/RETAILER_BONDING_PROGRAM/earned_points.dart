@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -113,21 +115,14 @@ class _EarnedPointsState extends State<EarnedPoints> {
     var startDate = DateFormat('d MMM').format(DateTime.parse(data.dateFrom));
     var endDate = DateFormat('d MMM').format(DateTime.parse(data.dateTo));
     return Container(
-      height: 180,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[200],
-              blurRadius: 10,
-            )
-          ],
-          borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          border: Border.all(color: Colors.grey[200]),
+          borderRadius: BorderRadius.circular(10)
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,11 +138,11 @@ class _EarnedPointsState extends State<EarnedPoints> {
             ],
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           Text("Purchase for this cycle : ${data.purchase}", style: style1),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,6 +235,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
       if (value.response == "y") {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
+        print(value.data[1]["total_purchase"]);
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
             earnedLists.add(CycleData(
@@ -248,11 +244,11 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 dateFrom: value.data[i]["start_date"],
                 dateTo: value.data[i]["end_date"],
                 transaction: value.data[i]["transaction"],
-                earnedPoints: value.data[0]["total_points"] != null
-                    ? value.data[0]["total_points"][0]["point"]
+                earnedPoints: value.data[i]["total_points"] != null
+                    ? value.data[i]["total_points"][0]["point"]
                     : "N/A",
-                purchase: value.data[0]["total_purchase"] != null
-                    ? value.data[0]["total_purchase"][0]["purchase"]
+                purchase: value.data[i]["total_purchase"] != null
+                    ? value.data[i]["total_purchase"][0]["purchase"]
                     : "N/A"));
           });
         }
