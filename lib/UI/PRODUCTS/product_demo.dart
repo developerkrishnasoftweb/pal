@@ -5,8 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/color.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../Common/page_route.dart';
-import '../../UI/PRODUCTS/product_preview.dart';
 import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
