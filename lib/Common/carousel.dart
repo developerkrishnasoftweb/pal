@@ -42,7 +42,7 @@ class _CarouselState extends State<Carousel> {
                     ),
                     borderRadius: widget.borderRadius ?? null,
                   ),
-                  //child: error ? Icon(Icons.broken_image_outlined, color: Colors.white, size: 30,) : null,
+                  // child: error ? Expanded(child: Icon(Icons.broken_image_outlined, color: Colors.white, size: 30,)) : null,
                 ),
                 onTap: item.onTap,
               );
