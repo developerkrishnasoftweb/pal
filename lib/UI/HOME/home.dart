@@ -147,6 +147,7 @@ class _HomeState extends State<Home> {
               ),
               buildDrawerItems("HOME", () {
                 scaffoldKey.currentState.openEndDrawer();
+                Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
               }, Icon(Icons.home)),
               ListTile(
                 title: Align(
