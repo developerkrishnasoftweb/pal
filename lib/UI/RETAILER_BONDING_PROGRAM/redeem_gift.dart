@@ -41,6 +41,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                 points: value.data[i]["point"],
                 desc: value.data[i]["description"],
                 image: value.data[i]["image"],
+                rating: value.data[i]["rating"],
                 specs: value.data[i]["specification"]));
           });
         }
@@ -65,59 +66,59 @@ class _RedeemGiftState extends State<RedeemGift> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Redeem Gift"),
-        body: giftList.length != 0
-            ? SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                width: size.width,
-                height: 20,
+      appBar: appBar(context: context, title: "Redeem Gift"),
+      body: giftList.length != 0
+          ? SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    height: 20,
+                  ),
+                  buildRedeemedAmount(
+                      title: "My Earned Points : ",
+                      amount: points,
+                      leadingTrailing: false,
+                      fontSize: 17),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  buildRedeemedAmount(
+                      title: "Cumulative Purchase : ",
+                      amount: "0.0",
+                      leadingTrailing: true),
+                  GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: giftList.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.all(10),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.9,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return giftCard(giftList[index]);
+                      })
+                ],
               ),
-              buildRedeemedAmount(
-                  title: "My Earned Points : ",
-                  amount: points,
-                  leadingTrailing: false,
-                  fontSize: 17),
-              SizedBox(
-                height: 10,
-              ),
-              buildRedeemedAmount(
-                  title: "Cumulative Purchase : ",
-                  amount: "0.0",
-                  leadingTrailing: true),
-              GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: giftList.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.all(10),
-                  gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.9,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return giftCard(giftList[index]);
-                  })
-            ],
-          ),
-        )
-            : Center(
-            child: !dataFound
-                ? SizedBox(
-                height: 40,
-                width: 40,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(
-                      AppColors.primaryColor),
-                ))
-                : Image(
-              image: AssetImage("assets/images/no-gifts2.png"),
-              height: 150,
-              width: 150,
-            )),);
+            )
+          : Center(
+              child: !dataFound
+                  ? SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                      ))
+                  : Image(
+                      image: AssetImage("assets/images/no-gifts2.png"),
+                      height: 150,
+                      width: 150,
+                    )),
+    );
   }
 
   Widget giftCard(GiftData giftData) {
@@ -178,7 +179,9 @@ class _RedeemGiftState extends State<RedeemGift> {
               onPressed: () => Navigator.push(
                   context,
                   CustomPageRoute(
-                      widget: ProductDescription(giftData: giftData,))),
+                      widget: ProductDescription(
+                    giftData: giftData,
+                  ))),
               height: 35,
               width: size.width * 0.3,
               color: Colors.white,
@@ -240,14 +243,15 @@ class _RedeemGiftState extends State<RedeemGift> {
 }
 
 class GiftData {
-  final String id;
-  final String title;
-  final String image;
-  final String desc;
-  final String points;
-  final String specs;
+  final String specs, rating, points, desc, image, title, id;
   GiftData(
-      {this.id, this.title, this.image, this.points, this.desc, this.specs});
+      {this.id,
+      this.title,
+      this.image,
+      this.points,
+      this.desc,
+      this.specs,
+      this.rating});
 }
 
 class FilterList {

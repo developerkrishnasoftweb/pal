@@ -29,6 +29,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   String addressType = "Select Delivery Type",
       address = "",
       ext = "",
+      altMobile = "",
       pincode = "";
   bool collectToShop = false, isLoading = false;
   File file;
@@ -154,6 +155,16 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               border: border(),
             ),
             maxLines: 5),
+        input(
+            context: context,
+            text: "Alternate Mobile No.",
+            onChanged: (value) {
+              setState(() {
+                altMobile = value;
+              });
+            },
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(border: border())),
         input(
             context: context,
             text: "Pincode",
@@ -370,43 +381,51 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     var id = sharedPreferences.getString(UserParams.id);
     if (addressType == "Home delivery") {
       setState(() {
-        isLoading = false;
+        isLoading = true;
       });
       if (address.isNotEmpty &&
           stateAPI.text.isNotEmpty &&
           cityAPI.text.isNotEmpty &&
           areaAPI.text.isNotEmpty &&
-          pincode.isNotEmpty &&
-          file != null) {
-        FormData data = FormData.fromMap({
-          "customer_id": id,
-          "api_key": Urls.apiKey,
-          "gift_id": widget.giftData.id,
-          "point": widget.giftData.points,
-          "address": address,
-          "area": areaAPI.text,
-          "city": cityAPI.text,
-          "pincode": pincode,
-          "state": stateAPI.text,
-          "proof": await MultipartFile.fromFile(file.path,
-              filename: file.path.split("/").last),
-        });
-        await Services.redeemGift(data).then((value) async {
-          if (value.response == "y") {
-            await userData(value.data[0]["customer"]);
-            Fluttertoast.showToast(msg: value.message);
-            Navigator.pushAndRemoveUntil(
-                context, CustomPageRoute(widget: Home()), (route) => false);
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            Fluttertoast.showToast(msg: value.message);
-            setState(() {
-              isLoading = false;
-            });
-          }
-        });
+          pincode.isNotEmpty) {
+        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
+            .hasMatch(altMobile)){
+          FormData data = FormData.fromMap({
+            "customer_id": id,
+            "api_key": Urls.apiKey,
+            "gift_id": widget.giftData.id,
+            "point": widget.giftData.points,
+            "address": address,
+            "area": areaAPI.text,
+            "city": cityAPI.text,
+            "pincode": pincode,
+            "alt_mobile": altMobile,
+            "state": stateAPI.text,
+            "proof": file != null ? await MultipartFile.fromFile(file.path,
+                filename: file.path.split("/").last) : null,
+          });
+          await Services.redeemGift(data).then((value) async {
+            if (value.response == "y") {
+              await userData(value.data[0]["customer"]);
+              Fluttertoast.showToast(msg: value.message);
+              Navigator.pushAndRemoveUntil(
+                  context, CustomPageRoute(widget: Home()), (route) => false);
+              setState(() {
+                isLoading = false;
+              });
+            } else {
+              Fluttertoast.showToast(msg: value.message);
+              setState(() {
+                isLoading = false;
+              });
+            }
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          Fluttertoast.showToast(msg: "Invalid mobile number");
+        }
       } else {
         Fluttertoast.showToast(msg: "All fields are required");
         setState(() {

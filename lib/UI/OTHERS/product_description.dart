@@ -73,15 +73,41 @@ class _ProductDescriptionState extends State<ProductDescription> {
               ),
             ),
             SizedBox(height: 20,),
-            Align(
-                alignment: Alignment.center,
-                child: Text(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
                   widget.giftData.title,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-                )),
+                ),
+                !widget.readOnly ? Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(3)
+                  ),
+                  alignment: Alignment.center,
+                  width: 50,
+                  padding: EdgeInsets.all(2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.giftData.rating.padLeft(1),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.green, fontSize: 14),
+                      ),
+                      SizedBox(width: 3,),
+                      Icon(Icons.star, color: Colors.green, size: 20,)
+                    ],
+                  ),
+                ) : SizedBox()
+              ],
+            ),
             buildTitledRow(title: "Points", value: widget.giftData.points),
             buildTitledRow(
                 title: "Product Description", value: widget.giftData.desc),
@@ -108,7 +134,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ],
         ),
       ),
-      floatingActionButton: widget.readOnly ? customButton(context: context, onPressed: _review, text: "Rate this product", color: Colors.blue[100], textColor: Colors.blue) : customButton(
+      floatingActionButton: widget.readOnly ? customButton(context: context, onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductReview(giftData: widget.giftData,))), text: "Rate this product", color: Colors.blue[100], textColor: Colors.blue) : customButton(
         context: context,
         color: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.grey[200],
         textColor: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.black,
@@ -123,9 +149,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-  _review() async {
-    Navigator.push(context, CustomPageRoute(widget: ProductReview()));
   }
 
   Widget buildTitledRow({String title, String value}) {
