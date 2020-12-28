@@ -83,7 +83,7 @@ class _KYCState extends State<KYC> {
             buildTitledRow(title: "Pincode :", value: "141010"),
             buildTitledRow(
                 title: "Registered Mo. No. :", value: "+91 9216916315"),
-            Container(
+            /*Container(
               height: 200,
               width: size.width,
               child: GoogleMap(
@@ -91,7 +91,7 @@ class _KYCState extends State<KYC> {
                   mapType: MapType.normal,
                   initialCameraPosition: CameraPosition(
                       target: LatLng(40.6789, -73.9442), zoom: 14.0)),
-            ),
+            ),*/
           ],
         ),
       ),

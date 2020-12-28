@@ -176,7 +176,17 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             },
             onEditingComplete: _getPinCodeData,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(border: border(), prefixIcon: Padding(padding: EdgeInsets.all(10), child: Image.asset("assets/icons/indian-flag-icon.png", height: 30, width: 30, fit: BoxFit.fill, alignment: Alignment.center,)))),
+            decoration: InputDecoration(
+                border: border(),
+                prefixIcon: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Image.asset(
+                      "assets/icons/indian-flag-icon.png",
+                      height: 30,
+                      width: 30,
+                      fit: BoxFit.fill,
+                      alignment: Alignment.center,
+                    )))),
         input(
             context: context,
             text: "State",
@@ -317,31 +327,57 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   Widget proofBuilder({GestureTapCallback onTap}) {
     return Container(
-        height: 120,
-        width: 180,
-        padding: const EdgeInsets.all(10.0),
-        alignment: Alignment.center,
-        child: file == null ? Column(children: [
-          attachButton(onPressed: getImage, text: "Attach File"),
-        ],) : file != null && ext != "pdf" ? Image.file(File(file.path), fit: BoxFit.fill,) : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset("assets/icons/pdf-icon.png", height: 50, width: 50, fit: BoxFit.fill,),
-            Text(file.path.split("/").last, style: TextStyle(fontSize: 13, color: Colors.grey),),
-          ],
-        ), //Image.file(File(file.path), fit: BoxFit.fill,),
+      height: 120,
+      width: 180,
+      padding: const EdgeInsets.all(10.0),
+      alignment: Alignment.center,
+      child: file == null
+          ? Column(
+              children: [
+                attachButton(onPressed: getImage, text: "Attach File"),
+              ],
+            )
+          : file != null && ext != "pdf"
+              ? Image.file(
+                  File(file.path),
+                  fit: BoxFit.fill,
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/icons/pdf-icon.png",
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.fill,
+                    ),
+                    Text(
+                      file.path.split("/").last,
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
+                ), //Image.file(File(file.path), fit: BoxFit.fill,),
     );
   }
-  Widget attachButton({String text,  @required VoidCallback onPressed}){
+
+  Widget attachButton({String text, @required VoidCallback onPressed}) {
     return customButton(
         context: context,
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.attach_file, color: Colors.blue[500],),
-            Text(text, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue[500], fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
+            Icon(
+              Icons.attach_file,
+              color: Colors.blue[500],
+            ),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: Colors.blue[500], fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
         color: Colors.grey[100],
@@ -387,9 +423,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           stateAPI.text.isNotEmpty &&
           cityAPI.text.isNotEmpty &&
           areaAPI.text.isNotEmpty &&
-          pincode.isNotEmpty) {
-        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
-            .hasMatch(altMobile)){
+          pincode.isNotEmpty &&
+          file != null) {
+        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
           FormData data = FormData.fromMap({
             "customer_id": id,
             "api_key": Urls.apiKey,
@@ -401,8 +437,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "pincode": pincode,
             "alt_mobile": altMobile,
             "state": stateAPI.text,
-            "proof": file != null ? await MultipartFile.fromFile(file.path,
-                filename: file.path.split("/").last) : null,
+            "proof": file != null
+                ? await MultipartFile.fromFile(file.path,
+                    filename: file.path.split("/").last)
+                : null,
           });
           await Services.redeemGift(data).then((value) async {
             if (value.response == "y") {
