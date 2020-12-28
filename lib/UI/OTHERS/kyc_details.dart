@@ -11,6 +11,7 @@ class KYC extends StatefulWidget {
 
 class _KYCState extends State<KYC> {
   GoogleMapController googleMapController;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -70,10 +71,7 @@ class _KYCState extends State<KYC> {
                 },
               ),
             ),
-            buildTitledRow(
-                title: "Firm Name :",
-                value: "Pal General Store (Sherpur Kalan)"),
-            buildTitledRow(title: "Proprietor Name :", value: "Hardeep Singh"),
+            buildTitledRow(title: "Name :", value: "Hardeep Singh"),
             buildTitledRow(
                 title: "Current Address :",
                 value:
