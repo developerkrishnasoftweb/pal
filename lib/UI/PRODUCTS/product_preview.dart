@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pal/Constant/color.dart';
+import '../../Constant/color.dart';
 import '../../Common/appbar.dart';
 import 'package:video_player/video_player.dart';
 
