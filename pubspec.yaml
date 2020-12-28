@@ -38,6 +38,7 @@ dependencies:
   flutter_pdfview: ^1.0.4
   path_provider: ^1.6.24
   file_picker: 1.9.0+1
+  video_player: ^0.10.0+2
   intl:
 dev_dependencies:
   flutter_test:
@@ -59,6 +60,7 @@ flutter:
    - assets/images/
    - assets/icons/
    - assets/images/splash-screen.jpg
+   - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
