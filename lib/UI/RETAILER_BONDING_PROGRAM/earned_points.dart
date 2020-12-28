@@ -233,7 +233,6 @@ class _EarnedPointsState extends State<EarnedPoints> {
       if (value.response == "y") {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
-        print(value.data[1]["total_purchase"]);
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
             earnedLists.add(CycleData(

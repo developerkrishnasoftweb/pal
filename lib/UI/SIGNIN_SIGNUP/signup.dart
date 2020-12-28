@@ -210,6 +210,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
   _signUp() async {
+    FocusScope.of(context).unfocus();
     if (fullName != "" &&
         email != "" &&
         mobile != "" &&

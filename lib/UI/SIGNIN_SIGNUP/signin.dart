@@ -175,6 +175,7 @@ class _SignInState extends State<SignIn> {
   }
 
   void _signIn() async {
+    FocusScope.of(context).unfocus();
     setState(() {
       isLogging = true;
     });

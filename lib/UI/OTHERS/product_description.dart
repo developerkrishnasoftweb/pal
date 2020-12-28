@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/UI/OTHERS/product_review.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/OTHERS/delivery_address.dart';
@@ -107,7 +108,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ],
         ),
       ),
-      floatingActionButton: widget.readOnly ? null : customButton(
+      floatingActionButton: widget.readOnly ? customButton(context: context, onPressed: _review, text: "Rate this product", color: Colors.blue[100], textColor: Colors.blue) : customButton(
         context: context,
         color: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.grey[200],
         textColor: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.black,
@@ -122,6 +123,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+  _review() async {
+    Navigator.push(context, CustomPageRoute(widget: ProductReview()));
   }
 
   Widget buildTitledRow({String title, String value}) {
