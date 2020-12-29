@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../SERVICES/urls.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/OTHERS/change_address.dart';
@@ -29,13 +30,19 @@ class _KYCState extends State<KYC> {
     setState(() {
       data = Userdata(
           name: userdata[0][UserParams.name],
-          address: userdata[0][UserParams.address],
           alternateMobile: userdata[0][UserParams.altMobile],
-          area: userdata[0][UserParams.area],
-          city: userdata[0][UserParams.city],
-          mobile: userdata[0][UserParams.mobile],
+          email: userdata[0][UserParams.email],
+          address: userdata[0][UserParams.address],
           pinCode: userdata[0][UserParams.pinCode],
-          state: userdata[0][UserParams.state]);
+          state: userdata[0][UserParams.state],
+          city: userdata[0][UserParams.city],
+          area: userdata[0][UserParams.area],
+          gender: userdata[0][UserParams.gender],
+          dob: userdata[0][UserParams.dob],
+          maritalStatus: userdata[0][UserParams.maritalStatus],
+          anniversaryDate: userdata[0][UserParams.anniversary],
+          mobile: userdata[0][UserParams.mobile],
+          image: userdata[0][UserParams.image]);
     });
   }
 
@@ -56,7 +63,7 @@ class _KYCState extends State<KYC> {
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.push(
-                          context, CustomPageRoute(widget: ChangeAddress()));
+                          context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
                     }),
                 buildAlertButton(
                     context: context,
@@ -81,10 +88,10 @@ class _KYCState extends State<KYC> {
             ClipRRect(
               borderRadius: BorderRadius.circular(200),
               child: Image.network(
-                "https://static01.nyt.com/images/2018/08/01/dining/01Grocery1-alpha/01Grocery1-superJumbo-v2.jpg",
+                data.image != null ? Urls.imageBaseUrl + data.image : "",
                 height: 200,
                 width: 200,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 loadingBuilder: (context, child, progress) {
                   return progress == null
                       ? child
@@ -140,7 +147,7 @@ class _KYCState extends State<KYC> {
             height: 5,
           ),
           Text(
-            value,
+            value != "" && value != null ? value : "N/A",
             style: Theme.of(context)
                 .textTheme
                 .bodyText1

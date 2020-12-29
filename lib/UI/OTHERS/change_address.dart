@@ -1,6 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/SERVICES/urls.dart';
+import 'package:pal/UI/HOME/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
@@ -27,14 +33,48 @@ class _ChangeAddressState extends State<ChangeAddress> {
   TextEditingController area = TextEditingController();
   TextEditingController city = TextEditingController();
   TextEditingController pinCode = TextEditingController();
-  List<String> listAreas = [];
+  TextEditingController email = TextEditingController();
+  TextEditingController dob = TextEditingController();
+  TextEditingController anniversaryDate = TextEditingController();
+  String selectedGender = "m", selectedMaritalStatus = "n";
+  List<String> gender = ["Male", "Female"],
+      maritalStatus = ["Married", "Unmarried"],
+      listAreas = [];
   File image;
   final picker = ImagePicker();
+  DateTime selectedDate = DateTime.now();
+  bool isLoading = false;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) image = File(pickedFile.path);
+    });
+  }
+
+  @override
+  void initState() {
+    setData();
+    super.initState();
+  }
+
+  void setData() {
+    setState(() {
+      selectedGender =
+          widget.userdata.gender.isNotEmpty ? widget.userdata.gender : "m";
+      selectedMaritalStatus = widget.userdata.maritalStatus.isNotEmpty
+          ? widget.userdata.maritalStatus
+          : "n";
+      name.text = widget.userdata.name;
+      altMobile.text = widget.userdata.alternateMobile;
+      email.text = widget.userdata.email;
+      address.text = widget.userdata.address;
+      pinCode.text = widget.userdata.pinCode;
+      state.text = widget.userdata.state;
+      city.text = widget.userdata.city;
+      area.text = widget.userdata.area;
+      dob.text = widget.userdata.dob;
+      anniversaryDate.text = widget.userdata.anniversaryDate;
     });
   }
 
@@ -54,18 +94,31 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "Name",
                 controller: name,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(border: border()),
                 autoFocus: true),
             input(
               context: context,
               controller: altMobile,
               text: "Alternate Mobile Number",
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(border: border()),
+            ),
+            input(
+              context: context,
+              controller: email,
+              text: "Email",
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(border: border()),
             ),
             input(
               context: context,
               text: "Address",
               controller: address,
+              maxLines: 5,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(border: border()),
             ),
             input(
@@ -124,17 +177,224 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     text: "Area",
                     controller: area,
                     decoration: InputDecoration(border: border())),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Gender",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      value: selectedGender,
+                      isExpanded: true,
+                      decoration: InputDecoration(border: border()),
+                      items: gender.map((value) {
+                        return DropdownMenuItem(
+                          child: Text(value),
+                          value: value.substring(0, 1).toLowerCase(),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedGender = value;
+                        });
+                      }),
+                ],
+              ),
+            ),
+            input(
+                context: context,
+                text: "Date of Birth",
+                controller: dob,
+                onTap: () => _selectDate(SelectDateType.DOB),
+                readOnly: true,
+                keyboardType: TextInputType.datetime,
+                decoration: InputDecoration(border: border())),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Marital Status",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      value: selectedMaritalStatus,
+                      isExpanded: true,
+                      decoration: InputDecoration(border: border()),
+                      items: maritalStatus.map((value) {
+                        return DropdownMenuItem(
+                          child: Text(value),
+                          value: value == "Married" ? "y" : "n",
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedMaritalStatus = value;
+                        });
+                      }),
+                ],
+              ),
+            ),
+            selectedMaritalStatus == "y"
+                ? input(
+                    context: context,
+                    text: "Anniversary Date",
+                    controller: anniversaryDate,
+                    onTap: () => _selectDate(SelectDateType.ANNIVERSARY_DATE),
+                    readOnly: true,
+                    keyboardType: TextInputType.datetime,
+                    decoration: InputDecoration(border: border()))
+                : SizedBox.shrink()
           ],
         ),
       ),
       floatingActionButton: customButton(
           context: context,
-          onPressed: () {},
+          onPressed: isLoading ? null : _updateKYC,
           height: 60,
           width: size.width,
-          text: "PROCEED"),
+          child: isLoading
+              ? SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                  ),
+                )
+              : null,
+          text: isLoading ? null : "PROCEED"),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  _updateKYC() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String id = sharedPreferences.getString(UserParams.id);
+    if (name.text.isNotEmpty &&
+        altMobile.text.isNotEmpty &&
+        email.text.isNotEmpty &&
+        address.text.isNotEmpty &&
+        pinCode.text.isNotEmpty &&
+        state.text.isNotEmpty &&
+        city.text.isNotEmpty &&
+        area.text.isNotEmpty &&
+        selectedGender.isNotEmpty &&
+        dob.text.isNotEmpty) {
+      if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
+        Fluttertoast.showToast(msg: "Please provide anniversary date");
+        return;
+      }
+      if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+        if (RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(email.text)) {
+          FormData data = FormData.fromMap({
+            "customer_id": id,
+            "name": name.text,
+            "alt_mobile": altMobile.text,
+            "email": email.text,
+            "gender": selectedGender,
+            "address": address.text,
+            "pincode": pinCode.text,
+            "area": area.text,
+            "city": city.text,
+            "state": state.text,
+            "dob": dob.text,
+            "marital_status": selectedMaritalStatus,
+            "anniversary": anniversaryDate.text,
+            "api_key": Urls.apiKey,
+            "image": image != null
+                ? await MultipartFile.fromFile(image.path,
+                    filename: image.path.split("/").last)
+                : null,
+          });
+          print(data.files);
+          setState(() {
+            isLoading = true;
+          });
+          Services.customerKYC(data).then((value) {
+            if (value.response == "y") {
+              userData(value.data);
+              Fluttertoast.showToast(msg: value.message);
+              Navigator.pushAndRemoveUntil(
+                  context, CustomPageRoute(widget: Home()), (route) => false);
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+              Fluttertoast.showToast(msg: value.message);
+            }
+          });
+        } else {
+          Fluttertoast.showToast(msg: "Invalid email");
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Invalid mobile number");
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Fields can't be empty");
+    }
+  }
+
+  _selectDate(SelectDateType type) async {
+    final DateTime date = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(DateTime.now().year - 90),
+        lastDate: DateTime.now());
+    if (type == SelectDateType.DOB) {
+      if (date != null &&
+          date != selectedDate &&
+          (DateTime.now().year - date.year) >= 18) {
+        setState(() {
+          selectedDate = date;
+          dob.text = DateFormat('yyyy-M-d').format(selectedDate);
+        });
+      } else {
+        setState(() {
+          dob.clear();
+        });
+        Fluttertoast.showToast(msg: "Minimum age limit 18 yrs");
+      }
+    } else {
+      if (dob.text.isNotEmpty) {
+        if (date != null &&
+            date != selectedDate &&
+            (DateTime.parse(dob.text).year + 15) < date.year) {
+          setState(() {
+            selectedDate = date;
+            anniversaryDate.text = DateFormat('yyyy-M-d').format(selectedDate);
+          });
+        } else {
+          setState(() {
+            anniversaryDate.clear();
+          });
+          Fluttertoast.showToast(
+              msg: "Anniversary date should be 15 years after Date of birth",
+              toastLength: Toast.LENGTH_LONG);
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Provide date of birth");
+      }
+    }
   }
 
   _getPinCodeData() {
@@ -200,10 +460,17 @@ class _ChangeAddressState extends State<ChangeAddress> {
         width: 150,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(150),
-          border: Border.all(color: Colors.grey[300]),
-        ),
-        child: image != null
+            borderRadius: BorderRadius.circular(150),
+            border: Border.all(color: Colors.grey[300]),
+            image: image != null
+                ? DecorationImage(
+                    image: AssetImage(image.path), fit: BoxFit.cover)
+                : widget.userdata.image.isNotEmpty
+                    ? DecorationImage(
+                        image: NetworkImage(Urls.imageBaseUrl + widget.userdata.image),
+                        fit: BoxFit.cover)
+                    : null),
+        /*child: image != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(150),
                 child: Image.file(
@@ -212,8 +479,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   width: 150,
                   height: 150,
                 ))
-            : Icon(Icons.add_a_photo_outlined),
+            : Icon(Icons.add_a_photo_outlined),*/
+        child: image == null ? Icon(Icons.add_a_photo_outlined) : null,
       ),
     );
   }
 }
+
+enum SelectDateType { DOB, ANNIVERSARY_DATE }

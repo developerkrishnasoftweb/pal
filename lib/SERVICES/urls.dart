@@ -31,5 +31,6 @@ class Urls{
   static String forgotPassword = "forget_password";
   static String getEarnedPoints = "get_earned_point";
   static String getProducts = "get_product";
+  static String customerKYC = "customer_kyc";
   static String productReview = "review_submit";
 }

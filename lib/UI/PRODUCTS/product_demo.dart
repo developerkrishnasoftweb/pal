@@ -20,8 +20,8 @@ class ProductDemo extends StatefulWidget {
 
 class _ProductDemoState extends State<ProductDemo> {
   ShapeBorder shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
-  List<ProductItem> categoryItems = [];
-  bool dataFound = false;
+  List<ProductItem> categoryItems = [], searchedList = [];
+  bool dataFound = false, searchedDataFound = false;
   @override
   void initState() {
     getProducts();
@@ -47,6 +47,25 @@ class _ProductDemoState extends State<ProductDemo> {
       }
     });
   }
+  _search(String keyword) {
+    setState(() {
+      searchedList.clear();
+    });
+    categoryItems.forEach((element) {
+      if(element.name.toLowerCase().contains(keyword.toLowerCase())){
+        searchedList.add(element);
+      }
+    });
+    if(keyword.isNotEmpty && searchedList.length == 0){
+      setState(() {
+        searchedDataFound = true;
+      });
+    } else {
+      setState(() {
+        searchedDataFound = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +74,7 @@ class _ProductDemoState extends State<ProductDemo> {
         children: [
           input(context: context,
               padding: EdgeInsets.symmetric(horizontal: 25),
+              onChanged: _search,
               decoration: InputDecoration(
                   border: border(),
                   hintText: "Search product...",
@@ -62,7 +82,17 @@ class _ProductDemoState extends State<ProductDemo> {
               )
           ),
           Expanded(
-            child: categoryItems.length > 0 ? SingleChildScrollView(
+            child: searchedDataFound ? Center(child: Text("No data found !!!")) : searchedList.length > 0 ? SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    for(int i = 0; i < searchedList.length; i++)...[
+                      categoryBuilder(searchedList[i]),
+                    ],
+                  ],
+                )
+            ) : categoryItems.length > 0 ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
