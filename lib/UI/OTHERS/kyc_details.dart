@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/Constant/userdata.dart';
+import 'package:pal/UI/OTHERS/change_address.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/appbar.dart';
 
@@ -10,7 +15,29 @@ class KYC extends StatefulWidget {
 }
 
 class _KYCState extends State<KYC> {
+  Userdata data = Userdata();
   GoogleMapController googleMapController;
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  void getData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    List userdata = jsonDecode(preferences.getString(UserParams.userData));
+    setState(() {
+      data = Userdata(
+          name: userdata[0][UserParams.name],
+          address: userdata[0][UserParams.address],
+          alternateMobile: userdata[0][UserParams.altMobile],
+          area: userdata[0][UserParams.area],
+          city: userdata[0][UserParams.city],
+          mobile: userdata[0][UserParams.mobile],
+          pinCode: userdata[0][UserParams.pinCode],
+          state: userdata[0][UserParams.state]);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +53,11 @@ class _KYCState extends State<KYC> {
                 buildAlertButton(
                     context: context,
                     text: "MODIFY EXISTING ADDRESS",
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context, CustomPageRoute(widget: ChangeAddress()));
+                    }),
                 buildAlertButton(
                     context: context,
                     text: "NEW ADDRESS",
@@ -71,16 +102,12 @@ class _KYCState extends State<KYC> {
                 },
               ),
             ),
-            buildTitledRow(title: "Name :", value: "Hardeep Singh"),
-            buildTitledRow(
-                title: "Current Address :",
-                value:
-                    "NR Gov. School, Main Market, Sherpur Kalan, Ludhiana, 9216916315, Sherpur"),
-            buildTitledRow(title: "State :", value: "Punjab"),
-            buildTitledRow(title: "City :", value: "Ludhiana"),
-            buildTitledRow(title: "Pincode :", value: "141010"),
-            buildTitledRow(
-                title: "Registered Mo. No. :", value: "+91 9216916315"),
+            buildTitledRow(title: "Name :", value: data.name),
+            buildTitledRow(title: "Current Address :", value: data.address),
+            buildTitledRow(title: "State :", value: data.state),
+            buildTitledRow(title: "City :", value: data.city),
+            buildTitledRow(title: "Pincode :", value: data.pinCode),
+            buildTitledRow(title: "Registered Mo. No. :", value: data.mobile),
             /*Container(
               height: 200,
               width: size.width,

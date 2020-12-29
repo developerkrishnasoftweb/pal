@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class UserParams{
+class UserParams {
   static String id = "id";
   static String name = "name";
   static String mobile = "mobile";
@@ -32,35 +32,32 @@ class UserParams{
   static String kyc = "kyc";
   static String userData = "userdata";
 }
+
 Future<void> userData(List<dynamic> data) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setString(UserParams.point, data[0][UserParams.point]);
   sharedPreferences.setString(UserParams.id, data[0][UserParams.id]);
+  sharedPreferences.setString(UserParams.point, data[0][UserParams.point]);
+  sharedPreferences.setString(
+      UserParams.password, data[0][UserParams.password]);
   sharedPreferences.setString(UserParams.userData, jsonEncode(data));
 }
-_UserdataState userdata;
-class Userdata extends StatefulWidget {
-  @override
-  _UserdataState createState() {
-    userdata = _UserdataState();
-    return userdata;
-  }
-}
 
-class _UserdataState extends State<Userdata> {
-  String name;
-  @override
-  void initState() {
-    super.initState();
-  }
-  void setData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      name = sharedPreferences.getString(UserParams.name);
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return null;
-  }
+class Userdata {
+  final String name,
+      alternateMobile,
+      address,
+      state,
+      city,
+      area,
+      pinCode,
+      mobile;
+  Userdata(
+      {this.name : "N/A",
+      this.alternateMobile : "N/A",
+      this.pinCode : "N/A",
+      this.area : "N/A",
+      this.mobile : "N/A",
+      this.city : "N/A",
+      this.state : "N/A",
+      this.address : "N/A"});
 }
