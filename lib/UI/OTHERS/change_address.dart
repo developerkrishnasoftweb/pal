@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/show_dialog.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/SERVICES/services.dart';
+import '../../Common/show_dialog.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
