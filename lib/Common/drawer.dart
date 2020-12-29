@@ -69,7 +69,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total order  : " + totalOrder),
+                    Text("Total : " + totalOrder),
                     Text(
                       "Version " + version,
                       style: TextStyle(color: Colors.red[400]),

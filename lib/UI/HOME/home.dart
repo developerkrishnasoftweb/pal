@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,16 +54,17 @@ class _HomeState extends State<Home> {
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    getData();
     super.initState();
+    getData();
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
     Services.getUserData();
   }
   void getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    name = sharedPreferences.getString(UserParams.name) ?? "N/A";
-    totalOrder = sharedPreferences.getString(UserParams.totalOrder) ?? "0";
+    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
+    name = data[0][UserParams.name] ?? "N/A";
+    totalOrder = data[0][UserParams.purchase] ?? "0";
   }
   void setItemList() {
     itemList = [

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +24,7 @@ class RedeemGift extends StatefulWidget {
 
 class _RedeemGiftState extends State<RedeemGift> {
   List<GiftData> giftList = [];
-  String points = "0";
+  String points = "0", cumulativePurchase = "0";
   bool dataFound = false;
   @override
   void initState() {
@@ -57,8 +59,10 @@ class _RedeemGiftState extends State<RedeemGift> {
 
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
-      points = sharedPreferences.getString(UserParams.point) ?? "0";
+      points = data[0][UserParams.point] ?? "0";
+      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
     });
   }
 
@@ -86,7 +90,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                   ),
                   buildRedeemedAmount(
                       title: "Cumulative Purchase : ",
-                      amount: "0.0",
+                      amount: cumulativePurchase,
                       leadingTrailing: true),
                   GridView.builder(
                       shrinkWrap: true,

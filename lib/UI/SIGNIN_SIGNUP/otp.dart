@@ -59,8 +59,12 @@ class _OTPState extends State<OTP> {
   }
 
   _forgotPassword () async {
-    Navigator.pop(context);
-    Navigator.push(context, CustomPageRoute(widget: ResetPassword(mobile: widget.mobile,)));
+    if(widget.otp == otp) {
+      Navigator.pop(context);
+      Navigator.push(context, CustomPageRoute(widget: ResetPassword(mobile: widget.mobile,)));
+    } else {
+      Fluttertoast.showToast(msg: "Invalid OTP");
+    }
   }
   _register() async {
     if(widget.otp == otp){
