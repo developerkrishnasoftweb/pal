@@ -185,7 +185,7 @@ class _HomeState extends State<Home> {
     if(await canLaunch(url))
       launch(url);
     else
-      Fluttertoast.showToast(msg: "Could not launch");
+      Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");
   }
 }
 
