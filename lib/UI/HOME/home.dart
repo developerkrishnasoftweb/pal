@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.gif", fit: BoxFit.fill,), backgroundColor: AppColors.primaryColor, elevation: 0, tooltip: "Message",),
+      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.gif", fit: BoxFit.fill), backgroundColor: AppColors.primaryColor, elevation: 0, tooltip: "Message",),
     );
   }
   _messaging () async {
