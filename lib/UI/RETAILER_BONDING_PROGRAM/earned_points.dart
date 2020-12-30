@@ -21,19 +21,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
   String lastCycle = "Last 12 Cycles", name = " ", cumulativePurchase = "0";
   int cycle = 0;
   List<CycleData> earnedLists = [];
-  TextStyle style, style1, style2;
+  // TextStyle style, style1, style2;
   @override
   void initState() {
-    setState(() {
-      style = Theme.of(context).textTheme.bodyText1.copyWith(
-          color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
-      style1 = Theme.of(context)
-          .textTheme
-          .bodyText1
-          .copyWith(fontWeight: FontWeight.bold, fontSize: 15);
-      style2 = Theme.of(context).textTheme.bodyText1.copyWith(
-          color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
-    });
     _getEarnedPoints(lastCycle);
     getUserData();
     super.initState();
@@ -122,6 +112,14 @@ class _EarnedPointsState extends State<EarnedPoints> {
   }
 
   Widget buildCard(CycleData data) {
+    TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
+        color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
+    TextStyle style1 = Theme.of(context)
+        .textTheme
+        .bodyText1
+        .copyWith(fontWeight: FontWeight.bold, fontSize: 15);
+    TextStyle style2 = Theme.of(context).textTheme.bodyText1.copyWith(
+        color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
     var startDate = DateFormat('d MMM').format(DateTime.parse(data.dateFrom));
     var endDate = DateFormat('d MMM').format(DateTime.parse(data.dateTo));
     return ExpansionTile(
@@ -189,6 +187,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
     );
   }
   Widget buildChildrenRow({String title : " ", String value : " "}) {
+    TextStyle style1 = Theme.of(context).textTheme.bodyText1.copyWith(
+        color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

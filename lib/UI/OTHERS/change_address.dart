@@ -298,7 +298,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
         dob.text.isNotEmpty) {
-      if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty && DateTime.parse(anniversaryDate.text).year != 0000) {
+      if (selectedMaritalStatus == "y" && anniversaryDate.text.isNotEmpty && DateTime.parse(anniversaryDate.text).year == -1) {
         Fluttertoast.showToast(msg: "Please provide anniversary date");
         return;
       }
