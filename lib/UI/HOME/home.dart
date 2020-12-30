@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/custom_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Common/drawer.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
@@ -174,7 +176,16 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.gif", fit: BoxFit.fill,), backgroundColor: AppColors.primaryColor, elevation: 0, tooltip: "Message",),
     );
+  }
+  _messaging () async {
+    String mobileNumber = "8758431417";
+    var url = "https://wa.me/+91$mobileNumber";
+    if(await canLaunch(url))
+      launch(url);
+    else
+      Fluttertoast.showToast(msg: "Could not launch");
   }
 }
 

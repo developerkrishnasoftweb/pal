@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +19,7 @@ class GiftCategory extends StatefulWidget {
 
 class _GiftState extends State<GiftCategory> {
   List<GiftCategoryData> giftCategoryList = [];
-  String points = "0";
+  String points = "0", cumulativePurchase = "0";
   @override
   void initState() {
     getUserData();
@@ -44,8 +46,10 @@ class _GiftState extends State<GiftCategory> {
 
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
-      points = sharedPreferences.getString(UserParams.point) ?? "0";
+      points = data[0][UserParams.point] ?? "0";
+      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
     });
   }
 
@@ -64,7 +68,7 @@ class _GiftState extends State<GiftCategory> {
                       height: 20,
                     ),
                     buildRedeemedAmount(
-                        title: "My Earned Points : ",
+                        title: "My Total Points : ",
                         amount: points,
                         leadingTrailing: false,
                         fontSize: 17),

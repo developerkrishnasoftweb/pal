@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,15 +18,34 @@ class EarnedPoints extends StatefulWidget {
 }
 
 class _EarnedPointsState extends State<EarnedPoints> {
-  String lastCycle = "Last 12 Cycles";
+  String lastCycle = "Last 12 Cycles", name = " ", cumulativePurchase = "0";
   int cycle = 0;
   List<CycleData> earnedLists = [];
+  TextStyle style, style1, style2;
   @override
   void initState() {
+    setState(() {
+      style = Theme.of(context).textTheme.bodyText1.copyWith(
+          color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
+      style1 = Theme.of(context)
+          .textTheme
+          .bodyText1
+          .copyWith(fontWeight: FontWeight.bold, fontSize: 15);
+      style2 = Theme.of(context).textTheme.bodyText1.copyWith(
+          color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
+    });
     _getEarnedPoints(lastCycle);
+    getUserData();
     super.initState();
   }
-
+  void getUserData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
+    setState(() {
+      name = data[0][UserParams.name];
+      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,7 +61,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               ),
               buildRedeemedAmount(
                   title: "User Name : ",
-                  amount: "Pal General Store (134312)",
+                  amount: name,
                   leadingTrailing: false,
                   fontSize: 17),
               SizedBox(
@@ -48,7 +69,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               ),
               buildRedeemedAmount(
                   title: "Cumulative Purchase : ",
-                  amount: "394230.00",
+                  amount: cumulativePurchase,
                   leadingTrailing: true),
               SizedBox(
                 height: 10,
@@ -101,25 +122,12 @@ class _EarnedPointsState extends State<EarnedPoints> {
   }
 
   Widget buildCard(CycleData data) {
-    Size size = MediaQuery.of(context).size;
-    TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
-        color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
-    TextStyle style1 = Theme.of(context)
-        .textTheme
-        .bodyText1
-        .copyWith(fontWeight: FontWeight.bold, fontSize: 15);
-    TextStyle style2 = Theme.of(context).textTheme.bodyText1.copyWith(
-        color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
     var startDate = DateFormat('d MMM').format(DateTime.parse(data.dateFrom));
     var endDate = DateFormat('d MMM').format(DateTime.parse(data.dateTo));
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      margin: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[200]),
-          borderRadius: BorderRadius.circular(10)
-      ),
-      child: Column(
+    return ExpansionTile(
+      trailing: SizedBox(),
+      tilePadding: EdgeInsets.only(left: 20,),
+      title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -145,35 +153,60 @@ class _EarnedPointsState extends State<EarnedPoints> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: size.width * 0.4,
-                child: RichText(
-                  text: TextSpan(
-                      text: "Earned Point : ",
-                      style: style1,
-                      children: [
-                        TextSpan(text: data.earnedPoints, style: style)
-                      ]),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                        text: "Earned Point : ",
+                        style: style1,
+                        children: [
+                          TextSpan(text: data.earnedPoints, style: style)
+                        ]),
+                  ),
                 ),
               ),
-              Container(
-                width: size.width * 0.4,
-                child: RichText(
-                  text: TextSpan(
-                      text: "Closing Point : ",
-                      style: style1,
-                      children: [
-                        TextSpan(text: data.closingPoints, style: style)
-                      ]),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: RichText(
+                    text: TextSpan(
+                        text: "Closing Point : ",
+                        style: style1,
+                        children: [
+                          TextSpan(text: data.closingPoints, style: style)
+                        ]),
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ],
       ),
+      children: [
+        buildChildrenRow(title: "Purchase for this cycle", value: data.purchase),
+      ],
     );
   }
-
+  Widget buildChildrenRow({String title : " ", String value : " "}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(title, style: style1,),
+          ),
+        ),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(value, style: style1,),
+          ),
+        ),
+      ],
+    );
+  }
   Widget buildRedeemedAmount(
       {String title, String amount, bool leadingTrailing, double fontSize}) {
     TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
@@ -237,16 +270,16 @@ class _EarnedPointsState extends State<EarnedPoints> {
           setState(() {
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
-                closingPoints: "N/A",
+                closingPoints: value.data[i]["closing_points"] ?? "0.0",
                 dateFrom: value.data[i]["start_date"],
                 dateTo: value.data[i]["end_date"],
                 transaction: value.data[i]["transaction"],
                 earnedPoints: value.data[i]["total_points"] != null
                     ? value.data[i]["total_points"][0]["point"]
-                    : "N/A",
+                    : "0.0",
                 purchase: value.data[i]["total_purchase"] != null
-                    ? value.data[i]["total_purchase"][0]["purchase"]
-                    : "N/A"));
+                    ? value.data[i]["total_purchase"][0]["purchase"] != null ? value.data[i]["total_purchase"][0]["purchase"] : "0.0"
+                    : "0.0"));
           });
         }
       } else {
