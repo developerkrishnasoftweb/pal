@@ -298,7 +298,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
         dob.text.isNotEmpty) {
-      if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
+      if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty && DateTime.parse(anniversaryDate.text).year != 0000) {
         Fluttertoast.showToast(msg: "Please provide anniversary date");
         return;
       }
@@ -326,7 +326,6 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     filename: image.path.split("/").last)
                 : null,
           });
-          print(data.files);
           setState(() {
             isLoading = true;
           });

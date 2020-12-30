@@ -115,6 +115,7 @@ class _KYCState extends State<KYC> {
             buildTitledRow(title: "City :", value: data.city),
             buildTitledRow(title: "Pincode :", value: data.pinCode),
             buildTitledRow(title: "Registered Mo. No. :", value: data.mobile),
+
             /*Container(
               height: 200,
               width: size.width,

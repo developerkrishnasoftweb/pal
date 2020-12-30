@@ -29,6 +29,7 @@ class UserParams {
   static String membershipSeries = "membership_series";
   static String kyc = "kyc";
   static String userData = "userdata";
+  static String lastNotificationId = "last_notification_id";
 }
 
 Future<void> userData(List<dynamic> data) async {

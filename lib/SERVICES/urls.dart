@@ -33,4 +33,6 @@ class Urls{
   static String getProducts = "get_product";
   static String customerKYC = "customer_kyc";
   static String productReview = "review_submit";
+  static String getNotificationCount = "get_notification_count/";
+  static String getNotifications = "get_notifications/";
 }

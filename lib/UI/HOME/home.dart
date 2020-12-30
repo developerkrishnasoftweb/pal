@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Common/badge.dart';
 import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Common/drawer.dart';
@@ -28,6 +29,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
   String points = "0", name = "", totalOrder = "";
+  String notificationCount = "0";
 
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -66,6 +68,11 @@ class _HomeState extends State<Home> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";
     totalOrder = data[0][UserParams.purchase] ?? "0";
+    Services.getNotificationCount().then((value) {
+      setState(() {
+        notificationCount = value;
+      });
+    });
   }
   void setItemList() {
     itemList = [
@@ -130,7 +137,7 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        IconButton(
+                        badge(iconButton: IconButton(
                           icon: ImageIcon(
                             AssetImage("assets/icons/notification-icon.png"),
                             color: Colors.white,
@@ -139,7 +146,7 @@ class _HomeState extends State<Home> {
                               context, CustomPageRoute(widget: Notifications())),
                           splashRadius: 23,
                           iconSize: 20,
-                        )
+                        ), badgeValue: int.parse(notificationCount), context: context, badgeSize: Size(15, 15)),
                       ]),
                 ),
                 SizedBox(
@@ -176,7 +183,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.gif", fit: BoxFit.fill), backgroundColor: AppColors.primaryColor, elevation: 0, tooltip: "Message",),
+      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill), backgroundColor: AppColors.primaryColor, elevation: 0, tooltip: "Message",),
     );
   }
   _messaging () async {

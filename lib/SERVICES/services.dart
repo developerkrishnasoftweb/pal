@@ -543,4 +543,58 @@ class Services{
       return data;
     }
   }
+
+  static Future<String> getNotificationCount() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String lastNotificationId = sharedPreferences.getString(UserParams.lastNotificationId) != null ? sharedPreferences.getString(UserParams.lastNotificationId) : "0";
+    String customerId = sharedPreferences.getString(UserParams.id);
+    String url = Urls.baseUrl + Urls.getNotificationCount + lastNotificationId + "/" + customerId;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
+      if(response.statusCode == 200){
+        final jsonResponse = [jsonDecode(response.data)];
+        return jsonResponse[0]["count"].toString();
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        return "0";
+      } else {
+        return "0";
+      }
+    } catch (e) {
+      return "0";
+    }
+  }
+
+  static Future<Data> getNotifications() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String customerId = sharedPreferences.getString(UserParams.id);
+    String url = Urls.baseUrl + Urls.getNotifications + customerId;
+    try{
+      dio.Response response;
+      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
+      if(response.statusCode == 200){
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = jsonResponse["data"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if(dio.DioErrorType.DEFAULT == e.type){
+        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
 }
