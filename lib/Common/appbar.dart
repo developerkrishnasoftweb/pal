@@ -9,6 +9,7 @@ AppBar appBar(
     Widget leading,
     bool centerTitle,
     Color backgroundColor,
+    PreferredSizeWidget bottom,
     Color leadingColor}) {
   if(leading == null)
     leading = IconButton(
@@ -33,5 +34,6 @@ AppBar appBar(
     elevation: 0,
     centerTitle: centerTitle ?? false,
     iconTheme: IconThemeData(color: leadingColor ?? Colors.white, size: 20),
+    bottom: bottom ?? null,
   );
 }

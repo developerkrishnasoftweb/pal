@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pal/UI/OTHERS/notification.dart';
+import 'package:pal/UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
 import '.././Constant/userdata.dart';
@@ -223,6 +224,8 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
               )),
           buildDrawerItems("Reports", () {
             scaffoldKey.currentState.openEndDrawer();
+            Navigator.push(
+                context, CustomPageRoute(widget: Report()));
           },
               Icon(
                 Icons.report,
