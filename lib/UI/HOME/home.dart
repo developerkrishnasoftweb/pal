@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/custom_button.dart';
+import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Common/drawer.dart';
 import '../../Constant/userdata.dart';
@@ -136,7 +135,8 @@ class _HomeState extends State<Home> {
                             AssetImage("assets/icons/notification-icon.png"),
                             color: Colors.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () => Navigator.push(
+                              context, CustomPageRoute(widget: Notifications())),
                           splashRadius: 23,
                           iconSize: 20,
                         )

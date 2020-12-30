@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pal/UI/OTHERS/notification.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
 import '.././Constant/userdata.dart';
@@ -229,6 +230,8 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
               )),
           buildDrawerItems("My Notification", () {
             scaffoldKey.currentState.openEndDrawer();
+            Navigator.push(
+                context, CustomPageRoute(widget: Notifications()));
           },
               Icon(
                 Icons.notifications_on_outlined,
