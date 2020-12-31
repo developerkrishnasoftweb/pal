@@ -76,6 +76,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
       dob.text = widget.userdata.dob;
       anniversaryDate.text = widget.userdata.anniversaryDate;
     });
+    if(widget.userdata.dob != null){
+      setState(() {
+        selectedDate = DateTime.parse(widget.userdata.dob);
+      });
+    }
   }
 
   @override
@@ -298,13 +303,15 @@ class _ChangeAddressState extends State<ChangeAddress> {
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
         dob.text.isNotEmpty) {
-      if (selectedMaritalStatus == "y" && anniversaryDate.text.isNotEmpty && DateTime.parse(anniversaryDate.text).year == -1) {
+      if (selectedMaritalStatus == "y" &&
+          anniversaryDate.text.isNotEmpty &&
+          DateTime.parse(anniversaryDate.text).year == -1) {
         Fluttertoast.showToast(msg: "Please provide anniversary date");
         return;
       }
       if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
         if (RegExp(
-                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email.text)) {
           FormData data = FormData.fromMap({
             "customer_id": id,
@@ -323,7 +330,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             "api_key": Urls.apiKey,
             "image": image != null
                 ? await MultipartFile.fromFile(image.path,
-                    filename: image.path.split("/").last)
+                filename: image.path.split("/").last)
                 : null,
           });
           setState(() {
@@ -361,7 +368,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         lastDate: DateTime.now());
     if (type == SelectDateType.DOB) {
       if (date != null &&
-          date != selectedDate &&
+          date != DateTime.now() &&
           (DateTime.now().year - date.year) >= 18) {
         setState(() {
           selectedDate = date;
@@ -376,7 +383,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
     } else {
       if (dob.text.isNotEmpty) {
         if (date != null &&
-            date != selectedDate &&
+            date != DateTime.now() &&
             (DateTime.parse(dob.text).year + 15) < date.year) {
           setState(() {
             selectedDate = date;
@@ -466,20 +473,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     image: AssetImage(image.path), fit: BoxFit.cover)
                 : widget.userdata.image.isNotEmpty
                     ? DecorationImage(
-                        image: NetworkImage(Urls.imageBaseUrl + widget.userdata.image),
+                        image: NetworkImage(
+                            Urls.imageBaseUrl + widget.userdata.image),
                         fit: BoxFit.cover)
                     : null),
-        /*child: image != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(150),
-                child: Image.file(
-                  image,
-                  fit: BoxFit.fill,
-                  width: 150,
-                  height: 150,
-                ))
-            : Icon(Icons.add_a_photo_outlined),*/
-        child: image == null ? Icon(Icons.add_a_photo_outlined) : null,
+        child: image == null && widget.userdata.image.isEmpty
+            ? Icon(Icons.add_a_photo_outlined)
+            : null,
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,13 +37,13 @@ class _RedeemGiftState extends State<RedeemGift> {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
             giftList.add(GiftData(
-                id: value.data[i]["id"],
-                title: value.data[i]["title"],
-                points: value.data[i]["point"],
-                desc: value.data[i]["description"],
-                image: value.data[i]["image"],
-                rating: value.data[i]["rating"],
-                specs: value.data[i]["specification"]));
+                id: value.data[i]["id"] ?? " ",
+                title: value.data[i]["title"] ?? " ",
+                points: value.data[i]["point"] ?? " ",
+                desc: value.data[i]["description"] ?? " ",
+                image: value.data[i]["image"] ?? " ",
+                rating: value.data[i]["rating"] ?? " ",
+                specs: value.data[i]["specification"] ?? " "));
           });
         }
       } else {

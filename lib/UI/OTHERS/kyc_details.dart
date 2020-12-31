@@ -111,9 +111,12 @@ class _KYCState extends State<KYC> {
             ),
             buildTitledRow(title: "Name :", value: data.name),
             buildTitledRow(title: "Current Address :", value: data.address),
+            buildTitledRow(title: "Pincode :", value: data.pinCode),
             buildTitledRow(title: "State :", value: data.state),
             buildTitledRow(title: "City :", value: data.city),
-            buildTitledRow(title: "Pincode :", value: data.pinCode),
+            buildTitledRow(title: "Area :", value: data.area),
+            buildTitledRow(title: "Gender :", value: data.gender == "m" ? "Male" : "Female"),
+            buildTitledRow(title: "Date of Birth :", value: data.dob),
             buildTitledRow(title: "Registered Mo. No. :", value: data.mobile),
 
             /*Container(
