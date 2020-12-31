@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pal/Constant/color.dart';
 import '../../SERVICES/urls.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
@@ -26,7 +27,7 @@ class _KYCState extends State<KYC> {
 
   void getData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    List userdata = jsonDecode(preferences.getString(UserParams.userData));
+    List userdata = await jsonDecode(preferences.getString(UserParams.userData));
     setState(() {
       data = Userdata(
           name: userdata[0][UserParams.name],
@@ -88,7 +89,7 @@ class _KYCState extends State<KYC> {
             ClipRRect(
               borderRadius: BorderRadius.circular(200),
               child: Image.network(
-                data.image != null ? Urls.imageBaseUrl + data.image : "",
+                Urls.imageBaseUrl + data.image,
                 height: 200,
                 width: 200,
                 fit: BoxFit.cover,
@@ -107,6 +108,10 @@ class _KYCState extends State<KYC> {
                               )),
                         );
                 },
+                errorBuilder: (BuildContext context, Object object, StackTrace trace){
+                  print(object);
+                  return SizedBox();
+                },
               ),
             ),
             buildTitledRow(title: "Name :", value: data.name),
@@ -118,7 +123,6 @@ class _KYCState extends State<KYC> {
             buildTitledRow(title: "Gender :", value: data.gender == "m" ? "Male" : "Female"),
             buildTitledRow(title: "Date of Birth :", value: data.dob),
             buildTitledRow(title: "Registered Mo. No. :", value: data.mobile),
-
             /*Container(
               height: 200,
               width: size.width,
@@ -151,7 +155,7 @@ class _KYCState extends State<KYC> {
             height: 5,
           ),
           Text(
-            value != "" && value != null ? value : "N/A",
+            value != "" && value != null ? value : "Not provided",
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
