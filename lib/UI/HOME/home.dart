@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
             carouselItems.add(CarouselItems(
-                image: NetworkImage(Urls.imageBaseUrl + value.data[i]["image"]),
+                image: Urls.imageBaseUrl + value.data[i]["image"],
                 title: value.data[i]["title"],
                 categoryId: value.data[i]["id"]));
           });
