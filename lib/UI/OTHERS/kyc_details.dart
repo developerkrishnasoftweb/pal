@@ -2,13 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pal/Constant/color.dart';
 import '../../SERVICES/urls.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/OTHERS/change_address.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Common/show_dialog.dart';
 import '../../Common/appbar.dart';
 
 class KYC extends StatefulWidget {
@@ -53,27 +51,11 @@ class _KYCState extends State<KYC> {
     return Scaffold(
       appBar: appBar(context: context, title: "KYC Details", actions: [
         IconButton(
-          onPressed: () =>
-              showDialogBox(context: context, title: "Alert", actions: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                buildAlertButton(
-                    context: context,
-                    text: "MODIFY EXISTING ADDRESS",
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
-                    }),
-                buildAlertButton(
-                    context: context,
-                    text: "NEW ADDRESS",
-                    onPressed: () {},
-                    textColor: Colors.grey),
-              ],
-            )
-          ]),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+                context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
+          },
           icon: Icon(Icons.edit),
         )
       ]),
@@ -109,7 +91,6 @@ class _KYCState extends State<KYC> {
                         );
                 },
                 errorBuilder: (BuildContext context, Object object, StackTrace trace){
-                  print(object);
                   return SizedBox();
                 },
               ),
@@ -155,7 +136,7 @@ class _KYCState extends State<KYC> {
             height: 5,
           ),
           Text(
-            value != "" && value != null ? value : "Not provided",
+            value != "" && value != null ? value : "N/A",
             style: Theme.of(context)
                 .textTheme
                 .bodyText1

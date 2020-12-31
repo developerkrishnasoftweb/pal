@@ -353,7 +353,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         city.text.isNotEmpty &&
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
-        adhaar != null &&
+        // adhaar != null &&
         dob.text.isNotEmpty) {
       if (selectedMaritalStatus == "y" &&
           anniversaryDate.text.isNotEmpty &&

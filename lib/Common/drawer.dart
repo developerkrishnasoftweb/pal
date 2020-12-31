@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pal/UI/OTHERS/notification.dart';
-import 'package:pal/UI/OTHERS/report.dart';
+import '.././UI/OTHERS/notification.dart';
+import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
 import '.././Constant/userdata.dart';
@@ -64,7 +64,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hi!, " + name),
+                Text("Hi!, " + name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                 SizedBox(
                   height: 10,
                 ),

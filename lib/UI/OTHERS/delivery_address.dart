@@ -481,13 +481,13 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               Fluttertoast.showToast(msg: value.message);
               var status = showDialogBox(
                   context: context,
-                  title: "Alert",
-                  content: "Click OK to rate this app",
+                  title: "Rate US",
+                  content: "How would you rate PAL DEPARTMENTAL STORE ?",
                   barrierDismissible: true,
                   actions: [
                     FlatButton(onPressed: () => Navigator.pushAndRemoveUntil(
-                        context, CustomPageRoute(widget: Home()), (route) => false), child: Text("Cancel", style: TextStyle(color: Colors.grey),),),
-                    FlatButton(onPressed: _rate, child: Text("Ok", style: TextStyle(color: AppColors.primaryColor),),),
+                        context, CustomPageRoute(widget: Home()), (route) => false), child: Text("NO, THANKS", style: TextStyle(color: Colors.grey),),),
+                    FlatButton(onPressed: _rate, child: Text("RATE", style: TextStyle(color: AppColors.primaryColor),),),
                   ]);
               if(await status == null)
                 Navigator.pushAndRemoveUntil(

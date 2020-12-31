@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,19 +17,22 @@ import '../../Constant/color.dart';
 class ProductDescription extends StatefulWidget {
   final GiftData giftData;
   final bool readOnly;
-  ProductDescription({@required this.giftData, this.readOnly : false});
+  ProductDescription({@required this.giftData, this.readOnly: false});
   @override
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
 
 class _ProductDescriptionState extends State<ProductDescription> {
-  String points = "0";
+  String points = "0", kyc = "";
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       points = sharedPreferences.getString(UserParams.point) ?? "0";
+      kyc = jsonDecode(sharedPreferences.getString(UserParams.userData))[0][UserParams.kyc];
+      kyc = kyc != "" ? kyc : "n";
     });
   }
+
   @override
   void initState() {
     getUserData();
@@ -72,7 +77,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 },
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -83,29 +90,36 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       .bodyText1
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                !widget.readOnly ? Container(
-                  decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(3)
-                  ),
-                  alignment: Alignment.center,
-                  width: 50,
-                  padding: EdgeInsets.all(2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.giftData.rating.padLeft(1),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: Colors.green, fontSize: 14),
-                      ),
-                      SizedBox(width: 3,),
-                      Icon(Icons.star, color: Colors.green, size: 20,)
-                    ],
-                  ),
-                ) : SizedBox()
+                !widget.readOnly
+                    ? Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade50,
+                            borderRadius: BorderRadius.circular(3)),
+                        alignment: Alignment.center,
+                        width: 50,
+                        padding: EdgeInsets.all(2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.giftData.rating.padLeft(1),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(color: Colors.green, fontSize: 14),
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.green,
+                              size: 20,
+                            )
+                          ],
+                        ),
+                      )
+                    : SizedBox()
               ],
             ),
             buildTitledRow(title: "Points", value: widget.giftData.points),
@@ -134,19 +148,41 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ],
         ),
       ),
-      floatingActionButton: widget.readOnly ? customButton(context: context, onPressed: () => Navigator.push(context, CustomPageRoute(widget: ProductReview(giftData: widget.giftData,))), text: "Rate this product", color: Colors.blue[100], textColor: Colors.blue) : customButton(
-        context: context,
-        color: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.grey[200],
-        textColor: int.parse(points) >= int.parse(widget.giftData.points) ? null : Colors.black,
-        onPressed: int.parse(points) >= int.parse(widget.giftData.points)
-            ? () => Navigator.push(context, CustomPageRoute(widget: DeliveryAddress(giftData: widget.giftData,)))
-            : () {
-                Fluttertoast.showToast(
-                    msg: "You don't have enough points to redeem this gift.");
-              },
-        height: 60,
-        text: "REDEEM",
-      ),
+      floatingActionButton: widget.readOnly
+          ? customButton(
+              context: context,
+              onPressed: () => Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: ProductReview(
+                    giftData: widget.giftData,
+                  ))),
+              text: "Rate this product",
+              color: Colors.blue[100],
+              textColor: Colors.blue)
+          : customButton(
+              context: context,
+              color: int.parse(points) >= int.parse(widget.giftData.points)
+                  ? null
+                  : Colors.grey[200],
+              textColor: int.parse(points) >= int.parse(widget.giftData.points)
+                  ? null
+                  : Colors.black,
+              onPressed: int.parse(points) >= int.parse(widget.giftData.points)
+                  ? () => kyc == "y" ? Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: DeliveryAddress(
+                        giftData: widget.giftData,
+                      ))) : Fluttertoast.showToast(msg: "Your KYC is pending. To avail features please do KYC.", toastLength: Toast.LENGTH_LONG)
+                  : () {
+                      Fluttertoast.showToast(
+                          msg:
+                              "You don't have enough points to redeem this gift.");
+                    },
+              height: 60,
+              text: "REDEEM",
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
