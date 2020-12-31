@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/custom_button.dart';
+import 'package:pal/Common/show_dialog.dart';
 import '../../Common/badge.dart';
 import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -64,6 +66,7 @@ class _HomeState extends State<Home> {
     setItemList();
     Services.getUserData();
   }
+
   void getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
@@ -75,6 +78,7 @@ class _HomeState extends State<Home> {
       });
     });
   }
+
   void setItemList() {
     itemList = [
       ItemListBuilder(
@@ -99,12 +103,17 @@ class _HomeState extends State<Home> {
           image: AssetImage("assets/images/service-request.png")),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      drawer: drawer(context: context, scaffoldKey: scaffoldKey, name: name, totalOrder: totalOrder),
+      drawer: drawer(
+          context: context,
+          scaffoldKey: scaffoldKey,
+          name: name,
+          totalOrder: totalOrder),
       body: Stack(
         children: [
           Container(
@@ -138,16 +147,21 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        badge(iconButton: IconButton(
-                          icon: ImageIcon(
-                            AssetImage("assets/icons/notification-icon.png"),
-                            color: Colors.white,
-                          ),
-                          onPressed: () => Navigator.push(
-                              context, CustomPageRoute(widget: Notifications())),
-                          splashRadius: 23,
-                          iconSize: 20,
-                        ), badgeValue: int.parse(notificationCount), context: context, badgeSize: Size(15, 15)),
+                        badge(
+                            iconButton: IconButton(
+                              icon: ImageIcon(
+                                AssetImage(
+                                    "assets/icons/notification-icon.png"),
+                                color: Colors.white,
+                              ),
+                              onPressed: () => Navigator.push(context,
+                                  CustomPageRoute(widget: Notifications())),
+                              splashRadius: 23,
+                              iconSize: 20,
+                            ),
+                            badgeValue: int.parse(notificationCount),
+                            context: context,
+                            badgeSize: Size(15, 15)),
                       ]),
                 ),
                 SizedBox(
@@ -184,14 +198,23 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: _messaging, child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill), backgroundColor: Colors.transparent, elevation: 0, tooltip: "Message",),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _messaging,
+        child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        tooltip: "Message",
+      ),
     );
   }
-  _messaging () async {
+
+  _messaging() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String mobileNumber = jsonDecode(sharedPreferences.getString(UserParams.config))[0]["contact"];
+    String mobileNumber =
+        jsonDecode(sharedPreferences.getString(UserParams.config))[0]
+            ["contact"];
     var url = "https://wa.me/+91$mobileNumber";
-    if(await canLaunch(url))
+    if (await canLaunch(url))
       launch(url);
     else
       Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");

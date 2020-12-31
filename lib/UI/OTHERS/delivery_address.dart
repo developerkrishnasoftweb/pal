@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
@@ -38,6 +39,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   TextEditingController cityAPI = TextEditingController();
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
+  String selectedStoreCode = "";
 
   Future getImage() async {
     File result = await FilePicker.getFile(
@@ -55,6 +57,32 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
       }
     }
+  }
+
+  @override
+  void initState() {
+    Services.getStores().then((value) {
+      if (value.response == "y") {
+        setState(() {
+          selectedStoreCode = value.data[0]["store_code"];
+        });
+        for (int i = 0; i < value.data.length; i++) {
+          setState(() {
+            stores.add(StoreDetails(
+                id: value.data[i]["id"],
+                name: value.data[i]["name"],
+                state: value.data[i]["state"],
+                pinCode: value.data[i]["pincode"],
+                city: value.data[i]["city"],
+                location: value.data[i]["location"],
+                storeCode: value.data[i]["store_code"]));
+          });
+        }
+      } else {
+        Fluttertoast.showToast(msg: value.message);
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -303,25 +331,45 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   Widget buildCollectToShop() {
-    Services.getStores().then((value) {
-      if(value.response == "y"){
-        for(int i = 0; i < value.data.length; i++){
-          setState(() {
-            stores.add(StoreDetails(id: value.data[0]["id"], name: value.data[0]["name"], state: value.data[0]["state"], pinCode: value.data[0]["pincode"], city: value.data[0]["city"], location: value.data[0]["location"], storeCode: value.data[0]["store_code"]));
-          });
-        }
-      } else {
-        Fluttertoast.showToast(msg: value.message);
-      }
-    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 15,
         ),
-        Text("Current Address :", style: Theme.of(context).textTheme.bodyText1.copyWith(
-            color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),),
+        Text(
+          "Current Address :",
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        stores.length > 0 ? DropdownButtonFormField(
+            decoration: InputDecoration(
+              border: border(),
+            ),
+            value: selectedStoreCode,
+            isExpanded: true,
+            items: stores.map((store) {
+              return DropdownMenuItem(
+                value: store.storeCode,
+                  child: Text(
+                    store.name +
+                        ", " +
+                        store.location +
+                        ", " +
+                        store.city +
+                        ", " +
+                        store.state +
+                        ", " +
+                        store.pinCode +
+                        " " +
+                        store.storeCode,
+                  ));
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedStoreCode = value;
+              });
+            }) : SizedBox(),
         SizedBox(
           height: 15,
         ),
@@ -431,8 +479,19 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             if (value.response == "y") {
               await userData(value.data[0]["customer"]);
               Fluttertoast.showToast(msg: value.message);
-              Navigator.pushAndRemoveUntil(
-                  context, CustomPageRoute(widget: Home()), (route) => false);
+              var status = showDialogBox(
+                  context: context,
+                  title: "Alert",
+                  content: "Click OK to rate this app",
+                  barrierDismissible: true,
+                  actions: [
+                    FlatButton(onPressed: () => Navigator.pushAndRemoveUntil(
+                        context, CustomPageRoute(widget: Home()), (route) => false), child: Text("Cancel", style: TextStyle(color: Colors.grey),),),
+                    FlatButton(onPressed: _rate, child: Text("Ok", style: TextStyle(color: AppColors.primaryColor),),),
+                  ]);
+              if(await status == null)
+                Navigator.pushAndRemoveUntil(
+                    context, CustomPageRoute(widget: Home()), (route) => false);
               setState(() {
                 isLoading = false;
               });
@@ -459,9 +518,26 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       Fluttertoast.showToast(msg: "Unable to process request");
     }
   }
+  _rate() async {
+    var url = "https://play.google.com/store/apps/details?id=com.whatsapp";
+    if (await canLaunch(url)) {
+      launch(url);
+      Navigator.pushAndRemoveUntil(
+          context, CustomPageRoute(widget: Home()), (route) => false);
+    }
+    else
+      Fluttertoast.showToast(msg: "Unable to open play store");
+  }
 }
 
 class StoreDetails {
   final String id, name, location, city, state, pinCode, storeCode;
-  StoreDetails({this.state, this.city, this.pinCode, this.name, this.id, this.location, this.storeCode});
+  StoreDetails(
+      {this.state,
+      this.city,
+      this.pinCode,
+      this.name,
+      this.id,
+      this.location,
+      this.storeCode});
 }

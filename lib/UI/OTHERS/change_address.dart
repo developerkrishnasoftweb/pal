@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -36,11 +37,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
   TextEditingController email = TextEditingController();
   TextEditingController dob = TextEditingController();
   TextEditingController anniversaryDate = TextEditingController();
-  String selectedGender = "m", selectedMaritalStatus = "n";
+  String selectedGender = "m", selectedMaritalStatus = "n", ext = "";
   List<String> gender = ["Male", "Female"],
       maritalStatus = ["Married", "Unmarried"],
       listAreas = [];
-  File image;
+  File image, adhaar;
   final picker = ImagePicker();
   DateTime selectedDate = DateTime.now();
   bool isLoading = false;
@@ -50,6 +51,23 @@ class _ChangeAddressState extends State<ChangeAddress> {
     setState(() {
       if (pickedFile != null) image = File(pickedFile.path);
     });
+  }
+  Future getAdhaar() async {
+    File result = await FilePicker.getFile(
+        allowedExtensions: ["pdf"],
+        type: FileType.custom);
+    if (result != null) {
+      setState(() {
+        ext = result.path.split("/").last.split(".").last;
+      });
+      if (ext == "pdf") {
+        setState(() {
+          adhaar = File(result.path);
+        });
+      } else {
+        Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
+      }
+    }
   }
 
   @override
@@ -76,7 +94,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       dob.text = widget.userdata.dob;
       anniversaryDate.text = widget.userdata.anniversaryDate;
     });
-    if(widget.userdata.dob != null){
+    if (widget.userdata.dob != null) {
       setState(() {
         selectedDate = DateTime.parse(widget.userdata.dob);
       });
@@ -267,7 +285,40 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     readOnly: true,
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(border: border()))
-                : SizedBox.shrink()
+                : SizedBox.shrink(),
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment(-0.9, 0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Adhaar Card :",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  customButton(
+                      context: context,
+                      onPressed: getAdhaar,
+                      child: Text( adhaar == null ?
+                      "Attach File" : adhaar.path.split("/").last,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            color: Colors.blue[500], fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      outerPadding: EdgeInsets.zero,
+                      color: Colors.blue[100],
+                      height: 60, width: 140)
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -302,6 +353,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         city.text.isNotEmpty &&
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
+        adhaar != null &&
         dob.text.isNotEmpty) {
       if (selectedMaritalStatus == "y" &&
           anniversaryDate.text.isNotEmpty &&
@@ -311,7 +363,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       }
       if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
         if (RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email.text)) {
           FormData data = FormData.fromMap({
             "customer_id": id,
@@ -330,8 +382,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
             "api_key": Urls.apiKey,
             "image": image != null
                 ? await MultipartFile.fromFile(image.path,
-                filename: image.path.split("/").last)
+                    filename: image.path.split("/").last)
                 : null,
+            "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
+                filename: adhaar.path.split("/").last) : null,
           });
           setState(() {
             isLoading = true;
