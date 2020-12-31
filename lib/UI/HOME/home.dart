@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    Services.getConfig();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -187,7 +188,8 @@ class _HomeState extends State<Home> {
     );
   }
   _messaging () async {
-    String mobileNumber = "8758431417";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String mobileNumber = jsonDecode(sharedPreferences.getString(UserParams.config))[0]["contact"];
     var url = "https://wa.me/+91$mobileNumber";
     if(await canLaunch(url))
       launch(url);

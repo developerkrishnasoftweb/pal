@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:pal/Constant/color.dart';
 
 class Carousel extends StatefulWidget {
   final List<CarouselItems> items;

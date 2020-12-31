@@ -1,23 +1,25 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
+import 'package:fluttertoast/fluttertoast.dart';
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/data.dart';
-class Services{
+
+class Services {
   static String errorMessage = "Something went wrong !!!";
 
-  static Future<Data> signIn(body) async{
+  static Future<Data> signIn(body) async {
     String url = Urls.baseUrl + Urls.signIn;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
-        if(jsonResponse["data"].length != 0){
+        if (jsonResponse["data"].length != 0) {
           data.data = [jsonResponse["data"]];
         } else {
           data.data = [];
@@ -26,8 +28,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -39,12 +42,12 @@ class Services{
     }
   }
 
-  static Future<Data> signUp(body) async{
+  static Future<Data> signUp(body) async {
     String url = Urls.baseUrl + Urls.signUp;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -56,8 +59,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -69,12 +73,12 @@ class Services{
     }
   }
 
-  static Future<Data> category(body) async{
+  static Future<Data> category(body) async {
     String url = Urls.baseUrl + Urls.category;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -84,8 +88,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -97,12 +102,12 @@ class Services{
     }
   }
 
-  static Future<Data> gift(body) async{
+  static Future<Data> gift(body) async {
     String url = Urls.baseUrl + Urls.gift;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -112,8 +117,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -125,12 +131,12 @@ class Services{
     }
   }
 
-  static Future<Data> redeemedGifts(body) async{
+  static Future<Data> redeemedGifts(body) async {
     String url = Urls.baseUrl + Urls.redeemedGifts;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -140,8 +146,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -153,12 +160,12 @@ class Services{
     }
   }
 
-  static Future<Data> productReview(body) async{
+  static Future<Data> productReview(body) async {
     String url = Urls.baseUrl + Urls.productReview;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -168,8 +175,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -181,12 +189,12 @@ class Services{
     }
   }
 
-  static Future<Data> banners(body) async{
+  static Future<Data> banners(body) async {
     String url = Urls.baseUrl + Urls.banners;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -196,8 +204,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -209,11 +218,11 @@ class Services{
     }
   }
 
-  static Future<Data> sms(body) async{
-    try{
+  static Future<Data> sms(body) async {
+    try {
       dio.Response response;
       response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["ErrorMessage"];
@@ -223,8 +232,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -236,12 +246,12 @@ class Services{
     }
   }
 
-  static Future<Data> giftCategory(body) async{
+  static Future<Data> giftCategory(body) async {
     String url = Urls.baseUrl + Urls.giftCategory;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -251,8 +261,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -264,11 +275,14 @@ class Services{
     }
   }
 
-  static Future<Data> addComplain(body) async{
+  static Future<Data> addComplain(body) async {
     String url = Urls.baseUrl + Urls.addComplain;
-    try{
+    try {
       dio.Response response;
-      response = await dio.Dio().post(url, data: body,);
+      response = await dio.Dio().post(
+        url,
+        data: body,
+      );
       Data data = Data();
       final jsonResponse = jsonDecode(response.toString());
       data.message = jsonResponse["message"];
@@ -276,8 +290,9 @@ class Services{
       data.data = [jsonResponse["data"]];
       return data;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -289,12 +304,12 @@ class Services{
     }
   }
 
-  static Future<Data> serviceRequests(body) async{
+  static Future<Data> serviceRequests(body) async {
     String url = Urls.baseUrl + Urls.getComplain;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -304,8 +319,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -317,12 +333,12 @@ class Services{
     }
   }
 
-  static Future<Data> trackComplaint(body) async{
+  static Future<Data> trackComplaint(body) async {
     String url = Urls.baseUrl + Urls.trackComplaint;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -332,8 +348,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -345,12 +362,12 @@ class Services{
     }
   }
 
-  static Future<Data> redeemGift(body) async{
+  static Future<Data> redeemGift(body) async {
     String url = Urls.baseUrl + Urls.redeemGift;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -360,8 +377,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -373,14 +391,15 @@ class Services{
     }
   }
 
-  static Future<Data> getUserData() async{
+  static Future<Data> getUserData() async {
     String url = Urls.baseUrl + Urls.getUserData;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var id = sharedPreferences.getString(UserParams.id);
-    try{
+    try {
       dio.Response response;
-      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey, "id" : id}));
-      if(response.statusCode == 200){
+      response = await dio.Dio().post(url,
+          data: dio.FormData.fromMap({"api_key": Urls.apiKey, "id": id}));
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -391,8 +410,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -404,12 +424,12 @@ class Services{
     }
   }
 
-  static Future<Data> getPinData(String pinCode) async{
+  static Future<Data> getPinData(String pinCode) async {
     String url = Urls.pinCodeData + pinCode;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().get(url);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = response.data;
         data.message = jsonResponse[0]["Message"];
@@ -419,8 +439,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -432,12 +453,12 @@ class Services{
     }
   }
 
-  static Future<Data> forgotPassword(body) async{
+  static Future<Data> forgotPassword(body) async {
     String url = Urls.baseUrl + Urls.forgotPassword;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -447,8 +468,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -460,12 +482,12 @@ class Services{
     }
   }
 
-  static Future<Data> getEarnedPoints(body) async{
+  static Future<Data> getEarnedPoints(body) async {
     String url = Urls.baseUrl + Urls.getEarnedPoints;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -475,8 +497,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -488,12 +511,12 @@ class Services{
     }
   }
 
-  static Future<Data> getProducts(body) async{
+  static Future<Data> getProducts(body) async {
     String url = Urls.baseUrl + Urls.getProducts;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -503,8 +526,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -516,12 +540,12 @@ class Services{
     }
   }
 
-  static Future<Data> customerKYC(body) async{
+  static Future<Data> customerKYC(body) async {
     String url = Urls.baseUrl + Urls.customerKYC;
-    try{
+    try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -531,8 +555,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -544,21 +569,29 @@ class Services{
     }
   }
 
-  static Future<String> getNotificationCount() async{
+  static Future<String> getNotificationCount() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String lastNotificationId = sharedPreferences.getString(UserParams.lastNotificationId) != null ? sharedPreferences.getString(UserParams.lastNotificationId) : "0";
+    String lastNotificationId =
+        sharedPreferences.getString(UserParams.lastNotificationId) != null
+            ? sharedPreferences.getString(UserParams.lastNotificationId)
+            : "0";
     String customerId = sharedPreferences.getString(UserParams.id);
-    String url = Urls.baseUrl + Urls.getNotificationCount + lastNotificationId + "/" + customerId;
-    try{
+    String url = Urls.baseUrl +
+        Urls.getNotificationCount +
+        lastNotificationId +
+        "/" +
+        customerId;
+    try {
       dio.Response response;
-      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
-      if(response.statusCode == 200){
+      response = await dio.Dio()
+          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+      if (response.statusCode == 200) {
         final jsonResponse = [jsonDecode(response.data)];
         return jsonResponse[0]["count"].toString();
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
+      if (dio.DioErrorType.DEFAULT == e.type) {
         return "0";
       } else {
         return "0";
@@ -568,14 +601,15 @@ class Services{
     }
   }
 
-  static Future<Data> getNotifications() async{
+  static Future<Data> getNotifications() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String customerId = sharedPreferences.getString(UserParams.id);
     String url = Urls.baseUrl + Urls.getNotifications + customerId;
-    try{
+    try {
       dio.Response response;
-      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
-      if(response.statusCode == 200){
+      response = await dio.Dio()
+          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+      if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
@@ -585,8 +619,9 @@ class Services{
       }
       return null;
     } on dio.DioError catch (e) {
-      if(dio.DioErrorType.DEFAULT == e.type){
-        Data data = Data(message: "No internet connection !!!", response: null, data: null);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
         Data data = Data(message: errorMessage, response: null, data: null);
@@ -596,5 +631,26 @@ class Services{
       Data data = Data(message: errorMessage, response: null, data: null);
       return data;
     }
+  }
+
+  static void getConfig() async {
+    String url = Urls.baseUrl + Urls.getConfig;
+    try {
+      dio.Response response;
+      response = await dio.Dio()
+          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.data);
+        final data = [jsonResponse["data"]];
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString(UserParams.config, jsonEncode(data));
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Fluttertoast.showToast(msg: "No internet connection");
+      } else {}
+    } catch (e) {}
   }
 }
