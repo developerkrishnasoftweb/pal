@@ -37,6 +37,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   TextEditingController areaAPI = TextEditingController();
   TextEditingController cityAPI = TextEditingController();
   List<String> listAreas = [];
+  List<StoreDetails> stores = [];
 
   Future getImage() async {
     File result = await FilePicker.getFile(
@@ -302,13 +303,25 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   Widget buildCollectToShop() {
+    Services.getStores().then((value) {
+      if(value.response == "y"){
+        for(int i = 0; i < value.data.length; i++){
+          setState(() {
+            stores.add(StoreDetails(id: value.data[0]["id"], name: value.data[0]["name"], state: value.data[0]["state"], pinCode: value.data[0]["pincode"], city: value.data[0]["city"], location: value.data[0]["location"], storeCode: value.data[0]["store_code"]));
+          });
+        }
+      } else {
+        Fluttertoast.showToast(msg: value.message);
+      }
+    });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitledRow(
-            title: "Current Address :",
-            value:
-                "NR Gov.School, Main Market, Sherpur Kalan, Ludhiana, 9216785632, Sherpur"),
+        SizedBox(
+          height: 15,
+        ),
+        Text("Current Address :", style: Theme.of(context).textTheme.bodyText1.copyWith(
+            color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),),
         SizedBox(
           height: 15,
         ),
@@ -384,34 +397,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         height: 50);
   }
 
-  Widget buildTitledRow({String title, String value}) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      width: size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            value,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-    );
-  }
-
   _redeem() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var id = sharedPreferences.getString(UserParams.id);
@@ -474,4 +459,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       Fluttertoast.showToast(msg: "Unable to process request");
     }
   }
+}
+
+class StoreDetails {
+  final String id, name, location, city, state, pinCode, storeCode;
+  StoreDetails({this.state, this.city, this.pinCode, this.name, this.id, this.location, this.storeCode});
 }

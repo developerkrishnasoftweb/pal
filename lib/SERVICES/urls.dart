@@ -36,4 +36,5 @@ class Urls{
   static String getNotificationCount = "get_notification_count/";
   static String getNotifications = "get_notifications/";
   static String getConfig = "get_config";
+  static String getStores = "get_outlet";
 }
