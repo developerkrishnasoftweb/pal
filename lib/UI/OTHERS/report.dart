@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/appbar.dart';
-import 'package:pal/SERVICES/services.dart';
+import '../../Common/appbar.dart';
+import '../../SERVICES/services.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -86,7 +86,7 @@ class _ReportState extends State<Report> {
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("No data found!!"),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have made any purchase yet!!", textAlign: TextAlign.center,),);
   }
   Widget redeem() {
     return redeemData.length > 0 ? Scrollbar(child: SingleChildScrollView(
@@ -113,7 +113,7 @@ class _ReportState extends State<Report> {
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("No data found!!"),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have redeemed any product yet !!!", textAlign: TextAlign.center,),);
   }
   Widget earn() {
     return earnedData.length > 0 ? Scrollbar(child: SingleChildScrollView(
@@ -136,6 +136,6 @@ class _ReportState extends State<Report> {
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("No data found!!"),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have earned points!!!", textAlign: TextAlign.center,),);
   }
 }
