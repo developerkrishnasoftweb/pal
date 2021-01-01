@@ -35,6 +35,7 @@ class Urls{
   static String productReview = "review_submit";
   static String getNotificationCount = "get_notification_count/";
   static String getNotifications = "get_notifications/";
+  static String getReports = "get_history";
   static String getConfig = "get_config";
   static String getStores = "get_outlet";
 }
