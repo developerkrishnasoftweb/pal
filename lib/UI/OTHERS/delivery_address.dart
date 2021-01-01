@@ -7,12 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
 import '../../UI/SIGNIN_SIGNUP/signup.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
-import '../../UI/HOME/home.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
@@ -549,16 +547,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     } else {
       Fluttertoast.showToast(msg: "Unable to process request");
     }
-  }
-  _rate() async {
-    var url = "https://play.google.com/store/apps/details?id=com.whatsapp";
-    if (await canLaunch(url)) {
-      launch(url);
-      Navigator.pushAndRemoveUntil(
-          context, CustomPageRoute(widget: Home()), (route) => false);
-    }
-    else
-      Fluttertoast.showToast(msg: "Unable to open play store");
   }
 }
 
