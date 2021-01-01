@@ -46,8 +46,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   Future getImage() async {
     File result = await FilePicker.getFile(
-        allowedExtensions: ["pdf", "jpg", "jpeg", "png"],
-        type: FileType.custom);
+        type: FileType.CUSTOM);
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
@@ -274,7 +273,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
           ),
         ),
-        proofBuilder(onTap: getImage)
+        proofBuilder(onTap: getImage),
+        Text(
+          "Note : Home delivery charges applied (\u20B9 100) / As per geographical location",
+          style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+        )
       ],
     );
   }

@@ -20,6 +20,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
   String lastCycle = "Last 12 Cycles", name = " ", cumulativePurchase = "0";
   int cycle = 0;
   List<CycleData> earnedLists = [];
+  double closingPoints = 0;
   // TextStyle style, style1, style2;
   @override
   void initState() {
@@ -243,6 +244,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
 
   _getEarnedPoints(value) async {
     setState(() {
+      closingPoints = 0;
       earnedLists = [];
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -268,11 +270,14 @@ class _EarnedPointsState extends State<EarnedPoints> {
       if (value.response == "y") {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
-        for (int i = 0; i < value.data.length; i++) {
+        for (int i = value.data.length - 1; i >= 0; i--) {
           setState(() {
+            closingPoints += double.parse(value.data[i]["total_points"] != null
+                ? value.data[i]["total_points"][0]["point"]
+                : "0");
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
-                closingPoints: value.data[i]["closing_points"] ?? "0.0",
+                closingPoints: closingPoints.toString(),
                 dateFrom: value.data[i]["start_date"],
                 dateTo: value.data[i]["end_date"],
                 transaction: value.data[i]["transaction"],
@@ -284,6 +289,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
                     : "0.0"));
           });
         }
+        setState(() {
+          earnedLists = earnedLists.reversed.toList();
+        });
       } else {
         Fluttertoast.showToast(msg: value.message);
       }

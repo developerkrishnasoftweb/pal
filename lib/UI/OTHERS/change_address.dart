@@ -53,9 +53,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
     });
   }
   Future getAdhaar() async {
-    File result = await FilePicker.getFile(
-        allowedExtensions: ["pdf"],
-        type: FileType.custom);
+    File result = await FilePicker.getFile(type: FileType.CUSTOM);
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;

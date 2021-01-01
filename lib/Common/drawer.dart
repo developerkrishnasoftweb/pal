@@ -100,7 +100,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             title: Align(
                 alignment: Alignment(-2.4, 0.0),
                 child: Text(
-                  "Retailer Bonding Program",
+                  "Customer Bonding Program",
                   style: TextStyle(color: Colors.black),
                 )),
             initiallyExpanded: true,
