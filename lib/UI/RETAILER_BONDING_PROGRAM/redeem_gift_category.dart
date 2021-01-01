@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +48,7 @@ class _GiftState extends State<GiftCategory> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
       points = data[0][UserParams.point] ?? "0";
-      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
+      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
     });
   }
 

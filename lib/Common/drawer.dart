@@ -4,7 +4,6 @@ import '.././UI/OTHERS/notification.dart';
 import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
-import '.././Constant/userdata.dart';
 import '.././UI/HOME/home.dart';
 import '.././UI/OTHERS/kyc_details.dart';
 import '.././UI/OTHERS/track_complaint.dart';
@@ -28,11 +27,6 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
       onTap: onTap,
     );
   }
-  void getData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    name = sharedPreferences.getString(UserParams.name) ?? "N/A";
-    totalOrder = sharedPreferences.getString(UserParams.totalOrder) ?? "0";
-  }
   _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
@@ -48,7 +42,6 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
               (route) => false);
     }
   }
-  getData();
   return Container(
     width: size.width * 0.85,
     color: Colors.white,
@@ -71,7 +64,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total : " + totalOrder),
+                    Text(totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
                     Text(
                       "Version " + version,
                       style: TextStyle(color: Colors.red[400]),

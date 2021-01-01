@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,7 +32,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
       name = data[0][UserParams.name];
-      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
+      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
     });
   }
   @override
@@ -125,6 +124,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     return ExpansionTile(
       trailing: SizedBox(),
       tilePadding: EdgeInsets.only(left: 20,),
+      childrenPadding: EdgeInsets.only(left: 20, right: 30),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -183,6 +183,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
       ),
       children: [
         buildChildrenRow(title: "Purchase for this cycle", value: data.purchase),
+        buildChildrenRow(title: "Points earned during this cycle", value: data.earnedPoints.padLeft(2)),
+        buildChildrenRow(title: "Last transaction on", value: data.transaction.length > 0 ? data.transaction.last["created"] : "--"),
       ],
     );
   }

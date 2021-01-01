@@ -61,7 +61,7 @@ class _RedeemGiftState extends State<RedeemGift> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
       points = data[0][UserParams.point] ?? "0";
-      cumulativePurchase = data[0][UserParams.purchase] ?? "0";
+      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
     });
   }
 

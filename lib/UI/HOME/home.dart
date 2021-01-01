@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/custom_button.dart';
-import 'package:pal/Common/show_dialog.dart';
 import '../../Common/badge.dart';
 import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,7 +69,7 @@ class _HomeState extends State<Home> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";
-    totalOrder = data[0][UserParams.purchase] ?? "0";
+    totalOrder = data[0][UserParams.totalOrder] ?? "0";
     Services.getNotificationCount().then((value) {
       setState(() {
         notificationCount = value;

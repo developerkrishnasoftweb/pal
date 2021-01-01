@@ -25,7 +25,7 @@ class UserParams {
   static String altMobile = "alt_mobile";
   static String branchCode = "branch_code";
   static String totalOrder = "total_order";
-  static String purchase = "purchase";
+  // static String purchase = "purchase";
   static String membershipSeries = "membership_series";
   static String kyc = "kyc";
   static String userData = "userdata";
