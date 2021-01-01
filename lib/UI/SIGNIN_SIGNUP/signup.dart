@@ -251,7 +251,7 @@ class _SignUpState extends State<SignUp> {
             Services.sms(smsData).then((value) {
               if(value.response == "000"){
                 setState(() => signUpStatus = false);
-                Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData,)));
+                Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData, mobile: mobile,)));
               } else {
                 setState(() => signUpStatus = false);
                 Fluttertoast.showToast(msg: value.message);

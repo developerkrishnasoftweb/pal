@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../UI/SIGNIN_SIGNUP/otp.dart';
+import '../../UI/SIGNIN_SIGNUP/signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/page_route.dart';
@@ -475,7 +478,33 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                     filename: file.path.split("/").last)
                 : null,
           });
-          await Services.redeemGift(data).then((value) async {
+          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+          var mobileNo = jsonDecode(sharedPreferences.getString(UserParams.userData))[0][UserParams.mobile];
+          String otp = RandomInt.generate().toString();
+          FormData smsData = FormData.fromMap({
+            "user" : Urls.user,
+            "password" : Urls.password,
+            "msisdn" : mobileNo,
+            "sid" : Urls.sID,
+            "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+            "fl" : Urls.fl,
+            "gwid" : Urls.gwID
+          });
+          await Services.sms(smsData).then((value) {
+            if(value.response == "000"){
+              setState(() {
+                isLoading = false;
+              });
+              Navigator.pop(context);
+              Navigator.push(context, CustomPageRoute(widget: OTP(mobile: mobileNo, redeemGift: true, onlyCheckOtp: true, formData: data, otp: otp,)));
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+              Fluttertoast.showToast(msg: value.message);
+            }
+          });
+          /*await Services.redeemGift(data).then((value) async {
             if (value.response == "y") {
               await userData(value.data[0]["customer"]);
               Fluttertoast.showToast(msg: value.message);
@@ -501,7 +530,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 isLoading = false;
               });
             }
-          });
+          });*/
         } else {
           setState(() {
             isLoading = false;
