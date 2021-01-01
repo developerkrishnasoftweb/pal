@@ -24,7 +24,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
   // TextStyle style, style1, style2;
   @override
   void initState() {
-    _getEarnedPoints(lastCycle);
+    _getEarnedPoints();
     getUserData();
     super.initState();
   }
@@ -78,7 +78,20 @@ class _EarnedPointsState extends State<EarnedPoints> {
                     borderRadius: BorderRadius.circular(10)),
                 child: DropdownButton(
                   isExpanded: true,
-                  onChanged: _getEarnedPoints,
+                  onChanged: (value) {
+                    try {
+                      setState(() {
+                        cycle = int.parse(value.toString().split(" ")[1]);
+                      });
+                    } catch (e) {
+                      setState(() {
+                        cycle = null;
+                      });
+                    }
+                    setState(() {
+                      lastCycle = value;
+                    });
+                  },
                   underline: SizedBox.shrink(),
                   value: lastCycle,
                   items: [
@@ -102,7 +115,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               earnedLists.length > 0 ? ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: earnedLists.length,
+                  itemCount: cycle != null && cycle <= earnedLists.length ? cycle : earnedLists.length,
                   itemBuilder: (context, index) {
                     return buildCard(earnedLists[index]);
                   }) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),)
@@ -242,28 +255,17 @@ class _EarnedPointsState extends State<EarnedPoints> {
     );
   }
 
-  _getEarnedPoints(value) async {
+  _getEarnedPoints() async {
     setState(() {
       closingPoints = 0;
       earnedLists = [];
+      cycle = int.parse(lastCycle.toString().split(" ")[1]);
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
-    try {
-      setState(() {
-        cycle = int.parse(value.toString().split(" ")[1]);
-      });
-    } catch (e) {
-      setState(() {
-        cycle = null;
-      });
-    }
-    setState(() {
-      lastCycle = value;
-    });
     FormData body = FormData.fromMap({
       "api_key": Urls.apiKey,
-      "limit": cycle.toString(),
+      "limit": null,
       "customer_id": id,
     });
     Services.getEarnedPoints(body).then((value) {
