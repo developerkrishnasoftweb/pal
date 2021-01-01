@@ -28,6 +28,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     getUserData();
     super.initState();
   }
+
   void getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
@@ -36,6 +37,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
       cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -79,16 +81,12 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 child: DropdownButton(
                   isExpanded: true,
                   onChanged: (value) {
-                    try {
-                      setState(() {
-                        cycle = int.parse(value.toString().split(" ")[1]);
-                      });
-                    } catch (e) {
-                      setState(() {
-                        cycle = null;
-                      });
-                    }
                     setState(() {
+                      try {
+                        cycle = int.parse(value.toString().split(" ")[1]);
+                      } catch (_) {
+                        cycle = null;
+                      }
                       lastCycle = value;
                     });
                   },
@@ -112,13 +110,24 @@ class _EarnedPointsState extends State<EarnedPoints> {
               SizedBox(
                 height: 10,
               ),
-              earnedLists.length > 0 ? ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: cycle != null && cycle <= earnedLists.length ? cycle : earnedLists.length,
-                  itemBuilder: (context, index) {
-                    return buildCard(earnedLists[index]);
-                  }) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),)
+              earnedLists.length > 0
+                  ? ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: cycle != null && cycle <= earnedLists.length
+                          ? cycle
+                          : earnedLists.length,
+                      itemBuilder: (context, index) {
+                        return buildCard(earnedLists[index]);
+                      })
+                  : SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                      ),
+                    )
             ],
           ),
         ));
@@ -137,7 +146,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
     var endDate = DateFormat('d MMM').format(DateTime.parse(data.dateTo));
     return ExpansionTile(
       trailing: SizedBox(),
-      tilePadding: EdgeInsets.only(left: 20,),
+      tilePadding: EdgeInsets.only(
+        left: 20,
+      ),
       childrenPadding: EdgeInsets.only(left: 20, right: 30),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,13 +207,21 @@ class _EarnedPointsState extends State<EarnedPoints> {
         ],
       ),
       children: [
-        buildChildrenRow(title: "Purchase for this cycle", value: data.purchase),
-        buildChildrenRow(title: "Points earned during this cycle", value: data.earnedPoints.padLeft(2)),
-        buildChildrenRow(title: "Last transaction on", value: data.transaction.length > 0 ? data.transaction.last["created"] : "--"),
+        buildChildrenRow(
+            title: "Purchase for this cycle", value: data.purchase),
+        buildChildrenRow(
+            title: "Points earned during this cycle",
+            value: data.earnedPoints.padLeft(2)),
+        buildChildrenRow(
+            title: "Last transaction on",
+            value: data.transaction.length > 0
+                ? data.transaction.last["created"]
+                : "--"),
       ],
     );
   }
-  Widget buildChildrenRow({String title : " ", String value : " "}) {
+
+  Widget buildChildrenRow({String title: " ", String value: " "}) {
     TextStyle style1 = Theme.of(context).textTheme.bodyText1.copyWith(
         color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 15);
     return Row(
@@ -211,18 +230,25 @@ class _EarnedPointsState extends State<EarnedPoints> {
         Expanded(
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(title, style: style1,),
+            child: Text(
+              title,
+              style: style1,
+            ),
           ),
         ),
         Expanded(
           child: Align(
             alignment: Alignment.centerRight,
-            child: Text(value, style: style1,),
+            child: Text(
+              value,
+              style: style1,
+            ),
           ),
         ),
       ],
     );
   }
+
   Widget buildRedeemedAmount(
       {String title, String amount, bool leadingTrailing, double fontSize}) {
     TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
@@ -287,7 +313,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
                     ? value.data[i]["total_points"][0]["point"]
                     : "0.0",
                 purchase: value.data[i]["total_purchase"] != null
-                    ? value.data[i]["total_purchase"][0]["purchase"] != null ? value.data[i]["total_purchase"][0]["purchase"] : "0.0"
+                    ? value.data[i]["total_purchase"][0]["purchase"] != null
+                        ? value.data[i]["total_purchase"][0]["purchase"]
+                        : "0.0"
                     : "0.0"));
           });
         }
