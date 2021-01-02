@@ -28,7 +28,7 @@ class DeliveryAddress extends StatefulWidget {
 }
 
 class _DeliveryAddressState extends State<DeliveryAddress> {
-  String addressType = "Select Delivery Type",
+  String addressType = "Collect from outlet",
       address = "",
       ext = "",
       altMobile = "",
@@ -117,16 +117,15 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                     file = null;
                     addressType = value;
                     if (value == "Collect from outlet") {
-                      collectToShop = true;
-                    } else if (value == "Home delivery") {
                       collectToShop = false;
+                    } else if (value == "Home delivery") {
+                      collectToShop = true;
                     }
                   });
                 },
                 underline: SizedBox.shrink(),
                 value: addressType,
                 items: [
-                  "Select Delivery Type",
                   "Collect from outlet",
                   "Home delivery"
                 ].map((text) {
@@ -138,13 +137,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               ),
             ),
             Visibility(
-                replacement: addressType != "Select Delivery Type"
-                    ? buildHomeDelivery()
-                    : SizedBox.shrink(),
+                replacement: buildCollectToShop(),
                 visible: collectToShop,
-                child: addressType != "Select Delivery Type"
-                    ? buildCollectToShop()
-                    : SizedBox.shrink()),
+                child: buildHomeDelivery())
           ],
         ),
       ),
