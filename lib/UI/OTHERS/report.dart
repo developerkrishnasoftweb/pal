@@ -18,6 +18,7 @@ class _ReportState extends State<Report> {
   ScrollController earnScrollController = ScrollController();
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
+  double totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
 
   @override
   void initState() {
@@ -45,11 +46,20 @@ class _ReportState extends State<Report> {
       }
     });
     Services.getReports().then((value) {
-      if(value.response == "y"){
+      if (value.response == "y") {
         setState(() {
           earnedData = value.data[0]["earn"];
           purchaseData = value.data[0]["purchase"];
           redeemData = value.data[0]["redeem"];
+          earnedData.forEach((element) {
+            totalEarnedPoints += double.parse(element["point"]);
+          });
+          purchaseData.forEach((element) {
+            totalPurchasePoint += double.parse(element["purchase"]);
+          });
+          redeemData.forEach((element) {
+            totalRedeemPoint += double.parse(element["point"]);
+          });
         });
       } else {
         Fluttertoast.showToast(msg: value.message);
@@ -57,6 +67,7 @@ class _ReportState extends State<Report> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -87,80 +98,198 @@ class _ReportState extends State<Report> {
   }
 
   Widget purchase() {
-    return purchaseData.length > 0 ? Scrollbar(child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      physics: BouncingScrollPhysics(),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        child: DataTable(columnSpacing: 20, columns: [
-          DataColumn(label: Text('Sr.No.', style: headerStyle)),
-          DataColumn(label: Text('Invoice Number', style: headerStyle)),
-          DataColumn(label: Text('Invoice Date', style: headerStyle)),
-          DataColumn(label: Text('Invoice Amount', style: headerStyle)),
-          DataColumn(label: Text('Point Earn', style: headerStyle)),
-          DataColumn(label: Text('Branch Name', style: headerStyle)),
-        ], rows: purchaseData.map((data) {
-          return DataRow(cells: [
-            DataCell(Text((purchaseData.indexOf(data) + 1).toString())),
-            DataCell(Text(data["voucher_no"])),
-            DataCell(Text(data["created"])),
-            DataCell(Text(data["purchase"])),
-            DataCell(Text(data["point"])),
-            DataCell(Text(data["branch_name"])),
-          ]);
-        }).toList()),
-      ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: purchaseScrollController, thickness: 3,) : Center(child: Text("You don't have made any purchase yet!!", textAlign: TextAlign.center,),);
+    return purchaseData.length > 0
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Total purchased point : ${totalPurchasePoint.toString()}",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: DataTable(
+                          columnSpacing: 20,
+                          columns: [
+                            DataColumn(
+                                label: Text('Sr.No.', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Number', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Date', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Amount', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Point Earn', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Branch Name', style: headerStyle)),
+                          ],
+                          rows: purchaseData.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (purchaseData.indexOf(data) + 1).toString())),
+                              DataCell(Text(data["voucher_no"])),
+                              DataCell(Text(data["created"])),
+                              DataCell(Text(data["purchase"])),
+                              DataCell(Text(data["point"])),
+                              DataCell(Text(data["branch_name"])),
+                            ]);
+                          }).toList()),
+                    ),
+                  ),
+                  isAlwaysShown: true,
+                  radius: Radius.circular(10),
+                  controller: purchaseScrollController,
+                  thickness: 3,
+                ),
+              ),
+            ],
+          )
+        : Center(
+            child: Text(
+              "You don't have made any purchase yet!!",
+              textAlign: TextAlign.center,
+            ),
+          );
   }
+
   Widget redeem() {
-    return redeemData.length > 0 ? Scrollbar(child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      physics: BouncingScrollPhysics(),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        child: DataTable(columns: [
-          DataColumn(label: Text('Sr.No.', style: headerStyle)),
-          DataColumn(label: Text('Date of Redeem', style: headerStyle)),
-          DataColumn(label: Text('Redeem Code', style: headerStyle)),
-          DataColumn(label: Text('Gift Code', style: headerStyle)),
-          DataColumn(label: Text('Gift Name', style: headerStyle)),
-          DataColumn(label: Text('Redeem Point', style: headerStyle)),
-        ], rows: redeemData.map((data) {
-          return DataRow(cells: [
-            DataCell(Text((redeemData.indexOf(data) + 1).toString())),
-            DataCell(Text(data["datetime"].toString().split(" ").first)),
-            DataCell(Text(data["code"])),
-            DataCell(Text(data["gift_code"])),
-            DataCell(Text(data["title"])),
-            DataCell(Text(data["point"])),
-          ]);
-        }).toList()),
-      ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: redeemScrollController, thickness: 3,) : Center(child: Text("You don't have redeemed any product yet !!!", textAlign: TextAlign.center,),);
+    return redeemData.length > 0
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Total redeemed point : ${totalRedeemPoint.toString()}",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: DataTable(
+                          columns: [
+                            DataColumn(
+                                label: Text('Sr.No.', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Date of Redeem', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Redeem Code', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Gift Code', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Gift Name', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Redeem Point', style: headerStyle)),
+                          ],
+                          rows: redeemData.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (redeemData.indexOf(data) + 1).toString())),
+                              DataCell(Text(data["datetime"]
+                                  .toString()
+                                  .split(" ")
+                                  .first)),
+                              DataCell(Text(data["code"])),
+                              DataCell(Text(data["gift_code"])),
+                              DataCell(Text(data["title"])),
+                              DataCell(Text(data["point"])),
+                            ]);
+                          }).toList()),
+                    ),
+                  ),
+                  isAlwaysShown: true,
+                  radius: Radius.circular(10),
+                  controller: redeemScrollController,
+                  thickness: 3,
+                ),
+              ),
+            ],
+          )
+        : Center(
+            child: Text(
+              "You don't have redeemed any product yet !!!",
+              textAlign: TextAlign.center,
+            ),
+          );
   }
+
   Widget earn() {
-    return earnedData.length > 0 ? Scrollbar(child: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      physics: BouncingScrollPhysics(),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        child: DataTable(columns: [
-          DataColumn(label: Text('Sr.No.', style: headerStyle)),
-          DataColumn(label: Text('Invoice Date', style: headerStyle)),
-          DataColumn(label: Text('Point Earn', style: headerStyle)),
-          DataColumn(label: Text('Branch Name', style: headerStyle)),
-        ], rows: earnedData.map((data) {
-          return DataRow(cells: [
-            DataCell(Text((earnedData.indexOf(data) + 1).toString())),
-            DataCell(Text(data["created"])),
-            DataCell(Text(data["point"])),
-            DataCell(Text(data["branch_name"])),
-          ]);
-        }).toList()),
-      ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: earnScrollController, thickness: 3,) : Center(child: Text("You don't have earned points!!!", textAlign: TextAlign.center,),);
+    return earnedData.length > 0
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Total earned point : ${totalEarnedPoints.toString()}",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: DataTable(
+                          columns: [
+                            DataColumn(
+                                label: Text('Sr.No.', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Date', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Point Earn', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Branch Name', style: headerStyle)),
+                          ],
+                          rows: earnedData.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (earnedData.indexOf(data) + 1).toString())),
+                              DataCell(Text(data["created"])),
+                              DataCell(Text(data["point"])),
+                              DataCell(Text(data["branch_name"])),
+                            ]);
+                          }).toList()),
+                    ),
+                  ),
+                  isAlwaysShown: true,
+                  radius: Radius.circular(10),
+                  controller: earnScrollController,
+                  thickness: 3,
+                ),
+              ),
+            ],
+          )
+        : Center(
+            child: Text(
+              "You don't have earned points!!!",
+              textAlign: TextAlign.center,
+            ),
+          );
   }
 }

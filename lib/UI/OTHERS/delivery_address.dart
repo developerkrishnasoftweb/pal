@@ -355,13 +355,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                         ", " +
                         store.location +
                         ", " +
-                        store.city +
-                        ", " +
-                        store.state +
-                        ", " +
-                        store.pinCode +
-                        " " +
-                        store.storeCode,
+                        store.city
                   ));
             }).toList(),
             onChanged: (value) {
