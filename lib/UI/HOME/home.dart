@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";
-    totalOrder = data[0][UserParams.totalOrder] ?? "0";
+    totalOrder = sharedPreferences.getString(UserParams.point) ?? "0";
     Services.getNotificationCount().then((value) {
       setState(() {
         notificationCount = value;

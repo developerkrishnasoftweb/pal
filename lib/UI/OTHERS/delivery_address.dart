@@ -41,10 +41,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
   String selectedStoreCode = "";
+  String storeCity = "", storeArea = "", storeState = "", storePinCode = "";
 
   Future getFile() async {
-    File result = await FilePicker.getFile(
-        type: FileType.any);
+    File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
@@ -80,6 +80,16 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         }
       } else {
         Fluttertoast.showToast(msg: value.message);
+      }
+    });
+    stores.forEach((store) {
+      if(store.storeCode == selectedStoreCode) {
+        setState(() {
+          storeArea = store.location;
+          storeCity = store.city;
+          storeState = store.state;
+          storePinCode = store.pinCode;
+        });
       }
     });
     super.initState();
@@ -125,10 +135,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 },
                 underline: SizedBox.shrink(),
                 value: addressType,
-                items: [
-                  "Collect from outlet",
-                  "Home delivery"
-                ].map((text) {
+                items: ["Collect from outlet", "Home delivery"].map((text) {
                   return DropdownMenuItem(
                     value: text,
                     child: Text(text),
@@ -269,7 +276,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         proofBuilder(onTap: getFile),
         Text(
           "Note : Home delivery charges applied (\u20B9 100) / As per geographical location",
-          style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
         )
       ],
     );
@@ -341,33 +351,48 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),
-        stores.length > 0 ? DropdownButtonFormField(
-            decoration: InputDecoration(
-              border: border(),
-            ),
-            style: TextStyle(color: Colors.black, fontSize: 18),
-            value: selectedStoreCode,
-            isExpanded: true,
-            items: stores.map((store) {
-              return DropdownMenuItem(
-                value: store.storeCode,
-                  child: Text(
-                      store.name +
-                          ", " +
-                          store.location +
-                          ", " +
-                          store.city,
-                    style: TextStyle(color: stores.indexOf(store).isEven ? Colors.grey : Colors.black),
-                  ));
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                selectedStoreCode = value;
-              });
-            }) : SizedBox(),
+        stores.length > 0
+            ? DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: border(),
+                ),
+                style: TextStyle(color: Colors.black, fontSize: 18),
+                value: selectedStoreCode,
+                isExpanded: true,
+                items: stores.map((store) {
+                  return DropdownMenuItem(
+                      value: store.storeCode,
+                      child: Text(
+                        store.name,
+                        style: TextStyle(
+                            color: stores.indexOf(store).isEven
+                                ? Colors.grey
+                                : Colors.black),
+                      ));
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedStoreCode = value;
+                  });
+                  stores.forEach((store) {
+                    if(store.storeCode == selectedStoreCode) {
+                      setState(() {
+                        storeArea = store.location;
+                        storeCity = store.city;
+                        storeState = store.state;
+                        storePinCode = store.pinCode;
+                      });
+                    }
+                  });
+                })
+            : SizedBox(),
         SizedBox(
           height: 15,
         ),
+        buildTitledRow(title: "Area", value: storeArea),
+        buildTitledRow(title: "City", value: storeCity),
+        buildTitledRow(title: "State", value: storeState),
+        buildTitledRow(title: "Pincode", value: storePinCode),
         Text(
           "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -380,7 +405,33 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       ],
     );
   }
-
+  Widget buildTitledRow({String title, String value}) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            value != "" && value != null ? value : "N/A",
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(fontSize: 14),
+          )
+        ],
+      ),
+    );
+  }
   Widget proofBuilder({GestureTapCallback onTap}) {
     return Container(
       height: 120,
@@ -470,25 +521,39 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                     filename: file.path.split("/").last)
                 : null,
           });
-          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-          var mobileNo = jsonDecode(sharedPreferences.getString(UserParams.userData))[0][UserParams.mobile];
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          var mobileNo =
+              jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
+                  [UserParams.mobile];
           String otp = RandomInt.generate().toString();
           FormData smsData = FormData.fromMap({
-            "user" : Urls.user,
-            "password" : Urls.password,
-            "msisdn" : mobileNo,
-            "sid" : Urls.sID,
-            "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-            "fl" : Urls.fl,
-            "gwid" : Urls.gwID
+            "user": Urls.user,
+            "password": Urls.password,
+            "msisdn": mobileNo,
+            "sid": Urls.sID,
+            "msg": "<#> " +
+                otp +
+                " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+            "fl": Urls.fl,
+            "gwid": Urls.gwID
           });
           await Services.sms(smsData).then((value) {
-            if(value.response == "000"){
+            if (value.response == "000") {
               setState(() {
                 isLoading = false;
               });
               Navigator.pop(context);
-              Navigator.push(context, CustomPageRoute(widget: OTP(mobile: mobileNo, redeemGift: true, onlyCheckOtp: true, formData: data, otp: otp,)));
+              Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: OTP(
+                    mobile: mobileNo,
+                    redeemGift: true,
+                    onlyCheckOtp: true,
+                    formData: data,
+                    otp: otp,
+                  )));
             } else {
               setState(() {
                 isLoading = false;

@@ -174,28 +174,20 @@ class _OTPState extends State<OTP> {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       setState(() => signUpStatus = true);
-      var shouldLogin = await Services.checkUsersPurchase(mobile: widget.mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
-      if(shouldLogin){
-        await Services.signUp(widget.formData).then((value) {
-          if (value.response == "y") {
-            Fluttertoast.showToast(msg: value.message);
-            setState(() => signUpStatus = false);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SignIn()),
-                    (route) => false);
-          } else {
-            Fluttertoast.showToast(msg: value.message);
-            setState(() => signUpStatus = false);
-            Navigator.pop(context);
-          }
-        });
-      } else {
-        setState(() {
-          signUpStatus = false;
-        });
-        Fluttertoast.showToast(msg: "You must have to purchase to avail the features");
-      }
+      await Services.signUp(widget.formData).then((value) {
+        if (value.response == "y") {
+          Fluttertoast.showToast(msg: value.message);
+          setState(() => signUpStatus = false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => SignIn()),
+                  (route) => false);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
+          setState(() => signUpStatus = false);
+          Navigator.pop(context);
+        }
+      });
     } else {
       Fluttertoast.showToast(msg: "Invalid OTP");
     }

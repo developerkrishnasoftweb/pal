@@ -248,15 +248,23 @@ class _SignUpState extends State<SignUp> {
               "fl" : Urls.fl,
               "gwid" : Urls.gwID
             });
-            Services.sms(smsData).then((value) {
-              if(value.response == "000"){
-                setState(() => signUpStatus = false);
-                Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData, mobile: mobile,)));
-              } else {
-                setState(() => signUpStatus = false);
-                Fluttertoast.showToast(msg: value.message);
-              }
-            });
+            var shouldLogin = await Services.checkUsersPurchase(mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
+            if(shouldLogin){
+              Services.sms(smsData).then((value) {
+                if(value.response == "000"){
+                  setState(() => signUpStatus = false);
+                  Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData, mobile: mobile,)));
+                } else {
+                  setState(() => signUpStatus = false);
+                  Fluttertoast.showToast(msg: value.message, toastLength: Toast.LENGTH_LONG);
+                }
+              });
+            } else {
+              setState(() {
+                signUpStatus = false;
+              });
+              Fluttertoast.showToast(msg: "You must have to purchase to avail the features");
+            }
           } else {
             Fluttertoast.showToast(msg: "Invalid Mobile");
           }

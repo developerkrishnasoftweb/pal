@@ -4,6 +4,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/appbar.dart';
 import '../../SERVICES/services.dart';
+import '../../Constant/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Constant/userdata.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -19,6 +22,7 @@ class _ReportState extends State<Report> {
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
   double totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
+  String totalPoints = "0";
 
   @override
   void initState() {
@@ -66,8 +70,14 @@ class _ReportState extends State<Report> {
       }
     });
     super.initState();
+    getData();
   }
-
+  getData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      totalPoints = sharedPreferences.getString(UserParams.point);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -76,6 +86,12 @@ class _ReportState extends State<Report> {
           appBar: appBar(
               context: context,
               title: "Report",
+              actions: [
+                Center(child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text("Total Points : $totalPoints"),
+                )),
+              ],
               bottom: TabBar(
                   unselectedLabelColor: Colors.white.withOpacity(0.9),
                   labelColor: Colors.white,
@@ -96,17 +112,80 @@ class _ReportState extends State<Report> {
           ),
         ));
   }
-
+  Widget earn() {
+    Size size = MediaQuery.of(context).size;
+    return earnedData.length > 0
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: size.width,
+          color: AppColors.primaryColor,
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Total earned point : ${totalEarnedPoints.toString()}",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+        Expanded(
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: BouncingScrollPhysics(),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                child: DataTable(
+                    columns: [
+                      DataColumn(
+                          label: Text('Sr.No.', style: headerStyle)),
+                      DataColumn(
+                          label:
+                          Text('Invoice Date', style: headerStyle)),
+                      DataColumn(
+                          label: Text('Point Earn', style: headerStyle)),
+                      DataColumn(
+                          label: Text('Branch Name', style: headerStyle)),
+                    ],
+                    rows: earnedData.map((data) {
+                      return DataRow(cells: [
+                        DataCell(Text(
+                            (earnedData.indexOf(data) + 1).toString())),
+                        DataCell(Text(data["created"])),
+                        DataCell(Text(data["point"])),
+                        DataCell(Text(data["branch_name"])),
+                      ]);
+                    }).toList()),
+              ),
+            ),
+            isAlwaysShown: true,
+            radius: Radius.circular(10),
+            controller: earnScrollController,
+            thickness: 3,
+          ),
+        ),
+      ],
+    )
+        : Center(
+      child: Text(
+        "You don't have earned points!!!",
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
   Widget purchase() {
+    Size size = MediaQuery.of(context).size;
     return purchaseData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              Container(
+                width: size.width,
                 padding: const EdgeInsets.all(8.0),
+                color: AppColors.primaryColor,
                 child: Text(
                   "Total purchased point : ${totalPurchasePoint.toString()}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
               Expanded(
@@ -164,17 +243,19 @@ class _ReportState extends State<Report> {
             ),
           );
   }
-
   Widget redeem() {
+    Size size = MediaQuery.of(context).size;
     return redeemData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              Container(
                 padding: const EdgeInsets.all(8.0),
+                color: AppColors.primaryColor,
+                width: size.width,
                 child: Text(
                   "Total redeemed point : ${totalRedeemPoint.toString()}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
               Expanded(
@@ -229,65 +310,6 @@ class _ReportState extends State<Report> {
         : Center(
             child: Text(
               "You don't have redeemed any product yet !!!",
-              textAlign: TextAlign.center,
-            ),
-          );
-  }
-
-  Widget earn() {
-    return earnedData.length > 0
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Total earned point : ${totalEarnedPoints.toString()}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: DataTable(
-                          columns: [
-                            DataColumn(
-                                label: Text('Sr.No.', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Date', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Point Earn', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Branch Name', style: headerStyle)),
-                          ],
-                          rows: earnedData.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (earnedData.indexOf(data) + 1).toString())),
-                              DataCell(Text(data["created"])),
-                              DataCell(Text(data["point"])),
-                              DataCell(Text(data["branch_name"])),
-                            ]);
-                          }).toList()),
-                    ),
-                  ),
-                  isAlwaysShown: true,
-                  radius: Radius.circular(10),
-                  controller: earnScrollController,
-                  thickness: 3,
-                ),
-              ),
-            ],
-          )
-        : Center(
-            child: Text(
-              "You don't have earned points!!!",
               textAlign: TextAlign.center,
             ),
           );
