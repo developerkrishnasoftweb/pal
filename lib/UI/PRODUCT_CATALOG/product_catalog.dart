@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
 import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
@@ -62,7 +63,7 @@ class _ProductState extends State<ProductCatalog> {
         contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
         title: Text(item.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16, fontWeight: FontWeight.w500),),
         trailing: Icon(Icons.arrow_forward_ios, size: 15,),
-        onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CatalogPreview(url: item.catalog,)));},
+        onTap: () {Navigator.push(context, CustomPageRoute(widget: CatalogPreview(url: item.catalog,)));},
         shape: shape,
       ),
     );

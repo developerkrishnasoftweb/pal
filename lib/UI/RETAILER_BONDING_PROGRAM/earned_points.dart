@@ -17,10 +17,10 @@ class EarnedPoints extends StatefulWidget {
 }
 
 class _EarnedPointsState extends State<EarnedPoints> {
-  String lastCycle = "Last 12 Cycles", name = " ", cumulativePurchase = "0";
+  String lastCycle = "Last 12 Cycles", name = " ";
   int cycle = 0;
   List<CycleData> earnedLists = [];
-  double closingPoints = 0;
+  double closingPoints = 0, cumulativePurchase = 0;
   // TextStyle style, style1, style2;
   @override
   void initState() {
@@ -34,7 +34,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     setState(() {
       name = data[0][UserParams.name];
-      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
+      cumulativePurchase = double.parse(data[0][UserParams.totalOrder] ?? "0");
+      closingPoints = double.parse(sharedPreferences.getString(UserParams.point));
     });
   }
 
@@ -61,7 +62,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               ),
               buildRedeemedAmount(
                   title: "Cumulative Purchase : ",
-                  amount: cumulativePurchase,
+                  amount: cumulativePurchase.toString(),
                   leadingTrailing: true),
               SizedBox(
                 height: 10,
@@ -300,9 +301,14 @@ class _EarnedPointsState extends State<EarnedPoints> {
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
         for (int i = value.data.length - 1; i >= 0; i--) {
           setState(() {
-            closingPoints += double.parse(value.data[i]["total_points"] != null
-                ? value.data[i]["total_points"][0]["point"]
-                : "0");
+            // closingPoints -= double.parse(value.data[i]["total_points"] != null
+            //     ? value.data[i]["total_points"][0]["point"]
+            //     : "0");
+            cumulativePurchase += double.parse(value.data[i]["total_purchase"] != null
+                ? value.data[i]["total_purchase"][0]["purchase"] != null
+                ? value.data[i]["total_purchase"][0]["purchase"]
+                : "0.0"
+                : "0.0");
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
                 closingPoints: closingPoints.toString(),

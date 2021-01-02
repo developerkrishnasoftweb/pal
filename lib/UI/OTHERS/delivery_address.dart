@@ -345,17 +345,19 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             decoration: InputDecoration(
               border: border(),
             ),
+            style: TextStyle(color: Colors.black, fontSize: 18),
             value: selectedStoreCode,
             isExpanded: true,
             items: stores.map((store) {
               return DropdownMenuItem(
                 value: store.storeCode,
                   child: Text(
-                    "\u2022 " + store.name +
-                        ", " +
-                        store.location +
-                        ", " +
-                        store.city
+                      store.name +
+                          ", " +
+                          store.location +
+                          ", " +
+                          store.city,
+                    style: TextStyle(color: stores.indexOf(store).isEven ? Colors.grey : Colors.black),
                   ));
             }).toList(),
             onChanged: (value) {

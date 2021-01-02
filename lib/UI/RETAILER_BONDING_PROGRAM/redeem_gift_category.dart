@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../SERVICES/services.dart';
@@ -109,7 +110,7 @@ class _GiftState extends State<GiftCategory> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
+        Navigator.push(context, CustomPageRoute(widget: RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
       },
       child: Container(
         decoration: BoxDecoration(
