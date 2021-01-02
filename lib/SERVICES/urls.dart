@@ -16,6 +16,8 @@ class Urls{
   static String imageBaseUrl = "http://generalstore.krishnasoftweb.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
+  static String checkUsersPurchaseBPGS = "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
+  static String checkUsersPurchaseBPGN = "http://logic2.paldepartmentalstores.com/bpgnapi/api/ConsumerDetails/QueryRecords_BymobileNo";
   static String signIn = "login";
   static String signUp = "registration";
   static String category = "category";

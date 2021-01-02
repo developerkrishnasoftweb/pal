@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/userdata.dart';
-import 'package:pal/SERVICES/services.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 
@@ -28,8 +28,25 @@ class _NotificationState extends State<Notifications> {
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
             sharedPreferences.setString(UserParams.lastNotificationId, value.data[i]["id"]);
           }
-          var days = (DateTime.now().day - DateTime.parse(value.data[i]["inserted"].toString().split(" ").first).day);
-          var time = days == 0 ? "Today" : days == 1 ? "Yesterday" : "${days.toString()} days ago";
+          var days = (DateTime.now().difference(DateTime.parse(value.data[i]["inserted"])));
+          var time;
+          switch(days.inDays) {
+            case 0:
+              setState(() {
+                time = "Today";
+              });
+              break;
+            case 1:
+              setState(() {
+                time = "Yesterday";
+              });
+              break;
+            default :
+              setState(() {
+                time = "${days.inDays} days ago";
+              });
+              break;
+          }
           setState(() {
             notifications.add(NotificationData(title: value.data[i]["title"], message: value.data[i]["content"], id: value.data[i]["id"], image: "assets/icons/store-icon.jpg", time: time));
           });

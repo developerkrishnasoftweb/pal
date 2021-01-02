@@ -92,6 +92,7 @@ class _OTPState extends State<OTP> {
   }
 
   _redeemGift() async {
+    FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
         print(widget.formData.fields);
@@ -155,6 +156,7 @@ class _OTPState extends State<OTP> {
   }
 
   _forgotPassword() async {
+    FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       Navigator.pop(context);
       Navigator.push(
@@ -169,22 +171,31 @@ class _OTPState extends State<OTP> {
   }
 
   _register() async {
+    FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       setState(() => signUpStatus = true);
-      await Services.signUp(widget.formData).then((value) {
-        if (value.response == "y") {
-          Fluttertoast.showToast(msg: value.message);
-          setState(() => signUpStatus = false);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => SignIn()),
-              (route) => false);
-        } else {
-          Fluttertoast.showToast(msg: value.message);
-          setState(() => signUpStatus = false);
-          Navigator.pop(context);
-        }
-      });
+      var shouldLogin = await Services.checkUsersPurchase(mobile: widget.mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
+      if(shouldLogin){
+        await Services.signUp(widget.formData).then((value) {
+          if (value.response == "y") {
+            Fluttertoast.showToast(msg: value.message);
+            setState(() => signUpStatus = false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => SignIn()),
+                    (route) => false);
+          } else {
+            Fluttertoast.showToast(msg: value.message);
+            setState(() => signUpStatus = false);
+            Navigator.pop(context);
+          }
+        });
+      } else {
+        setState(() {
+          signUpStatus = false;
+        });
+        Fluttertoast.showToast(msg: "You must have to purchase to avail the features");
+      }
     } else {
       Fluttertoast.showToast(msg: "Invalid OTP");
     }

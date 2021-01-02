@@ -715,4 +715,28 @@ class Services {
       return data;
     }
   }
+
+  static Future<bool> checkUsersPurchase({String mobile, String fromDate, String toDate}) async {
+    try {
+      dio.Response response;
+      response = await dio.Dio().get(Urls.checkUsersPurchaseBPGS + "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
+      dio.Response response1;
+      response1 = await dio.Dio().get(Urls.checkUsersPurchaseBPGN + "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
+      if (response.statusCode == 200 && response1.statusCode == 200) {
+        if (response.data.length != 0 || response1.data.length != 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Fluttertoast.showToast(msg: "No internet connection !!!");
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    } return false;
+  }
 }

@@ -30,14 +30,6 @@ class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
   String points = "0", name = "", totalOrder = "";
   String notificationCount = "0";
-
-  void getUserData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      points = sharedPreferences.getString(UserParams.point);
-    });
-  }
-
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
 
