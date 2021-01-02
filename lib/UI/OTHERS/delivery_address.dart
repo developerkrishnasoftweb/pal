@@ -42,9 +42,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   List<StoreDetails> stores = [];
   String selectedStoreCode = "";
 
-  Future getImage() async {
+  Future getFile() async {
     File result = await FilePicker.getFile(
-        type: FileType.CUSTOM);
+        type: FileType.any);
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
@@ -116,7 +116,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   setState(() {
                     file = null;
                     addressType = value;
-                    if (value == "Collect to shop") {
+                    if (value == "Collect from outlet") {
                       collectToShop = true;
                     } else if (value == "Home delivery") {
                       collectToShop = false;
@@ -127,7 +127,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 value: addressType,
                 items: [
                   "Select Delivery Type",
-                  "Collect to shop",
+                  "Collect from outlet",
                   "Home delivery"
                 ].map((text) {
                   return DropdownMenuItem(
@@ -271,7 +271,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
           ),
         ),
-        proofBuilder(onTap: getImage),
+        proofBuilder(onTap: getFile),
         Text(
           "Note : Home delivery charges applied (\u20B9 100) / As per geographical location",
           style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 15, fontWeight: FontWeight.bold),
@@ -356,7 +356,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               return DropdownMenuItem(
                 value: store.storeCode,
                   child: Text(
-                    store.name +
+                    "\u2022 " + store.name +
                         ", " +
                         store.location +
                         ", " +
@@ -385,7 +385,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 10,
         ),
-        proofBuilder(onTap: getImage)
+        proofBuilder(onTap: getFile)
       ],
     );
   }
@@ -399,7 +399,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       child: file == null
           ? Column(
               children: [
-                attachButton(onPressed: getImage, text: "Attach File"),
+                attachButton(onPressed: getFile, text: "Attach File"),
               ],
             )
           : file != null && ext != "pdf"
@@ -505,33 +505,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               Fluttertoast.showToast(msg: value.message);
             }
           });
-          /*await Services.redeemGift(data).then((value) async {
-            if (value.response == "y") {
-              await userData(value.data[0]["customer"]);
-              Fluttertoast.showToast(msg: value.message);
-              var status = showDialogBox(
-                  context: context,
-                  title: "Rate US",
-                  content: "How would you rate PAL DEPARTMENTAL STORE ?",
-                  barrierDismissible: true,
-                  actions: [
-                    FlatButton(onPressed: () => Navigator.pushAndRemoveUntil(
-                        context, CustomPageRoute(widget: Home()), (route) => false), child: Text("NO, THANKS", style: TextStyle(color: Colors.grey),),),
-                    FlatButton(onPressed: _rate, child: Text("RATE", style: TextStyle(color: AppColors.primaryColor),),),
-                  ]);
-              if(await status == null)
-                Navigator.pushAndRemoveUntil(
-                    context, CustomPageRoute(widget: Home()), (route) => false);
-              setState(() {
-                isLoading = false;
-              });
-            } else {
-              Fluttertoast.showToast(msg: value.message);
-              setState(() {
-                isLoading = false;
-              });
-            }
-          });*/
         } else {
           setState(() {
             isLoading = false;

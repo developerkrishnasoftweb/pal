@@ -53,7 +53,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
     });
   }
   Future getAdhaar() async {
-    File result = await FilePicker.getFile(type: FileType.CUSTOM);
+    File result = await FilePicker.getFile(type: FileType.custom, fileExtension: "pdf");
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
@@ -101,6 +101,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   Widget build(BuildContext context) {
+    adhaar != null ? adhaar.length().then((value) {
+      print((value / 1024).toString() + "KB");
+    }) : print("Loading ....");
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Change Address"),
@@ -351,7 +354,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         city.text.isNotEmpty &&
         area.text.isNotEmpty &&
         selectedGender.isNotEmpty &&
-        // adhaar != null &&
+        adhaar != null &&
         dob.text.isNotEmpty) {
       if (selectedMaritalStatus == "y" &&
           anniversaryDate.text.isNotEmpty &&

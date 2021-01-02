@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/appbar.dart';
 import '../../SERVICES/services.dart';
@@ -12,13 +13,37 @@ class Report extends StatefulWidget {
 class _ReportState extends State<Report> {
   TextStyle headerStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   TextStyle bodyStyle = TextStyle(fontSize: 16);
-  final ScrollController purchaseScrollController = ScrollController();
-  final ScrollController redeemScrollController = ScrollController();
+  ScrollController purchaseScrollController = ScrollController();
+  ScrollController redeemScrollController = ScrollController();
+  ScrollController earnScrollController = ScrollController();
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
 
   @override
   void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (purchaseScrollController.hasClients) {
+        purchaseScrollController.animateTo(
+          purchaseScrollController.position.maxScrollExtent,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 200),
+        );
+      }
+      if (redeemScrollController.hasClients) {
+        redeemScrollController.animateTo(
+          redeemScrollController.position.maxScrollExtent,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 200),
+        );
+      }
+      if (earnScrollController.hasClients) {
+        earnScrollController.animateTo(
+          earnScrollController.position.maxScrollExtent,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 200),
+        );
+      }
+    });
     Services.getReports().then((value) {
       if(value.response == "y"){
         setState(() {
@@ -77,7 +102,7 @@ class _ReportState extends State<Report> {
           DataColumn(label: Text('Branch Name', style: headerStyle)),
         ], rows: purchaseData.map((data) {
           return DataRow(cells: [
-            DataCell(Text(purchaseData.indexOf(data).toString())),
+            DataCell(Text((purchaseData.indexOf(data) + 1).toString())),
             DataCell(Text(data["voucher_no"])),
             DataCell(Text(data["created"])),
             DataCell(Text(data["purchase"])),
@@ -86,7 +111,7 @@ class _ReportState extends State<Report> {
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have made any purchase yet!!", textAlign: TextAlign.center,),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: purchaseScrollController, thickness: 3,) : Center(child: Text("You don't have made any purchase yet!!", textAlign: TextAlign.center,),);
   }
   Widget redeem() {
     return redeemData.length > 0 ? Scrollbar(child: SingleChildScrollView(
@@ -104,7 +129,7 @@ class _ReportState extends State<Report> {
           DataColumn(label: Text('Redeem Point', style: headerStyle)),
         ], rows: redeemData.map((data) {
           return DataRow(cells: [
-            DataCell(Text(redeemData.indexOf(data).toString())),
+            DataCell(Text((redeemData.indexOf(data) + 1).toString())),
             DataCell(Text(data["datetime"].toString().split(" ").first)),
             DataCell(Text(data["code"])),
             DataCell(Text(data["gift_code"])),
@@ -113,7 +138,7 @@ class _ReportState extends State<Report> {
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have redeemed any product yet !!!", textAlign: TextAlign.center,),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: redeemScrollController, thickness: 3,) : Center(child: Text("You don't have redeemed any product yet !!!", textAlign: TextAlign.center,),);
   }
   Widget earn() {
     return earnedData.length > 0 ? Scrollbar(child: SingleChildScrollView(
@@ -129,13 +154,13 @@ class _ReportState extends State<Report> {
           DataColumn(label: Text('Branch Name', style: headerStyle)),
         ], rows: earnedData.map((data) {
           return DataRow(cells: [
-            DataCell(Text(earnedData.indexOf(data).toString())),
+            DataCell(Text((earnedData.indexOf(data) + 1).toString())),
             DataCell(Text(data["created"])),
             DataCell(Text(data["point"])),
             DataCell(Text(data["branch_name"])),
           ]);
         }).toList()),
       ),
-    ), isAlwaysShown: true, radius: Radius.circular(10), controller: ScrollController(), thickness: 3,) : Center(child: Text("You don't have earned points!!!", textAlign: TextAlign.center,),);
+    ), isAlwaysShown: true, radius: Radius.circular(10), controller: earnScrollController, thickness: 3,) : Center(child: Text("You don't have earned points!!!", textAlign: TextAlign.center,),);
   }
 }
