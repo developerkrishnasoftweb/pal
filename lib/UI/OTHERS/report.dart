@@ -21,7 +21,7 @@ class _ReportState extends State<Report> {
   ScrollController earnScrollController = ScrollController();
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
-  double totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
+  int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
   bool isLoading = false;
 
@@ -65,13 +65,13 @@ class _ReportState extends State<Report> {
           purchaseData = value.data[0]["purchase"];
           redeemData = value.data[0]["redeem"];
           earnedData.forEach((element) {
-            totalEarnedPoints += double.parse(element["point"]);
+            totalEarnedPoints += int.parse(element["point"]);
           });
           purchaseData.forEach((element) {
-            totalPurchasePoint += double.parse(element["purchase"]);
+            totalPurchasePoint += int.parse(element["purchase"]);
           });
           redeemData.forEach((element) {
-            totalRedeemPoint += double.parse(element["point"]);
+            totalRedeemPoint += int.parse(element["point"]);
           });
           isLoading = false;
         });

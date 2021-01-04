@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,6 +31,7 @@ class _SignInState extends State<SignIn> {
   String username = "", password = "";
   TextEditingController emailController = TextEditingController();
   FocusNode myFocusNode;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   @override
   void initState() {
     setState(() {
@@ -45,7 +49,33 @@ class _SignInState extends State<SignIn> {
     myFocusNode.dispose();
     super.dispose();
   }
-
+  void firebaseCloudMessagingListeners() {
+    if (Platform.isIOS) iOSPermission();
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+  void iOSPermission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -177,30 +207,31 @@ class _SignInState extends State<SignIn> {
   void _signIn() async {
     FocusScope.of(context).unfocus();
     setState(() {
-      isLogging = true;
+      // isLogging = true;
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (username.isNotEmpty && password.isNotEmpty) {
       FormData formData = FormData.fromMap(
           {"username": username, "password": password, "api_key": Urls.apiKey});
-      await Services.signIn(formData).then((result) {
-        if (result.response == "y") {
-          setState(() {
-            isLogging = false;
-          });
-          userData(result.data);
-          sharedPreferences.setString("username", username);
-          sharedPreferences.setString(UserParams.password, result.data[0][UserParams.password]);
-          Navigator.pushAndRemoveUntil(
-              context, CustomPageRoute(widget: Home()), (route) => false);
-          Fluttertoast.showToast(msg: result.message);
-        } else {
-          setState(() {
-            isLogging = false;
-          });
-          Fluttertoast.showToast(msg: result.message);
-        }
-      });
+      firebaseCloudMessagingListeners();
+      // Services.signIn(formData).then((result) {
+      //   if (result.response == "y") {
+      //     setState(() {
+      //       isLogging = false;
+      //     });
+      //     userData(result.data);
+      //     sharedPreferences.setString("username", username);
+      //     sharedPreferences.setString(UserParams.password, result.data[0][UserParams.password]);
+      //     Navigator.pushAndRemoveUntil(
+      //         context, CustomPageRoute(widget: Home()), (route) => false);
+      //     Fluttertoast.showToast(msg: result.message);
+      //   } else {
+      //     setState(() {
+      //       isLogging = false;
+      //     });
+      //     Fluttertoast.showToast(msg: result.message);
+      //   }
+      // });
     } else {
       Fluttertoast.showToast(msg: "Please enter username and password");
       setState(() {

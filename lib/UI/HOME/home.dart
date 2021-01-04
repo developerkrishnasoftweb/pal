@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -50,10 +51,15 @@ class _HomeState extends State<Home> {
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    super.initState();
+    Services.getNotificationCount().then((value) {
+      setState(() {
+        notificationCount = value;
+      });
+    });
     getData();
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
+    super.initState();
   }
 
   void getData() async {
@@ -62,11 +68,6 @@ class _HomeState extends State<Home> {
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";
     totalOrder = sharedPreferences.getString(UserParams.point) ?? "0";
-    Services.getNotificationCount().then((value) {
-      setState(() {
-        notificationCount = value;
-      });
-    });
   }
 
   void setItemList() {
@@ -96,6 +97,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // Timer.periodic(Duration(milliseconds: 5000), (timer) {
+    //   Services.getNotificationCount().then((value) {
+    //     setState(() {
+    //       notificationCount = value;
+    //     });
+    //   });
+    // });
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,

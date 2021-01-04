@@ -33,10 +33,12 @@ class Services {
             message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
+        print(e);
         Data data = Data(message: errorMessage, response: null, data: null);
         return data;
       }
     } catch (e) {
+      print(e);
       Data data = Data(message: errorMessage, response: null, data: null);
       return data;
     }
