@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../SERVICES/urls.dart';
 import '../../Common/page_route.dart';
@@ -41,6 +42,8 @@ class _KYCState extends State<KYC> {
           maritalStatus: userdata[0][UserParams.maritalStatus],
           anniversaryDate: userdata[0][UserParams.anniversary],
           mobile: userdata[0][UserParams.mobile],
+          adhaar: userdata[0][UserParams.adhaar],
+          kyc: userdata[0][UserParams.kyc],
           image: userdata[0][UserParams.image]);
     });
   }
@@ -49,14 +52,14 @@ class _KYCState extends State<KYC> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "KYC Details", actions: [
+      appBar: appBar(context: context, title: "KYC Details", actions:  [
         IconButton(
-          onPressed: () {
+          onPressed: data.kyc == "y" ? null : () {
             Navigator.pop(context);
             Navigator.push(
                 context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
           },
-          icon: Icon(Icons.edit),
+          icon: Icon(data.kyc == "y" ? Icons.check_circle : Icons.edit, color: Colors.white,),
         )
       ]),
       body: SingleChildScrollView(

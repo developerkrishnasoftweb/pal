@@ -30,6 +30,7 @@ class UserParams {
   static String kyc = "kyc";
   static String userData = "userdata";
   static String lastNotificationId = "last_notification_id";
+  static String adhaar = "adhaar";
   static String config = "config";
 }
 
@@ -56,6 +57,8 @@ class Userdata {
       dob,
       email,
       image,
+      adhaar,
+      kyc,
       mobile;
   Userdata(
       {this.name,
@@ -71,5 +74,7 @@ class Userdata {
       this.dob,
       this.email,
       this.image,
+      this.adhaar,
+      this.kyc,
       this.address});
 }

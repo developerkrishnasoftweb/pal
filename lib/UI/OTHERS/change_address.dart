@@ -101,9 +101,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   Widget build(BuildContext context) {
-    adhaar != null ? adhaar.length().then((value) {
-      print((value / 1024).toString() + "KB");
-    }) : print("Loading ....");
+    // adhaar != null ? adhaar.length().then((value) {
+    //   print((value / 1024).toString() + "KB");
+    // }) : print("Loading ....");
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Change Address"),
@@ -356,59 +356,63 @@ class _ChangeAddressState extends State<ChangeAddress> {
         selectedGender.isNotEmpty &&
         adhaar != null &&
         dob.text.isNotEmpty) {
-      if (selectedMaritalStatus == "y" &&
-          anniversaryDate.text.isNotEmpty &&
-          DateTime.parse(anniversaryDate.text).year == -1) {
-        Fluttertoast.showToast(msg: "Please provide anniversary date");
-        return;
-      }
-      if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
-        if (RegExp(
-                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(email.text)) {
-          FormData data = FormData.fromMap({
-            "customer_id": id,
-            "name": name.text,
-            "alt_mobile": altMobile.text,
-            "email": email.text,
-            "gender": selectedGender,
-            "address": address.text,
-            "pincode": pinCode.text,
-            "area": area.text,
-            "city": city.text,
-            "state": state.text,
-            "dob": dob.text,
-            "marital_status": selectedMaritalStatus,
-            "anniversary": anniversaryDate.text,
-            "api_key": Urls.apiKey,
-            "image": image != null
-                ? await MultipartFile.fromFile(image.path,
-                    filename: image.path.split("/").last)
-                : null,
-            "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
-                filename: adhaar.path.split("/").last) : null,
-          });
-          setState(() {
-            isLoading = true;
-          });
-          Services.customerKYC(data).then((value) {
-            if (value.response == "y") {
-              userData(value.data);
-              Fluttertoast.showToast(msg: value.message);
-              Navigator.pushAndRemoveUntil(
-                  context, CustomPageRoute(widget: Home()), (route) => false);
-            } else {
-              setState(() {
-                isLoading = false;
-              });
-              Fluttertoast.showToast(msg: value.message);
-            }
-          });
+      if((await adhaar.length() / 1024) < 200) {
+        if (selectedMaritalStatus == "y" &&
+            anniversaryDate.text.isNotEmpty &&
+            DateTime.parse(anniversaryDate.text).year == -1) {
+          Fluttertoast.showToast(msg: "Please provide anniversary date");
+          return;
+        }
+        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+          if (RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(email.text)) {
+            FormData data = FormData.fromMap({
+              "customer_id": id,
+              "name": name.text,
+              "alt_mobile": altMobile.text,
+              "email": email.text,
+              "gender": selectedGender,
+              "address": address.text,
+              "pincode": pinCode.text,
+              "area": area.text,
+              "city": city.text,
+              "state": state.text,
+              "dob": dob.text,
+              "marital_status": selectedMaritalStatus,
+              "anniversary": anniversaryDate.text,
+              "api_key": Urls.apiKey,
+              "image": image != null
+                  ? await MultipartFile.fromFile(image.path,
+                  filename: image.path.split("/").last)
+                  : null,
+              "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
+                  filename: adhaar.path.split("/").last) : null,
+            });
+            setState(() {
+              isLoading = true;
+            });
+            Services.customerKYC(data).then((value) {
+              if (value.response == "y") {
+                userData(value.data);
+                Fluttertoast.showToast(msg: value.message);
+                Navigator.pushAndRemoveUntil(
+                    context, CustomPageRoute(widget: Home()), (route) => false);
+              } else {
+                setState(() {
+                  isLoading = false;
+                });
+                Fluttertoast.showToast(msg: value.message);
+              }
+            });
+          } else {
+            Fluttertoast.showToast(msg: "Invalid email");
+          }
         } else {
-          Fluttertoast.showToast(msg: "Invalid email");
+          Fluttertoast.showToast(msg: "Invalid mobile number");
         }
       } else {
-        Fluttertoast.showToast(msg: "Invalid mobile number");
+        Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
       }
     } else {
       Fluttertoast.showToast(msg: "Fields can't be empty");
