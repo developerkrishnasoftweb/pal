@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +50,6 @@ class _SignInState extends State<SignIn> {
   }
   void firebaseCloudMessagingListeners() {
     if (Platform.isIOS) iOSPermission();
-    _firebaseMessaging.getToken().then((token){
-      print(token);
-    });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
@@ -65,6 +61,10 @@ class _SignInState extends State<SignIn> {
         print('on launch $message');
       },
     );
+    _firebaseMessaging.subscribeToTopic('all');
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    });
   }
   void iOSPermission() {
     _firebaseMessaging.requestNotificationPermissions(
@@ -207,31 +207,32 @@ class _SignInState extends State<SignIn> {
   void _signIn() async {
     FocusScope.of(context).unfocus();
     setState(() {
-      // isLogging = true;
+      isLogging = true;
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (username.isNotEmpty && password.isNotEmpty) {
       FormData formData = FormData.fromMap(
           {"username": username, "password": password, "api_key": Urls.apiKey});
       firebaseCloudMessagingListeners();
-      // Services.signIn(formData).then((result) {
-      //   if (result.response == "y") {
-      //     setState(() {
-      //       isLogging = false;
-      //     });
-      //     userData(result.data);
-      //     sharedPreferences.setString("username", username);
-      //     sharedPreferences.setString(UserParams.password, result.data[0][UserParams.password]);
-      //     Navigator.pushAndRemoveUntil(
-      //         context, CustomPageRoute(widget: Home()), (route) => false);
-      //     Fluttertoast.showToast(msg: result.message);
-      //   } else {
-      //     setState(() {
-      //       isLogging = false;
-      //     });
-      //     Fluttertoast.showToast(msg: result.message);
-      //   }
-      // });
+      firebaseCloudMessagingListeners();
+      Services.signIn(formData).then((result) {
+        if (result.response == "y") {
+          setState(() {
+            isLogging = false;
+          });
+          userData(result.data);
+          sharedPreferences.setString("username", username);
+          sharedPreferences.setString(UserParams.password, result.data[0][UserParams.password]);
+          Navigator.pushAndRemoveUntil(
+              context, CustomPageRoute(widget: Home()), (route) => false);
+          Fluttertoast.showToast(msg: result.message);
+        } else {
+          setState(() {
+            isLogging = false;
+          });
+          Fluttertoast.showToast(msg: result.message);
+        }
+      });
     } else {
       Fluttertoast.showToast(msg: "Please enter username and password");
       setState(() {

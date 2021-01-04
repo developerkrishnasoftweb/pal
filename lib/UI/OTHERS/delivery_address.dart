@@ -340,6 +340,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   Widget buildCollectToShop() {
+    Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -352,39 +353,44 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),
         stores.length > 0
-            ? DropdownButtonFormField(
-                decoration: InputDecoration(
-                  border: border(),
-                ),
-                style: TextStyle(color: Colors.black, fontSize: 18),
-                value: selectedStoreCode,
-                isExpanded: true,
-                items: stores.map((store) {
-                  return DropdownMenuItem(
-                      value: store.storeCode,
-                      child: Text(
-                        store.name,
-                        style: TextStyle(
-                            color: stores.indexOf(store).isEven
-                                ? Colors.grey
-                                : Colors.black),
-                      ));
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedStoreCode = value;
-                  });
-                  stores.forEach((store) {
-                    if(store.storeCode == selectedStoreCode) {
-                      setState(() {
-                        storeArea = store.location;
-                        storeCity = store.city;
-                        storeState = store.state;
-                        storePinCode = store.pinCode;
-                      });
-                    }
-                  });
-                })
+            ? Container(
+              width: size.width - 20,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[200],
+                      blurRadius: 10,
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(10)),
+              child: DropdownButton(
+                  underline: SizedBox.shrink(),
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                  value: selectedStoreCode,
+                  isExpanded: true,
+                  items: stores.map((store) {
+                    return DropdownMenuItem(
+                        value: store.storeCode,
+                        child: Text(store.name));
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedStoreCode = value;
+                    });
+                    stores.forEach((store) {
+                      if(store.storeCode == selectedStoreCode) {
+                        setState(() {
+                          storeArea = store.location;
+                          storeCity = store.city;
+                          storeState = store.state;
+                          storePinCode = store.pinCode;
+                        });
+                      }
+                    });
+                  }),
+            )
             : SizedBox(),
         SizedBox(
           height: 15,
