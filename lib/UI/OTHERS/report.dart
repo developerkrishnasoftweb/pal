@@ -23,6 +23,7 @@ class _ReportState extends State<Report> {
   List earnedData = [], purchaseData = [], redeemData = [];
   double totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -49,6 +50,14 @@ class _ReportState extends State<Report> {
         );
       }
     });
+    _getReports();
+    super.initState();
+    getData();
+  }
+  _getReports() async {
+    setState(() {
+      isLoading = true;
+    });
     Services.getReports().then((value) {
       if (value.response == "y") {
         setState(() {
@@ -64,13 +73,15 @@ class _ReportState extends State<Report> {
           redeemData.forEach((element) {
             totalRedeemPoint += double.parse(element["point"]);
           });
+          isLoading = false;
         });
       } else {
+        setState(() {
+          isLoading = false;
+        });
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    super.initState();
-    getData();
   }
   getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -167,10 +178,9 @@ class _ReportState extends State<Report> {
       ],
     )
         : Center(
-      child: Text(
-        "You don't have earned points!!!",
+      child: !isLoading ? Text("You don't have earned points!!!",
         textAlign: TextAlign.center,
-      ),
+      ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
     );
   }
   Widget purchase() {
@@ -237,10 +247,9 @@ class _ReportState extends State<Report> {
             ],
           )
         : Center(
-            child: Text(
-              "You don't have made any purchase yet!!",
+            child: !isLoading ? Text("You don't have made any purchase yet!!",
               textAlign: TextAlign.center,
-            ),
+            ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
           );
   }
   Widget redeem() {
@@ -308,10 +317,9 @@ class _ReportState extends State<Report> {
             ],
           )
         : Center(
-            child: Text(
-              "You don't have redeemed any product yet !!!",
+            child: !isLoading ? Text("You don't have redeemed any product yet !!!",
               textAlign: TextAlign.center,
-            ),
+            ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
           );
   }
 }

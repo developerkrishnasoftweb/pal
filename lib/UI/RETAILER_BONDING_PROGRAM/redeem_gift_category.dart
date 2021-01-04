@@ -77,7 +77,7 @@ class _GiftState extends State<GiftCategory> {
                     ),
                     buildRedeemedAmount(
                         title: "Cumulative Purchase : ",
-                        amount: "0.0",
+                        amount: cumulativePurchase,
                         leadingTrailing: true),
                     GridView.builder(
                         shrinkWrap: true,

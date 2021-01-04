@@ -54,10 +54,10 @@ class _HomeState extends State<Home> {
     getData();
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
-    Services.getUserData();
   }
 
   void getData() async {
+    await Services.getUserData();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";

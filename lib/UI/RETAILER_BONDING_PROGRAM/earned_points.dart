@@ -21,7 +21,6 @@ class _EarnedPointsState extends State<EarnedPoints> {
   int cycle = 0;
   List<CycleData> earnedLists = [];
   double closingPoints = 0, cumulativePurchase = 0;
-  // TextStyle style, style1, style2;
   @override
   void initState() {
     _getEarnedPoints();
@@ -304,11 +303,11 @@ class _EarnedPointsState extends State<EarnedPoints> {
             // closingPoints -= double.parse(value.data[i]["total_points"] != null
             //     ? value.data[i]["total_points"][0]["point"]
             //     : "0");
-            cumulativePurchase += double.parse(value.data[i]["total_purchase"] != null
-                ? value.data[i]["total_purchase"][0]["purchase"] != null
-                ? value.data[i]["total_purchase"][0]["purchase"]
-                : "0.0"
-                : "0.0");
+            // cumulativePurchase += double.parse(value.data[i]["total_purchase"] != null
+            //     ? value.data[i]["total_purchase"][0]["purchase"] != null
+            //     ? value.data[i]["total_purchase"][0]["purchase"]
+            //     : "0.0"
+            //     : "0.0");
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
                 closingPoints: closingPoints.toString(),
