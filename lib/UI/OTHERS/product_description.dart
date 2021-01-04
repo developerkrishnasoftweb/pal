@@ -102,7 +102,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.giftData.rating.padLeft(1),
+                              widget.giftData.rating == "0" ? "4" : widget.giftData.rating.padLeft(1),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1

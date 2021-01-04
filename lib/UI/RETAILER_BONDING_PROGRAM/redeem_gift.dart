@@ -179,6 +179,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                   color: Colors.grey)),
           customButton(
               context: context,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               onPressed: () => Navigator.push(
                   context,
                   CustomPageRoute(

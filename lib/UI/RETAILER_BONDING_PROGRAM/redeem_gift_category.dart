@@ -109,6 +109,7 @@ class _GiftState extends State<GiftCategory> {
   Widget giftCard(GiftCategoryData giftCategoryData) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
+      borderRadius: BorderRadius.circular(10),
       onTap: (){
         Navigator.push(context, CustomPageRoute(widget: RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
       },
