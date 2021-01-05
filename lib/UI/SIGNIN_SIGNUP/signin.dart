@@ -27,7 +27,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool isLogging = false;
-  String username = "", password = "";
+  String username = "", password = "", token = "";
   TextEditingController emailController = TextEditingController();
   FocusNode myFocusNode;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -48,7 +48,7 @@ class _SignInState extends State<SignIn> {
     myFocusNode.dispose();
     super.dispose();
   }
-  void firebaseCloudMessagingListeners() {
+  void firebaseCloudMessagingListeners() async {
     if (Platform.isIOS) iOSPermission();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -63,7 +63,9 @@ class _SignInState extends State<SignIn> {
     );
     _firebaseMessaging.subscribeToTopic('all');
     _firebaseMessaging.getToken().then((token) {
-      print(token);
+      setState(() {
+        this.token = token;
+      });
     });
   }
   void iOSPermission() {
@@ -211,10 +213,10 @@ class _SignInState extends State<SignIn> {
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (username.isNotEmpty && password.isNotEmpty) {
+      firebaseCloudMessagingListeners();
       FormData formData = FormData.fromMap(
-          {"username": username, "password": password, "api_key": Urls.apiKey});
-      firebaseCloudMessagingListeners();
-      firebaseCloudMessagingListeners();
+          {"username": username, "password": password, "api_key": Urls.apiKey, "token" : token});
+      // print(token);
       Services.signIn(formData).then((result) {
         if (result.response == "y") {
           setState(() {

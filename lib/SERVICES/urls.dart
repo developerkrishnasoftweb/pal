@@ -40,4 +40,5 @@ class Urls{
   static String getReports = "get_history";
   static String getConfig = "get_config";
   static String getStores = "get_outlet";
+  static String getCycles = "get_cycles";
 }

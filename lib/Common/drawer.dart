@@ -20,10 +20,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required String name, @required String totalOrder, String version : "1.0.0"}) {
   Size size = MediaQuery.of(context).size;
-  Widget buildDrawerItems(String text, GestureTapCallback onTap, Icon icon) {
+  SizedBox gap = SizedBox(width: 10,);
+  Widget buildDrawerItems(String text, GestureTapCallback onTap, IconData icon) {
     return ListTile(
-      title: Align(alignment: Alignment(-1.2, 0.0), child: Text(text)),
-      leading: icon ?? null,
+      title: Row(
+        children: [
+          Icon(icon, color: Colors.grey,),
+          gap,
+          Text(text),
+        ],
+      ),
+      // leading: icon ?? null,
       onTap: onTap,
     );
   }
@@ -80,34 +87,31 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
           buildDrawerItems("HOME", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
-          }, Icon(Icons.home)),
-          ListTile(
-            title: Align(
-                alignment: Alignment(-1.3, 0.0),
-                child: Text("Product Catalog")),
-            onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(
-                  context, CustomPageRoute(widget: ProductCatalog()));
-            },
-            leading: Icon(Icons.book_outlined),
-          ),
+          }, Icons.home),
+          buildDrawerItems("Product Catalog", () {
+            scaffoldKey.currentState.openEndDrawer();
+            Navigator.push(
+                context, CustomPageRoute(widget: ProductCatalog()));
+          }, Icons.book_outlined),
           buildDrawerItems("Update KYC", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: KYC()));
-          }, Icon(Icons.book_online_outlined)),
+          }, Icons.book_online_outlined),
           ExpansionTile(
-            title: Align(
-                alignment: Alignment(-2.4, 0.0),
-                child: Text(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.table_chart_outlined,
+                  color: Colors.grey,
+                ),
+                gap,
+                Text(
                   "Customer Bonding Program",
                   style: TextStyle(color: Colors.black),
-                )),
-            initiallyExpanded: true,
-            leading: Icon(
-              Icons.table_chart_outlined,
-              color: Colors.grey,
+                ),
+              ],
             ),
+            initiallyExpanded: true,
             childrenPadding: EdgeInsets.only(left: 50),
             children: [
               ListTile(
@@ -129,17 +133,20 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             ],
           ),
           ExpansionTile(
-            title: Align(
-                alignment: Alignment(-1.2, 0.0),
-                child: Text(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.pages,
+                  color: Colors.grey,
+                ),
+                gap,
+                Text(
                   "Service Request",
                   style: TextStyle(color: Colors.black),
-                )),
-            initiallyExpanded: true,
-            leading: Icon(
-              Icons.pages,
-              color: Colors.grey,
+                ),
+              ],
             ),
+            initiallyExpanded: true,
             childrenPadding: EdgeInsets.only(left: 50),
             children: [
               ListTile(
@@ -161,17 +168,20 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             ],
           ),
           ExpansionTile(
-            title: Align(
-                alignment: Alignment(-1.2, 0.0),
-                child: Text(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.pages_outlined,
+                  color: Colors.grey,
+                ),
+                gap,
+                Text(
                   "Products",
                   style: TextStyle(color: Colors.black),
-                )),
-            initiallyExpanded: true,
-            leading: Icon(
-              Icons.pages_outlined,
-              color: Colors.grey,
+                ),
+              ],
             ),
+            initiallyExpanded: true,
             childrenPadding: EdgeInsets.only(left: 50),
             children: [
               ListTile(
@@ -194,45 +204,25 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(
                 context, CustomPageRoute(widget: TrackComplaint()));
-          },
-              Icon(
-                Icons.outgoing_mail,
-                color: Colors.grey,
-              )),
+          }, Icons.outgoing_mail),
           buildDrawerItems("Redeem Gift", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: GiftCategory()));
-          },
-              Icon(
-                Icons.card_giftcard,
-                color: Colors.grey,
-              )),
+          }, Icons.card_giftcard),
           buildDrawerItems("Redeemed Gifts", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: RedeemedGift()));
-          },
-              Icon(
-                Icons.card_giftcard,
-                color: Colors.grey,
-              )),
+          }, Icons.card_giftcard),
           buildDrawerItems("Reports", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(
                 context, CustomPageRoute(widget: Report()));
-          },
-              Icon(
-                Icons.report,
-                color: Colors.grey,
-              )),
+          }, Icons.report),
           buildDrawerItems("My Notification", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(
                 context, CustomPageRoute(widget: Notifications()));
-          },
-              Icon(
-                Icons.notifications_on_outlined,
-                color: Colors.grey,
-              )),
+          }, Icons.notifications_on_outlined),
           buildDrawerItems(
               "Logout",
                   () => showDialogBox(
@@ -248,7 +238,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                   ],
                   title: "Alert",
                   content: "Are you sure you want to exit?"),
-              Icon(Icons.logout)),
+              Icons.logout),
         ],
       ),
     ),

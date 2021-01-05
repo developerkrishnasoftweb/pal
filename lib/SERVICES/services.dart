@@ -14,16 +14,14 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
+      final jsonResponse = jsonDecode(response.data);
+      Data data = Data();
       if (response.statusCode == 200) {
-        Data data = Data();
-        final jsonResponse = jsonDecode(response.data);
+        print("Message : " + jsonResponse["message"].toString());
+        print("Status : " + jsonResponse["status"].toString());
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
-        if (jsonResponse["data"].length != 0) {
-          data.data = [jsonResponse["data"]];
-        } else {
-          data.data = [];
-        }
+        data.data = [jsonResponse["data"]];
         return data;
       }
       return null;
@@ -510,6 +508,22 @@ class Services {
     } catch (e) {
       Data data = Data(message: errorMessage, response: null, data: null);
       return data;
+    }
+  }
+
+  static Future<void> getCycle() async {
+    String url = Urls.baseUrl + Urls.getCycles;
+    try {
+      dio.Response response;
+      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type) {
+      } else {
+      }
+    } catch (e) {
     }
   }
 

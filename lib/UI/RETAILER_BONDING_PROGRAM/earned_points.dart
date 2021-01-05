@@ -290,6 +290,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
       earnedLists = [];
       cycle = int.parse(lastCycle.toString().split(" ")[1]);
     });
+    await Services.getCycle();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
     FormData body = FormData.fromMap({
