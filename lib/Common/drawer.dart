@@ -71,7 +71,17 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: Icon(Icons.account_balance_wallet_outlined, color: Colors.black,),
+                            alignment: PlaceholderAlignment.middle
+                          ),
+                          TextSpan(text: "\t" + totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))
+                        ],
+                      ),
+                    ),
                     Text(
                       "Version " + version,
                       style: TextStyle(color: Colors.red[400]),

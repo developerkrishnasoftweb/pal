@@ -54,10 +54,14 @@ class _KYCState extends State<KYC> {
     return Scaffold(
       appBar: appBar(context: context, title: "KYC Details", actions:  [
         IconButton(
-          onPressed: data.kyc == "y" ? null : () {
+          onPressed: () {
             Navigator.pop(context);
-            Navigator.push(
-                context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
+            if(data.kyc == "y")
+              Navigator.push(
+                  context, CustomPageRoute(widget: ChangeAddress(userdata: data, status: data.kyc,)));
+            else
+              Navigator.push(
+                  context, CustomPageRoute(widget: ChangeAddress(userdata: data,)));
           },
           icon: Icon(data.kyc == "y" ? Icons.check_circle : Icons.edit, color: Colors.white,),
         )

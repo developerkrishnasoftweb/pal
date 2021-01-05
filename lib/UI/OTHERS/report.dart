@@ -100,7 +100,17 @@ class _ReportState extends State<Report> {
               actions: [
                 Center(child: Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: Text("Total Points : $totalPoints"),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                            child: Icon(Icons.account_balance_wallet_outlined, color: Colors.white,),
+                            alignment: PlaceholderAlignment.middle
+                        ),
+                        TextSpan(text: "\t" + totalPoints, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                      ],
+                    ),
+                  ),
                 )),
               ],
               bottom: TabBar(

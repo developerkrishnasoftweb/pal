@@ -10,7 +10,8 @@ import 'package:path_provider/path_provider.dart';
 
 class CatalogPreview extends StatefulWidget {
   final String url;
-  CatalogPreview({@required this.url});
+  final bool adhaarView;
+  CatalogPreview({@required this.url, this.adhaarView : false});
   @override
   _CatalogPreviewState createState() => _CatalogPreviewState();
 }
@@ -67,7 +68,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Catalog", actions: [Center(child: Padding(
+      appBar: appBar(context: context, title: widget.adhaarView ? "Adhaar View" : "Catalog Preview", actions: [Center(child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Text(pageNo, style: TextStyle(fontWeight: FontWeight.bold),),
       ))]),

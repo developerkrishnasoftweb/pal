@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:pal/Common/page_route.dart';
 import 'package:pal/SERVICES/urls.dart';
 import 'package:pal/UI/HOME/home.dart';
+import 'package:pal/UI/PRODUCT_CATALOG/catalog_preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
@@ -21,7 +22,8 @@ import 'package:image_picker/image_picker.dart';
 
 class ChangeAddress extends StatefulWidget {
   final Userdata userdata;
-  ChangeAddress({this.userdata});
+  final String status;
+  ChangeAddress({this.userdata, this.status});
   @override
   _ChangeAddressState createState() => _ChangeAddressState();
 }
@@ -101,9 +103,6 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   Widget build(BuildContext context) {
-    // adhaar != null ? adhaar.length().then((value) {
-    //   print((value / 1024).toString() + "KB");
-    // }) : print("Loading ....");
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Change Address"),
@@ -135,14 +134,16 @@ class _ChangeAddressState extends State<ChangeAddress> {
               text: "Email",
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              decoration: InputDecoration(border: border()),
+              readOnly: widget.status == "y" ?? false,
+              decoration: InputDecoration(border: border(), suffixIcon: widget.status == "y" ? Icon(Icons.check_circle_outline_outlined, color: Colors.green,) : null),
             ),
             input(
               context: context,
               text: "Address",
               controller: address,
-              maxLines: 5,
+              maxLines: widget.status == "y" ? 2 : 5,
               textInputAction: TextInputAction.next,
+              readOnly: widget.status == "y" ?? false,
               decoration: InputDecoration(border: border()),
             ),
             input(
@@ -150,6 +151,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 text: "Pincode",
                 controller: pinCode,
                 keyboardType: TextInputType.number,
+                readOnly: widget.status == "y" ?? false,
                 onChanged: (value) {
                   _getPinCodeData();
                 },
@@ -158,11 +160,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "State",
                 controller: state,
+                readOnly: widget.status == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
                 text: "City",
                 controller: city,
+                readOnly: widget.status == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             listAreas.length > 1
                 ? Padding(
@@ -200,6 +204,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     context: context,
                     text: "Area",
                     controller: area,
+                    readOnly: widget.status == "y" ?? false,
                     decoration: InputDecoration(border: border())),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -239,7 +244,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "Date of Birth",
                 controller: dob,
-                onTap: () => _selectDate(SelectDateType.DOB),
+                onTap: widget.status == "y" ? null : () => _selectDate(SelectDateType.DOB),
                 readOnly: true,
                 keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(border: border())),
@@ -307,8 +312,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   ),
                   customButton(
                       context: context,
-                      onPressed: getAdhaar,
-                      child: Text( adhaar == null ?
+                      onPressed: widget.status == "y" ? () => Navigator.push(context, CustomPageRoute(widget: CatalogPreview(url: widget.userdata.adhaar, adhaarView: true,))) : getAdhaar,
+                      child: Text( widget.status == "y" ? "Open" : adhaar == null ?
                       "Attach File" : adhaar.path.split("/").last,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.blue[500], fontWeight: FontWeight.bold),
@@ -316,7 +321,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                       ),
                       outerPadding: EdgeInsets.zero,
                       color: Colors.blue[100],
-                      height: 60, width: 140)
+                      height: 50, width: 100)
                 ],
               ),
             ),
@@ -492,6 +497,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           barrierDismissible: false);
       Services.getPinData(pinCode.text).then((value) {
         if (value.response == "Success") {
+          FocusScope.of(context).unfocus();
           for (int i = 0; i < value.data.length; i++) {
             setState(() {
               listAreas.add(value.data[i]["Name"]);
