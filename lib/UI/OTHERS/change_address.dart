@@ -46,7 +46,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
   File image, adhaar;
   final picker = ImagePicker();
   DateTime selectedDate = DateTime.now();
-  bool isLoading = false;
+  bool isLoading = false, validMobile = false;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -94,6 +94,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
       dob.text = widget.userdata.dob;
       anniversaryDate.text = widget.userdata.anniversaryDate;
     });
+    if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
+        .hasMatch(widget.userdata.alternateMobile)){
+      setState(() {
+        validMobile = true;
+      });
+    }
     if (widget.userdata.dob != null) {
       setState(() {
         selectedDate = DateTime.parse(widget.userdata.dob);
@@ -126,7 +132,21 @@ class _ChangeAddressState extends State<ChangeAddress> {
               text: "Alternate Mobile Number",
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
-              decoration: InputDecoration(border: border()),
+              onChanged: (value) {
+                setState(() {
+                  if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
+                      .hasMatch(value)) {
+                    setState(() {
+                      validMobile = true;
+                    });
+                  } else {
+                    setState(() {
+                      validMobile = false;
+                    });
+                  }
+                });
+              },
+              decoration: InputDecoration(border: border(), suffixIcon: validMobile ? Icon(Icons.check_circle_outline_outlined, color: Colors.green,) : Icon(Icons.cancel_outlined, color: Colors.red,)),
             ),
             input(
               context: context,
@@ -301,7 +321,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Adhaar Card :",
+                    "Adhaar Card : " + (widget.userdata.adhaar != null || widget.userdata.adhaar != "" ? "(${widget.userdata.adhaar.split("/").last})" : ""),
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey,
                         fontSize: 13,
@@ -313,7 +333,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   customButton(
                       context: context,
                       onPressed: widget.status == "y" ? () => Navigator.push(context, CustomPageRoute(widget: CatalogPreview(url: widget.userdata.adhaar, adhaarView: true,))) : getAdhaar,
-                      child: Text( widget.status == "y" ? "Open" : adhaar == null ?
+                      child: Text( widget.status == "y" ? "View" : adhaar == null ?
                       "Attach File" : adhaar.path.split("/").last,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Colors.blue[500], fontWeight: FontWeight.bold),
