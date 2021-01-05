@@ -115,7 +115,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                       separatorBuilder: (context, index) {
                         return Container(height: 10, width: size.width, color: Colors.grey[100],);
                       },
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: cycle != null && cycle <= earnedLists.length
                           ? cycle
