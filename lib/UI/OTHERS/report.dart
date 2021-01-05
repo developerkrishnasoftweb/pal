@@ -217,9 +217,9 @@ class _ReportState extends State<Report> {
                             DataColumn(
                                 label:
                                     Text('Invoice Date', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Amount', style: headerStyle)),
+                            // DataColumn(
+                            //     label:
+                            //         Text('Invoice Amount', style: headerStyle)),
                             DataColumn(
                                 label: Text('Point Earn', style: headerStyle)),
                             DataColumn(
@@ -231,7 +231,7 @@ class _ReportState extends State<Report> {
                                   (purchaseData.indexOf(data) + 1).toString())),
                               DataCell(Text(data["voucher_no"])),
                               DataCell(Text(data["created"])),
-                              DataCell(Text(data["purchase"])),
+                              // DataCell(Text(data["purchase"])),
                               DataCell(Text(data["point"])),
                               DataCell(Text(data["branch_name"])),
                             ]);

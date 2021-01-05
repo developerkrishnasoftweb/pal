@@ -111,7 +111,10 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 height: 10,
               ),
               earnedLists.length > 0
-                  ? ListView.builder(
+                  ? ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Container(height: 10, width: size.width, color: Colors.grey[100],);
+                      },
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: cycle != null && cycle <= earnedLists.length
