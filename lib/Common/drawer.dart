@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pal/Constant/color.dart';
 import '.././UI/OTHERS/notification.dart';
 import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
@@ -75,10 +76,10 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                       text: TextSpan(
                         children: [
                           WidgetSpan(
-                            child: Icon(Icons.account_balance_wallet_outlined, color: Colors.black,),
+                            child: Icon(Icons.account_balance_wallet_outlined, color: AppColors.primaryColor,),
                             alignment: PlaceholderAlignment.middle
                           ),
-                          TextSpan(text: "\t" + totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))
+                          TextSpan(text: "\t" + totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.primaryColor))
                         ],
                       ),
                     ),

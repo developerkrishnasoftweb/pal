@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 Widget input(
     {@required BuildContext context,
     InputDecoration decoration,
@@ -18,12 +19,12 @@ Widget input(
     TextStyle labelStyle,
     TextInputAction textInputAction,
     FocusNode focusNode,
+    double height,
     int maxLines}) {
   Size size = MediaQuery.of(context).size;
   return Container(
-    padding:
-        padding ?? const EdgeInsets.all(10),
-    width: size.width ?? width,
+    padding: padding ?? const EdgeInsets.all(10),
+    width: width ?? size.width,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,20 +39,23 @@ Widget input(
         SizedBox(
           height: 10,
         ),
-        TextFormField(
-          autofocus: autoFocus ?? false,
-          maxLines: maxLines ?? 1,
-          decoration: decoration ?? null,
-          style: style ?? null,
-          onTap: onTap ?? null,
-          controller: controller ?? null,
-          obscureText: obscureText ?? false,
-          onChanged: onChanged ?? null,
-          onEditingComplete: onEditingComplete ?? null,
-          textInputAction: textInputAction ?? null,
-          keyboardType: keyboardType,
-          readOnly: readOnly ?? false,
-          focusNode: focusNode,
+        Container(
+          height: height,
+          child: TextFormField(
+            autofocus: autoFocus ?? false,
+            maxLines: maxLines ?? 1,
+            decoration: decoration ?? null,
+            style: style ?? null,
+            onTap: onTap ?? null,
+            controller: controller ?? null,
+            obscureText: obscureText ?? false,
+            onChanged: onChanged ?? null,
+            onEditingComplete: onEditingComplete ?? null,
+            textInputAction: textInputAction ?? null,
+            keyboardType: keyboardType,
+            readOnly: readOnly ?? false,
+            focusNode: focusNode,
+          ),
         ),
       ],
     ),

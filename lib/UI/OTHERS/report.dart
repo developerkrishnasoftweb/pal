@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import '../../Common/input_decoration.dart';
+import '../../Common/show_dialog.dart';
+import '../../Common/textinput.dart';
 import '../../Common/appbar.dart';
 import '../../SERVICES/services.dart';
 import '../../Constant/color.dart';
@@ -19,11 +23,16 @@ class _ReportState extends State<Report> {
   ScrollController purchaseScrollController = ScrollController();
   ScrollController redeemScrollController = ScrollController();
   ScrollController earnScrollController = ScrollController();
+  TextEditingController fromDate = TextEditingController();
+  TextEditingController toDate = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
+  // List earnedData = [], purchaseData = [], redeemData = [];
   int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
   bool isLoading = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -54,6 +63,7 @@ class _ReportState extends State<Report> {
     super.initState();
     getData();
   }
+
   _getReports() async {
     setState(() {
       isLoading = true;
@@ -83,14 +93,43 @@ class _ReportState extends State<Report> {
       }
     });
   }
+
   getData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       totalPoints = sharedPreferences.getString(UserParams.point);
     });
   }
+
+  _selectDate(TextEditingController controller) async {
+    final DateTime date = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(DateTime.now().year - 10),
+        lastDate: DateTime.now());
+    if(date != null) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
+    if(controller == fromDate) {
+      setState(() {
+        fromDate.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+      });
+    } else if(controller == toDate) {
+      setState(() {
+        toDate.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+      });
+    }
+  }
+  _filter() async {
+    if(fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
+      // print();
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return DefaultTabController(
         length: tabs.length,
         child: Scaffold(
@@ -98,16 +137,66 @@ class _ReportState extends State<Report> {
               context: context,
               title: "Report",
               actions: [
-                Center(child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                IconButton(
+                  icon: Icon(Icons.filter_list_outlined),
+                  onPressed: () {
+                    showDialogBox(
+                        context: context,
+                        title: "Filter Report By Date",
+                        widget: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            input(
+                                context: context,
+                                decoration: InputDecoration(
+                                    border: border(),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 20)),
+                                text: "From Date",
+                                height: 50,
+                                width: size.width * 0.4,
+                                readOnly: true,
+                                onTap: () => _selectDate(fromDate),
+                                controller: fromDate),
+                            input(
+                                context: context,
+                                decoration: InputDecoration(
+                                    border: border(),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 20)),
+                                text: "To Date",
+                                height: 50,
+                                width: size.width * 0.4,
+                                readOnly: true,
+                                onTap: () => _selectDate(toDate),
+                                controller: toDate)
+                          ],
+                        ),
+                        actions: [
+                          FlatButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("Cancel")),
+                          FlatButton(onPressed: _filter, child: Text("Filter")),
+                        ]);
+                  },
+                  splashRadius: 25,
+                ),
+                Center(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 20),
                   child: RichText(
                     text: TextSpan(
                       children: [
                         WidgetSpan(
-                            child: Icon(Icons.account_balance_wallet_outlined, color: Colors.white,),
-                            alignment: PlaceholderAlignment.middle
-                        ),
-                        TextSpan(text: "\t" + totalPoints, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                            child: Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: Colors.white,
+                            ),
+                            alignment: PlaceholderAlignment.middle),
+                        TextSpan(
+                            text: "\t" + totalPoints,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15))
                       ],
                     ),
                   ),
@@ -133,66 +222,81 @@ class _ReportState extends State<Report> {
           ),
         ));
   }
+
   Widget earn() {
     Size size = MediaQuery.of(context).size;
     return earnedData.length > 0
         ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: size.width,
-          color: AppColors.primaryColor,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Total earned point : ${totalEarnedPoints.toString()}",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-        Expanded(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                child: DataTable(
-                    columns: [
-                      DataColumn(
-                          label: Text('Sr.No.', style: headerStyle)),
-                      DataColumn(
-                          label:
-                          Text('Invoice Date', style: headerStyle)),
-                      DataColumn(
-                          label: Text('Point Earn', style: headerStyle)),
-                      DataColumn(
-                          label: Text('Branch Name', style: headerStyle)),
-                    ],
-                    rows: earnedData.map((data) {
-                      return DataRow(cells: [
-                        DataCell(Text(
-                            (earnedData.indexOf(data) + 1).toString())),
-                        DataCell(Text(data["created"])),
-                        DataCell(Text(data["point"])),
-                        DataCell(Text(data["branch_name"])),
-                      ]);
-                    }).toList()),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: size.width,
+                color: AppColors.primaryColor,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Total earned point : ${totalEarnedPoints.toString()}",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
-            ),
-            isAlwaysShown: true,
-            radius: Radius.circular(10),
-            controller: earnScrollController,
-            thickness: 3,
-          ),
-        ),
-      ],
-    )
+              Expanded(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: DataTable(
+                          columns: [
+                            DataColumn(
+                                label: Text('Sr.No.', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Date', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Point Earn', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Branch Name', style: headerStyle)),
+                          ],
+                          rows: earnedData.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (earnedData.indexOf(data) + 1).toString())),
+                              DataCell(Text(data["created"])),
+                              DataCell(Text(data["point"])),
+                              DataCell(Text(data["branch_name"])),
+                            ]);
+                          }).toList()),
+                    ),
+                  ),
+                  isAlwaysShown: true,
+                  radius: Radius.circular(10),
+                  controller: earnScrollController,
+                  thickness: 3,
+                ),
+              ),
+            ],
+          )
         : Center(
-      child: !isLoading ? Text("You don't have earned points!!!",
-        textAlign: TextAlign.center,
-      ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
-    );
+            child: !isLoading
+                ? Text(
+                    "You don't have earned points!!!",
+                    textAlign: TextAlign.center,
+                  )
+                : SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                    ),
+                  ),
+          );
   }
+
   Widget purchase() {
     Size size = MediaQuery.of(context).size;
     return purchaseData.length > 0
@@ -205,7 +309,10 @@ class _ReportState extends State<Report> {
                 color: AppColors.primaryColor,
                 child: Text(
                   "Total purchased point : ${totalPurchasePoint.toString()}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               Expanded(
@@ -257,11 +364,22 @@ class _ReportState extends State<Report> {
             ],
           )
         : Center(
-            child: !isLoading ? Text("You don't have made any purchase yet!!",
-              textAlign: TextAlign.center,
-            ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
+            child: !isLoading
+                ? Text(
+                    "You don't have made any purchase yet!!",
+                    textAlign: TextAlign.center,
+                  )
+                : SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                    ),
+                  ),
           );
   }
+
   Widget redeem() {
     Size size = MediaQuery.of(context).size;
     return redeemData.length > 0
@@ -274,7 +392,10 @@ class _ReportState extends State<Report> {
                 width: size.width,
                 child: Text(
                   "Total redeemed point : ${totalRedeemPoint.toString()}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
               Expanded(
@@ -327,9 +448,19 @@ class _ReportState extends State<Report> {
             ],
           )
         : Center(
-            child: !isLoading ? Text("You don't have redeemed any product yet !!!",
-              textAlign: TextAlign.center,
-            ) : SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),
+            child: !isLoading
+                ? Text(
+                    "You don't have redeemed any product yet !!!",
+                    textAlign: TextAlign.center,
+                  )
+                : SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                    ),
+                  ),
           );
   }
 }
