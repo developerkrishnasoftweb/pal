@@ -23,12 +23,14 @@ class _ReportState extends State<Report> {
   ScrollController purchaseScrollController = ScrollController();
   ScrollController redeemScrollController = ScrollController();
   ScrollController earnScrollController = ScrollController();
-  TextEditingController fromDate = TextEditingController();
+  TextEditingController fromDate = TextEditingController(
+      text: DateFormat('yyyy-MM-dd').format(DateTime(
+          DateTime.now().year, DateTime.now().month - 1, DateTime.now().day)));
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
-  // List earnedData = [], purchaseData = [], redeemData = [];
+  List filteredEarnedData = [], filteredPurchaseData = [], filteredRedeemData = [];
   int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
   bool isLoading = false;
@@ -74,13 +76,16 @@ class _ReportState extends State<Report> {
           earnedData = value.data[0]["earn"];
           purchaseData = value.data[0]["purchase"];
           redeemData = value.data[0]["redeem"];
-          earnedData.forEach((element) {
+          filteredEarnedData = earnedData;
+          filteredPurchaseData = purchaseData;
+          filteredRedeemData = redeemData;
+          filteredEarnedData.forEach((element) {
             totalEarnedPoints += int.parse(element["point"]);
           });
-          purchaseData.forEach((element) {
+          filteredPurchaseData.forEach((element) {
             totalPurchasePoint += int.parse(element["purchase"]);
           });
-          redeemData.forEach((element) {
+          filteredRedeemData.forEach((element) {
             totalRedeemPoint += int.parse(element["point"]);
           });
           isLoading = false;
@@ -107,26 +112,44 @@ class _ReportState extends State<Report> {
         initialDate: selectedDate,
         firstDate: DateTime(DateTime.now().year - 10),
         lastDate: DateTime.now());
-    if(date != null) {
+    if (date != null) {
       setState(() {
         selectedDate = date;
       });
     }
-    if(controller == fromDate) {
+    if (controller == fromDate) {
       setState(() {
         fromDate.text = DateFormat('yyyy-MM-dd').format(selectedDate);
       });
-    } else if(controller == toDate) {
+    } else if (controller == toDate) {
       setState(() {
         toDate.text = DateFormat('yyyy-MM-dd').format(selectedDate);
       });
     }
   }
+
   _filter() async {
-    if(fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
-      // print();
+    Navigator.pop(context);
+    if (fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
+      DateTime from = DateTime.parse(fromDate.text);
+      DateTime to = DateTime.parse(toDate.text);
+      earnedData.forEach((element) {
+        setState(() {
+          filteredEarnedData.clear();
+          totalEarnedPoints = 0;
+        });
+        if(from.isBefore(DateTime.parse(element["created"])) && to.isAfter(DateTime.parse(element["created"]))){
+          print(earnedData.length);
+          setState(() {
+            filteredEarnedData.add(element);
+            totalEarnedPoints += int.parse(element["point"]);
+          });
+        }
+      });
+      // print(from.isBefore(to));
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -150,6 +173,7 @@ class _ReportState extends State<Report> {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
+                                    hintText: "From Date",
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
                                 text: "From Date",
@@ -162,6 +186,7 @@ class _ReportState extends State<Report> {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
+                                    hintText: "To Date",
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
                                 text: "To Date",
@@ -225,7 +250,7 @@ class _ReportState extends State<Report> {
 
   Widget earn() {
     Size size = MediaQuery.of(context).size;
-    return earnedData.length > 0
+    return filteredEarnedData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -261,10 +286,10 @@ class _ReportState extends State<Report> {
                             DataColumn(
                                 label: Text('Branch Name', style: headerStyle)),
                           ],
-                          rows: earnedData.map((data) {
+                          rows: filteredEarnedData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (earnedData.indexOf(data) + 1).toString())),
+                                  (filteredEarnedData.indexOf(data) + 1).toString())),
                               DataCell(Text(data["created"])),
                               DataCell(Text(data["point"])),
                               DataCell(Text(data["branch_name"])),
@@ -299,7 +324,7 @@ class _ReportState extends State<Report> {
 
   Widget purchase() {
     Size size = MediaQuery.of(context).size;
-    return purchaseData.length > 0
+    return filteredPurchaseData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -342,10 +367,10 @@ class _ReportState extends State<Report> {
                             DataColumn(
                                 label: Text('Branch Name', style: headerStyle)),
                           ],
-                          rows: purchaseData.map((data) {
+                          rows: filteredPurchaseData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (purchaseData.indexOf(data) + 1).toString())),
+                                  (filteredPurchaseData.indexOf(data) + 1).toString())),
                               DataCell(Text(data["voucher_no"])),
                               DataCell(Text(data["created"])),
                               // DataCell(Text(data["purchase"])),
@@ -382,7 +407,7 @@ class _ReportState extends State<Report> {
 
   Widget redeem() {
     Size size = MediaQuery.of(context).size;
-    return redeemData.length > 0
+    return filteredRedeemData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -423,10 +448,10 @@ class _ReportState extends State<Report> {
                                 label:
                                     Text('Redeem Point', style: headerStyle)),
                           ],
-                          rows: redeemData.map((data) {
+                          rows: filteredRedeemData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (redeemData.indexOf(data) + 1).toString())),
+                                  (filteredRedeemData.indexOf(data) + 1).toString())),
                               DataCell(Text(data["datetime"]
                                   .toString()
                                   .split(" ")
