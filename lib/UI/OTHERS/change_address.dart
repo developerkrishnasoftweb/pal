@@ -446,9 +446,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
       if(name.text.isNotEmpty && altMobile.text.isNotEmpty) {
         if(RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)){
           if (selectedMaritalStatus == "y" &&
-              anniversaryDate.text.isNotEmpty &&
-              (DateTime.parse(anniversaryDate.text).year - DateTime.parse(dob.text).year) > 15) {
-            Fluttertoast.showToast(msg: "Invalid anniversary date");
+              anniversaryDate.text.isEmpty) {
+            Fluttertoast.showToast(msg: "Please provide anniversary date");
             return;
           }
           setState(() {

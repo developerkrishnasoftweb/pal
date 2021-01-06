@@ -44,8 +44,8 @@ class _HomeState extends State<Home> {
         // });
       });
     });
-    Timer.periodic(Duration(milliseconds: 1000), (timer) {
-      getData();
+    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
+      await Services.getUserData();
     });
     Services.getConfig();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
