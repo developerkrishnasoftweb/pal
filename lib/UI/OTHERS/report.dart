@@ -36,7 +36,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       filteredRedeemData = [];
   int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
-  bool isLoading = false;
+  bool isLoading = false, isFiltered = false;
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -172,6 +172,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         setState(() {
           filteredEarnedData.add(element);
           totalEarnedPoints += int.parse(element["point"]);
+          isFiltered = true;
           count++;
         });
       }
@@ -202,6 +203,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
          setState(() {
            filteredPurchaseData.add(element);
            totalPurchasePoint += int.parse(element["purchase"]);
+           isFiltered = true;
            count++;
          });
        }
@@ -233,6 +235,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         setState(() {
           filteredRedeemData.add(element);
           totalRedeemPoint += int.parse(element["point"]);
+          isFiltered = true;
           count++;
         });
       }
@@ -247,6 +250,25 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       Fluttertoast.showToast(
           msg:
           "No redeem report found between ${fromDate.text} - ${toDate.text}"); }
+  }
+  _reset () {
+    Navigator.pop(context);
+    setState(() {
+      filteredRedeemData = filteredPurchaseData = filteredEarnedData = [];
+      totalEarnedPoints = totalPurchasePoint = totalRedeemPoint = 0;
+      filteredRedeemData = redeemData;
+      filteredPurchaseData = purchaseData;
+      filteredEarnedData = earnedData;
+      filteredEarnedData.forEach((element) {
+        totalEarnedPoints += int.parse(element["point"]);
+      });
+      filteredPurchaseData.forEach((element) {
+        totalPurchasePoint += int.parse(element["purchase"]);
+      });
+      filteredRedeemData.forEach((element) {
+        totalRedeemPoint += int.parse(element["point"]);
+      });
+    });
   }
 
   @override
@@ -298,8 +320,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                         ),
                         actions: [
                           FlatButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text("Cancel")),
+                              onPressed: isFiltered ? _reset : () => Navigator.pop(context),
+                              child: Text(isFiltered ? "Reset" : "Close")),
                           FlatButton(onPressed: _filter, child: Text("Filter")),
                         ]);
                   },
@@ -466,9 +488,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                             DataColumn(
                                 label:
                                     Text('Invoice Date', style: headerStyle)),
-                            // DataColumn(
-                            //     label:
-                            //         Text('Invoice Amount', style: headerStyle)),
                             DataColumn(
                                 label: Text('Point Earn', style: headerStyle)),
                             DataColumn(
@@ -481,7 +500,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                       .toString())),
                               DataCell(Text(data["voucher_no"])),
                               DataCell(Text(data["created"])),
-                              // DataCell(Text(data["purchase"])),
                               DataCell(Text(data["point"])),
                               DataCell(Text(data["branch_name"])),
                             ]);
