@@ -17,12 +17,13 @@ class Report extends StatefulWidget {
   _ReportState createState() => _ReportState();
 }
 
-class _ReportState extends State<Report> {
+class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   TextStyle headerStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
   TextStyle bodyStyle = TextStyle(fontSize: 16);
   ScrollController purchaseScrollController = ScrollController();
   ScrollController redeemScrollController = ScrollController();
   ScrollController earnScrollController = ScrollController();
+  TabController _tabController;
   TextEditingController fromDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime(
           DateTime.now().year, DateTime.now().month - 1, DateTime.now().day)));
@@ -38,6 +39,7 @@ class _ReportState extends State<Report> {
 
   @override
   void initState() {
+    _tabController = TabController(length: tabs.length, vsync: this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (purchaseScrollController.hasClients) {
         purchaseScrollController.animateTo(
@@ -66,6 +68,12 @@ class _ReportState extends State<Report> {
     getData();
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   _getReports() async {
     setState(() {
       isLoading = true;
@@ -76,9 +84,9 @@ class _ReportState extends State<Report> {
           earnedData = value.data[0]["earn"];
           purchaseData = value.data[0]["purchase"];
           redeemData = value.data[0]["redeem"];
-          filteredEarnedData = earnedData;
-          filteredPurchaseData = purchaseData;
-          filteredRedeemData = redeemData;
+          filteredEarnedData = value.data[0]["earn"];
+          filteredPurchaseData = value.data[0]["purchase"];
+          filteredRedeemData = value.data[0]["redeem"];
           filteredEarnedData.forEach((element) {
             totalEarnedPoints += int.parse(element["point"]);
           });
@@ -131,23 +139,42 @@ class _ReportState extends State<Report> {
   _filter() async {
     Navigator.pop(context);
     if (fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
-      DateTime from = DateTime.parse(fromDate.text);
-      DateTime to = DateTime.parse(toDate.text);
-      earnedData.forEach((element) {
-        setState(() {
-          filteredEarnedData.clear();
-          totalEarnedPoints = 0;
-        });
-        if(from.isBefore(DateTime.parse(element["created"])) && to.isAfter(DateTime.parse(element["created"]))){
-          print(earnedData.length);
-          setState(() {
-            filteredEarnedData.add(element);
-            totalEarnedPoints += int.parse(element["point"]);
-          });
-        }
-      });
-      // print(from.isBefore(to));
+      switch (_tabController.index) {
+        case 0 :
+          print(tabs[0]);
+          break;
+        case 1 :
+          print(tabs[1]);
+          break;
+        case 2:
+          print(tabs[2]);
+          break;
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Please select from and to date");
     }
+  }
+
+  _filterEarnedData () async {
+    setState(() {
+      filteredEarnedData = [];
+      totalEarnedPoints = 0;
+    });
+    DateTime from = DateTime.parse(fromDate.text);
+    DateTime to = DateTime.parse(toDate.text);
+    earnedData.forEach((element) {
+      if(from.isBefore(DateTime.parse(element["created"])) && to.isAfter(DateTime.parse(element["created"]))){
+        setState(() {
+          filteredEarnedData.add(element);
+          totalEarnedPoints += int.parse(element["point"]);
+        });
+      } /* else {
+          Fluttertoast.showToast(msg: "No earned report found between ${fromDate.text} - ${toDate.text}");
+          setState(() {
+            filteredEarnedData = earnedData;
+          });
+        } */
+    });
   }
 
   @override
@@ -236,6 +263,11 @@ class _ReportState extends State<Report> {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   unselectedLabelStyle: TextStyle(fontSize: 16),
                   indicatorWeight: 3,
+                  onTap: (index) {
+                    setState(() {
+                      _tabController.index = index;
+                    });
+                  },
                   tabs: tabs.map((e) {
                     return Tab(
                       child: Text(e),
@@ -243,6 +275,7 @@ class _ReportState extends State<Report> {
                   }).toList())),
           body: TabBarView(
             physics: BouncingScrollPhysics(),
+            controller: _tabController,
             children: [earn(), purchase(), redeem()],
           ),
         ));
