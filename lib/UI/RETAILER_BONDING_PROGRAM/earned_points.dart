@@ -17,8 +17,8 @@ class EarnedPoints extends StatefulWidget {
 }
 
 class _EarnedPointsState extends State<EarnedPoints> {
-  String lastCycle = "Last 12 Cycles", name = " ";
-  int cycle = 0;
+  String name = " ";
+  // int cycle = 0;
   List<CycleData> earnedLists = [];
   double availablePoints = 0, cumulativePurchase = 0;
   @override
@@ -81,51 +81,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   amount: cumulativePurchase.toString(),
                   leadingTrailing: true),
               SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: size.width - 20,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey[200],
-                        blurRadius: 10,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton(
-                  isExpanded: true,
-                  onChanged: (value) {
-                    setState(() {
-                      try {
-                        cycle = int.parse(value.toString().split(" ")[1]);
-                      } catch (_) {
-                        cycle = null;
-                      }
-                      lastCycle = value;
-                    });
-                  },
-                  underline: SizedBox.shrink(),
-                  value: lastCycle,
-                  items: [
-                    "Show all cycles",
-                    "Last 12 Cycles",
-                    "Last 24 Cycles",
-                    "Last 36 Cycles",
-                    "Last 48 Cycles",
-                    "Last 60 Cycles"
-                  ].map((text) {
-                    return DropdownMenuItem(
-                      value: text,
-                      child: Text(text),
-                    );
-                  }).toList(),
-                ),
-              ),
-              SizedBox(
-                height: 10,
+                height: 20,
               ),
               earnedLists.length > 0
                   ? ListView.separated(
@@ -134,9 +90,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                       },
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: cycle != null && cycle <= earnedLists.length
-                          ? cycle
-                          : earnedLists.length,
+                      itemCount: earnedLists.length,
                       itemBuilder: (context, index) {
                         return buildCard(earnedLists[index]);
                       })
@@ -305,7 +259,6 @@ class _EarnedPointsState extends State<EarnedPoints> {
     var closingPoints = 0;
     setState(() {
       earnedLists = [];
-      cycle = int.parse(lastCycle.toString().split(" ")[1]);
     });
     await Services.getCycle();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -61,6 +61,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   @override
   void initState() {
+    getStores();
+    super.initState();
+  }
+  getStores () async {
     Services.getStores().then((value) {
       if (value.response == "y") {
         setState(() {
@@ -78,21 +82,20 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 storeCode: value.data[i]["store_code"]));
           });
         }
+        stores.forEach((store) {
+          if (store.storeCode == selectedStoreCode) {
+            setState(() {
+              storeArea = store.location;
+              storeCity = store.city;
+              storeState = store.state;
+              storePinCode = store.pinCode;
+            });
+          }
+        });
       } else {
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    stores.forEach((store) {
-      if(store.storeCode == selectedStoreCode) {
-        setState(() {
-          storeArea = store.location;
-          storeCity = store.city;
-          storeState = store.state;
-          storePinCode = store.pinCode;
-        });
-      }
-    });
-    super.initState();
   }
 
   @override
@@ -355,44 +358,43 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         ),
         stores.length > 0
             ? Container(
-              width: size.width - 20,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey[200],
-                      blurRadius: 10,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(10)),
-              child: DropdownButton(
-                  underline: SizedBox.shrink(),
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                  value: selectedStoreCode,
-                  isExpanded: true,
-                  items: stores.map((store) {
-                    return DropdownMenuItem(
-                        value: store.storeCode,
-                        child: Text(store.name));
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedStoreCode = value;
-                    });
-                    stores.forEach((store) {
-                      if(store.storeCode == selectedStoreCode) {
-                        setState(() {
-                          storeArea = store.location;
-                          storeCity = store.city;
-                          storeState = store.state;
-                          storePinCode = store.pinCode;
-                        });
-                      }
-                    });
-                  }),
-            )
-            : SizedBox(),
+                width: size.width - 20,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[200],
+                        blurRadius: 10,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButton(
+                    underline: SizedBox.shrink(),
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    value: selectedStoreCode,
+                    isExpanded: true,
+                    items: stores.map((store) {
+                      return DropdownMenuItem(
+                          value: store.storeCode, child: Text(store.name));
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedStoreCode = value;
+                      });
+                      stores.forEach((store) {
+                        if (store.storeCode == selectedStoreCode) {
+                          setState(() {
+                            storeArea = store.location;
+                            storeCity = store.city;
+                            storeState = store.state;
+                            storePinCode = store.pinCode;
+                          });
+                        }
+                      });
+                    }),
+              )
+            : Align(alignment: Alignment.center, child: Text("No store found !!!")),
         SizedBox(
           height: 15,
         ),
@@ -412,6 +414,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       ],
     );
   }
+
   Widget buildTitledRow({String title, String value}) {
     Size size = MediaQuery.of(context).size;
     return Container(
@@ -430,15 +433,13 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           ),
           Text(
             value != "" && value != null ? value : "N/A",
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: 14),
+            style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14),
           )
         ],
       ),
     );
   }
+
   Widget proofBuilder({GestureTapCallback onTap}) {
     return Container(
       height: 120,
@@ -501,6 +502,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   _redeem() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var id = sharedPreferences.getString(UserParams.id);
+    var mobileNo =
+        jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
+            [UserParams.mobile];
+    String otp = RandomInt.generate().toString();
     if (addressType == "Home delivery") {
       setState(() {
         isLoading = true;
@@ -527,48 +532,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 ? await MultipartFile.fromFile(file.path,
                     filename: file.path.split("/").last)
                 : null,
-            "delivery_type" : "h"
+            "delivery_type": "h"
           });
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          var mobileNo =
-              jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
-                  [UserParams.mobile];
-          String otp = RandomInt.generate().toString();
-          FormData smsData = FormData.fromMap({
-            "user": Urls.user,
-            "password": Urls.password,
-            "msisdn": mobileNo,
-            "sid": Urls.sID,
-            "msg": "<#> " +
-                otp +
-                " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-            "fl": Urls.fl,
-            "gwid": Urls.gwID
-          });
-          await Services.sms(smsData).then((value) {
-            if (value.response == "000") {
-              setState(() {
-                isLoading = false;
-              });
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: OTP(
-                    mobile: mobileNo,
-                    redeemGift: true,
-                    onlyCheckOtp: true,
-                    formData: data,
-                    otp: otp,
-                  )));
-            } else {
-              setState(() {
-                isLoading = false;
-              });
-              Fluttertoast.showToast(msg: value.message);
-            }
-          });
+          sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
           setState(() {
             isLoading = false;
@@ -582,8 +548,77 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         });
       }
     } else {
-      Fluttertoast.showToast(msg: "Unable to process request");
+      /*
+      * Collect from outlet
+      * */
+      if (storeState.isNotEmpty &&
+          storePinCode.isNotEmpty &&
+          storeCity.isNotEmpty &&
+          storeArea.isNotEmpty &&
+          selectedStoreCode.isNotEmpty &&
+          file != null) {
+        setState(() {
+          isLoading = true;
+        });
+        FormData data = FormData.fromMap({
+          "customer_id": id,
+          "api_key": Urls.apiKey,
+          "gift_id": widget.giftData.id,
+          "point": widget.giftData.points,
+          "address": null,
+          "area": storeArea,
+          "city": storeCity,
+          "pincode": storePinCode,
+          "alt_mobile": altMobile,
+          "state": storeState,
+          "proof": file != null
+              ? await MultipartFile.fromFile(file.path,
+                  filename: file.path.split("/").last)
+              : null,
+          "delivery_type": "s",
+          "store_id": selectedStoreCode
+        });
+        sendSMS(mobile: mobileNo, formData: data, otp: otp);
+      } else {
+        Fluttertoast.showToast(msg: "All fields are required");
+      }
     }
+  }
+  sendSMS ({String mobile, String otp, FormData formData}) async {
+    FormData smsData = FormData.fromMap({
+      "user": Urls.user,
+      "password": Urls.password,
+      "msisdn": mobile,
+      "sid": Urls.sID,
+      "msg": "<#> " +
+          otp +
+          " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+      "fl": Urls.fl,
+      "gwid": Urls.gwID
+    });
+    await Services.sms(smsData).then((value) {
+      if (value.response == "000") {
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.pop(context);
+        Navigator.push(
+            context,
+            CustomPageRoute(
+                widget: OTP(
+                  mobile: mobile,
+                  redeemGift: true,
+                  onlyCheckOtp: true,
+                  formData: formData,
+                  otp: otp,
+                )));
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        Fluttertoast.showToast(msg: value.message);
+      }
+    });
   }
 }
 

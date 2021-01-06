@@ -36,11 +36,14 @@ class UserParams {
 
 Future<void> userData(List<dynamic> data) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.setString(UserParams.id, data[0][UserParams.id]);
-  sharedPreferences.setString(UserParams.point, data[0][UserParams.point]);
-  sharedPreferences.setString(
-      UserParams.password, data[0][UserParams.password]);
-  sharedPreferences.setString(UserParams.userData, jsonEncode(data));
+  var password = sharedPreferences.getString(UserParams.password);
+  if(password != null && password == data[0][UserParams.password]){
+    sharedPreferences.setString(UserParams.id, data[0][UserParams.id]);
+    sharedPreferences.setString(UserParams.point, data[0][UserParams.point]);
+    sharedPreferences.setString(
+        UserParams.password, data[0][UserParams.password]);
+    sharedPreferences.setString(UserParams.userData, jsonEncode(data));
+  }
 }
 
 class Userdata {

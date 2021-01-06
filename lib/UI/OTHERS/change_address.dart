@@ -124,8 +124,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 text: "Name",
                 controller: name,
                 textInputAction: TextInputAction.next,
-                decoration: InputDecoration(border: border()),
-                autoFocus: true),
+                decoration: InputDecoration(border: border()),),
             input(
               context: context,
               controller: altMobile,
@@ -321,7 +320,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Adhaar Card : " + (widget.userdata.adhaar != null || widget.userdata.adhaar != "" ? "(${widget.userdata.adhaar.split("/").last})" : ""),
+                    "Adhaar Card : " + (widget.userdata.adhaar != null && widget.userdata.adhaar.isNotEmpty ? "(${widget.userdata.adhaar.split("/").last})" : ""),
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey,
                         fontSize: 13,
@@ -332,11 +331,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   ),
                   customButton(
                       context: context,
-                      onPressed: widget.status == "y" ? () => Navigator.push(context, CustomPageRoute(widget: CatalogPreview(url: widget.userdata.adhaar, adhaarView: true,))) : getAdhaar,
-                      child: Text( widget.status == "y" ? "View" : adhaar == null ?
+                      onPressed: widget.status == "y" && widget.userdata.adhaar.isNotEmpty ? () => Navigator.push(context, CustomPageRoute(widget: CatalogPreview(url: widget.userdata.adhaar, adhaarView: true,))) : getAdhaar,
+                      child: Text(widget.userdata.adhaar.isNotEmpty && widget.status == "y" ? "View" : adhaar == null ?
                       "Attach File" : adhaar.path.split("/").last,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: Colors.blue[500], fontWeight: FontWeight.bold),
+                            color: Colors.blue[500], fontWeight: FontWeight.bold, fontSize: 12),
                         overflow: TextOverflow.ellipsis,
                       ),
                       outerPadding: EdgeInsets.zero,
@@ -370,77 +369,130 @@ class _ChangeAddressState extends State<ChangeAddress> {
   _updateKYC() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
-    if (name.text.isNotEmpty &&
-        altMobile.text.isNotEmpty &&
-        email.text.isNotEmpty &&
-        address.text.isNotEmpty &&
-        pinCode.text.isNotEmpty &&
-        state.text.isNotEmpty &&
-        city.text.isNotEmpty &&
-        area.text.isNotEmpty &&
-        selectedGender.isNotEmpty &&
-        adhaar != null &&
-        dob.text.isNotEmpty) {
-      if((await adhaar.length() / 1024) < 200) {
-        if (selectedMaritalStatus == "y" &&
-            anniversaryDate.text.isNotEmpty &&
-            DateTime.parse(anniversaryDate.text).year == -1) {
-          Fluttertoast.showToast(msg: "Please provide anniversary date");
-          return;
-        }
-        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
-          if (RegExp(
-              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-              .hasMatch(email.text)) {
-            FormData data = FormData.fromMap({
-              "customer_id": id,
-              "name": name.text,
-              "alt_mobile": altMobile.text,
-              "email": email.text,
-              "gender": selectedGender,
-              "address": address.text,
-              "pincode": pinCode.text,
-              "area": area.text,
-              "city": city.text,
-              "state": state.text,
-              "dob": dob.text,
-              "marital_status": selectedMaritalStatus,
-              "anniversary": anniversaryDate.text,
-              "api_key": Urls.apiKey,
-              "image": image != null
-                  ? await MultipartFile.fromFile(image.path,
-                  filename: image.path.split("/").last)
-                  : null,
-              "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
-                  filename: adhaar.path.split("/").last) : null,
-            });
-            setState(() {
-              isLoading = true;
-            });
-            Services.customerKYC(data).then((value) {
-              if (value.response == "y") {
-                userData(value.data);
-                Fluttertoast.showToast(msg: value.message);
-                Navigator.pushAndRemoveUntil(
-                    context, CustomPageRoute(widget: Home()), (route) => false);
-              } else {
-                setState(() {
-                  isLoading = false;
-                });
-                Fluttertoast.showToast(msg: value.message);
-              }
-            });
+    if(widget.status != "y"){
+      if (name.text.isNotEmpty &&
+          altMobile.text.isNotEmpty &&
+          email.text.isNotEmpty &&
+          address.text.isNotEmpty &&
+          pinCode.text.isNotEmpty &&
+          state.text.isNotEmpty &&
+          city.text.isNotEmpty &&
+          area.text.isNotEmpty &&
+          selectedGender.isNotEmpty &&
+          adhaar != null &&
+          dob.text.isNotEmpty) {
+        if((await adhaar.length() / 1024) < 200) {
+          if (selectedMaritalStatus == "y" &&
+              anniversaryDate.text.isNotEmpty &&
+              DateTime.parse(anniversaryDate.text).year == -1) {
+            Fluttertoast.showToast(msg: "Please provide anniversary date");
+            return;
+          }
+          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+            if (RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                .hasMatch(email.text)) {
+              FormData data = FormData.fromMap({
+                "customer_id": id,
+                "name": name.text,
+                "alt_mobile": altMobile.text,
+                "email": email.text,
+                "gender": selectedGender,
+                "address": address.text,
+                "pincode": pinCode.text,
+                "area": area.text,
+                "city": city.text,
+                "state": state.text,
+                "dob": dob.text,
+                "marital_status": selectedMaritalStatus,
+                "anniversary": anniversaryDate.text,
+                "api_key": Urls.apiKey,
+                "image": image != null
+                    ? await MultipartFile.fromFile(image.path,
+                    filename: image.path.split("/").last)
+                    : null,
+                "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
+                    filename: adhaar.path.split("/").last) : null,
+              });
+              setState(() {
+                isLoading = true;
+              });
+              Services.customerKYC(data).then((value) {
+                if (value.response == "y") {
+                  userData(value.data);
+                  Fluttertoast.showToast(msg: value.message);
+                  Navigator.pushAndRemoveUntil(
+                      context, CustomPageRoute(widget: Home()), (route) => false);
+                } else {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Fluttertoast.showToast(msg: value.message);
+                }
+              });
+            } else {
+              Fluttertoast.showToast(msg: "Invalid email");
+            }
           } else {
-            Fluttertoast.showToast(msg: "Invalid email");
+            Fluttertoast.showToast(msg: "Invalid mobile number");
           }
         } else {
-          Fluttertoast.showToast(msg: "Invalid mobile number");
+          Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
         }
       } else {
-        Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
+        Fluttertoast.showToast(msg: "Fields can't be empty");
       }
     } else {
-      Fluttertoast.showToast(msg: "Fields can't be empty");
+      if(name.text.isNotEmpty && altMobile.text.isNotEmpty) {
+        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)){
+          if (selectedMaritalStatus == "y" &&
+              anniversaryDate.text.isNotEmpty &&
+              (DateTime.parse(anniversaryDate.text).year - DateTime.parse(dob.text).year) > 15) {
+            Fluttertoast.showToast(msg: "Invalid anniversary date");
+            return;
+          }
+          setState(() {
+            isLoading = true;
+          });
+          FormData formData = FormData.fromMap({
+            "customer_id": id,
+            "name": name.text,
+            "alt_mobile": altMobile.text,
+            "email": email.text,
+            "gender": selectedGender,
+            "address": address.text,
+            "pincode": pinCode.text,
+            "area": area.text,
+            "city": city.text,
+            "state": state.text,
+            "dob": dob.text,
+            "marital_status": selectedMaritalStatus,
+            "anniversary": anniversaryDate.text.isNotEmpty ? anniversaryDate.text : null,
+            "api_key": Urls.apiKey,
+            "image": image != null
+                ? await MultipartFile.fromFile(image.path,
+                filename: image.path.split("/").last)
+                : null,
+          });
+          Services.customerKYC(formData).then((value) {
+            if (value.response == "y") {
+              userData(value.data);
+              Fluttertoast.showToast(msg: value.message);
+              Navigator.pushAndRemoveUntil(
+                  context, CustomPageRoute(widget: Home()), (route) => false);
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+              Fluttertoast.showToast(msg: value.message);
+            }
+          });
+        } else {
+          Fluttertoast.showToast(msg: "Invalid mobile no");
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Name and Alternate Mobile can't be empty.");
+      }
     }
   }
 
