@@ -31,7 +31,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   List<String> tabs = ["Earn", "Purchase", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
-  List filteredEarnedData = [], filteredPurchaseData = [], filteredRedeemData = [];
+  List filteredEarnedData = [],
+      filteredPurchaseData = [],
+      filteredRedeemData = [];
   int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0;
   String totalPoints = "0";
   bool isLoading = false;
@@ -139,15 +141,16 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   _filter() async {
     Navigator.pop(context);
     if (fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
+
       switch (_tabController.index) {
-        case 0 :
-          print(tabs[0]);
+        case 0:
+          _filterEarnedData();
           break;
-        case 1 :
-          print(tabs[1]);
+        case 1:
+          _filterPurchaseData();
           break;
         case 2:
-          print(tabs[2]);
+          _filterRedeemedData();
           break;
       }
     } else {
@@ -155,26 +158,95 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     }
   }
 
-  _filterEarnedData () async {
+  _filterEarnedData() {
     setState(() {
       filteredEarnedData = [];
       totalEarnedPoints = 0;
     });
-    DateTime from = DateTime.parse(fromDate.text);
+    DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
     DateTime to = DateTime.parse(toDate.text);
+    var count = 0;
     earnedData.forEach((element) {
-      if(from.isBefore(DateTime.parse(element["created"])) && to.isAfter(DateTime.parse(element["created"]))){
+      if (from.isBefore(DateTime.parse(element["created"])) &&
+          to.isAfter(DateTime.parse(element["created"]))) {
         setState(() {
           filteredEarnedData.add(element);
           totalEarnedPoints += int.parse(element["point"]);
+          count++;
         });
-      } /* else {
-          Fluttertoast.showToast(msg: "No earned report found between ${fromDate.text} - ${toDate.text}");
-          setState(() {
-            filteredEarnedData = earnedData;
-          });
-        } */
+      }
     });
+    if (count == 0){
+      setState(() {
+        filteredEarnedData = earnedData;
+        filteredEarnedData.forEach((element) {
+          totalEarnedPoints += int.parse(element["point"]);
+        });
+      });
+      Fluttertoast.showToast(
+          msg:
+          "No earned report found between ${fromDate.text} - ${toDate.text}");
+    }
+  }
+   _filterPurchaseData() {
+     setState(() {
+       filteredPurchaseData = [];
+       totalPurchasePoint = 0;
+     });
+     DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
+     DateTime to = DateTime.parse(toDate.text);
+     var count = 0;
+     purchaseData.forEach((element) {
+       if (from.isBefore(DateTime.parse(element["created"])) &&
+           to.isAfter(DateTime.parse(element["created"]))) {
+         setState(() {
+           filteredPurchaseData.add(element);
+           totalPurchasePoint += int.parse(element["purchase"]);
+           count++;
+         });
+       }
+     });
+     if (count == 0) {
+       setState(() {
+         filteredPurchaseData = purchaseData;
+         filteredPurchaseData.forEach((element) {
+           totalPurchasePoint += int.parse(element["purchase"]);
+         });
+       });
+       Fluttertoast.showToast(
+           msg:
+           "No purchase report found between ${fromDate.text} - ${toDate.text}");
+     }
+   }
+
+  _filterRedeemedData() {
+    setState(() {
+      filteredRedeemData = [];
+      totalRedeemPoint = 0;
+    });
+    DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
+    DateTime to = DateTime.parse(toDate.text);
+    var count = 0;
+    redeemData.forEach((element) {
+      if (from.isBefore(DateTime.parse(element["datetime"])) &&
+          to.isAfter(DateTime.parse(element["datetime"]))) {
+        setState(() {
+          filteredRedeemData.add(element);
+          totalRedeemPoint += int.parse(element["point"]);
+          count++;
+        });
+      }
+    });
+    if (count == 0) {
+      setState(() {
+        filteredRedeemData = redeemData;
+        filteredRedeemData.forEach((element) {
+          totalRedeemPoint += int.parse(element["point"]);
+        });
+      });
+      Fluttertoast.showToast(
+          msg:
+          "No redeem report found between ${fromDate.text} - ${toDate.text}"); }
   }
 
   @override
@@ -263,6 +335,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   unselectedLabelStyle: TextStyle(fontSize: 16),
                   indicatorWeight: 3,
+                  controller: _tabController,
                   onTap: (index) {
                     setState(() {
                       _tabController.index = index;
@@ -322,7 +395,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                           rows: filteredEarnedData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (filteredEarnedData.indexOf(data) + 1).toString())),
+                                  (filteredEarnedData.indexOf(data) + 1)
+                                      .toString())),
                               DataCell(Text(data["created"])),
                               DataCell(Text(data["point"])),
                               DataCell(Text(data["branch_name"])),
@@ -341,7 +415,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         : Center(
             child: !isLoading
                 ? Text(
-                    "You don't have earned points!!!",
+                    "No data found !!!",
                     textAlign: TextAlign.center,
                   )
                 : SizedBox(
@@ -403,7 +477,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                           rows: filteredPurchaseData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (filteredPurchaseData.indexOf(data) + 1).toString())),
+                                  (filteredPurchaseData.indexOf(data) + 1)
+                                      .toString())),
                               DataCell(Text(data["voucher_no"])),
                               DataCell(Text(data["created"])),
                               // DataCell(Text(data["purchase"])),
@@ -424,7 +499,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         : Center(
             child: !isLoading
                 ? Text(
-                    "You don't have made any purchase yet!!",
+                    "No data found !!!",
                     textAlign: TextAlign.center,
                   )
                 : SizedBox(
@@ -484,7 +559,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                           rows: filteredRedeemData.map((data) {
                             return DataRow(cells: [
                               DataCell(Text(
-                                  (filteredRedeemData.indexOf(data) + 1).toString())),
+                                  (filteredRedeemData.indexOf(data) + 1)
+                                      .toString())),
                               DataCell(Text(data["datetime"]
                                   .toString()
                                   .split(" ")
@@ -508,7 +584,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         : Center(
             child: !isLoading
                 ? Text(
-                    "You don't have redeemed any product yet !!!",
+                    "No data found !!!",
                     textAlign: TextAlign.center,
                   )
                 : SizedBox(
