@@ -20,7 +20,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
   String lastCycle = "Last 12 Cycles", name = " ";
   int cycle = 0;
   List<CycleData> earnedLists = [];
-  double closingPoints = 0, cumulativePurchase = 0;
+  double availablePoints = 0, cumulativePurchase = 0;
   @override
   void initState() {
     _getEarnedPoints();
@@ -34,7 +34,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     setState(() {
       name = data[0][UserParams.name];
       cumulativePurchase = double.parse(data[0][UserParams.totalOrder] ?? "0");
-      closingPoints = double.parse(sharedPreferences.getString(UserParams.point));
+      availablePoints = double.parse(sharedPreferences.getString(UserParams.point));
     });
   }
 
@@ -42,7 +42,24 @@ class _EarnedPointsState extends State<EarnedPoints> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Earned Point"),
+        appBar: appBar(context: context, title: "Earned Point", actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Center(
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                        child: Icon(Icons.account_balance_wallet_outlined, color: Colors.white,),
+                        alignment: PlaceholderAlignment.middle
+                    ),
+                    TextSpan(text: "\t" + availablePoints.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white))
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ]),
         body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
@@ -285,8 +302,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
   }
 
   _getEarnedPoints() async {
+    var closingPoints = 0;
     setState(() {
-      closingPoints = 0;
       earnedLists = [];
       cycle = int.parse(lastCycle.toString().split(" ")[1]);
     });
@@ -304,14 +321,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
         for (int i = value.data.length - 1; i >= 0; i--) {
           setState(() {
-            // closingPoints -= double.parse(value.data[i]["total_points"] != null
-            //     ? value.data[i]["total_points"][0]["point"]
-            //     : "0");
-            // cumulativePurchase += double.parse(value.data[i]["total_purchase"] != null
-            //     ? value.data[i]["total_purchase"][0]["purchase"] != null
-            //     ? value.data[i]["total_purchase"][0]["purchase"]
-            //     : "0.0"
-            //     : "0.0");
+            closingPoints += int.parse(value.data[i]["total_points"] != null
+                ? value.data[i]["total_points"][0]["point"]
+                : "0");
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
                 closingPoints: closingPoints.toString(),

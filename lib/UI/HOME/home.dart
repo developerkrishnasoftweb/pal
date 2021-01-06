@@ -29,7 +29,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
-  String points = "0", name = "", totalOrder = "";
+  String points = "0", name = "", availablePoints = "";
   String notificationCount = "0";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
     name = data[0][UserParams.name] ?? "N/A";
-    totalOrder = sharedPreferences.getString(UserParams.point) ?? "0";
+    availablePoints = sharedPreferences.getString(UserParams.point) ?? "0";
   }
 
   void setItemList() {
@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
           context: context,
           scaffoldKey: scaffoldKey,
           name: name,
-          totalOrder: totalOrder),
+          availablePoints: availablePoints),
       body: Stack(
         children: [
           Container(

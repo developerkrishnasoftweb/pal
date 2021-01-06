@@ -526,6 +526,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 ? await MultipartFile.fromFile(file.path,
                     filename: file.path.split("/").last)
                 : null,
+            "delivery_type" : "h"
           });
           SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();

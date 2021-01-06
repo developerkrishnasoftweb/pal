@@ -19,7 +19,7 @@ import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required String name, @required String totalOrder, String version : "1.0.0"}) {
+Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required String name, @required String availablePoints, String version : "1.0.0"}) {
   Size size = MediaQuery.of(context).size;
   SizedBox gap = SizedBox(width: 10,);
   Widget buildDrawerItems(String text, GestureTapCallback onTap, IconData icon) {
@@ -79,7 +79,7 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                             child: Icon(Icons.account_balance_wallet_outlined, color: AppColors.primaryColor,),
                             alignment: PlaceholderAlignment.middle
                           ),
-                          TextSpan(text: "\t" + totalOrder, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.primaryColor))
+                          TextSpan(text: "\t" + availablePoints, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.primaryColor))
                         ],
                       ),
                     ),

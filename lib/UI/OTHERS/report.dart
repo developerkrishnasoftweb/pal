@@ -268,6 +268,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       filteredRedeemData.forEach((element) {
         totalRedeemPoint += int.parse(element["point"]);
       });
+      isFiltered = false;
     });
   }
 
