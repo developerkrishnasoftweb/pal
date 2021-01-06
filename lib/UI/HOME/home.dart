@@ -36,6 +36,16 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    Timer.periodic(Duration(milliseconds: 5000), (timer) {
+      Services.getNotificationCount().then((value) {
+        setState(() {
+          notificationCount = value;
+        });
+      });
+    });
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
+      getData();
+    });
     Services.getConfig();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
@@ -95,15 +105,9 @@ class _HomeState extends State<Home> {
     ];
   }
 
+
   @override
   Widget build(BuildContext context) {
-    // Timer.periodic(Duration(milliseconds: 5000), (timer) {
-    //   Services.getNotificationCount().then((value) {
-    //     setState(() {
-    //       notificationCount = value;
-    //     });
-    //   });
-    // });
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,

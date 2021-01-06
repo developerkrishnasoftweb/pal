@@ -290,6 +290,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       listAreas = [];
     });
     if (pincode.length == 6) {
+      FocusScope.of(context).unfocus();
       showDialogBox(
           context: context,
           widget: Row(
