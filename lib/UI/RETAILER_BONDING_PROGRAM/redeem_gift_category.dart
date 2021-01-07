@@ -68,7 +68,7 @@ class _GiftState extends State<GiftCategory> {
                       height: 20,
                     ),
                     buildRedeemedAmount(
-                        title: "My Total Points : ",
+                        title: "Available Points : ",
                         amount: points,
                         leadingTrailing: false,
                         fontSize: 17),

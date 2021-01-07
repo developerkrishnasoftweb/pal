@@ -80,7 +80,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                     height: 20,
                   ),
                   buildRedeemedAmount(
-                      title: "My Earned Points : ",
+                      title: "Available Points : ",
                       amount: points,
                       leadingTrailing: false,
                       fontSize: 17),

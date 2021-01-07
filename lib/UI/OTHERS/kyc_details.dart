@@ -76,7 +76,7 @@ class _KYCState extends State<KYC> {
             ),
             ClipRRect(
               borderRadius: BorderRadius.circular(200),
-              child: Image.network(
+              child: data.image != null ? Image.network(
                 Urls.imageBaseUrl + data.image,
                 height: 200,
                 width: 200,
@@ -99,7 +99,7 @@ class _KYCState extends State<KYC> {
                 errorBuilder: (BuildContext context, Object object, StackTrace trace){
                   return SizedBox();
                 },
-              ),
+              ) : SizedBox()
             ),
             buildTitledRow(title: "Name :", value: data.name),
             buildTitledRow(title: "Current Address :", value: data.address),
