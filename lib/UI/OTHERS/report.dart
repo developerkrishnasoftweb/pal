@@ -141,16 +141,17 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   _filter() async {
     Navigator.pop(context);
     if (fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
-
+      DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
+      DateTime to = DateTime.parse(toDate.text).add(Duration(days: 1));
       switch (_tabController.index) {
         case 0:
-          _filterEarnedData();
+          _filterEarnedData(from: from, to: to);
           break;
         case 1:
-          _filterPurchaseData();
+          _filterPurchaseData(from: from, to: to);
           break;
         case 2:
-          _filterRedeemedData();
+          _filterRedeemedData(from: from, to: to);
           break;
       }
     } else {
@@ -158,17 +159,15 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     }
   }
 
-  _filterEarnedData() {
+  _filterEarnedData({DateTime from, DateTime to}) {
     setState(() {
       filteredEarnedData = [];
       totalEarnedPoints = 0;
     });
-    DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
-    DateTime to = DateTime.parse(toDate.text);
     var count = 0;
     earnedData.forEach((element) {
-      if (from.isBefore(DateTime.parse(element["created"])) &&
-          to.isAfter(DateTime.parse(element["created"]))) {
+      if (DateTime.parse(element["created"]).isAfter(from) &&
+          DateTime.parse(element["created"]).isBefore(to)) {
         setState(() {
           filteredEarnedData.add(element);
           totalEarnedPoints += int.parse(element["point"]);
@@ -177,7 +176,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         });
       }
     });
-    if (count == 0){
+    if (count == 0) {
       setState(() {
         filteredEarnedData = earnedData;
         filteredEarnedData.forEach((element) {
@@ -186,52 +185,49 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       });
       Fluttertoast.showToast(
           msg:
-          "No earned report found between ${fromDate.text} - ${toDate.text}");
+              "No earned report found between ${fromDate.text} - ${toDate.text}");
     }
   }
-   _filterPurchaseData() {
-     setState(() {
-       filteredPurchaseData = [];
-       totalPurchasePoint = 0;
-     });
-     DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
-     DateTime to = DateTime.parse(toDate.text);
-     var count = 0;
-     purchaseData.forEach((element) {
-       if (from.isBefore(DateTime.parse(element["created"])) &&
-           to.isAfter(DateTime.parse(element["created"]))) {
-         setState(() {
-           filteredPurchaseData.add(element);
-           totalPurchasePoint += int.parse(element["purchase"]);
-           isFiltered = true;
-           count++;
-         });
-       }
-     });
-     if (count == 0) {
-       setState(() {
-         filteredPurchaseData = purchaseData;
-         filteredPurchaseData.forEach((element) {
-           totalPurchasePoint += int.parse(element["purchase"]);
-         });
-       });
-       Fluttertoast.showToast(
-           msg:
-           "No purchase report found between ${fromDate.text} - ${toDate.text}");
-     }
-   }
 
-  _filterRedeemedData() {
+  _filterPurchaseData({DateTime from, DateTime to}) {
+    setState(() {
+      filteredPurchaseData = [];
+      totalPurchasePoint = 0;
+    });
+    var count = 0;
+    purchaseData.forEach((element) {
+      if (DateTime.parse(element["created"]).isAfter(from) &&
+          DateTime.parse(element["created"]).isBefore(to)) {
+        setState(() {
+          filteredPurchaseData.add(element);
+          totalPurchasePoint += int.parse(element["purchase"]);
+          isFiltered = true;
+          count++;
+        });
+      }
+    });
+    if (count == 0) {
+      setState(() {
+        filteredPurchaseData = purchaseData;
+        filteredPurchaseData.forEach((element) {
+          totalPurchasePoint += int.parse(element["purchase"]);
+        });
+      });
+      Fluttertoast.showToast(
+          msg:
+              "No purchase report found between ${fromDate.text} - ${toDate.text}");
+    }
+  }
+
+  _filterRedeemedData({DateTime from, DateTime to}) {
     setState(() {
       filteredRedeemData = [];
       totalRedeemPoint = 0;
     });
-    DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
-    DateTime to = DateTime.parse(toDate.text);
     var count = 0;
     redeemData.forEach((element) {
-      if (from.isBefore(DateTime.parse(element["datetime"])) &&
-          to.isAfter(DateTime.parse(element["datetime"]))) {
+      if (DateTime.parse(element["datetime"]).isAfter(from) &&
+              DateTime.parse(element["datetime"]).isBefore(to)) {
         setState(() {
           filteredRedeemData.add(element);
           totalRedeemPoint += int.parse(element["point"]);
@@ -249,9 +245,11 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       });
       Fluttertoast.showToast(
           msg:
-          "No redeem report found between ${fromDate.text} - ${toDate.text}"); }
+              "No redeem report found between ${fromDate.text} - ${toDate.text}");
+    }
   }
-  _reset () {
+
+  _reset() {
     Navigator.pop(context);
     setState(() {
       filteredRedeemData = filteredPurchaseData = filteredEarnedData = [];
@@ -321,7 +319,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                         ),
                         actions: [
                           FlatButton(
-                              onPressed: isFiltered ? _reset : () => Navigator.pop(context),
+                              onPressed: isFiltered
+                                  ? _reset
+                                  : () => Navigator.pop(context),
                               child: Text(isFiltered ? "Reset" : "Close")),
                           FlatButton(onPressed: _filter, child: Text("Filter")),
                         ]);
