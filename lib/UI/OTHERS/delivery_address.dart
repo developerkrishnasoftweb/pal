@@ -592,7 +592,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       "sid": Urls.sID,
       "msg": "<#> " +
           otp +
-          " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+          " is your OTP to Redeem to PAL App. Don't share it with anyone.",
       "fl": Urls.fl,
       "gwid": Urls.gwID
     });
