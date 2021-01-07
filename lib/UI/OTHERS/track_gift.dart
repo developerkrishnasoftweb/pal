@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
