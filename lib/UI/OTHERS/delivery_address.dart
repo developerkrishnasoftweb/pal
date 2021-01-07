@@ -40,8 +40,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   TextEditingController cityAPI = TextEditingController();
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
-  String selectedStoreCode = "";
-  String storeCity = "", storeArea = "", storeState = "", storePinCode = "";
+  // String selectedStoreCode = "";
+  String storeCity = "", storeArea = "", storeState = "", storePinCode = "", storeID = "";
 
   Future getFile() async {
     File result = await FilePicker.getFile(type: FileType.any);
@@ -68,7 +68,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     Services.getStores().then((value) {
       if (value.response == "y") {
         setState(() {
-          selectedStoreCode = value.data[0]["store_code"];
+          storeID = value.data[0]["store_code"];
         });
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
@@ -83,8 +83,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           });
         }
         stores.forEach((store) {
-          if (store.storeCode == selectedStoreCode) {
+          if (store.storeCode == storeID) {
             setState(() {
+              storeID = store.id;
               storeArea = store.location;
               storeCity = store.city;
               storeState = store.state;
@@ -372,19 +373,20 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 child: DropdownButton(
                     underline: SizedBox.shrink(),
                     style: TextStyle(color: Colors.black, fontSize: 18),
-                    value: selectedStoreCode,
+                    value: storeID,
                     isExpanded: true,
                     items: stores.map((store) {
                       return DropdownMenuItem(
-                          value: store.storeCode, child: Text(store.name));
+                          value: store.id, child: Text(store.name));
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedStoreCode = value;
+                        storeID = value;
                       });
                       stores.forEach((store) {
-                        if (store.storeCode == selectedStoreCode) {
+                        if (store.id == storeID) {
                           setState(() {
+                            storeID = store.id;
                             storeArea = store.location;
                             storeCity = store.city;
                             storeState = store.state;
@@ -531,8 +533,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "proof": file != null
                 ? await MultipartFile.fromFile(file.path,
                     filename: file.path.split("/").last)
-                : null,
-            "delivery_type": "h"
+                : "",
+            "delivery_type": "h",
+            "store_id": "0"
           });
           sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
@@ -555,28 +558,25 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           storePinCode.isNotEmpty &&
           storeCity.isNotEmpty &&
           storeArea.isNotEmpty &&
-          selectedStoreCode.isNotEmpty &&
+          storeID.isNotEmpty &&
           file != null) {
         setState(() {
-          isLoading = true;
+          // isLoading = true;
         });
         FormData data = FormData.fromMap({
           "customer_id": id,
           "api_key": Urls.apiKey,
           "gift_id": widget.giftData.id,
           "point": widget.giftData.points,
-          "address": null,
+          "address": storeArea,
           "area": storeArea,
           "city": storeCity,
           "pincode": storePinCode,
-          "alt_mobile": altMobile,
+          "alt_mobile": "1234567890",
           "state": storeState,
-          "proof": file != null
-              ? await MultipartFile.fromFile(file.path,
-                  filename: file.path.split("/").last)
-              : null,
+          "proof": file != null ? await MultipartFile.fromFile(file.path, filename: file.path.split("/").last) : "",
           "delivery_type": "s",
-          "store_id": selectedStoreCode
+          "store_id": storeID,
         });
         sendSMS(mobile: mobileNo, formData: data, otp: otp);
       } else {

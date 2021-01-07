@@ -95,8 +95,6 @@ class _OTPState extends State<OTP> {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
-        print(widget.formData.fields);
-        print(widget.formData.files);
         setState(() {
           signUpStatus = true;
         });
