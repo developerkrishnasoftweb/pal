@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../SERVICES/services.dart';
+import '../../Constant/userdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/appbar.dart';
 
 class WeeklyUpdate extends StatefulWidget {
@@ -8,7 +13,40 @@ class WeeklyUpdate extends StatefulWidget {
 }
 
 class _WeeklyUpdateState extends State<WeeklyUpdate> {
-  int weekCount = 4;
+  String cumulativePurchase = "0";
+  int purchase = 0, earnedPoints = 0;
+  List<String> weekPoints = ["10"];
+  @override
+  void initState() {
+    getWeeklyReport();
+    super.initState();
+  }
+  getWeeklyReport() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      cumulativePurchase = jsonDecode(sharedPreferences.getString(UserParams.userData))[0][UserParams.totalOrder];
+    });
+    Services.weeklyReport().then((value) {
+      if(value.response == "y") {
+        for (int i = 0; i < value.data[0]["earn"].length; i++) {
+          print(value.data[0]["earn"][(i + 1).toString()]);
+          // for(int j = 0; j < value.data[0]["earn"][[(i + 1).toString()]].length; i++) {
+          //   setState(() {
+          //     purchase += int.parse(value.data[0]["earn"][[(i + 1).toString()]][j]["purchase"]);
+          //     earnedPoints += int.parse(value.data[0]["earn"][(i + 1).toString()][j]["point"]);
+          //   });
+          // }
+          setState(() {
+            // weekPoints.add(value.data[0]["earn"][(i + 1).toString()]["point"]);
+            //
+            // print(int.parse(value.data[0]["earn"][(i + 1).toString()]["point"]));
+          });
+        }
+      } else {
+        Fluttertoast.showToast(msg: value.message);
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,8 +65,8 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
               child: Column(
                 children: [
                   buildRow(title: "Current Cycle :", value: "30 Nov - 27 Dec"),
-                  buildRow(title: "Purchase for this cycle :", value: "3584.93"),
-                  buildRow(title: "Cumulative Purchase :", value: "392530.90"),
+                  buildRow(title: "Purchase for this cycle :", value: purchase.toString()),
+                  buildRow(title: "Cumulative Purchase :", value: cumulativePurchase),
                   buildRow(title: "Earned Points :", value: "19965"),
                 ],
               ),
@@ -36,11 +74,11 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
             SizedBox(height: 30,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [for(int i = 1; i < weekCount + 1; i++)...[
-                weekBuilder(head: "WK ${i.toString()}", value: "63"),
+              children: [for(int i = 0; i < weekPoints.length; i++)...[
+                weekBuilder(head: "WK ${(i + 1).toString()}", value: weekPoints[i]),
               ]],
             ),
-            SizedBox(height: 30,),
+            /* SizedBox(height: 30,),
             headerBuilder("Range Multiplier"),
             SizedBox(height: 10,),
             dataTable([
@@ -53,7 +91,7 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
             dataTable([
               dataTableRow(title: "Frequency Achieved / applicable multiplier", value: "1/0%"),
               dataTableRow(title: "Addl. frequency to be achieved / max achievable frequency multiplier", value: "30/35%"),
-            ]),
+            ]), */
           ],
         ),
       ),
@@ -109,7 +147,7 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
       children: [
         Container(
           height: 45,
-          width: size.width / weekCount - 15,
+          width: (size.width - 50) / weekPoints.length,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Color(0xff373737),
@@ -120,7 +158,7 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
         SizedBox(height: 5,),
         Container(
           height: 45,
-          width: size.width / weekCount - 15,
+          width: (size.width - 50) / weekPoints.length,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -144,5 +182,3 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
     );
   }
 }
-
-

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pal/Constant/color.dart';
+import 'package:pal/UI/OTHERS/track_gift.dart';
 import '.././UI/OTHERS/notification.dart';
 import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
@@ -223,6 +224,11 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
           buildDrawerItems("Redeemed Gifts", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: RedeemedGift()));
+          }, Icons.card_giftcard),
+          buildDrawerItems("Track Gift", () {
+            scaffoldKey.currentState.openEndDrawer();
+            Navigator.push(
+                context, CustomPageRoute(widget: TrackGift()));
           }, Icons.card_giftcard),
           buildDrawerItems("Reports", () {
             scaffoldKey.currentState.openEndDrawer();

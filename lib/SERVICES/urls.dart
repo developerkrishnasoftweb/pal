@@ -1,5 +1,9 @@
 class Urls{
   /*
+  *
+  * */
+
+  /*
   * some constant strings used for api
   * */
   static String apiKey = "abc1234";
@@ -18,6 +22,7 @@ class Urls{
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
   static String checkUsersPurchaseBPGS = "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
   static String checkUsersPurchaseBPGN = "http://logic2.paldepartmentalstores.com/bpgnapi/api/ConsumerDetails/QueryRecords_BymobileNo";
+  static String trackGiftBaseUrl = "https://api.sevasetu.in/index.php/tracking/track_v2";
   static String signIn = "login";
   static String signUp = "registration";
   static String category = "category";
@@ -38,6 +43,7 @@ class Urls{
   static String getNotificationCount = "get_notification_count/";
   static String getNotifications = "get_notifications/";
   static String getReports = "get_history";
+  static String weeklyReport = "weekly";
   static String getConfig = "get_config";
   static String getStores = "get_outlet";
   static String getCycles = "get_cycles";

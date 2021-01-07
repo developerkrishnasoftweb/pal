@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart' as dio;
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
@@ -284,7 +284,7 @@ class Services {
       );
       Data data = Data();
       final jsonResponse = jsonDecode(response.toString());
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = [jsonResponse["data"]];
@@ -364,7 +364,7 @@ class Services {
     }
   }
 
-  static Future<Data> redeemGift(FormData body) async {
+  static Future<Data> redeemGift(dio.FormData body) async {
     String url = Urls.baseUrl + Urls.redeemGift;
     try {
       dio.Response response;
@@ -517,16 +517,15 @@ class Services {
     String url = Urls.baseUrl + Urls.getCycles;
     try {
       dio.Response response;
-      response = await dio.Dio().post(url, data: dio.FormData.fromMap({"api_key" : Urls.apiKey}));
+      response = await dio.Dio()
+          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
       if (response.statusCode == 200) {
         return true;
       }
     } on dio.DioError catch (e) {
       if (dio.DioErrorType.DEFAULT == e.type) {
-      } else {
-      }
-    } catch (e) {
-    }
+      } else {}
+    } catch (e) {}
   }
 
   static Future<Data> getProducts(body) async {
@@ -708,8 +707,9 @@ class Services {
     String url = Urls.baseUrl + Urls.getReports;
     try {
       dio.Response response;
-      response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey, "customer_id" : customerId}));
+      response = await dio.Dio().post(url,
+          data: dio.FormData.fromMap(
+              {"api_key": Urls.apiKey, "customer_id": customerId}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -734,12 +734,211 @@ class Services {
     }
   }
 
-  static Future<bool> checkUsersPurchase({String mobile, String fromDate, String toDate}) async {
+  static Future<Data> weeklyReport() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String customerId = sharedPreferences.getString(UserParams.id);
+    String url = Urls.baseUrl + Urls.weeklyReport;
     try {
       dio.Response response;
-      response = await dio.Dio().get(Urls.checkUsersPurchaseBPGS + "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
+      response = await dio.Dio().post(url,
+          data: dio.FormData.fromMap(
+              {"api_key": Urls.apiKey, "customer_id": customerId}));
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+  /* static Future<Data> trackBooking({String trackNo}) async {
+    var headers = {
+      'Content-Type': 'text/plain',
+      'Username': 'maruticourier',
+      'Password': '17322463b3e529f1ee3184444b7e0d61',
+      'TOKEN': 'ABX78952-081E-41D4-8C86-FB410EF83123',
+    };
+    try {
+      var request = http.Request('POST', Uri.parse(Urls.trackGiftBaseUrl));
+      request.body = jsonEncode({"data": {"barcode_no":"$trackNo", "type":"booking"}});
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(await response.stream.bytesToString());
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["success"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      print(e);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        print(e);
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        print(e);
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      print(e);
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  } */
+
+  static Future<Data> trackBookingInfo({String trackNo}) async {
+    var headers = {
+      'Content-Type': 'text/plain',
+      'Username': 'maruticourier',
+      'Password': '17322463b3e529f1ee3184444b7e0d61',
+      'TOKEN': 'ABX78952-081E-41D4-8C86-FB410EF83123',
+    };
+    try {
+      dio.Response response = await dio.Dio().post(Urls.trackGiftBaseUrl,
+          data: jsonEncode({
+            "data": {"barcode_no": "$trackNo", "type": "booking"}
+          }),
+          options: dio.Options(headers: headers));
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["success"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      print(e);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        print(e);
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        print(e);
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      print(e);
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+  static Future<Data> trackTravellingInfo({String trackNo}) async {
+    var headers = {
+      'Content-Type': 'text/plain',
+      'Username': 'maruticourier',
+      'Password': '17322463b3e529f1ee3184444b7e0d61',
+      'TOKEN': 'ABX78952-081E-41D4-8C86-FB410EF83123',
+    };
+    try {
+      dio.Response response = await dio.Dio().post(Urls.trackGiftBaseUrl,
+          data: jsonEncode({
+            "data": {"barcode_no": "$trackNo", "type": "traveling"}
+          }),
+          options: dio.Options(headers: headers));
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["success"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      print(e);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        print(e);
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        print(e);
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      print(e);
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+  static Future<Data> trackDeliveryInfo({String trackNo, String bookingDate}) async {
+    var headers = {
+      'Content-Type': 'text/plain',
+      'Username': 'maruticourier',
+      'Password': '17322463b3e529f1ee3184444b7e0d61',
+      'TOKEN': 'ABX78952-081E-41D4-8C86-FB410EF83123',
+    };
+    try {
+      dio.Response response = await dio.Dio().post(Urls.trackGiftBaseUrl,
+          data: jsonEncode({
+            "data": {"barcode_no": "$trackNo", "type": "delivery", "booking_date" : "$bookingDate"}
+          }),
+          options: dio.Options(headers: headers));
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["success"];
+        data.data = [jsonResponse["data"]];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      print(e);
+      if (dio.DioErrorType.DEFAULT == e.type) {
+        print(e);
+        Data data = Data(
+            message: "No internet connection !!!", response: null, data: null);
+        return data;
+      } else {
+        print(e);
+        Data data = Data(message: errorMessage, response: null, data: null);
+        return data;
+      }
+    } catch (e) {
+      print(e);
+      Data data = Data(message: errorMessage, response: null, data: null);
+      return data;
+    }
+  }
+
+  static Future<bool> checkUsersPurchase(
+      {String mobile, String fromDate, String toDate}) async {
+    try {
+      dio.Response response;
+      response = await dio.Dio().get(Urls.checkUsersPurchaseBPGS +
+          "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
       dio.Response response1;
-      response1 = await dio.Dio().get(Urls.checkUsersPurchaseBPGN + "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
+      response1 = await dio.Dio().get(Urls.checkUsersPurchaseBPGN +
+          "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
       if (response.statusCode == 200 && response1.statusCode == 200) {
         if (response.data.length != 0 || response1.data.length != 0) {
           return true;
@@ -755,6 +954,7 @@ class Services {
       }
     } catch (e) {
       return false;
-    } return false;
+    }
+    return false;
   }
 }
