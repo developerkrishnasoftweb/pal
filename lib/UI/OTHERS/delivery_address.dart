@@ -120,6 +120,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   @override
   Widget build(BuildContext context) {
+    // print(file.path);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Delivery Address"),
