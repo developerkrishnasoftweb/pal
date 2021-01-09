@@ -32,26 +32,18 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
     Services.weeklyReport().then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data[0]["earn"].length; i++) {
+          var weekPoint = 0;
           for(int j = 0; j < value.data[0]["earn"]["${(i + 1)}"].length; j++) {
-            print(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
+            // print(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
+            // print(value.data[0]["earn"]["${(i + 1)}"][j]["purchase"]);
             setState(() {
-              purchase += int.parse(value.data[0]["earn"][[(i + 1).toString()]][j]["purchase"]);
-              earnedPoints += int.parse(value.data[0]["earn"][[(i + 1).toString()]][j]["point"]);
+              weekPoint += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
+              purchase += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["purchase"]);
+              earnedPoints += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
             });
           }
           setState(() {
-
-          });
-          // for(int j = 0; j < value.data[0]["earn"][[(i + 1).toString()]].length; i++) {
-          //   setState(() {
-          //     purchase += int.parse(value.data[0]["earn"][[(i + 1).toString()]][j]["purchase"]);
-          //     earnedPoints += int.parse(value.data[0]["earn"][(i + 1).toString()][j]["point"]);
-          //   });
-          // }
-          setState(() {
-            // weekPoints.add(value.data[0]["earn"][(i + 1).toString()]["point"]);
-            //
-            // print(int.parse(value.data[0]["earn"][(i + 1).toString()]["point"]));
+            weekPoints.add(weekPoint.toString());
           });
         }
       } else {
@@ -84,7 +76,7 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
                   buildRow(
                       title: "Cumulative Purchase :",
                       value: cumulativePurchase),
-                  buildRow(title: "Earned Points :", value: "19965"),
+                  buildRow(title: "Earned Points :", value: earnedPoints.toString()),
                 ],
               ),
             ),
