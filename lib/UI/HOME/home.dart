@@ -45,7 +45,6 @@ class _HomeState extends State<Home> {
   void initState() {
     Timer.periodic(Duration(milliseconds: 10000), (timer) {
       Services.getNotificationCount().then((value) {
-        print(value);
         setState(() {
           notificationCount = value;
         });

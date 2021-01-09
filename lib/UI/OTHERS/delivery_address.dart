@@ -49,7 +49,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
       if((await result.length() / 1024) <= 200) {
-        print(result.path);
         setState(() {
           ext = result.path.split("/").last.split(".").last;
         });
@@ -120,7 +119,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   @override
   Widget build(BuildContext context) {
-    // print(file.path);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Delivery Address"),
@@ -600,7 +598,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "delivery_type": "s",
             "store_id": storeID,
           });
-          print(otp);
           sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
