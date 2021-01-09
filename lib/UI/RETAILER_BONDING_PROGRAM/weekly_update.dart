@@ -69,7 +69,7 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
               ),
               child: Column(
                 children: [
-                  buildRow(title: "Current Cycle :", value: "30 Nov - 27 Dec"),
+                  buildRow(title: "Current Cycle :", value: "N/A"),
                   buildRow(
                       title: "Purchase for this cycle :",
                       value: purchase.toString()),
