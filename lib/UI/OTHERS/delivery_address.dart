@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Constant/color.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
 import '../../UI/SIGNIN_SIGNUP/signup.dart';
 import '../../Common/show_dialog.dart';
@@ -33,7 +34,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       ext = "",
       altMobile = "",
       pincode = "";
-  bool collectToShop = false, isLoading = false;
+  bool collectToShop = false, isLoading = false, fileLoading = false;
   File file;
   TextEditingController stateAPI = TextEditingController();
   TextEditingController areaAPI = TextEditingController();
@@ -44,23 +45,36 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   String storeCity = "", storeArea = "", storeState = "", storePinCode = "", storeID = "";
 
   Future getFile() async {
+    setFileLoading(true);
     File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
-      setState(() {
-        ext = result.path.split("/").last.split(".").last;
-      });
-      if (ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg") {
+      if((await result.length() / 1024) <= 200) {
         setState(() {
-          file = File(result.path);
+          ext = result.path.split("/").last.split(".").last;
         });
+        if (ext == "pdf" || ext == "jpeg" || ext == "png" || ext == "jpg") {
+          setFileLoading(false);
+          setState(() {
+            file = File(result.path);
+          });
+        } else {
+          setFileLoading(false);
+          Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
+        }
       } else {
-        Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
+        setFileLoading(false);
+        Fluttertoast.showToast(msg: "File size must be under 200KB");
       }
-    }
+    } else setFileLoading(false);
   }
   setLoading(bool status) {
     setState(() {
       isLoading = status;
+    });
+  }
+  setFileLoading(bool status){
+    setState(() {
+      fileLoading = status;
     });
   }
   @override
@@ -462,7 +476,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       width: 180,
       padding: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      child: file == null
+      child: fileLoading ? SizedBox(height: 15, width: 15, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.grey[400]), strokeWidth: 2,),) : file == null
           ? Column(
               children: [
                 attachButton(onPressed: getFile, text: "Attach File"),
