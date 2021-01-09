@@ -114,7 +114,7 @@ class _OTPState extends State<OTP> {
                 context: context,
                 title: "Gift Redeemed Successfully",
                 content:
-                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]} .\n\nThank you for purchasing with us.",
+                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nYour gift status is Pending for approval.\n\nThank you for purchasing with us.",
                 barrierDismissible: true,
                 actions: [
                   FlatButton(
