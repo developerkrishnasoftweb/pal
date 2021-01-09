@@ -58,7 +58,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       }
     }
   }
-
+  setLoading(bool status) {
+    setState(() {
+      isLoading = status;
+    });
+  }
   @override
   void initState() {
     getStores();
@@ -404,6 +408,16 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         buildTitledRow(title: "City", value: storeCity),
         buildTitledRow(title: "State", value: storeState),
         buildTitledRow(title: "Pincode", value: storePinCode),
+        input(
+            context: context,
+            text: "Alternate Mobile No.",
+            onChanged: (value) {
+              setState(() {
+                altMobile = value;
+              });
+            },
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(border: border())),
         Text(
           "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -509,9 +523,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             [UserParams.mobile];
     String otp = RandomInt.generate().toString();
     if (addressType == "Home delivery") {
-      setState(() {
-        isLoading = true;
-      });
       if (address.isNotEmpty &&
           stateAPI.text.isNotEmpty &&
           cityAPI.text.isNotEmpty &&
@@ -519,6 +530,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           pincode.isNotEmpty &&
           file != null) {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
+          setLoading(true);
           FormData data = FormData.fromMap({
             "customer_id": id,
             "api_key": Urls.apiKey,
@@ -539,16 +551,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           });
           sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
-          setState(() {
-            isLoading = false;
-          });
           Fluttertoast.showToast(msg: "Invalid mobile number");
         }
       } else {
         Fluttertoast.showToast(msg: "All fields are required");
-        setState(() {
-          isLoading = false;
-        });
       }
     } else {
       /*
@@ -559,26 +565,30 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           storeCity.isNotEmpty &&
           storeArea.isNotEmpty &&
           storeID.isNotEmpty &&
+          altMobile.isNotEmpty &&
           file != null) {
-        setState(() {
-          // isLoading = true;
-        });
-        FormData data = FormData.fromMap({
-          "customer_id": id,
-          "api_key": Urls.apiKey,
-          "gift_id": widget.giftData.id,
-          "point": widget.giftData.points,
-          "address": storeArea,
-          "area": storeArea,
-          "city": storeCity,
-          "pincode": storePinCode,
-          "alt_mobile": "1234567890",
-          "state": storeState,
-          "proof": file != null ? await MultipartFile.fromFile(file.path, filename: file.path.split("/").last) : "",
-          "delivery_type": "s",
-          "store_id": storeID,
-        });
-        sendSMS(mobile: mobileNo, formData: data, otp: otp);
+        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
+          setLoading(true);
+          FormData data = FormData.fromMap({
+            "customer_id": id,
+            "api_key": Urls.apiKey,
+            "gift_id": widget.giftData.id,
+            "point": widget.giftData.points,
+            "address": storeArea,
+            "area": storeArea,
+            "city": storeCity,
+            "pincode": storePinCode,
+            "alt_mobile": "1234567890",
+            "state": storeState,
+            "proof": file != null ? await MultipartFile.fromFile(file.path, filename: file.path.split("/").last) : "",
+            "delivery_type": "s",
+            "store_id": storeID,
+          });
+          print(otp);
+          sendSMS(mobile: mobileNo, formData: data, otp: otp);
+        } else {
+          Fluttertoast.showToast(msg: "Invalid mobile number");
+        }
       } else {
         Fluttertoast.showToast(msg: "All fields are required");
       }
@@ -598,9 +608,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     });
     await Services.sms(smsData).then((value) {
       if (value.response == "000") {
-        setState(() {
-          isLoading = false;
-        });
+        setLoading(false);
         Navigator.pop(context);
         Navigator.push(
             context,
@@ -613,9 +621,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   otp: otp,
                 )));
       } else {
-        setState(() {
-          isLoading = false;
-        });
+        setLoading(false);
         Fluttertoast.showToast(msg: value.message);
       }
     });

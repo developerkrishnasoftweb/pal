@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/badge.dart';
+import '../../Common/show_dialog.dart';
 import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Common/drawer.dart';
@@ -23,6 +24,8 @@ import '../../UI/SERVICE_REQUEST/service_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
+  final bool showRateDialog;
+  Home({this.showRateDialog});
   @override
   _HomeState createState() => _HomeState();
 }
@@ -33,9 +36,12 @@ class _HomeState extends State<Home> {
   String notificationCount = "0";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
+  int open = 1;
 
   @override
   void initState() {
+    if(widget.showRateDialog != null && widget.showRateDialog)
+      showRatingDialog();
     Timer.periodic(Duration(milliseconds: 1000), (timer) {
       Services.getNotificationCount().then((value) {
         notificationCount = value;
@@ -68,6 +74,31 @@ class _HomeState extends State<Home> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
     super.initState();
+  }
+  showRatingDialog() async {
+    var status = showDialogBox(
+        context: context,
+        title: "Rate US",
+        content: "How would you rate PAL DEPARTMENTAL STORE ?",
+        barrierDismissible: true,
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "NO, THANKS",
+              style: TextStyle(color: Colors.grey),
+            ),
+          ),
+          FlatButton(
+            onPressed: (){},
+            child: Text(
+              "RATE",
+              style: TextStyle(color: AppColors.primaryColor),
+            ),
+          ),
+        ]);
+    if (await status == null)
+      print("Hello");
   }
 
   void getData() async {
@@ -106,6 +137,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // if(open == 1) {
+    //   showRatingDialog();
+    // }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,

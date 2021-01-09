@@ -102,31 +102,8 @@ class _OTPState extends State<OTP> {
           if (value.response == "y") {
             await userData(value.data[0]["customer"]);
             Fluttertoast.showToast(msg: value.message);
-            var status = showDialogBox(
-                context: context,
-                title: "Rate US",
-                content: "How would you rate PAL DEPARTMENTAL STORE ?",
-                barrierDismissible: true,
-                actions: [
-                  FlatButton(
-                    onPressed: () => Navigator.pushAndRemoveUntil(context,
-                        CustomPageRoute(widget: Home()), (route) => false),
-                    child: Text(
-                      "NO, THANKS",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _rate,
-                    child: Text(
-                      "RATE",
-                      style: TextStyle(color: AppColors.primaryColor),
-                    ),
-                  ),
-                ]);
-            if (await status == null)
-              Navigator.pushAndRemoveUntil(
-                  context, CustomPageRoute(widget: Home()), (route) => false);
+            Navigator.pushAndRemoveUntil(context,
+                CustomPageRoute(widget: Home(showRateDialog: true,)), (route) => false);
             setState(() {
               signUpStatus = false;
             });
@@ -141,16 +118,6 @@ class _OTPState extends State<OTP> {
         Fluttertoast.showToast(msg: "Something went wrong");
     } else
       Fluttertoast.showToast(msg: "Invalid OTP");
-  }
-
-  _rate() async {
-    var url = "https://play.google.com/store/apps/details?id=com.whatsapp";
-    if (await canLaunch(url)) {
-      launch(url);
-      Navigator.pushAndRemoveUntil(
-          context, CustomPageRoute(widget: Home()), (route) => false);
-    } else
-      Fluttertoast.showToast(msg: "Unable to open play store");
   }
 
   _forgotPassword() async {
