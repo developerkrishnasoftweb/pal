@@ -36,10 +36,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
   String points = "0", name = "", availablePoints = "";
-  String notificationCount = "0";
+  String notificationCount = "0", rateMessage = "";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
   int rate = 0;
+  bool rating = false;
+  setRating(bool status) {
+    setState(() {
+      rating = status;
+    });
+  }
 
   @override
   void initState() {
@@ -85,7 +91,6 @@ class _HomeState extends State<Home> {
     showDialogBox(
         context: context,
         titleWidget: Text("RATE US", style: TextStyle(color: AppColors.primaryColor),),
-        // content: "How would you rate PAL DEPARTMENTAL STORE ?",
         widget: Container(
           width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
           child: Column(
@@ -97,6 +102,11 @@ class _HomeState extends State<Home> {
               RatingBuilder(itemCount: 5, itemExtent: 35, onChanged: (rate){
                 setState(() {
                   this.rate = rate;
+                  if(this.rate < 3) {
+                    rateMessage = "Good";
+                  } else {
+                    rateMessage = "Good";
+                  }
                 });
               },),
             ],
@@ -112,13 +122,24 @@ class _HomeState extends State<Home> {
             ),
           ),
           FlatButton(
-            onPressed: (){},
-            child: Text(
+            onPressed: rate != 0 && rateMessage.isNotEmpty ? _rateApp : () => Fluttertoast.showToast(msg: "Please rate and share your experience."),
+            child: rating ? SizedBox(height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor), strokeWidth: 2,),) : Text(
               "RATE",
               style: TextStyle(color: AppColors.primaryColor),
             ),
           ),
         ]);
+  }
+  _rateApp() async {
+    setRating(true);
+    Services.rateApp(message: rateMessage, rate: rate.toString()).then((value) {
+      if(value.response == "y") {
+        setRating(false);
+        Fluttertoast.showToast(msg: "Thank you for rate us.");
+      }
+      else
+        setRating(false);
+    });
   }
 
   void getData() async {
