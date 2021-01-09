@@ -216,7 +216,6 @@ class _SignInState extends State<SignIn> {
       firebaseCloudMessagingListeners();
       FormData formData = FormData.fromMap(
           {"username": username, "password": password, "api_key": Urls.apiKey, "token" : token});
-      print(formData.fields);
       Services.signIn(formData).then((result) {
         if (result.response == "y") {
           setState(() {

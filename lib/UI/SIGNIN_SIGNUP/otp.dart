@@ -33,6 +33,11 @@ class _OTPState extends State<OTP> {
   FocusNode textFocusNode = new FocusNode();
   String otp = "";
   bool signUpStatus = false;
+  setSignUpStatus(bool status) {
+    setState(() {
+      signUpStatus = status;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,8 +45,13 @@ class _OTPState extends State<OTP> {
       appBar: appBar(context: context, title: "Enter OTP"),
       body: Column(
         children: [
-          SizedBox(height: 10,),
-          Text("We have sent OTP ${widget.mobile != null ? "***" + widget.mobile.substring(6) : "."}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "We have sent OTP ${widget.mobile != null ? "***" + widget.mobile.substring(6) : "."}",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           SizedBox(
             width: size.width,
           ),
@@ -95,25 +105,44 @@ class _OTPState extends State<OTP> {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
-        setState(() {
-          signUpStatus = true;
-        });
-        print("Loading");
+        setSignUpStatus(true);
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
-            print("Loaded successfully");
             await userData(value.data[0]["customer"]);
+            setSignUpStatus(false);
+            var dialogStatus = showDialogBox(
+                context: context,
+                title: "Gift Redeemed Successfully",
+                content:
+                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]} .\n\nThank you for purchasing with us.",
+                barrierDismissible: true,
+                actions: [
+                  FlatButton(
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        CustomPageRoute(
+                            widget: Home(
+                          showRateDialog: true,
+                        )),
+                        (route) => false),
+                    child: Text(
+                      "GO TO HOME",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ]);
+            if (await dialogStatus == null)
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  CustomPageRoute(
+                      widget: Home(
+                    showRateDialog: true,
+                  )),
+                  (route) => false);
             Fluttertoast.showToast(msg: value.message);
-            Navigator.pushAndRemoveUntil(context,
-                CustomPageRoute(widget: Home(showRateDialog: true,)), (route) => false);
-            setState(() {
-              signUpStatus = false;
-            });
           } else {
             Fluttertoast.showToast(msg: value.message);
-            setState(() {
-              signUpStatus = false;
-            });
+            setSignUpStatus(false);
           }
         });
       } else
@@ -140,18 +169,18 @@ class _OTPState extends State<OTP> {
   _register() async {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
-      setState(() => signUpStatus = true);
+      setSignUpStatus(true);
       await Services.signUp(widget.formData).then((value) {
         if (value.response == "y") {
           Fluttertoast.showToast(msg: value.message);
-          setState(() => signUpStatus = false);
+          setSignUpStatus(false);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => SignIn()),
-                  (route) => false);
+              (route) => false);
         } else {
           Fluttertoast.showToast(msg: value.message);
-          setState(() => signUpStatus = false);
+          setSignUpStatus(false);
           Navigator.pop(context);
         }
       });
