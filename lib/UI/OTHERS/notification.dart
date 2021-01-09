@@ -99,19 +99,28 @@ class _NotificationState extends State<Notifications> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              notification.title,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
+            Expanded(
+              flex: 3,
+              child: Text(
+                notification.title + "",
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey),
+              ),
             ),
-            Text(
-              notification.time,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  notification.time,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+              ),
             )
           ],
         ),

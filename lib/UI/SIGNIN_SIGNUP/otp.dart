@@ -98,8 +98,10 @@ class _OTPState extends State<OTP> {
         setState(() {
           signUpStatus = true;
         });
+        print("Loading");
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
+            print("Loaded successfully");
             await userData(value.data[0]["customer"]);
             Fluttertoast.showToast(msg: value.message);
             Navigator.pushAndRemoveUntil(context,

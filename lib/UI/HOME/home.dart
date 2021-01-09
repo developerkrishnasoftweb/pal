@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../Common/badge.dart';
+import '../../Common/rating_builder.dart';
 import '../../Common/show_dialog.dart';
+import '../../Constant/color.dart';
+import '../../Constant/color.dart';
 import '../../UI/OTHERS/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Common/drawer.dart';
@@ -36,12 +39,10 @@ class _HomeState extends State<Home> {
   String notificationCount = "0";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
-  int open = 1;
+  int rate = 0;
 
   @override
   void initState() {
-    if(widget.showRateDialog != null && widget.showRateDialog)
-      showRatingDialog();
     Timer.periodic(Duration(milliseconds: 1000), (timer) {
       Services.getNotificationCount().then((value) {
         notificationCount = value;
@@ -74,12 +75,31 @@ class _HomeState extends State<Home> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
     super.initState();
+    if(widget.showRateDialog != null && widget.showRateDialog)
+      Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
   }
   showRatingDialog() async {
-    var status = showDialogBox(
+    Size size = MediaQuery.of(context).size;
+    showDialogBox(
         context: context,
-        title: "Rate US",
-        content: "How would you rate PAL DEPARTMENTAL STORE ?",
+        titleWidget: Text("RATE US", style: TextStyle(color: AppColors.primaryColor),),
+        // content: "How would you rate PAL DEPARTMENTAL STORE ?",
+        widget: Container(
+          width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("How would you rate PAL DEPARTMENTAL STORE ?"),
+              SizedBox(height: 10,),
+              RatingBuilder(itemCount: 5, itemExtent: 35, onChanged: (rate){
+                setState(() {
+                  this.rate = rate;
+                });
+              },),
+            ],
+          ),
+        ),
         barrierDismissible: true,
         actions: [
           FlatButton(
@@ -97,8 +117,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         ]);
-    if (await status == null)
-      print("Hello");
   }
 
   void getData() async {
@@ -137,9 +155,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // if(open == 1) {
-    //   showRatingDialog();
-    // }
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
