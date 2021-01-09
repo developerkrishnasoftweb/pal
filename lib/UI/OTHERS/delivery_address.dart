@@ -49,6 +49,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
       if((await result.length() / 1024) <= 200) {
+        print(result.path);
         setState(() {
           ext = result.path.split("/").last.split(".").last;
         });

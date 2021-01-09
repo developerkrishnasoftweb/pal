@@ -126,14 +126,14 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             initiallyExpanded: true,
             childrenPadding: EdgeInsets.only(left: 50),
             children: [
-              ListTile(
+              /* ListTile(
                 title: Text("My Weekly Update"),
                 onTap: () {
                   scaffoldKey.currentState.openEndDrawer();
                   Navigator.push(
                       context, CustomPageRoute(widget: WeeklyUpdate()));
                 },
-              ),
+              ), */
               ListTile(
                 title: Text("My Earned Points"),
                 onTap: () {
