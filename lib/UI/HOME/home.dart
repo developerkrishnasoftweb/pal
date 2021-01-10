@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                   if(this.rate < 3) {
                     rateMessage = "Good";
                   } else {
-                    rateMessage = "Good";
+                    rateMessage = "Excellent";
                   }
                 });
               },),
