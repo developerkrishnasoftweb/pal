@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Common/appbar.dart';
@@ -10,7 +9,6 @@ import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
 import '../../UI/SERVICE_REQUEST/service_request.dart';
@@ -24,26 +22,41 @@ class Complain extends StatefulWidget {
 }
 
 class _ComplainState extends State<Complain> {
-  TextEditingController qrCodeTextField = TextEditingController();
+  // TextEditingController qrCodeTextField = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   File image, video;
   final picker = ImagePicker();
   bool isLoading = false;
+  List<String> complainCategory = ["Product Related", "Price Related", "Staff Related", "Other"];
+  String complain = "Product Related";
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       if(pickedFile != null)
         image = File(pickedFile.path);
     });
+    if((await image.length() / 1024) > 2048) {
+      setState(() {
+        image = null;
+      });
+      Fluttertoast.showToast(msg: "File size must be under 2MB");
+    }
   }
   Future getVideo() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.gallery, maxDuration: Duration(seconds: 30), preferredCameraDevice: CameraDevice.rear);
+    final pickedFile = await picker.getVideo(source: ImageSource.gallery, preferredCameraDevice: CameraDevice.rear);
     setState(() {
       if(pickedFile != null)
         video = File(pickedFile.path);
     });
+    if((await video.length() / 1024) > 2048) {
+      setState(() {
+        video = null;
+      });
+      Fluttertoast.showToast(msg: "File size must be under 2MB");
+    }
   }
+  /*
   Future _scanQrCode() async {
     try{
       var result = await BarcodeScanner.scan();
@@ -62,9 +75,10 @@ class _ComplainState extends State<Complain> {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
-
+  */
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
       appBar: appBar(context: context, title: "Complain"),
@@ -74,19 +88,34 @@ class _ComplainState extends State<Complain> {
             padding: EdgeInsets.only(top: 30, bottom: 100),
             child: Column(
               children: [
-                customButton(
-                    context: context,
-                    onPressed: _scanQrCode,
-                    text: "Scan QR Code",
-                    color: Colors.grey[100],
-                    height: 70,
-                    textColor: Colors.black),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Text("OR", style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey, fontWeight: FontWeight.bold),),
+                Container(
+                  width: size.width - 20,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[200],
+                          blurRadius: 10,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButton(
+                      underline: SizedBox.shrink(),
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                      value: complain,
+                      isExpanded: true,
+                      items: complainCategory.map((comp) {
+                        return DropdownMenuItem(
+                            value: comp, child: Text(comp));
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          complain = value;
+                        });
+                      }),
                 ),
-                input(context: context, text: "Enter QR Code", decoration: InputDecoration(border: border()), controller: qrCodeTextField),
-                input(context: context, text: "Brief Description", decoration: InputDecoration(border: border()), maxLines: 5, controller: descriptionText),
+                input(context: context, text: "Brief Description $mandatoryChar", decoration: InputDecoration(border: border()), maxLines: 5, controller: descriptionText),
                 SizedBox(height: 20,),
                 attachButton(onPressed: (){
                   getImage();
@@ -107,7 +136,7 @@ class _ComplainState extends State<Complain> {
       ),
     );
   }
-  Widget attachButton({String text,  @required VoidCallback onPressed}){
+  Widget attachButton({String text, @required VoidCallback onPressed}){
     return customButton(
         context: context,
         onPressed: onPressed,
@@ -129,12 +158,12 @@ class _ComplainState extends State<Complain> {
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
-    if(id.isNotEmpty && descriptionText.text.isNotEmpty && qrCodeTextField.text.isNotEmpty){
+    if(id.isNotEmpty && descriptionText.text.isNotEmpty && complain.isNotEmpty){
       FormData data = FormData.fromMap({
         "customer_id" : id,
         "api_key" : Urls.apiKey,
         "description" : descriptionText.text,
-        "code" : qrCodeTextField.text,
+        "code" : complain,
         "image" : image != null ? await MultipartFile.fromFile(image.path, filename: image.path.split("/").last) : "",
         "video" : video != null ? await MultipartFile.fromFile(video.path, filename: video.path.split("/").last) : ""
       });
@@ -154,7 +183,7 @@ class _ComplainState extends State<Complain> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: "Please provide QR Code and Description");
+      Fluttertoast.showToast(msg: "Please provide description");
     }
   }
 }

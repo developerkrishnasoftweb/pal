@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    Timer.periodic(Duration(milliseconds: 10000), (timer) {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
       Services.getNotificationCount().then((value) {
         setState(() {
           notificationCount = value;
@@ -101,11 +101,17 @@ class _HomeState extends State<Home> {
               SizedBox(height: 10,),
               RatingBuilder(itemCount: 5, itemExtent: 35, onChanged: (rate){
                 setState(() {
-                  this.rate = rate;
+                  setState(() {
+                    this.rate = rate;
+                  });
                   if(this.rate < 3) {
-                    rateMessage = "Good";
+                    setState(() {
+                      rateMessage = "Good";
+                    });
                   } else {
-                    rateMessage = "Excellent";
+                    setState(() {
+                      rateMessage = "Excellent";
+                    });
                   }
                 });
               },),
@@ -122,7 +128,8 @@ class _HomeState extends State<Home> {
             ),
           ),
           FlatButton(
-            onPressed: rate != 0 && rateMessage.isNotEmpty ? _rateApp : () => Fluttertoast.showToast(msg: "Please rate and share your experience."),
+            //TODO: check once
+            onPressed: rate > 0 && rateMessage.isNotEmpty ? () => Fluttertoast.showToast(msg: "Please rate and share your experience.") : _rateApp,
             child: rating ? SizedBox(height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor), strokeWidth: 2,),) : Text(
               "RATE",
               style: TextStyle(color: AppColors.primaryColor),
@@ -219,7 +226,17 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        badge(
+                        (int.parse(notificationCount) == 0) ? IconButton(
+                          icon: ImageIcon(
+                            AssetImage(
+                                "assets/icons/notification-icon.png"),
+                            color: Colors.white,
+                          ),
+                          onPressed: () => Navigator.push(context,
+                              CustomPageRoute(widget: Notifications())),
+                          splashRadius: 23,
+                          iconSize: 20,
+                        ) : badge(
                             iconButton: IconButton(
                               icon: ImageIcon(
                                 AssetImage(

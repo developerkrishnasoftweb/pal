@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/SERVICES/urls.dart';
-import 'package:pal/UI/HOME/home.dart';
-import 'package:pal/UI/PRODUCT_CATALOG/catalog_preview.dart';
+import '../../Common/page_route.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/HOME/home.dart';
+import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
@@ -121,14 +121,14 @@ class _ChangeAddressState extends State<ChangeAddress> {
             profileImage(),
             input(
                 context: context,
-                text: "Name",
+                text: "Name $mandatoryChar",
                 controller: name,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(border: border()),),
             input(
               context: context,
               controller: altMobile,
-              text: "Alternate Mobile Number",
+              text: "Alternate Mobile Number $mandatoryChar",
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onChanged: (value) {
@@ -150,7 +150,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             input(
               context: context,
               controller: email,
-              text: "Email",
+              text: "Email $mandatoryChar",
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               readOnly: widget.status == "y" ?? false,
@@ -158,7 +158,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             ),
             input(
               context: context,
-              text: "Address",
+              text: "Address $mandatoryChar",
               controller: address,
               maxLines: widget.status == "y" ? 2 : 5,
               textInputAction: TextInputAction.next,
@@ -167,7 +167,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             ),
             input(
                 context: context,
-                text: "Pincode",
+                text: "Pincode $mandatoryChar",
                 controller: pinCode,
                 keyboardType: TextInputType.number,
                 readOnly: widget.status == "y" ?? false,
@@ -177,13 +177,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
-                text: "State",
+                text: "State $mandatoryChar",
                 controller: state,
                 readOnly: widget.status == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
-                text: "City",
+                text: "City $mandatoryChar",
                 controller: city,
                 readOnly: widget.status == "y" ?? false,
                 decoration: InputDecoration(border: border())),
@@ -194,7 +194,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Area",
+                          "Area $mandatoryChar",
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Colors.grey,
                               fontSize: 13,
@@ -221,7 +221,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   )
                 : input(
                     context: context,
-                    text: "Area",
+                    text: "Area $mandatoryChar",
                     controller: area,
                     readOnly: widget.status == "y" ?? false,
                     decoration: InputDecoration(border: border())),
@@ -231,7 +231,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Gender",
+                    "Gender $mandatoryChar",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey,
                         fontSize: 13,
@@ -261,7 +261,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             ),
             input(
                 context: context,
-                text: "Date of Birth",
+                text: "Date of Birth $mandatoryChar",
                 controller: dob,
                 onTap: widget.status == "y" ? null : () => _selectDate(SelectDateType.DOB),
                 readOnly: true,
@@ -273,7 +273,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Marital Status",
+                    "Marital Status $mandatoryChar",
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey,
                         fontSize: 13,
@@ -304,7 +304,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             selectedMaritalStatus == "y"
                 ? input(
                     context: context,
-                    text: "Anniversary Date",
+                    text: "Anniversary Date $mandatoryChar",
                     controller: anniversaryDate,
                     onTap: () => _selectDate(SelectDateType.ANNIVERSARY_DATE),
                     readOnly: true,
@@ -320,7 +320,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Adhaar Card : " + (widget.userdata.adhaar != null && widget.userdata.adhaar.isNotEmpty ? "(${widget.userdata.adhaar.split("/").last})" : ""),
+                    "Adhaar Card : " + (widget.userdata.adhaar != null && widget.userdata.adhaar.isNotEmpty ? "(${widget.userdata.adhaar.split("/").last})" : "$mandatoryChar"),
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey,
                         fontSize: 13,

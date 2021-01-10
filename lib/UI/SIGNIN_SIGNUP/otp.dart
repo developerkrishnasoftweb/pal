@@ -114,7 +114,7 @@ class _OTPState extends State<OTP> {
                 context: context,
                 title: "Gift Redeemed Successfully",
                 content:
-                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nYour gift status is Pending for approval.\n\nThank you for purchasing with us.",
+                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.Your gift status is Pending for approval.Thank you for purchasing with us.",
                 barrierDismissible: true,
                 actions: [
                   FlatButton(
@@ -127,7 +127,7 @@ class _OTPState extends State<OTP> {
                         (route) => false),
                     child: Text(
                       "GO TO HOME",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: AppColors.primaryColor),
                     ),
                   ),
                 ]);

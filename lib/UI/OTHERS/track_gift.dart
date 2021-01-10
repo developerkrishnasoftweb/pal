@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Constant/userdata.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
@@ -30,7 +31,7 @@ class _TrackGiftState extends State<TrackGift> {
             input(
                 autoFocus: true,
                 context: context,
-                text: "Enter your shipment no.",
+                text: "Enter your shipment no  $mandatoryChar",
                 padding: EdgeInsets.all(20),
                 decoration: InputDecoration(
                   border: border(),

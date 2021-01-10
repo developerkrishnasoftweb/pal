@@ -14,6 +14,7 @@ class Notifications extends StatefulWidget {
 
 class _NotificationState extends State<Notifications> {
   List<NotificationData> notifications = [];
+  bool notificationStatus = false;
   @override
   void initState() {
     getNotifications();
@@ -24,7 +25,7 @@ class _NotificationState extends State<Notifications> {
     Services.getNotifications().then((value) async {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
-          if(i == value.data.length - 1){
+          if(i == 0){
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
             sharedPreferences.setString(UserParams.lastNotificationId, value.data[i]["id"]);
             print(value.data[i]["id"]);
@@ -49,8 +50,15 @@ class _NotificationState extends State<Notifications> {
               });
               break;
           }
+          if(days.inDays <= 2) {
+            setState(() {
+              notifications.add(NotificationData(title: value.data[i]["title"], message: value.data[i]["content"], id: value.data[i]["id"], image: "assets/icons/store-icon.jpg", time: time));
+            });
+          }
+        }
+        if(notifications.length == 0) {
           setState(() {
-            notifications.add(NotificationData(title: value.data[i]["title"], message: value.data[i]["content"], id: value.data[i]["id"], image: "assets/icons/store-icon.jpg", time: time));
+            notifications = null;
           });
         }
       } else {
@@ -63,7 +71,7 @@ class _NotificationState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(context: context, title: "Notification"),
-        body: notifications.length > 0
+        body: notifications != null ? notifications.length > 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -81,7 +89,7 @@ class _NotificationState extends State<Notifications> {
                     valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
                   ),
                 ),
-              ));
+              ) : Center(child: Text("You don't have notifications"),));
   }
 
   Widget notificationBuilder(NotificationData notification) {

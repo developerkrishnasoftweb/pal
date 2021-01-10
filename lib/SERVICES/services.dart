@@ -593,6 +593,7 @@ class Services {
             ? sharedPreferences.getString(UserParams.lastNotificationId)
             : "0";
     String customerId = sharedPreferences.getString(UserParams.id);
+    print(lastNotificationId);
     String url = Urls.baseUrl +
         Urls.getNotificationCount +
         lastNotificationId +

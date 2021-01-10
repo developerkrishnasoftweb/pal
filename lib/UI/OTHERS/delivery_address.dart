@@ -424,7 +424,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         buildTitledRow(title: "Pincode", value: storePinCode),
         input(
             context: context,
-            text: "Alternate Mobile No.",
+            text: "Alternate Mobile No. $mandatoryChar",
             onChanged: (value) {
               setState(() {
                 altMobile = value;
@@ -433,7 +433,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(border: border())),
         Text(
-          "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence",
+          "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence $mandatoryChar",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),

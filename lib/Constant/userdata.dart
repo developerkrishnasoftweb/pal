@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-
+const String mandatoryChar = "*";
 class UserParams {
   static String id = "id";
   static String name = "name";

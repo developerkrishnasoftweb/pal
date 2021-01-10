@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../Constant/userdata.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
@@ -58,7 +59,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
             input(
               autoFocus: true,
               context: context,
-              text: "Enter Complaint No.",
+              text: "Enter Complaint No $mandatoryChar",
               padding: EdgeInsets.all(20),
               decoration: InputDecoration(
                 border: border(),
