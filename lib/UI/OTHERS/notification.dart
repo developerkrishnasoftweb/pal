@@ -28,8 +28,6 @@ class _NotificationState extends State<Notifications> {
           if(i == 0){
             SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
             sharedPreferences.setString(UserParams.lastNotificationId, value.data[i]["id"]);
-            print(value.data[i]["id"]);
-            print(sharedPreferences.getString(UserParams.lastNotificationId));
           }
           var days = (DateTime.now().difference(DateTime.parse(value.data[i]["inserted"])));
           var time;
