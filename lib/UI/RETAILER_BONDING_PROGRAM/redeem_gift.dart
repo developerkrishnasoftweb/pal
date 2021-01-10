@@ -88,7 +88,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                     height: 10,
                   ),
                   buildRedeemedAmount(
-                      title: "Cumulative Purchase : ",
+                      title: "Cumulative Score : ",
                       amount: cumulativePurchase,
                       leadingTrailing: true),
                   GridView.builder(

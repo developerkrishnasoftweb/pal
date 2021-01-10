@@ -29,7 +29,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           DateTime.now().year, DateTime.now().month - 1, DateTime.now().day)));
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  List<String> tabs = ["Earn", "Purchase", "Redeem"];
+  List<String> tabs = ["Earn", "Score", "Redeem"];
   List earnedData = [], purchaseData = [], redeemData = [];
   List filteredEarnedData = [],
       filteredPurchaseData = [],
@@ -463,7 +463,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.all(8.0),
                 color: AppColors.primaryColor,
                 child: Text(
-                  "Total purchased point : ${totalPurchasePoint.toString()}",
+                  "Total Score : ${totalPurchasePoint.toString()}",
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -574,6 +574,15 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                             DataColumn(
                                 label:
                                     Text('Redeem Point', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                Text('Delivery', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                Text('Tracking Number', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                Text('Status', style: headerStyle)),
                           ],
                           rows: filteredRedeemData.map((data) {
                             return DataRow(cells: [
@@ -588,6 +597,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                               DataCell(Text(data["gift_code"])),
                               DataCell(Text(data["title"])),
                               DataCell(Text(data["point"])),
+                              DataCell(Text(data["delivery_type"] == "s" ? data["store_name"]: "Home Delivery")),
+                              DataCell(Text(data["delivery_type"] == "s" ? "--" : data["tracking_number"])),
+                              DataCell(Text(data["status"] == "y" ? "Delivered" : "In Transit")),
                             ]);
                           }).toList()),
                     ),

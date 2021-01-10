@@ -77,7 +77,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 height: 10,
               ),
               buildRedeemedAmount(
-                  title: "Cumulative Purchase : ",
+                  title: "Cumulative Score : ",
                   amount: cumulativePurchase.toString(),
                   leadingTrailing: true),
               SizedBox(
