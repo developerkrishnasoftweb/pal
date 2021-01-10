@@ -48,7 +48,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     setFileLoading(true);
     File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
-      if((await result.length() / 1024) <= 200) {
+      if((await result.length() / 1024) <= 2048) {
         setState(() {
           ext = result.path.split("/").last.split(".").last;
         });
@@ -63,7 +63,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         }
       } else {
         setFileLoading(false);
-        Fluttertoast.showToast(msg: "File size must be under 200KB");
+        Fluttertoast.showToast(msg: "File size must be under 2MB");
       }
     } else setFileLoading(false);
   }
