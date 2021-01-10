@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/UI/OTHERS/track_complaint.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/page_route.dart';
@@ -128,11 +129,17 @@ class _ServiceRequestState extends State<ServiceRequest> {
                     ),
                     WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
-                        child: IconButton(icon: Icon(Icons.copy_outlined), onPressed: (){
-                          Clipboard.setData(ClipboardData(text: complainNumber));
-                          Fluttertoast.showToast(msg: "Copied");
-                        }, splashRadius: 25, iconSize: 18, color: Colors.grey[400],)
-                    )
+                        child: IconButton(
+                          icon: Icon(Icons.copy_outlined),
+                          onPressed: () {
+                            Clipboard.setData(
+                                ClipboardData(text: complainNumber));
+                            Fluttertoast.showToast(msg: "Copied");
+                          },
+                          splashRadius: 25,
+                          iconSize: 18,
+                          color: Colors.grey[400],
+                        ))
                   ]),
             ),
             SizedBox(
@@ -148,13 +155,25 @@ class _ServiceRequestState extends State<ServiceRequest> {
                       .bodyText1
                       .copyWith(fontSize: 14, color: Colors.grey),
                 ),
-                Text(
-                  status,
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      fontSize: 14,
-                      color:
-                      status == "open" ? Colors.green : Colors.redAccent),
-                ),
+                status == "open"
+                    ? FlatButton(
+                        onPressed: () => Navigator.push(context, CustomPageRoute(widget: TrackComplaint(complainNumber: complainNumber,))),
+                        child: Text(
+                          status.toUpperCase(),
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 14,
+                              color: status == "open"
+                                  ? Colors.green
+                                  : Colors.redAccent),
+                        ),
+                      )
+                    : Text(
+                        "CLOSE",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(fontSize: 14, color: Colors.redAccent),
+                      )
               ],
             ),
           ],

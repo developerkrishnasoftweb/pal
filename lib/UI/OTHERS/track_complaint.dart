@@ -12,6 +12,8 @@ import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 
 class TrackComplaint extends StatefulWidget {
+  final String complainNumber;
+  TrackComplaint({this.complainNumber});
   @override
   _TrackComplaintState createState() => _TrackComplaintState();
 }
@@ -20,6 +22,14 @@ class _TrackComplaintState extends State<TrackComplaint> {
   String complainNo = "";
   ComplainDetails details;
   bool isLoading = false;
+  @override
+  void initState() {
+    print(widget.complainNumber != null ? widget.complainNumber : "Nothing");
+    setState(() {
+      complainNo = widget.complainNumber != null ? widget.complainNumber : "";
+    });
+    super.initState();
+  }
   _getComplainData() async {
     details = null;
     if(complainNo.isNotEmpty){
