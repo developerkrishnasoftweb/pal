@@ -360,7 +360,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                         EdgeInsets.symmetric(horizontal: 20)),
                                 text: "From Date",
                                 height: 50,
-                                width: size.width * 0.4,
+                                width: size.width * 0.7,
                                 readOnly: true,
                                 onTap: () => _selectDate(fromDate),
                                 controller: fromDate),
@@ -373,7 +373,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                         EdgeInsets.symmetric(horizontal: 20)),
                                 text: "To Date",
                                 height: 50,
-                                width: size.width * 0.4,
+                                width: size.width * 0.7,
                                 readOnly: true,
                                 onTap: () => _selectDate(toDate),
                                 controller: toDate)
@@ -412,10 +412,12 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                 )),
               ],
               bottom: TabBar(
+                  isScrollable: true,
                   unselectedLabelColor: Colors.white.withOpacity(0.9),
                   labelColor: Colors.white,
                   indicatorColor: Colors.white,
                   indicatorSize: TabBarIndicatorSize.label,
+                  physics: BouncingScrollPhysics(),
                   labelStyle:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   unselectedLabelStyle: TextStyle(fontSize: 16),
