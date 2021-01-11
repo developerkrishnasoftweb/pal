@@ -24,7 +24,6 @@ class _TermsNConditionState extends State<TermsNCondition> {
     var config = jsonDecode(sharedPreferences.getString(UserParams.config));
     setState(() {
       termsNConditions = config[0]["terms"];
-      title = config[0]["terms_title"] ?? "Terms and conditions";
     });
   }
   @override
@@ -32,27 +31,12 @@ class _TermsNConditionState extends State<TermsNCondition> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Terms & Conditions"),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),),
-            SizedBox(height: 10,),
-            Container(
-              height: size.height - 30,
-              width: size.width,
-              child: WebView(
-                initialUrl: 'about:blank',
-                onWebViewCreated: (WebViewController webViewController) {
-                  _controller = webViewController;
-                  _loadHtmlFromAssets();
-                },
-              ),
-            )
-          ],
-        ),
-        physics: BouncingScrollPhysics(),
+      body: WebView(
+        initialUrl: 'about:blank',
+        onWebViewCreated: (WebViewController webViewController) {
+          _controller = webViewController;
+          _loadHtmlFromAssets();
+        },
       ),
     );
   }
