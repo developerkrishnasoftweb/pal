@@ -2,8 +2,9 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/UI/OTHERS/track_gift.dart';
+import './../Constant/color.dart';
+import './../UI/OTHERS/tnc.dart';
+import './../UI/OTHERS/track_gift.dart';
 import '.././UI/OTHERS/notification.dart';
 import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
@@ -247,8 +248,8 @@ Widget drawer(
           }, Icons.notifications_on_outlined),
           buildDrawerItems("Terms & Conditions", () {
             scaffoldKey.currentState.openEndDrawer();
-            // Navigator.push(
-            //     context, CustomPageRoute(widget: Notifications()));
+            Navigator.push(
+                context, CustomPageRoute(widget: TermsNCondition()));
           }, Icons.ballot_outlined),
           buildDrawerItems(
               "Logout",
