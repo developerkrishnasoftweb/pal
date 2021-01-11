@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pal/Constant/color.dart';
@@ -14,20 +16,30 @@ import '.././UI/PRODUCT_CATALOG/product_catalog.dart';
 import '.././UI/RETAILER_BONDING_PROGRAM/earned_points.dart';
 import '.././UI/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '.././UI/RETAILER_BONDING_PROGRAM/redeemed_gifts.dart';
-import '.././UI/RETAILER_BONDING_PROGRAM/weekly_update.dart';
 import '.././UI/SERVICE_REQUEST/complain.dart';
 import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState> scaffoldKey, @required String name, @required String availablePoints, String version : "1.0.0"}) {
+Widget drawer(
+    {@required BuildContext context,
+    @required GlobalKey<ScaffoldState> scaffoldKey,
+    @required String name,
+    @required String availablePoints,
+    String version: "1.0.0"}) {
   Size size = MediaQuery.of(context).size;
-  SizedBox gap = SizedBox(width: 10,);
-  Widget buildDrawerItems(String text, GestureTapCallback onTap, IconData icon) {
+  SizedBox gap = SizedBox(
+    width: 10,
+  );
+  Widget buildDrawerItems(
+      String text, GestureTapCallback onTap, IconData icon) {
     return ListTile(
       title: Row(
         children: [
-          Icon(icon, color: Colors.grey,),
+          Icon(
+            icon,
+            color: Colors.grey,
+          ),
           gap,
           Text(text),
         ],
@@ -36,6 +48,39 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
       onTap: onTap,
     );
   }
+
+  Widget buildExpansionTile(
+      {@required IconData iconData,
+      @required String title,
+      List<Widget> children}) {
+    return ExpansionTile(
+      title: Row(
+        children: [
+          Icon(
+            iconData,
+            color: Colors.grey,
+          ),
+          gap,
+          Text(
+            title,
+            style: TextStyle(color: Colors.black),
+          ),
+        ],
+      ),
+      initiallyExpanded: true,
+      childrenPadding: EdgeInsets.only(left: 50),
+      children: children,
+    );
+  }
+
+  Widget buildExpansionChild(
+      {@required String title, @required GestureTapCallback onTap}) {
+    return ListTile(
+      title: Text(title),
+      onTap: onTap,
+    );
+  }
+
   _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
@@ -46,11 +91,12 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
           context,
           CustomPageRoute(
               widget: SignIn(
-                email: email,
-              )),
-              (route) => false);
+            email: email,
+          )),
+          (route) => false);
     }
   }
+
   return Container(
     width: size.width * 0.85,
     color: Colors.white,
@@ -66,7 +112,10 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hi!, " + name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                Text(
+                  "Hi!, " + name,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -77,10 +126,17 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
                       text: TextSpan(
                         children: [
                           WidgetSpan(
-                            child: Icon(Icons.account_balance_wallet_outlined, color: AppColors.primaryColor,),
-                            alignment: PlaceholderAlignment.middle
-                          ),
-                          TextSpan(text: "\t" + availablePoints, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.primaryColor))
+                              child: Icon(
+                                Icons.account_balance_wallet_outlined,
+                                color: AppColors.primaryColor,
+                              ),
+                              alignment: PlaceholderAlignment.middle),
+                          TextSpan(
+                              text: "\t" + availablePoints,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: AppColors.primaryColor))
                         ],
                       ),
                     ),
@@ -98,151 +154,105 @@ Widget drawer({@required BuildContext context, @required GlobalKey<ScaffoldState
           ),
           buildDrawerItems("HOME", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.pushAndRemoveUntil(context, CustomPageRoute(widget: Home()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context, CustomPageRoute(widget: Home()), (route) => false);
           }, Icons.home),
           buildDrawerItems("Product Catalog", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: ProductCatalog()));
+            Navigator.push(context, CustomPageRoute(widget: ProductCatalog()));
           }, Icons.book_outlined),
           buildDrawerItems("Update KYC", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: KYC()));
           }, Icons.book_online_outlined),
-          ExpansionTile(
-            title: Row(
+          buildExpansionTile(
+              iconData: Icons.table_chart_outlined,
+              title: "Customer Bonding Program",
               children: [
-                Icon(
-                  Icons.table_chart_outlined,
-                  color: Colors.grey,
+                buildExpansionChild(
+                  title: "My Earned Points",
+                  onTap: () {
+                    scaffoldKey.currentState.openEndDrawer();
+                    Navigator.push(
+                        context, CustomPageRoute(widget: EarnedPoints()));
+                  },
                 ),
-                gap,
-                Text(
-                  "Customer Bonding Program",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            initiallyExpanded: true,
-            childrenPadding: EdgeInsets.only(left: 50),
-            children: [
-              /* ListTile(
-                title: Text("My Weekly Update"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: WeeklyUpdate()));
-                },
-              ), */
-              ListTile(
-                title: Text("My Earned Points"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: EarnedPoints()));
-                },
-              ),
-            ],
-          ),
-          ExpansionTile(
-            title: Row(
+              ]),
+          buildExpansionTile(
+              iconData: Icons.pages,
+              title: "Service Request",
               children: [
-                Icon(
-                  Icons.pages,
-                  color: Colors.grey,
-                ),
-                gap,
-                Text(
-                  "Service Request",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            initiallyExpanded: true,
-            childrenPadding: EdgeInsets.only(left: 50),
-            children: [
-              ListTile(
-                title: Text("New Service Request"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: Complain()));
-                },
-              ),
-              ListTile(
-                title: Text("View Service Request"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(
-                      context, CustomPageRoute(widget: ServiceRequest()));
-                },
-              ),
-            ],
-          ),
-          ExpansionTile(
-            title: Row(
-              children: [
-                Icon(
-                  Icons.pages_outlined,
-                  color: Colors.grey,
-                ),
-                gap,
-                Text(
-                  "Products",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ],
-            ),
-            initiallyExpanded: true,
-            childrenPadding: EdgeInsets.only(left: 50),
-            children: [
-              ListTile(
-                title: Text("Product Demo"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(context, CustomPageRoute(widget: ProductDemo(type: "demo",)));
-                },
-              ),
-              ListTile(
-                title: Text("Focused Products"),
-                onTap: () {
-                  scaffoldKey.currentState.openEndDrawer();
-                  Navigator.push(context, CustomPageRoute(widget: ProductDemo(type: "focused",)));
-                },
-              ),
-            ],
-          ),
+                buildExpansionChild(
+                    title: "New Service Request",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: Complain()));
+                    }),
+                buildExpansionChild(
+                    title: "View Service Request",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: ServiceRequest()));
+                    }),
+              ]),
+          buildExpansionTile(iconData: Icons.pages_outlined, title: "Products", children: [
+            buildExpansionChild(title: "Product Demo", onTap: () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: ProductDemo(
+                        type: "demo",
+                      )));
+            }),
+            buildExpansionChild(title: "Focused Products", onTap: () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      widget: ProductDemo(
+                        type: "focused",
+                      )));
+            }),
+          ]),
           buildDrawerItems("Track Complaints", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: TrackComplaint()));
+            Navigator.push(context, CustomPageRoute(widget: TrackComplaint()));
           }, Icons.outgoing_mail),
-          buildDrawerItems("Redeem Gift", () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: GiftCategory()));
-          }, Icons.card_giftcard),
-          buildDrawerItems("Redeemed Gifts", () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: RedeemedGift()));
-          }, Icons.card_giftcard),
-          buildDrawerItems("Track Gift", () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: TrackGift()));
-          }, Icons.card_giftcard),
+          buildExpansionTile(iconData: Icons.pages_outlined, title: "Gift", children: [
+            buildExpansionChild(title: "Redeem Gift", onTap: () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(
+                  context, CustomPageRoute(widget: GiftCategory()));
+            }),
+            buildExpansionChild(title: "Redeemed Gifts", onTap: () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(
+                  context, CustomPageRoute(widget: RedeemedGift()));
+            }),
+            buildExpansionChild(title: "Track Gift", onTap: () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(context, CustomPageRoute(widget: TrackGift()));
+            }),
+          ]),
           buildDrawerItems("Reports", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: Report()));
+            Navigator.push(context, CustomPageRoute(widget: Report()));
           }, Icons.report),
           buildDrawerItems("My Notification", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: Notifications()));
+            Navigator.push(context, CustomPageRoute(widget: Notifications()));
           }, Icons.notifications_on_outlined),
+          buildDrawerItems("Terms & Conditions", () {
+            scaffoldKey.currentState.openEndDrawer();
+            // Navigator.push(
+            //     context, CustomPageRoute(widget: Notifications()));
+          }, Icons.ballot_outlined),
           buildDrawerItems(
               "Logout",
-                  () => showDialogBox(
+              () => showDialogBox(
                   context: context,
                   actions: [
                     buildAlertButton(
