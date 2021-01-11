@@ -40,12 +40,12 @@ class _HomeState extends State<Home> {
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
   int rate = 0;
-  bool rating = false;
-  setRating(bool status) {
-    setState(() {
-      rating = status;
-    });
-  }
+  // bool rating = false;
+  // setRating(bool status) {
+  //   setState(() {
+  //     rating = status;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
           FlatButton(
             //TODO: check once
             onPressed: rate > 0 && rateMessage.isNotEmpty ? () => Fluttertoast.showToast(msg: "Please rate and share your experience.") : _rateApp,
-            child: rating ? SizedBox(height: 20, width: 20, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor), strokeWidth: 2,),) : Text(
+            child: Text(
               "RATE",
               style: TextStyle(color: AppColors.primaryColor),
             ),
@@ -138,14 +138,11 @@ class _HomeState extends State<Home> {
         ]);
   }
   _rateApp() async {
-    setRating(true);
+    Navigator.pop(context);
     Services.rateApp(message: rateMessage, rate: rate.toString()).then((value) {
       if(value.response == "y") {
-        setRating(false);
         Fluttertoast.showToast(msg: "Thank you for rate us.");
       }
-      else
-        setRating(false);
     });
   }
 
