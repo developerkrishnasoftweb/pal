@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './../Constant/color.dart';
 import './../UI/OTHERS/tnc.dart';
 import './../UI/OTHERS/track_gift.dart';
@@ -251,6 +253,14 @@ Widget drawer(
             Navigator.push(
                 context, CustomPageRoute(widget: TermsNCondition()));
           }, Icons.ballot_outlined),
+          buildDrawerItems("Visit our site", () async {
+            scaffoldKey.currentState.openEndDrawer();
+            var url = "https://www.palshopie.com/";
+            if (await canLaunch(url))
+            launch(url);
+            else
+            Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");
+          }, Icons.web),
           buildDrawerItems(
               "Logout",
               () => showDialogBox(

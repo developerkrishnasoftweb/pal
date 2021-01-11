@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/UI/OTHERS/kyc_details.dart';
 import 'package:pal/UI/OTHERS/product_review.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/userdata.dart';
@@ -28,7 +29,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       points = sharedPreferences.getString(UserParams.point) ?? "0";
-      kyc = jsonDecode(sharedPreferences.getString(UserParams.userData))[0][UserParams.kyc];
+      kyc = jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
+          [UserParams.kyc];
       kyc = kyc != "" ? kyc : "n";
     });
   }
@@ -102,7 +104,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.giftData.rating == "0" ? "4" : widget.giftData.rating.padLeft(1),
+                              widget.giftData.rating == "0"
+                                  ? "4"
+                                  : widget.giftData.rating.padLeft(1),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
@@ -169,12 +173,20 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ? null
                   : Colors.black,
               onPressed: int.parse(points) >= int.parse(widget.giftData.points)
-                  ? () => kyc == "y" ? Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: DeliveryAddress(
-                        giftData: widget.giftData,
-                      ))) : Fluttertoast.showToast(msg: "Your KYC is pending. To avail features please do KYC.", toastLength: Toast.LENGTH_LONG)
+                  ? kyc == "y"
+                      ? () => Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              widget: DeliveryAddress(
+                            giftData: widget.giftData,
+                          )))
+                      : () {
+                          Fluttertoast.showToast(
+                              msg:
+                                  "Your KYC is pending. To avail features please do KYC.",
+                              toastLength: Toast.LENGTH_LONG);
+                          Navigator.push(context, CustomPageRoute(widget: KYC()));
+                        }
                   : () {
                       Fluttertoast.showToast(
                           msg:
