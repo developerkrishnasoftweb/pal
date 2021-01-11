@@ -140,19 +140,23 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
 
   _filter() async {
     Navigator.pop(context);
+    DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
+    DateTime to = DateTime.parse(toDate.text).add(Duration(days: 1));
     if (fromDate.text.isNotEmpty && toDate.text.isNotEmpty) {
-      DateTime from = DateTime.parse(fromDate.text).subtract(Duration(days: 1));
-      DateTime to = DateTime.parse(toDate.text).add(Duration(days: 1));
-      switch (_tabController.index) {
-        case 0:
-          _filterEarnedData(from: from, to: to);
-          break;
-        case 1:
-          _filterPurchaseData(from: from, to: to);
-          break;
-        case 2:
-          _filterRedeemedData(from: from, to: to);
-          break;
+      if(to.isAfter(from)){
+        switch (_tabController.index) {
+          case 0:
+            _filterEarnedData(from: from, to: to);
+            break;
+          case 1:
+            _filterPurchaseData(from: from, to: to);
+            break;
+          case 2:
+            _filterRedeemedData(from: from, to: to);
+            break;
+        }
+      } else {
+        Fluttertoast.showToast(msg: "TO DATE must be greater than FROM DATE");
       }
     } else {
       Fluttertoast.showToast(msg: "Please select from and to date");

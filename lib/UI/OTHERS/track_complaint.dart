@@ -19,29 +19,36 @@ class TrackComplaint extends StatefulWidget {
 }
 
 class _TrackComplaintState extends State<TrackComplaint> {
-  String complainNo = "";
+  TextEditingController complainNo = TextEditingController();
   ComplainDetails details;
-  bool isLoading = false;
+  bool isLoading = false, dataFound = false;
   @override
   void initState() {
-    print(widget.complainNumber != null ? widget.complainNumber : "Nothing");
     setState(() {
-      complainNo = widget.complainNumber != null ? widget.complainNumber : "";
+      complainNo.text = widget.complainNumber != null ? widget.complainNumber : "";
     });
+    _getComplainData();
     super.initState();
   }
   _getComplainData() async {
     details = null;
-    if(complainNo.isNotEmpty){
+    if(complainNo.text.isNotEmpty){
       setState(() {
         isLoading = true;
       });
-      Services.trackComplaint(FormData.fromMap({"api_key" : Urls.apiKey, "ticket_no" : complainNo})).then((value) {
+      Services.trackComplaint(FormData.fromMap({"api_key" : Urls.apiKey, "ticket_no" : complainNo.text})).then((value) {
         if(value.response == "y"){
-          setState(() {
-            details = ComplainDetails(complainNo: value.data[0]["detail"]["ticket_no"], status: value.data[0]["detail"]["status"], desc: value.data[0]["detail"]["description"], progress: value.data[0]["progress"]);
-            isLoading = false;
-          });
+          if(value.data[0].length != 0) {
+            setState(() {
+              details = ComplainDetails(complainNo: value.data[0]["detail"]["ticket_no"], status: value.data[0]["detail"]["status"], desc: value.data[0]["detail"]["description"], progress: value.data[0]["progress"]);
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              dataFound = true;
+            });
+            Fluttertoast.showToast(msg: value.message);
+          }
         } else {
           setState(() {
             isLoading = false;
@@ -67,7 +74,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
         child: Column(
           children: [
             input(
-              autoFocus: true,
+              autoFocus: widget.complainNumber != null ? false : true,
               context: context,
               text: "Enter Complaint No $mandatoryChar",
               padding: EdgeInsets.all(20),
@@ -77,9 +84,10 @@ class _TrackComplaintState extends State<TrackComplaint> {
               onEditingComplete: _getComplainData,
               onChanged: (value){
                 setState(() {
-                  complainNo = value;
+                  complainNo.text = value;
                 });
-              }
+              },
+              controller: complainNo,
             ),
             SizedBox(height: 10,),
             details != null ? ExpansionTile(
@@ -100,11 +108,11 @@ class _TrackComplaintState extends State<TrackComplaint> {
                   Container(child: Text(details.progress[i]["comment"]), padding: EdgeInsets.symmetric(vertical: 5), alignment: Alignment.centerLeft,),
                 ]
               ],
-            ) : isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : SizedBox()
+            ) : dataFound ? SizedBox() : isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : SizedBox()
           ],
         ),
       ),
-      floatingActionButton: complainNo.isNotEmpty ? customButton(context: context, onPressed: _getComplainData, height: 60, width: size.width, text: "SEARCH") : null,
+      floatingActionButton: complainNo.text.isNotEmpty ? customButton(context: context, onPressed: _getComplainData, height: 60, width: size.width, text: "SEARCH") : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
