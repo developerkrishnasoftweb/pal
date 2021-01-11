@@ -598,7 +598,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "delivery_type": "s",
             "store_id": storeID,
           });
-          print(otp);
           sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
