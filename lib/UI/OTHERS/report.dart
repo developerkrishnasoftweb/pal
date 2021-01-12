@@ -430,7 +430,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   },
                   tabs: tabs.map((e) {
                     return Tab(
-                      child: Text(e),
+                      text: e,
                     );
                   }).toList())),
           body: TabBarView(
