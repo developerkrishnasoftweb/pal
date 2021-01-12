@@ -28,34 +28,45 @@ class _ComplainState extends State<Complain> {
   File image, video;
   final picker = ImagePicker();
   bool isLoading = false;
-  List<String> complainCategory = ["Product Related", "Price Related", "Staff Related", "Other"];
+  List<String> complainCategory = [
+    "Product Related",
+    "Price Related",
+    "Staff Related",
+    "Other"
+  ];
   String complain = "Product Related";
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  Future getImage({@required ImageSource source}) async {
+    final pickedFile = await picker.getImage(
+        source: source, preferredCameraDevice: CameraDevice.rear);
     setState(() {
-      if(pickedFile != null)
-        image = File(pickedFile.path);
+      if (pickedFile != null) image = File(pickedFile.path);
     });
-    if((await image.length() / 1024) > 2048) {
-      setState(() {
-        image = null;
-      });
-      Fluttertoast.showToast(msg: "File size must be under 2MB");
+    if(image != null) {
+      if ((await image.length() / 1024) > 2048) {
+        setState(() {
+          image = null;
+        });
+        Fluttertoast.showToast(msg: "File size must be under 2MB");
+      }
     }
   }
-  Future getVideo() async {
-    final pickedFile = await picker.getVideo(source: ImageSource.gallery, preferredCameraDevice: CameraDevice.rear);
+
+  Future getVideo({@required ImageSource source}) async {
+    final pickedFile = await picker.getVideo(
+        source: source, preferredCameraDevice: CameraDevice.rear);
     setState(() {
-      if(pickedFile != null)
-        video = File(pickedFile.path);
+      if (pickedFile != null) video = File(pickedFile.path);
     });
-    if((await video.length() / 1024) > 2048) {
-      setState(() {
-        video = null;
-      });
-      Fluttertoast.showToast(msg: "File size must be under 2MB");
+    if(video != null) {
+      if ((await video.length() / 1024) > 2048) {
+        setState(() {
+          video = null;
+        });
+        Fluttertoast.showToast(msg: "File size must be under 2MB");
+      }
     }
   }
+
   /*
   Future _scanQrCode() async {
     try{
@@ -82,70 +93,110 @@ class _ComplainState extends State<Complain> {
     return Scaffold(
       key: scaffoldKey,
       appBar: appBar(context: context, title: "Complain"),
-      body: Stack(
-        children : [
-          SingleChildScrollView(
-            padding: EdgeInsets.only(top: 30, bottom: 100),
-            child: Column(
-              children: [
-                Container(
-                  width: size.width - 20,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[200],
-                          blurRadius: 10,
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButton(
-                      underline: SizedBox.shrink(),
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                      value: complain,
-                      isExpanded: true,
-                      items: complainCategory.map((comp) {
-                        return DropdownMenuItem(
-                            value: comp, child: Text(comp));
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          complain = value;
-                        });
-                      }),
-                ),
-                input(context: context, text: "Brief Description $mandatoryChar", decoration: InputDecoration(border: border()), maxLines: 5, controller: descriptionText),
-                SizedBox(height: 20,),
-                attachButton(onPressed: (){
-                  getImage();
-                }, text: image != null ? "A file selected" : "Attach Image"),
-                SizedBox(height: 20,),
-                attachButton(onPressed: (){
-                  getVideo();
-                }, text: video != null ? "A file selected" : "Attach Video"),
-              ],
-            ),
+      body: Stack(children: [
+        SingleChildScrollView(
+          padding: EdgeInsets.only(top: 30, bottom: 100),
+          child: Column(
+            children: [
+              Container(
+                width: size.width - 20,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[200],
+                        blurRadius: 10,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButton(
+                    underline: SizedBox.shrink(),
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    value: complain,
+                    isExpanded: true,
+                    items: complainCategory.map((comp) {
+                      return DropdownMenuItem(value: comp, child: Text(comp));
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        complain = value;
+                      });
+                    }),
+              ),
+              input(
+                  context: context,
+                  text: "Brief Description $mandatoryChar",
+                  decoration: InputDecoration(border: border()),
+                  maxLines: 5,
+                  controller: descriptionText),
+              SizedBox(
+                height: 20,
+              ),
+              attachButton(
+                  onPressed: () => _showSheet(
+                      cameraOnPressed: () => _getFile(
+                          mediaType: MediaType.IMAGE, source: Source.CAMERA),
+                      galleryOnPressed: () => _getFile(
+                          mediaType: MediaType.IMAGE, source: Source.GALLERY)),
+                  text: image != null ? image.path.split("/").last : "Attach Image", showIcon: image != null ? false : true),
+              SizedBox(
+                height: 20,
+              ),
+              attachButton(
+                  onPressed: () => _showSheet(
+                      cameraOnPressed: () => _getFile(
+                          mediaType: MediaType.VIDEO, source: Source.CAMERA),
+                      galleryOnPressed: () => _getFile(
+                          mediaType: MediaType.VIDEO, source: Source.GALLERY)),
+                  text: video != null ? video.path.split("/").last : "Attach Video", showIcon: video != null ? false : true),
+            ],
           ),
-          Align(
-            child: customButton(
-                context: context, onPressed: isLoading ? null : _addComplain, height: 60, text: isLoading ? null : "SUBMIT", child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null),
-            alignment: Alignment(0.0, 0.95),
-          )
-        ]
-      ),
+        ),
+        Align(
+          child: customButton(
+              context: context,
+              onPressed: isLoading ? null : _addComplain,
+              height: 60,
+              text: isLoading ? null : "SUBMIT",
+              child: isLoading
+                  ? SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                      ),
+                    )
+                  : null),
+          alignment: Alignment(0.0, 0.95),
+        )
+      ]),
     );
   }
-  Widget attachButton({String text, @required VoidCallback onPressed}){
+
+  Widget attachButton({String text, @required VoidCallback onPressed, bool showIcon : true}) {
     return customButton(
         context: context,
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.attach_file, color: Colors.blue[500],),
-            SizedBox(width: 10,),
-            Text(text, style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.blue[500], fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
+            showIcon ? Icon(
+              Icons.attach_file,
+              color: Colors.blue[500],
+            ) : SizedBox(),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: Colors.blue[500], fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
         color: Colors.grey[100],
@@ -158,17 +209,25 @@ class _ComplainState extends State<Complain> {
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
-    if(id.isNotEmpty && descriptionText.text.isNotEmpty && complain.isNotEmpty){
+    if (id.isNotEmpty &&
+        descriptionText.text.isNotEmpty &&
+        complain.isNotEmpty) {
       FormData data = FormData.fromMap({
-        "customer_id" : id,
-        "api_key" : Urls.apiKey,
-        "description" : descriptionText.text,
-        "code" : complain,
-        "image" : image != null ? await MultipartFile.fromFile(image.path, filename: image.path.split("/").last) : "",
-        "video" : video != null ? await MultipartFile.fromFile(video.path, filename: video.path.split("/").last) : ""
+        "customer_id": id,
+        "api_key": Urls.apiKey,
+        "description": descriptionText.text,
+        "code": complain,
+        "image": image != null
+            ? await MultipartFile.fromFile(image.path,
+                filename: image.path.split("/").last)
+            : "",
+        "video": video != null
+            ? await MultipartFile.fromFile(video.path,
+                filename: video.path.split("/").last)
+            : ""
       });
       Services.addComplain(data).then((value) {
-        if(value.response == "y") {
+        if (value.response == "y") {
           Fluttertoast.showToast(msg: value.message);
           Navigator.pop(context);
           Navigator.push(context, CustomPageRoute(widget: ServiceRequest()));
@@ -186,4 +245,85 @@ class _ComplainState extends State<Complain> {
       Fluttertoast.showToast(msg: "Please provide description");
     }
   }
+
+  _getFile({@required MediaType mediaType, @required Source source}) async {
+    if (mediaType == MediaType.IMAGE && source == Source.CAMERA) {
+      Navigator.pop(context);
+      getImage(source: ImageSource.camera);
+    } else if (mediaType == MediaType.IMAGE && source == Source.GALLERY) {
+      Navigator.pop(context);
+      getImage(source: ImageSource.gallery);
+    } else if (mediaType == MediaType.VIDEO && source == Source.GALLERY) {
+      Navigator.pop(context);
+      getVideo(source: ImageSource.gallery);
+    } else if (mediaType == MediaType.VIDEO && source == Source.CAMERA) {
+      Navigator.pop(context);
+      getVideo(source: ImageSource.camera);
+    }
+  }
+
+  _showSheet(
+      {@required VoidCallback cameraOnPressed,
+      @required VoidCallback galleryOnPressed}) {
+    Size size = MediaQuery.of(context).size;
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            width: size.width,
+            height: 110,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FlatButton(
+                  onPressed: cameraOnPressed,
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.camera_alt_outlined,
+                        color: Colors.grey,
+                      ),
+                      Text(
+                        "Camera",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                ),
+                FlatButton(
+                  onPressed: galleryOnPressed,
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.image,
+                        color: Colors.grey,
+                      ),
+                      Text(
+                        "Gallery",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
 }
+
+enum MediaType { IMAGE, VIDEO }
+enum Source { CAMERA, GALLERY }
