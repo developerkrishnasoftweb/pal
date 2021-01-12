@@ -593,29 +593,34 @@ class Services {
             ? sharedPreferences.getString(UserParams.lastNotificationId)
             : "0";
     String customerId = sharedPreferences.getString(UserParams.id);
-    String url = Urls.baseUrl +
-        Urls.getNotificationCount +
-        lastNotificationId +
-        "/" +
-        customerId;
-    try {
-      dio.Response response;
-      response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
-      if (response.statusCode == 200) {
-        final jsonResponse = [jsonDecode(response.data)];
-        return jsonResponse[0]["count"].toString();
-      }
-      return null;
-    } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
+    if(customerId != null && customerId.isNotEmpty) {
+      String url = Urls.baseUrl +
+          Urls.getNotificationCount +
+          lastNotificationId +
+          "/" +
+          customerId;
+      try {
+        dio.Response response;
+        response = await dio.Dio()
+            .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+        if (response.statusCode == 200) {
+          final jsonResponse = [jsonDecode(response.data)];
+          return jsonResponse[0]["count"].toString();
+        }
+        return null;
+      } on dio.DioError catch (e) {
+        if (dio.DioErrorType.DEFAULT == e.type) {
+          return "0";
+        } else {
+          return "0";
+        }
+      } catch (e) {
         return "0";
-      } else {
-        return "0";
       }
-    } catch (e) {
+    } else {
       return "0";
     }
+
   }
 
   static Future<Data> getNotifications() async {

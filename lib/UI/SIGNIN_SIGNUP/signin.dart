@@ -36,11 +36,12 @@ class _SignInState extends State<SignIn> {
     setState(() {
       emailController.text = username = widget.email ?? "";
     });
-    super.initState();
     myFocusNode = FocusNode();
     if (widget.email != null) {
       myFocusNode.requestFocus();
     }
+    firebaseCloudMessagingListeners();
+    super.initState();
   }
 
   @override
@@ -213,7 +214,7 @@ class _SignInState extends State<SignIn> {
     });
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (username.isNotEmpty && password.isNotEmpty) {
-      firebaseCloudMessagingListeners();
+      if(token.isEmpty) firebaseCloudMessagingListeners();
       FormData formData = FormData.fromMap(
           {"username": username, "password": password, "api_key": Urls.apiKey, "token" : token});
       Services.signIn(formData).then((result) {

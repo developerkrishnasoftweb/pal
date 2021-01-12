@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
     });
     Timer.periodic(Duration(milliseconds: 1000), (timer) async {
       await Services.getUserData();
+      await Services.getConfig();
     });
     Services.getConfig();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
