@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
+String lastNotificationCount = "0";
 
 class UserParams {
   static String id = "id";
@@ -40,9 +41,9 @@ Future<void> userData(List<dynamic> data) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var password = sharedPreferences.getString(UserParams.password);
   if (password != null && password == data[0][UserParams.password]) {
-    sharedPreferences.setString(
+    await sharedPreferences.setString(
         UserParams.password, data[0][UserParams.password]);
-    sharedPreferences.setString(UserParams.userData, jsonEncode(data));
+    await sharedPreferences.setString(UserParams.userData, jsonEncode(data));
   }
 }
 

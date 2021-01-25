@@ -34,25 +34,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
-  String notificationCount = "0", rateMessage = "";
+  String rateMessage = "";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
   int rate = 0;
 
   @override
   void initState() {
-    Timer.periodic(Duration(milliseconds: 1000), (timer) {
-      Services.getNotificationCount().then((value) {
-        setState(() {
-          notificationCount = value;
-        });
-      });
-    });
-    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
-      await Services.getUserData();
-      await Services.getConfig();
-    });
-    Services.getConfig();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -66,11 +54,6 @@ class _HomeState extends State<Home> {
       } else {
         Fluttertoast.showToast(msg: value.message);
       }
-    });
-    Services.getNotificationCount().then((value) {
-      setState(() {
-        notificationCount = value;
-      });
     });
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
@@ -255,7 +238,7 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        (int.parse(notificationCount) == 0)
+                        (int.parse(lastNotificationCount) == 0)
                             ? IconButton(
                                 icon: ImageIcon(
                                   AssetImage(
@@ -279,7 +262,7 @@ class _HomeState extends State<Home> {
                                   splashRadius: 23,
                                   iconSize: 20,
                                 ),
-                                badgeValue: int.parse(notificationCount),
+                                badgeValue: int.parse(lastNotificationCount),
                                 context: context,
                                 badgeSize: Size(15, 15)),
                       ]),

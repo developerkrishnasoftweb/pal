@@ -15,9 +15,10 @@ import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/HOME/home.dart';
 import '../../UI/SIGNIN_SIGNUP/forgot_password.dart';
 import '../../UI/SIGNIN_SIGNUP/signup.dart';
+import '../../main.dart';
+import '../HOME/home.dart';
 
 class SignIn extends StatefulWidget {
   final String email;
@@ -222,12 +223,13 @@ class _SignInState extends State<SignIn> {
         "api_key": Urls.apiKey,
         "token": token
       });
-      Services.signIn(formData).then((result) {
+      Services.signIn(formData).then((result) async {
         if (result.response == "y") {
           setState(() {
             isLogging = false;
           });
-          userData(result.data);
+          await userData(result.data);
+          await setData();
           sharedPreferences.setString("username", username);
           sharedPreferences.setString(
               UserParams.password, result.data[0][UserParams.password]);

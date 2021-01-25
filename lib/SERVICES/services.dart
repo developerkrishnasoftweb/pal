@@ -681,7 +681,7 @@ class Services {
     }
   }
 
-  static void getConfig() async {
+  static Future<void> getConfig() async {
     String url = Urls.baseUrl + Urls.getConfig;
     try {
       dio.Response response;
@@ -690,7 +690,7 @@ class Services {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
         final data = [jsonResponse["data"]];
-        sharedPreferences.setString(UserParams.config, jsonEncode(data));
+        await sharedPreferences.setString(UserParams.config, jsonEncode(data));
       }
       return null;
     } on dio.DioError catch (e) {

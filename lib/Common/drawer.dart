@@ -84,7 +84,7 @@ Widget drawer(
   _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
-    sharedPreferences.clear();
+    await sharedPreferences.clear();
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {
       Navigator.pushAndRemoveUntil(

@@ -23,7 +23,6 @@ class _KYCState extends State<KYC> {
       appBar: appBar(context: context, title: "KYC Details", actions: [
         IconButton(
           onPressed: () {
-            Navigator.pop(context);
             Navigator.push(context, CustomPageRoute(widget: ChangeAddress()));
           },
           icon: Icon(
