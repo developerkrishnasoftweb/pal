@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/UI/OTHERS/track_complaint.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/SERVICE_REQUEST/complain.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../UI/SERVICE_REQUEST/complain.dart';
 
 class ServiceRequest extends StatefulWidget {
   @override
@@ -29,11 +29,8 @@ class _ServiceRequestState extends State<ServiceRequest> {
   }
 
   void getServices() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString(UserParams.id);
-    Services.serviceRequests(
-            FormData.fromMap({"customer_id": id, "api_key": Urls.apiKey}))
-        .then((value) {
+    Services.serviceRequests(FormData.fromMap(
+        {"customer_id": userdata.id, "api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
@@ -157,7 +154,12 @@ class _ServiceRequestState extends State<ServiceRequest> {
                 ),
                 status == "open"
                     ? FlatButton(
-                        onPressed: () => Navigator.push(context, CustomPageRoute(widget: TrackComplaint(complainNumber: complainNumber,))),
+                        onPressed: () => Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                widget: TrackComplaint(
+                              complainNumber: complainNumber,
+                            ))),
                         child: Text(
                           status.toUpperCase(),
                           style: Theme.of(context).textTheme.bodyText1.copyWith(

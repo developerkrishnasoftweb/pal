@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -221,13 +221,11 @@ class _ComplainState extends State<Complain> {
     setState(() {
       isLoading = true;
     });
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString(UserParams.id);
-    if (id.isNotEmpty &&
+    if (userdata.id.isNotEmpty &&
         descriptionText.text.isNotEmpty &&
         complain.isNotEmpty) {
       FormData data = FormData.fromMap({
-        "customer_id": id,
+        "customer_id": userdata.id,
         "api_key": Urls.apiKey,
         "description": descriptionText.text,
         "code": complain,

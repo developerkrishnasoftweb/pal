@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/page_route.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
@@ -21,10 +18,8 @@ class GiftCategory extends StatefulWidget {
 
 class _GiftState extends State<GiftCategory> {
   List<GiftCategoryData> giftCategoryList = [];
-  String points = "0", cumulativePurchase = "0";
   @override
   void initState() {
-    getUserData();
     Services.giftCategory(FormData.fromMap({"api_key": Urls.apiKey}))
         .then((value) {
       if (value.response == "y") {
@@ -46,15 +41,6 @@ class _GiftState extends State<GiftCategory> {
     super.initState();
   }
 
-  void getUserData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
-    setState(() {
-      points = data[0][UserParams.point] ?? "0";
-      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,7 +57,7 @@ class _GiftState extends State<GiftCategory> {
                     ),
                     buildRedeemedAmount(
                         title: "Available Points : ",
-                        amount: points,
+                        amount: userdata.point,
                         leadingTrailing: false,
                         fontSize: 17),
                     SizedBox(
@@ -79,7 +65,7 @@ class _GiftState extends State<GiftCategory> {
                     ),
                     buildRedeemedAmount(
                         title: "Cumulative Score : ",
-                        amount: cumulativePurchase,
+                        amount: userdata.totalOrder,
                         leadingTrailing: true),
                     GridView.builder(
                         shrinkWrap: true,

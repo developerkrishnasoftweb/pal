@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/userdata.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
+
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
-import '../../UI/OTHERS/product_description.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
+import '../../UI/OTHERS/product_description.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 
 class RedeemedGift extends StatefulWidget {
   @override
@@ -26,9 +26,8 @@ class _RedeemedGiftState extends State<RedeemedGift> {
   }
 
   void getRedeemedGifts() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString(UserParams.id);
-    Services.redeemedGifts(FormData.fromMap({"api_key": Urls.apiKey, "id": id}))
+    Services.redeemedGifts(
+            FormData.fromMap({"api_key": Urls.apiKey, "id": userdata.id}))
         .then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {

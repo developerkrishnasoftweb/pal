@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../SERVICES/services.dart';
-import '../../Constant/userdata.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
+
 import '../../Common/appbar.dart';
+import '../../SERVICES/services.dart';
 
 class WeeklyUpdate extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class WeeklyUpdate extends StatefulWidget {
 }
 
 class _WeeklyUpdateState extends State<WeeklyUpdate> {
-  String cumulativePurchase = "0";
   int purchase = 0, earnedPoints = 0;
   List<String> weekPoints = [];
   @override
@@ -23,23 +21,20 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
   }
 
   getWeeklyReport() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      cumulativePurchase =
-          jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
-              [UserParams.totalOrder];
-    });
     Services.weeklyReport().then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data[0]["earn"].length; i++) {
           var weekPoint = 0;
-          for(int j = 0; j < value.data[0]["earn"]["${(i + 1)}"].length; j++) {
+          for (int j = 0; j < value.data[0]["earn"]["${(i + 1)}"].length; j++) {
             // print(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
             // print(value.data[0]["earn"]["${(i + 1)}"][j]["purchase"]);
             setState(() {
-              weekPoint += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
-              purchase += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["purchase"]);
-              earnedPoints += int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
+              weekPoint +=
+                  int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
+              purchase +=
+                  int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["purchase"]);
+              earnedPoints +=
+                  int.parse(value.data[0]["earn"]["${(i + 1)}"][j]["point"]);
             });
           }
           setState(() {
@@ -75,8 +70,9 @@ class _WeeklyUpdateState extends State<WeeklyUpdate> {
                       value: purchase.toString()),
                   buildRow(
                       title: "Cumulative Purchase :",
-                      value: cumulativePurchase),
-                  buildRow(title: "Earned Points :", value: earnedPoints.toString()),
+                      value: userdata.totalOrder),
+                  buildRow(
+                      title: "Earned Points :", value: earnedPoints.toString()),
                 ],
               ),
             ),
