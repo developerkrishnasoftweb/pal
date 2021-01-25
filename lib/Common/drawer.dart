@@ -22,6 +22,7 @@ import '.././UI/RETAILER_BONDING_PROGRAM/redeemed_gifts.dart';
 import '.././UI/SERVICE_REQUEST/complain.dart';
 import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
+import '../Constant/userdata.dart';
 
 Widget drawer(
     {@required BuildContext context,
@@ -44,7 +45,6 @@ Widget drawer(
           Text(text),
         ],
       ),
-      // leading: icon ?? null,
       onTap: onTap,
     );
   }
@@ -85,6 +85,7 @@ Widget drawer(
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
     await sharedPreferences.clear();
+    userdata = Userdata();
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {
       Navigator.pushAndRemoveUntil(
@@ -113,7 +114,7 @@ Widget drawer(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi!, " + userdata.name,
+                  "Hi!, " + userdata.name ?? " ",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 SizedBox(
@@ -132,7 +133,7 @@ Widget drawer(
                               ),
                               alignment: PlaceholderAlignment.middle),
                           TextSpan(
-                              text: "\t" + userdata.point,
+                              text: "\t" + userdata.point ?? "0",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,

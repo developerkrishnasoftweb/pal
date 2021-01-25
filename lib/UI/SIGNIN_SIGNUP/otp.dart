@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -14,6 +17,7 @@ import '../../SERVICES/services.dart';
 import '../../UI/HOME/home.dart';
 import '../../UI/SIGNIN_SIGNUP/change_password.dart';
 import '../../UI/SIGNIN_SIGNUP/signin.dart';
+import '../../main.dart';
 
 class OTP extends StatefulWidget {
   final String otp, mobile;
@@ -109,7 +113,9 @@ class _OTPState extends State<OTP> {
         setSignUpStatus(true);
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
-            await userData(value.data[0]["customer"]);
+            await sharedPreferences.setString(
+                UserParams.userData, jsonEncode(value.data[0]["customer"]));
+            await setData();
             setSignUpStatus(false);
             var dialogStatus = showDialogBox(
                 context: context,

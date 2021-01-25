@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -20,6 +21,7 @@ import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/HOME/home.dart';
+import '../../main.dart';
 
 class ChangeAddress extends StatefulWidget {
   @override
@@ -72,11 +74,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   void initState() {
-    setData();
+    setUserData();
     super.initState();
   }
 
-  void setData() {
+  void setUserData() {
     setState(() {
       selectedGender = userdata.gender ?? "m";
       selectedMaritalStatus =
@@ -440,7 +442,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
             });
             Services.customerKYC(data).then((value) async {
               if (value.response == "y") {
-                await userData(value.data);
+                await sharedPreferences.setString(
+                    UserParams.userData, jsonEncode(value.data));
+                await setData();
                 Fluttertoast.showToast(msg: value.message);
                 Navigator.pushAndRemoveUntil(
                     context, CustomPageRoute(widget: Home()), (route) => false);
@@ -493,7 +497,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
           });
           Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {
-              await userData(value.data);
+              await sharedPreferences.setString(
+                  UserParams.userData, jsonEncode(value.data));
+              await setData();
               Fluttertoast.showToast(msg: value.message);
               Navigator.pushAndRemoveUntil(
                   context, CustomPageRoute(widget: Home()), (route) => false);

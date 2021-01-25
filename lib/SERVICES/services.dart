@@ -6,6 +6,7 @@ import 'package:pal/Constant/global.dart';
 
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
+import '../main.dart';
 import '../services/data.dart';
 
 class Services {
@@ -407,7 +408,9 @@ class Services {
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = jsonResponse["data"];
-        await userData(data.data);
+        await sharedPreferences.setString(
+            UserParams.userData, jsonEncode(data.data));
+        await setData();
         return data;
       }
       return null;

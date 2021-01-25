@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -228,11 +229,12 @@ class _SignInState extends State<SignIn> {
           setState(() {
             isLogging = false;
           });
-          await userData(result.data);
-          await setData();
-          sharedPreferences.setString("username", username);
-          sharedPreferences.setString(
+          await sharedPreferences.setString(
+              UserParams.userData, jsonEncode(result.data));
+          await sharedPreferences.setString("username", username);
+          await sharedPreferences.setString(
               UserParams.password, result.data[0][UserParams.password]);
+          await setData();
           Navigator.pushAndRemoveUntil(
               context, CustomPageRoute(widget: Home()), (route) => false);
           Fluttertoast.showToast(msg: result.message);
