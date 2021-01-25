@@ -1,13 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/page_route.dart';
-import '../../Constant/userdata.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/change_address.dart';
 
@@ -17,38 +14,7 @@ class KYC extends StatefulWidget {
 }
 
 class _KYCState extends State<KYC> {
-  Userdata data = Userdata();
   GoogleMapController googleMapController;
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
-  void getData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    List userdata =
-        await jsonDecode(preferences.getString(UserParams.userData));
-    setState(() {
-      data = Userdata(
-          name: userdata[0][UserParams.name],
-          altMobile: userdata[0][UserParams.altMobile],
-          email: userdata[0][UserParams.email],
-          address: userdata[0][UserParams.address],
-          pinCode: userdata[0][UserParams.pinCode],
-          state: userdata[0][UserParams.state],
-          city: userdata[0][UserParams.city],
-          area: userdata[0][UserParams.area],
-          gender: userdata[0][UserParams.gender],
-          dob: userdata[0][UserParams.dob],
-          maritalStatus: userdata[0][UserParams.maritalStatus],
-          anniversary: userdata[0][UserParams.anniversary],
-          mobile: userdata[0][UserParams.mobile],
-          adhaar: userdata[0][UserParams.adhaar],
-          kyc: userdata[0][UserParams.kyc],
-          image: userdata[0][UserParams.image]);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,24 +24,10 @@ class _KYCState extends State<KYC> {
         IconButton(
           onPressed: () {
             Navigator.pop(context);
-            if (data.kyc == "y")
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: ChangeAddress(
-                    userdata: data,
-                    status: data.kyc,
-                  )));
-            else
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: ChangeAddress(
-                    userdata: data,
-                  )));
+            Navigator.push(context, CustomPageRoute(widget: ChangeAddress()));
           },
           icon: Icon(
-            data.kyc == "y" ? Icons.check_circle : Icons.edit,
+            userdata.kyc == "y" ? Icons.check_circle : Icons.edit,
             color: Colors.white,
           ),
         )
@@ -91,9 +43,9 @@ class _KYCState extends State<KYC> {
             ),
             ClipRRect(
                 borderRadius: BorderRadius.circular(200),
-                child: data.image != null
+                child: userdata.image != null
                     ? Image.network(
-                        Urls.imageBaseUrl + data.image,
+                        Urls.imageBaseUrl + userdata.image,
                         height: 200,
                         width: 200,
                         fit: BoxFit.cover,
@@ -119,17 +71,18 @@ class _KYCState extends State<KYC> {
                         },
                       )
                     : SizedBox()),
-            buildTitledRow(title: "Name :", value: data.name),
-            buildTitledRow(title: "Current Address :", value: data.address),
-            buildTitledRow(title: "Pincode :", value: data.pinCode),
-            buildTitledRow(title: "State :", value: data.state),
-            buildTitledRow(title: "City :", value: data.city),
-            buildTitledRow(title: "Area :", value: data.area),
+            buildTitledRow(title: "Name :", value: userdata.name),
+            buildTitledRow(title: "Current Address :", value: userdata.address),
+            buildTitledRow(title: "Pincode :", value: userdata.pinCode),
+            buildTitledRow(title: "State :", value: userdata.state),
+            buildTitledRow(title: "City :", value: userdata.city),
+            buildTitledRow(title: "Area :", value: userdata.area),
             buildTitledRow(
                 title: "Gender :",
-                value: data.gender == "m" ? "Male" : "Female"),
-            buildTitledRow(title: "Date of Birth :", value: data.dob),
-            buildTitledRow(title: "Registered Mo. No. :", value: data.mobile),
+                value: userdata.gender == "m" ? "Male" : "Female"),
+            buildTitledRow(title: "Date of Birth :", value: userdata.dob),
+            buildTitledRow(
+                title: "Registered Mo. No. :", value: userdata.mobile),
             /*Container(
               height: 200,
               width: size.width,

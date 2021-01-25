@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -552,11 +550,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   _redeem() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var id = sharedPreferences.getString(UserParams.id);
-    var mobileNo =
-        jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
-            [UserParams.mobile];
     String otp = RandomInt.generate().toString();
     if (addressType == "Home delivery") {
       if (address.isNotEmpty &&
@@ -568,7 +561,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
           setLoading(true);
           FormData data = FormData.fromMap({
-            "customer_id": id,
+            "customer_id": userdata.id,
             "api_key": Urls.apiKey,
             "gift_id": widget.giftData.id,
             "point": widget.giftData.points,
@@ -585,7 +578,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "delivery_type": "h",
             "store_id": "0"
           });
-          sendSMS(mobile: mobileNo, formData: data, otp: otp);
+          sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
         }
@@ -607,7 +600,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
           setLoading(true);
           FormData data = FormData.fromMap({
-            "customer_id": id,
+            "customer_id": userdata.id,
             "api_key": Urls.apiKey,
             "gift_id": widget.giftData.id,
             "point": widget.giftData.points,
@@ -625,7 +618,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "store_id": storeID,
           });
           print(otp);
-          sendSMS(mobile: mobileNo, formData: data, otp: otp);
+          sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
         }

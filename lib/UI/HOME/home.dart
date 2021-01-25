@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Common/appbar.dart';
@@ -34,17 +34,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
-  String points = "0", name = "", availablePoints = "";
   String notificationCount = "0", rateMessage = "";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
   int rate = 0;
-  // bool rating = false;
-  // setRating(bool status) {
-  //   setState(() {
-  //     rating = status;
-  //   });
-  // }
 
   @override
   void initState() {
@@ -79,7 +72,6 @@ class _HomeState extends State<Home> {
         notificationCount = value;
       });
     });
-    getData();
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
     super.initState();
@@ -199,14 +191,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void getData() async {
-    await Services.getUserData();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
-    name = data[0][UserParams.name] ?? "N/A";
-    availablePoints = sharedPreferences.getString(UserParams.point) ?? "0";
-  }
-
   void setItemList() {
     itemList = [
       ItemListBuilder(
@@ -237,11 +221,7 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      drawer: drawer(
-          context: context,
-          scaffoldKey: scaffoldKey,
-          name: name,
-          availablePoints: availablePoints),
+      drawer: drawer(context: context, scaffoldKey: scaffoldKey),
       body: Stack(
         children: [
           Container(
@@ -349,9 +329,6 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
-    showRatingDialog();
-    return;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String mobileNumber =
         jsonDecode(sharedPreferences.getString(UserParams.config))[0]
             ["contact"];

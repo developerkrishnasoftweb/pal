@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,8 +26,6 @@ import '.././UI/SIGNIN_SIGNUP/signin.dart';
 Widget drawer(
     {@required BuildContext context,
     @required GlobalKey<ScaffoldState> scaffoldKey,
-    @required String name,
-    @required String availablePoints,
     String version: "1.0.0"}) {
   Size size = MediaQuery.of(context).size;
   SizedBox gap = SizedBox(
@@ -114,7 +113,7 @@ Widget drawer(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi!, " + name,
+                  "Hi!, " + userdata.name,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 SizedBox(
@@ -133,7 +132,7 @@ Widget drawer(
                               ),
                               alignment: PlaceholderAlignment.middle),
                           TextSpan(
-                              text: "\t" + availablePoints,
+                              text: "\t" + userdata.point,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,

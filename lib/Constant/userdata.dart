@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String mandatoryChar = "*";
+const String lastNotificationId = "last_notification_id";
 
 class UserParams {
   static String id = "id";
@@ -28,11 +29,9 @@ class UserParams {
   static String altMobile = "alt_mobile";
   static String branchCode = "branch_code";
   static String totalOrder = "total_order";
-  // static String purchase = "purchase";
   static String membershipSeries = "membership_series";
   static String kyc = "kyc";
   static String userData = "userdata";
-  static String lastNotificationId = "last_notification_id";
   static String adhaar = "adhaar";
   static String config = "config";
 }
@@ -54,12 +53,12 @@ class Userdata {
       name,
       mobile,
       email,
-      gender,
       image,
+      gender,
+      password,
       status,
       point,
       token,
-      password,
       memDetNo,
       branchName,
       address,
@@ -75,7 +74,6 @@ class Userdata {
       totalOrder,
       membershipSeries,
       kyc,
-      userData,
       adhaar;
   Userdata(
       {this.maritalStatus,
@@ -103,6 +101,5 @@ class Userdata {
       this.mobile,
       this.point,
       this.token,
-      this.totalOrder,
-      this.userData});
+      this.totalOrder});
 }

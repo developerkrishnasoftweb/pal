@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -22,9 +22,6 @@ import '../../SERVICES/urls.dart';
 import '../../UI/HOME/home.dart';
 
 class ChangeAddress extends StatefulWidget {
-  final Userdata userdata;
-  final String status;
-  ChangeAddress({this.userdata, this.status});
   @override
   _ChangeAddressState createState() => _ChangeAddressState();
 }
@@ -81,30 +78,28 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   void setData() {
     setState(() {
-      selectedGender =
-          widget.userdata.gender.isNotEmpty ? widget.userdata.gender : "m";
-      selectedMaritalStatus = widget.userdata.maritalStatus.isNotEmpty
-          ? widget.userdata.maritalStatus
-          : "n";
-      name.text = widget.userdata.name;
-      altMobile.text = widget.userdata.altMobile;
-      email.text = widget.userdata.email;
-      address.text = widget.userdata.address;
-      pinCode.text = widget.userdata.pinCode;
-      state.text = widget.userdata.state;
-      city.text = widget.userdata.city;
-      area.text = widget.userdata.area;
-      dob.text = widget.userdata.dob;
-      anniversaryDate.text = widget.userdata.anniversary;
+      selectedGender = userdata.gender ?? "m";
+      selectedMaritalStatus =
+          userdata.maritalStatus.isNotEmpty ? userdata.maritalStatus : "n";
+      name.text = userdata.name;
+      altMobile.text = userdata.altMobile;
+      email.text = userdata.email;
+      address.text = userdata.address;
+      pinCode.text = userdata.pinCode;
+      state.text = userdata.state;
+      city.text = userdata.city;
+      area.text = userdata.area;
+      dob.text = userdata.dob;
+      anniversaryDate.text = userdata.anniversary;
     });
-    if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(widget.userdata.altMobile)) {
+    if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(userdata.altMobile)) {
       setState(() {
         validMobile = true;
       });
     }
-    if (widget.userdata.dob != null) {
+    if (userdata.dob != null) {
       setState(() {
-        selectedDate = DateTime.parse(widget.userdata.dob);
+        selectedDate = DateTime.parse(userdata.dob);
       });
     }
   }
@@ -165,10 +160,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
               text: "Email $mandatoryChar",
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              readOnly: widget.status == "y" ?? false,
+              readOnly: userdata.kyc == "y" ?? false,
               decoration: InputDecoration(
                   border: border(),
-                  suffixIcon: widget.status == "y"
+                  suffixIcon: userdata.kyc == "y"
                       ? Icon(
                           Icons.check_circle_outline_outlined,
                           color: Colors.green,
@@ -179,9 +174,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
               context: context,
               text: "Address $mandatoryChar",
               controller: address,
-              maxLines: widget.status == "y" ? 2 : 5,
+              maxLines: userdata.kyc == "y" ? 2 : 5,
               textInputAction: TextInputAction.next,
-              readOnly: widget.status == "y" ?? false,
+              readOnly: userdata.kyc == "y" ?? false,
               decoration: InputDecoration(border: border()),
             ),
             input(
@@ -189,7 +184,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 text: "Pincode $mandatoryChar",
                 controller: pinCode,
                 keyboardType: TextInputType.number,
-                readOnly: widget.status == "y" ?? false,
+                readOnly: userdata.kyc == "y" ?? false,
                 onChanged: (value) {
                   _getPinCodeData();
                 },
@@ -198,13 +193,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "State $mandatoryChar",
                 controller: state,
-                readOnly: widget.status == "y" ?? false,
+                readOnly: userdata.kyc == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
                 text: "City $mandatoryChar",
                 controller: city,
-                readOnly: widget.status == "y" ?? false,
+                readOnly: userdata.kyc == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             listAreas.length > 1
                 ? Padding(
@@ -242,7 +237,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     context: context,
                     text: "Area $mandatoryChar",
                     controller: area,
-                    readOnly: widget.status == "y" ?? false,
+                    readOnly: userdata.kyc == "y" ?? false,
                     decoration: InputDecoration(border: border())),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -282,7 +277,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "Date of Birth $mandatoryChar",
                 controller: dob,
-                onTap: widget.status == "y"
+                onTap: userdata.kyc == "y"
                     ? null
                     : () => _selectDate(SelectDateType.DOB),
                 readOnly: true,
@@ -388,9 +383,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
   }
 
   _updateKYC() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString(UserParams.id);
-    if (widget.status != "y") {
+    if (userdata.kyc != "y") {
       if (name.text.isNotEmpty &&
           altMobile.text.isNotEmpty &&
           email.text.isNotEmpty &&
@@ -419,7 +412,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
               .hasMatch(email.text)) {
             FormData data = FormData.fromMap({
-              "customer_id": id,
+              "customer_id": userdata.id,
               "name": name.text,
               "alt_mobile": altMobile.text,
               "email": email.text,
@@ -478,7 +471,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             isLoading = true;
           });
           FormData formData = FormData.fromMap({
-            "customer_id": id,
+            "customer_id": userdata.id,
             "name": name.text,
             "alt_mobile": altMobile.text,
             "email": email.text,
@@ -633,13 +626,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
             image: image != null
                 ? DecorationImage(
                     image: AssetImage(image.path), fit: BoxFit.cover)
-                : widget.userdata.image.isNotEmpty
+                : userdata.image.isNotEmpty
                     ? DecorationImage(
-                        image: NetworkImage(
-                            Urls.imageBaseUrl + widget.userdata.image),
+                        image: NetworkImage(Urls.imageBaseUrl + userdata.image),
                         fit: BoxFit.cover)
                     : null),
-        child: image == null && widget.userdata.image.isEmpty
+        child: image == null && userdata.image.isEmpty
             ? Icon(Icons.add_a_photo_outlined)
             : null,
       ),

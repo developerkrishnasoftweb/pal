@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
@@ -396,12 +396,11 @@ class Services {
 
   static Future<Data> getUserData() async {
     String url = Urls.baseUrl + Urls.getUserData;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var id = sharedPreferences.getString(UserParams.id);
     try {
       dio.Response response;
       response = await dio.Dio().post(url,
-          data: dio.FormData.fromMap({"api_key": Urls.apiKey, "id": id}));
+          data: dio.FormData.fromMap(
+              {"api_key": Urls.apiKey, "id": userdata.id}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -588,16 +587,15 @@ class Services {
   }
 
   static Future<String> getNotificationCount() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String lastNotificationId =
-        sharedPreferences.getString(UserParams.lastNotificationId) != null
-            ? sharedPreferences.getString(UserParams.lastNotificationId)
+    String lastNotification =
+        sharedPreferences.getString(lastNotificationId) != null
+            ? sharedPreferences.getString(lastNotificationId)
             : "0";
     String customerId = sharedPreferences.getString(UserParams.id);
     if (customerId != null && customerId.isNotEmpty) {
       String url = Urls.baseUrl +
           Urls.getNotificationCount +
-          lastNotificationId +
+          lastNotification +
           "/" +
           customerId;
       try {
@@ -624,9 +622,7 @@ class Services {
   }
 
   static Future<Data> getNotifications() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String customerId = sharedPreferences.getString(UserParams.id);
-    String url = Urls.baseUrl + Urls.getNotifications + customerId;
+    String url = Urls.baseUrl + Urls.getNotifications + userdata.id;
     try {
       dio.Response response;
       response = await dio.Dio()
@@ -694,8 +690,6 @@ class Services {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
         final data = [jsonResponse["data"]];
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
         sharedPreferences.setString(UserParams.config, jsonEncode(data));
       }
       return null;
@@ -707,14 +701,12 @@ class Services {
   }
 
   static Future<Data> getReports() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String customerId = sharedPreferences.getString(UserParams.id);
     String url = Urls.baseUrl + Urls.getReports;
     try {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "customer_id": customerId}));
+              {"api_key": Urls.apiKey, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -740,15 +732,13 @@ class Services {
   }
 
   static Future<Data> rateApp({String rate, String message}) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String customerId = sharedPreferences.getString(UserParams.id);
     String url = Urls.baseUrl + Urls.appRate;
     try {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap({
             "api_key": Urls.apiKey,
-            "customer_id": customerId,
+            "customer_id": userdata.id,
             "rate": rate,
             "comment": message
           }));
@@ -777,14 +767,12 @@ class Services {
   }
 
   static Future<Data> weeklyReport() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String customerId = sharedPreferences.getString(UserParams.id);
     String url = Urls.baseUrl + Urls.weeklyReport;
     try {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "customer_id": customerId}));
+              {"api_key": Urls.apiKey, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);

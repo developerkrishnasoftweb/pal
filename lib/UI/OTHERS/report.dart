@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:pal/Constant/global.dart';
+
+import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
-import '../../Common/appbar.dart';
-import '../../SERVICES/services.dart';
 import '../../Constant/color.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -40,8 +40,10 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       filteredPurchaseData = [],
       filteredRedeemData = [],
       filteredFestivalData = [];
-  int totalEarnedPoints = 0, totalPurchasePoint = 0, totalRedeemPoint = 0, totalFestivalPoint = 0;
-  String totalPoints = "0";
+  int totalEarnedPoints = 0,
+      totalPurchasePoint = 0,
+      totalRedeemPoint = 0,
+      totalFestivalPoint = 0;
   bool isLoading = false, isFiltered = false;
   DateTime selectedDate = DateTime.now();
 
@@ -80,7 +82,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     });
     _getReports();
     super.initState();
-    getData();
   }
 
   @override
@@ -126,13 +127,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         });
         Fluttertoast.showToast(msg: value.message);
       }
-    });
-  }
-
-  getData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      totalPoints = sharedPreferences.getString(UserParams.point);
     });
   }
 
@@ -311,7 +305,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     Navigator.pop(context);
     setState(() {
       filteredRedeemData = filteredPurchaseData = filteredEarnedData = [];
-      totalEarnedPoints = totalPurchasePoint = totalRedeemPoint = totalFestivalPoint = 0;
+      totalEarnedPoints =
+          totalPurchasePoint = totalRedeemPoint = totalFestivalPoint = 0;
       filteredRedeemData = redeemData;
       filteredPurchaseData = purchaseData;
       filteredEarnedData = earnedData;
@@ -403,7 +398,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                             ),
                             alignment: PlaceholderAlignment.middle),
                         TextSpan(
-                            text: "\t" + totalPoints,
+                            text: "\t" + userdata.point,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15))
                       ],
@@ -701,75 +696,76 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
     return filteredFestivalData.length > 0
         ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: size.width,
-          padding: const EdgeInsets.all(8.0),
-          color: AppColors.primaryColor,
-          child: Text(
-            "Total Festival Points : ${totalFestivalPoint.toString()}",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          ),
-        ),
-        Expanded(
-          child: Scrollbar(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              physics: BouncingScrollPhysics(),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                child: DataTable(
-                    columnSpacing: 20,
-                    columns: [
-                      DataColumn(
-                          label: Text('Sr.No.', style: headerStyle)),
-                      DataColumn(
-                          label:
-                          Text('Invoice Date', style: headerStyle)),
-                      DataColumn(
-                          label: Text('Point Earned', style: headerStyle)),
-                      DataColumn(
-                          label: Text('Festival', style: headerStyle)),
-                    ],
-                    rows: filteredFestivalData.map((data) {
-                      return DataRow(cells: [
-                        DataCell(Text(
-                            (filteredFestivalData.indexOf(data) + 1)
-                                .toString())),
-                        DataCell(Text(data["created"] ?? "--")),
-                        DataCell(Text(data["point"] ?? "--")),
-                        DataCell(Text(data["branch_name"] ?? "--")),
-                      ]);
-                    }).toList()),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: size.width,
+                padding: const EdgeInsets.all(8.0),
+                color: AppColors.primaryColor,
+                child: Text(
+                  "Total Festival Points : ${totalFestivalPoint.toString()}",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
-            ),
-            isAlwaysShown: true,
-            radius: Radius.circular(10),
-            controller: festivalScrollController,
-            thickness: 3,
-          ),
-        ),
-      ],
-    )
+              Expanded(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: DataTable(
+                          columnSpacing: 20,
+                          columns: [
+                            DataColumn(
+                                label: Text('Sr.No.', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Invoice Date', style: headerStyle)),
+                            DataColumn(
+                                label:
+                                    Text('Point Earned', style: headerStyle)),
+                            DataColumn(
+                                label: Text('Festival', style: headerStyle)),
+                          ],
+                          rows: filteredFestivalData.map((data) {
+                            return DataRow(cells: [
+                              DataCell(Text(
+                                  (filteredFestivalData.indexOf(data) + 1)
+                                      .toString())),
+                              DataCell(Text(data["created"] ?? "--")),
+                              DataCell(Text(data["point"] ?? "--")),
+                              DataCell(Text(data["branch_name"] ?? "--")),
+                            ]);
+                          }).toList()),
+                    ),
+                  ),
+                  isAlwaysShown: true,
+                  radius: Radius.circular(10),
+                  controller: festivalScrollController,
+                  thickness: 3,
+                ),
+              ),
+            ],
+          )
         : Center(
-      child: !isLoading
-          ? Text(
-        "No data found !!!",
-        textAlign: TextAlign.center,
-      )
-          : SizedBox(
-        height: 30,
-        width: 30,
-        child: CircularProgressIndicator(
-          valueColor:
-          AlwaysStoppedAnimation(AppColors.primaryColor),
-        ),
-      ),
-    );
+            child: !isLoading
+                ? Text(
+                    "No data found !!!",
+                    textAlign: TextAlign.center,
+                  )
+                : SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                    ),
+                  ),
+          );
   }
 }

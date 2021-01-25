@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/UI/OTHERS/kyc_details.dart';
 import 'package:pal/UI/OTHERS/product_review.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/delivery_address.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
@@ -25,23 +22,6 @@ class ProductDescription extends StatefulWidget {
 }
 
 class _ProductDescriptionState extends State<ProductDescription> {
-  String points = "0", kyc = "";
-  void getUserData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      points = sharedPreferences.getString(UserParams.point) ?? "0";
-      kyc = jsonDecode(sharedPreferences.getString(UserParams.userData))[0]
-          [UserParams.kyc];
-      kyc = kyc != "" ? kyc : "n";
-    });
-  }
-
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -169,33 +149,36 @@ class _ProductDescriptionState extends State<ProductDescription> {
               textColor: Colors.blue)
           : customButton(
               context: context,
-              color: int.parse(points) >= int.parse(widget.giftData.points)
-                  ? null
-                  : Colors.grey[200],
-              textColor: int.parse(points) >= int.parse(widget.giftData.points)
-                  ? null
-                  : Colors.black,
-              onPressed: int.parse(points) >= int.parse(widget.giftData.points)
-                  ? kyc == "y"
-                      ? () => Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              widget: DeliveryAddress(
-                            giftData: widget.giftData,
-                          )))
+              color:
+                  int.parse(userdata.point) >= int.parse(widget.giftData.points)
+                      ? null
+                      : Colors.grey[200],
+              textColor:
+                  int.parse(userdata.point) >= int.parse(widget.giftData.points)
+                      ? null
+                      : Colors.black,
+              onPressed:
+                  int.parse(userdata.point) >= int.parse(widget.giftData.points)
+                      ? userdata.kyc == "y"
+                          ? () => Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  widget: DeliveryAddress(
+                                giftData: widget.giftData,
+                              )))
+                          : () {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "Your KYC is pending. To avail features please do KYC.",
+                                  toastLength: Toast.LENGTH_LONG);
+                              Navigator.push(
+                                  context, CustomPageRoute(widget: KYC()));
+                            }
                       : () {
                           Fluttertoast.showToast(
                               msg:
-                                  "Your KYC is pending. To avail features please do KYC.",
-                              toastLength: Toast.LENGTH_LONG);
-                          Navigator.push(
-                              context, CustomPageRoute(widget: KYC()));
-                        }
-                  : () {
-                      Fluttertoast.showToast(
-                          msg:
-                              "You don't have enough points to redeem this gift.");
-                    },
+                                  "You don't have enough points to redeem this gift.");
+                        },
               height: 60,
               text: "REDEEM",
             ),

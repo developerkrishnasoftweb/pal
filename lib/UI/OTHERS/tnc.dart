@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pal/Common/appbar.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/userdata.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsNCondition extends StatefulWidget {
@@ -19,13 +20,14 @@ class _TermsNConditionState extends State<TermsNCondition> {
     getConfig();
     super.initState();
   }
+
   void getConfig() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var config = jsonDecode(sharedPreferences.getString(UserParams.config));
     setState(() {
       termsNConditions = config[0]["terms"];
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,11 +42,11 @@ class _TermsNConditionState extends State<TermsNCondition> {
       ),
     );
   }
-  _loadHtmlFromAssets() async {;
-    _controller.loadUrl( Uri.dataFromString(
-        termsNConditions,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8')
-    ).toString());
+
+  _loadHtmlFromAssets() async {
+    ;
+    _controller.loadUrl(Uri.dataFromString(termsNConditions,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString());
   }
 }

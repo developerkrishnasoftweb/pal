@@ -16,6 +16,7 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
+  await setData();
   await getCredential().then((status) {
     runApp(MaterialApp(
       title: 'PAL',
@@ -71,6 +72,11 @@ Future<void> setData() async {
           id: data[0][UserParams.id],
           membershipSeries: data[0][UserParams.membershipSeries],
           memDetNo: data[0][UserParams.memDetNo],
+          password: data[0][UserParams.password],
+          point: data[0][UserParams.point],
+          status: data[0][UserParams.status],
+          token: data[0][UserParams.token],
+          totalOrder: data[0][UserParams.totalOrder],
           kyc: data[0][UserParams.kyc]);
     }
   }

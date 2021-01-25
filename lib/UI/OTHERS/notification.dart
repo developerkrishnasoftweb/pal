@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
+
+import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../Common/appbar.dart';
 
 class Notifications extends StatefulWidget {
   @override
@@ -25,13 +26,14 @@ class _NotificationState extends State<Notifications> {
     Services.getNotifications().then((value) async {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
-          if(i == 0){
-            SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-            sharedPreferences.setString(UserParams.lastNotificationId, value.data[i]["id"]);
+          if (i == 0) {
+            sharedPreferences.setString(
+                lastNotificationId, value.data[i]["id"]);
           }
-          var days = (DateTime.now().difference(DateTime.parse(value.data[i]["inserted"])));
+          var days = (DateTime.now()
+              .difference(DateTime.parse(value.data[i]["inserted"])));
           var time;
-          switch(days.inDays) {
+          switch (days.inDays) {
             case 0:
               setState(() {
                 time = "Today";
@@ -42,19 +44,24 @@ class _NotificationState extends State<Notifications> {
                 time = "Yesterday";
               });
               break;
-            default :
+            default:
               setState(() {
                 time = "${days.inDays} days ago";
               });
               break;
           }
-          if(days.inDays <= 2) {
+          if (days.inDays <= 2) {
             setState(() {
-              notifications.add(NotificationData(title: value.data[i]["title"], message: value.data[i]["content"], id: value.data[i]["id"], image: "assets/icons/store-icon.jpg", time: time));
+              notifications.add(NotificationData(
+                  title: value.data[i]["title"],
+                  message: value.data[i]["content"],
+                  id: value.data[i]["id"],
+                  image: "assets/icons/store-icon.jpg",
+                  time: time));
             });
           }
         }
-        if(notifications.length == 0) {
+        if (notifications.length == 0) {
           setState(() {
             notifications = null;
           });
@@ -69,25 +76,30 @@ class _NotificationState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(context: context, title: "Notification"),
-        body: notifications != null ? notifications.length > 0
-            ? SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    for (int i = 0; i < notifications.length; i++)
-                      notificationBuilder(notifications[i])
-                  ],
-                ),
-              )
+        body: notifications != null
+            ? notifications.length > 0
+                ? SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        for (int i = 0; i < notifications.length; i++)
+                          notificationBuilder(notifications[i])
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                      ),
+                    ),
+                  )
             : Center(
-                child: SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
-                  ),
-                ),
-              ) : Center(child: Text("You don't have notifications"),));
+                child: Text("You don't have notifications"),
+              ));
   }
 
   Widget notificationBuilder(NotificationData notification) {

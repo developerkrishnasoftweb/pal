@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 
@@ -19,26 +16,11 @@ class EarnedPoints extends StatefulWidget {
 }
 
 class _EarnedPointsState extends State<EarnedPoints> {
-  String name = " ";
-  // int cycle = 0;
   List<CycleData> earnedLists = [];
-  double availablePoints = 0, cumulativePurchase = 0;
   @override
   void initState() {
     _getEarnedPoints();
-    getUserData();
     super.initState();
-  }
-
-  void getUserData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
-    setState(() {
-      name = data[0][UserParams.name];
-      cumulativePurchase = double.parse(data[0][UserParams.totalOrder] ?? "0");
-      availablePoints =
-          double.parse(sharedPreferences.getString(UserParams.point));
-    });
   }
 
   @override
@@ -59,7 +41,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                         ),
                         alignment: PlaceholderAlignment.middle),
                     TextSpan(
-                        text: "\t" + availablePoints.toString(),
+                        text: "\t ${userdata.point}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
@@ -80,7 +62,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               ),
               buildRedeemedAmount(
                   title: "User Name : ",
-                  amount: name,
+                  value: userdata.name,
                   leadingTrailing: false,
                   fontSize: 17),
               SizedBox(
@@ -88,7 +70,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               ),
               buildRedeemedAmount(
                   title: "Cumulative Score : ",
-                  amount: cumulativePurchase.toString(),
+                  value: userdata.totalOrder,
                   leadingTrailing: true),
               SizedBox(
                 height: 20,
@@ -238,7 +220,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
   }
 
   Widget buildRedeemedAmount(
-      {String title, String amount, bool leadingTrailing, double fontSize}) {
+      {String title, String value, bool leadingTrailing, double fontSize}) {
     TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
         color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold);
     return RichText(
@@ -255,7 +237,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
               fontWeight: FontWeight.bold),
         ),
         TextSpan(
-          text: amount,
+          text: value,
           style: Theme.of(context)
               .textTheme
               .bodyText1
@@ -275,12 +257,10 @@ class _EarnedPointsState extends State<EarnedPoints> {
       earnedLists = [];
     });
     await Services.getCycle();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String id = sharedPreferences.getString(UserParams.id);
     FormData body = FormData.fromMap({
       "api_key": Urls.apiKey,
       "limit": null,
-      "customer_id": id,
+      "customer_id": userdata.id,
     });
     Services.getEarnedPoints(body).then((value) {
       if (value.response == "y") {
