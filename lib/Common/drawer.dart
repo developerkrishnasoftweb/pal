@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import './../Constant/color.dart';
+import './../Constant/global.dart';
 import './../UI/OTHERS/tnc.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/global.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Common/appbar.dart';
@@ -16,6 +15,7 @@ import '../../Common/drawer.dart';
 import '../../Common/page_route.dart';
 import '../../Common/rating_builder.dart';
 import '../../Constant/color.dart';
+import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';

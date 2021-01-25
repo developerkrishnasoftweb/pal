@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/global.dart';
 
+import '../Constant/global.dart';
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
 import '../main.dart';
