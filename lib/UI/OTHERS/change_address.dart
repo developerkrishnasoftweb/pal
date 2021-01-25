@@ -438,9 +438,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
             setState(() {
               isLoading = true;
             });
-            Services.customerKYC(data).then((value) {
+            Services.customerKYC(data).then((value) async {
               if (value.response == "y") {
-                userData(value.data);
+                await userData(value.data);
                 Fluttertoast.showToast(msg: value.message);
                 Navigator.pushAndRemoveUntil(
                     context, CustomPageRoute(widget: Home()), (route) => false);
@@ -491,9 +491,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     filename: image.path.split("/").last)
                 : null,
           });
-          Services.customerKYC(formData).then((value) {
+          Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {
-              userData(value.data);
+              await userData(value.data);
               Fluttertoast.showToast(msg: value.message);
               Navigator.pushAndRemoveUntil(
                   context, CustomPageRoute(widget: Home()), (route) => false);
