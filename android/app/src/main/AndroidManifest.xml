@@ -12,7 +12,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Pal Loyalty"
         android:requestLegacyExternalStorage="true"
-        android:icon="@mipmap/ic_launchers">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
