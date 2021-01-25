@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Constant/color.dart';
+
 Widget input(
     {@required BuildContext context,
     InputDecoration decoration,
@@ -55,6 +57,7 @@ Widget input(
             keyboardType: keyboardType,
             readOnly: readOnly ?? false,
             focusNode: focusNode,
+            cursorColor: primaryColor,
           ),
         ),
       ],
