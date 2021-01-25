@@ -174,10 +174,7 @@ class _HomeState extends State<Home> {
             ),
             FlatButton(
               //TODO: check once
-              onPressed: rate > 0 && rateMessage.isNotEmpty
-                  ? () => Fluttertoast.showToast(
-                      msg: "Please rate and share your experience.")
-                  : _rateApp,
+              onPressed: _rateApp,
               child: Text(
                 "RATE",
                 style: TextStyle(color: AppColors.primaryColor),
@@ -189,12 +186,17 @@ class _HomeState extends State<Home> {
   }
 
   _rateApp() async {
-    Navigator.pop(context);
-    Services.rateApp(message: rateMessage, rate: rate.toString()).then((value) {
-      if (value.response == "y") {
-        Fluttertoast.showToast(msg: "Thank you for rate us.");
-      }
-    });
+    if (rate > 0 && rateMessage.isNotEmpty) {
+      Navigator.pop(context);
+      Services.rateApp(message: rateMessage, rate: rate.toString())
+          .then((value) {
+        if (value.response == "y") {
+          Fluttertoast.showToast(msg: "Thank you for rate us.");
+        }
+      });
+    } else {
+      Fluttertoast.showToast(msg: "Please choose your experience to rate");
+    }
   }
 
   void getData() async {
@@ -347,6 +349,8 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
+    showRatingDialog();
+    return;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String mobileNumber =
         jsonDecode(sharedPreferences.getString(UserParams.config))[0]
