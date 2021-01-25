@@ -235,9 +235,13 @@ class _SignInState extends State<SignIn> {
           await sharedPreferences.setString(
               UserParams.password, result.data[0][UserParams.password]);
           await setData();
-          Navigator.pushAndRemoveUntil(
-              context, CustomPageRoute(widget: Home()), (route) => false);
-          Fluttertoast.showToast(msg: result.message);
+          if (userdata != null) {
+            Fluttertoast.showToast(msg: result.message);
+            Navigator.pushAndRemoveUntil(
+                context, CustomPageRoute(widget: Home()), (route) => false);
+          } else {
+            Fluttertoast.showToast(msg: Services.errorMessage);
+          }
         } else {
           setState(() {
             isLogging = false;
