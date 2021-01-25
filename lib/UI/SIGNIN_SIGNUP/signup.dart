@@ -1,16 +1,17 @@
-import 'dart:math';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
+
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
-import '../../UI/SIGNIN_SIGNUP/otp.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
+import '../../UI/SIGNIN_SIGNUP/otp.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -164,7 +165,8 @@ class _SignUpState extends State<SignUp> {
                           height: 30,
                           width: 30,
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                            valueColor:
+                                AlwaysStoppedAnimation(AppColors.primaryColor),
                           ),
                         )
                       : Text(
@@ -209,18 +211,15 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
   _signUp() async {
     FocusScope.of(context).unfocus();
-    if (fullName != "" &&
-        email != "" &&
-        mobile != "" &&
-        password != "") {
+    if (fullName != "" && email != "" && mobile != "" && password != "") {
       if (terms) {
         if (RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(email)) {
-          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$")
-              .hasMatch(mobile)) {
+          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
             String otp = RandomInt.generate().toString();
             setState(() => signUpStatus = true);
             String firstName, lastName;
@@ -236,34 +235,46 @@ class _SignUpState extends State<SignUp> {
               "mobile": mobile,
               "gender": "male",
               "password": password,
-              "token" : "1234",
-              "api_key" : Urls.apiKey
+              "token": "1234",
+              "api_key": Urls.apiKey
             });
             FormData smsData = FormData.fromMap({
-              "user" : Urls.user,
-              "password" : Urls.password,
-              "msisdn" : mobile,
-              "sid" : Urls.sID,
-              "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-              "fl" : Urls.fl,
-              "gwid" : Urls.gwID
+              "user": Urls.user,
+              "password": Urls.password,
+              "msisdn": mobile,
+              "sid": Urls.sID,
+              "msg": "<#> " +
+                  otp +
+                  " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+              "fl": Urls.fl,
+              "gwid": Urls.gwID
             });
-            var shouldLogin = await Services.checkUsersPurchase(mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
-            if(shouldLogin){
+            var shouldLogin = await Services.checkUsersPurchase(
+                mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
+            if (shouldLogin) {
               Services.sms(smsData).then((value) {
-                if(value.response == "000"){
+                if (value.response == "000") {
                   setState(() => signUpStatus = false);
-                  Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, formData: userData, mobile: mobile,)));
+                  Navigator.push(
+                      context,
+                      CustomPageRoute(
+                          widget: OTP(
+                        otp: otp,
+                        formData: userData,
+                        mobile: mobile,
+                      )));
                 } else {
                   setState(() => signUpStatus = false);
-                  Fluttertoast.showToast(msg: value.message, toastLength: Toast.LENGTH_LONG);
+                  Fluttertoast.showToast(
+                      msg: value.message, toastLength: Toast.LENGTH_LONG);
                 }
               });
             } else {
               setState(() {
                 signUpStatus = false;
               });
-              Fluttertoast.showToast(msg: "You must have to purchase to avail the features");
+              Fluttertoast.showToast(
+                  msg: "You must have to purchase to avail the features");
             }
           } else {
             Fluttertoast.showToast(msg: "Invalid Mobile");
@@ -272,17 +283,10 @@ class _SignUpState extends State<SignUp> {
           Fluttertoast.showToast(msg: "Invalid Email");
         }
       } else {
-        Fluttertoast.showToast(
-            msg: "Please check terms & conditions");
+        Fluttertoast.showToast(msg: "Please check terms & conditions");
       }
     } else {
       Fluttertoast.showToast(msg: "All fields are required!");
     }
-  }
-}
-extension RandomInt on int {
-  static int generate({int min = 1000, int max = 9999}){
-    final _random = Random();
-    return min + _random.nextInt(max - min);
   }
 }

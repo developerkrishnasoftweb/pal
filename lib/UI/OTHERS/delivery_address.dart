@@ -15,12 +15,12 @@ import '../../Common/page_route.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
+import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
-import '../../UI/SIGNIN_SIGNUP/signup.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;

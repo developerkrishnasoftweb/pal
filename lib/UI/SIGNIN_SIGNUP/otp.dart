@@ -1,19 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Common/show_dialog.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/HOME/home.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../Common/page_route.dart';
-import '../../UI/SIGNIN_SIGNUP/change_password.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
+import '../../Common/page_route.dart';
+import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
-import '../../UI/SIGNIN_SIGNUP/signin.dart';
+import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
+import '../../UI/HOME/home.dart';
+import '../../UI/SIGNIN_SIGNUP/change_password.dart';
+import '../../UI/SIGNIN_SIGNUP/signin.dart';
 
 class OTP extends StatefulWidget {
   final String otp, mobile;
@@ -38,6 +38,7 @@ class _OTPState extends State<OTP> {
       signUpStatus = status;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

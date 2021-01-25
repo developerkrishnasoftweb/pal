@@ -87,7 +87,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           ? widget.userdata.maritalStatus
           : "n";
       name.text = widget.userdata.name;
-      altMobile.text = widget.userdata.alternateMobile;
+      altMobile.text = widget.userdata.altMobile;
       email.text = widget.userdata.email;
       address.text = widget.userdata.address;
       pinCode.text = widget.userdata.pinCode;
@@ -95,10 +95,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
       city.text = widget.userdata.city;
       area.text = widget.userdata.area;
       dob.text = widget.userdata.dob;
-      anniversaryDate.text = widget.userdata.anniversaryDate;
+      anniversaryDate.text = widget.userdata.anniversary;
     });
-    if (RegExp(r"^(?:[+0]9)?[0-9]{10}$")
-        .hasMatch(widget.userdata.alternateMobile)) {
+    if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(widget.userdata.altMobile)) {
       setState(() {
         validMobile = true;
       });

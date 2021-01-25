@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
 const String mandatoryChar = "*";
+
 class UserParams {
   static String id = "id";
   static String name = "name";
@@ -37,7 +40,7 @@ class UserParams {
 Future<void> userData(List<dynamic> data) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var password = sharedPreferences.getString(UserParams.password);
-  if(password != null && password == data[0][UserParams.password]){
+  if (password != null && password == data[0][UserParams.password]) {
     sharedPreferences.setString(UserParams.id, data[0][UserParams.id]);
     sharedPreferences.setString(UserParams.point, data[0][UserParams.point]);
     sharedPreferences.setString(
@@ -47,37 +50,59 @@ Future<void> userData(List<dynamic> data) async {
 }
 
 class Userdata {
-  final String name,
-      alternateMobile,
-      address,
-      state,
-      city,
-      area,
-      pinCode,
-      gender,
-      maritalStatus,
-      anniversaryDate,
-      dob,
+  final String id,
+      name,
+      mobile,
       email,
+      gender,
       image,
-      adhaar,
+      status,
+      point,
+      token,
+      password,
+      memDetNo,
+      branchName,
+      address,
+      pinCode,
+      area,
+      city,
+      state,
+      dob,
+      maritalStatus,
+      anniversary,
+      altMobile,
+      branchCode,
+      totalOrder,
+      membershipSeries,
       kyc,
-      mobile;
+      userData,
+      adhaar;
   Userdata(
-      {this.name,
-      this.alternateMobile,
-      this.pinCode,
+      {this.maritalStatus,
       this.area,
-      this.mobile,
-      this.city,
-      this.state,
-      this.gender,
-      this.anniversaryDate,
-      this.maritalStatus,
-      this.dob,
-      this.email,
-      this.image,
+      this.anniversary,
+      this.altMobile,
       this.adhaar,
+      this.address,
+      this.state,
+      this.city,
+      this.pinCode,
+      this.id,
+      this.status,
+      this.name,
+      this.image,
+      this.password,
+      this.email,
+      this.dob,
+      this.branchCode,
+      this.branchName,
+      this.gender,
       this.kyc,
-      this.address});
+      this.membershipSeries,
+      this.memDetNo,
+      this.mobile,
+      this.point,
+      this.token,
+      this.totalOrder,
+      this.userData});
 }

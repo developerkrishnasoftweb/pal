@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Common/page_route.dart';
-import '../../Constant/color.dart';
-import '../../UI/SIGNIN_SIGNUP/otp.dart';
-import '../../SERVICES/services.dart';
-import '../../UI/SIGNIN_SIGNUP/signup.dart';
-import '../../SERVICES/urls.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Constant/global.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/SIGNIN_SIGNUP/otp.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -63,7 +64,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 onPressed: isLoading ? null : _forgotPassword,
                 text: isLoading ? null : "GET OTP",
                 height: 65,
-                child: isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : null,
+                child: isLoading
+                    ? SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation(AppColors.primaryColor),
+                        ),
+                      )
+                    : null,
                 width: size.width),
           ],
         ),
@@ -79,21 +89,30 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       });
       String otp = RandomInt.generate().toString();
       FormData smsData = FormData.fromMap({
-        "user" : Urls.user,
-        "password" : Urls.password,
-        "msisdn" : mobile,
-        "sid" : Urls.sID,
-        "msg" : "<#> "+ otp +" is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-        "fl" : Urls.fl,
-        "gwid" : Urls.gwID
+        "user": Urls.user,
+        "password": Urls.password,
+        "msisdn": mobile,
+        "sid": Urls.sID,
+        "msg": "<#> " +
+            otp +
+            " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+        "fl": Urls.fl,
+        "gwid": Urls.gwID
       });
       await Services.sms(smsData).then((value) {
-        if(value.response == "000"){
+        if (value.response == "000") {
           setState(() {
             isLoading = false;
           });
           Navigator.pop(context);
-          Navigator.push(context, CustomPageRoute(widget: OTP(otp: otp, onlyCheckOtp: true, mobile: mobile,)));
+          Navigator.push(
+              context,
+              CustomPageRoute(
+                  widget: OTP(
+                otp: otp,
+                onlyCheckOtp: true,
+                mobile: mobile,
+              )));
         } else {
           setState(() {
             isLoading = false;
