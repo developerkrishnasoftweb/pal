@@ -280,7 +280,8 @@ Widget drawer(
           }, Icons.web),
           buildDrawerItems("Pal Shoppie", () async {
             scaffoldKey.currentState.openEndDrawer();
-            var url = "https://www.palshopie.com/";
+            var url =
+                "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
             if (await canLaunch(url))
               launch(url);
             else

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/badge.dart';
@@ -14,7 +15,6 @@ import '../../Common/carousel.dart';
 import '../../Common/drawer.dart';
 import '../../Common/page_route.dart';
 import '../../Common/rating_builder.dart';
-import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
@@ -186,100 +186,6 @@ class _HomeState extends State<Home> {
           ],
         ),
         barrierDismissible: true);
-    return showDialogBox(
-        context: context,
-        titleWidget: Text(
-          "RATE US",
-          style: TextStyle(color: AppColors.primaryColor),
-        ),
-        widget: Container(
-          width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("How would you rate PAL DEPARTMENTAL STORE ?"),
-              SizedBox(
-                height: 10,
-              ),
-              RatingBuilder(
-                itemCount: 5,
-                itemExtent: 35,
-                onChanged: (rate) {
-                  print(rate);
-                  setState(() {
-                    setState(() {
-                      this.rate = rate;
-                    });
-                    switch (rate) {
-                      case 1:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = "Worst";
-                        });
-                        break;
-                      case 2:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = "Not Satisfied";
-                        });
-                        break;
-                      case 3:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = "Average";
-                        });
-                        break;
-                      case 4:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = "Good";
-                        });
-                        break;
-                      case 5:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = "Excellent";
-                        });
-                        break;
-                      default:
-                        setState(() {
-                          this.rate = rate;
-                          rateMessage = " ";
-                        });
-                        break;
-                    }
-                  });
-                },
-              ),
-              Text(
-                rateMessage,
-                style: TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-        barrierDismissible: true,
-        actions: [
-          FlatButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              "NO, THANKS",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          FlatButton(
-            //TODO: check once
-            onPressed: rate > 0 && rateMessage.isNotEmpty
-                ? () => Fluttertoast.showToast(
-                    msg: "Please rate and share your experience.")
-                : _rateApp,
-            child: Text(
-              "RATE",
-              style: TextStyle(color: AppColors.primaryColor),
-            ),
-          ),
-        ]);
   }
 
   _rateApp() async {
@@ -441,7 +347,7 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
-    /* SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String mobileNumber =
         jsonDecode(sharedPreferences.getString(UserParams.config))[0]
             ["contact"];
@@ -449,8 +355,7 @@ class _HomeState extends State<Home> {
     if (await canLaunch(url))
       launch(url);
     else
-      Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp"); */
-    showRatingDialog();
+      Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");
   }
 }
 
