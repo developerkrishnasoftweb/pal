@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../Constant/color.dart';
-import '../../Common/appbar.dart';
+import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../Common/appbar.dart';
+import '../../Constant/color.dart';
 
 class ProductPreview extends StatefulWidget {
   final String path;
@@ -40,14 +41,14 @@ class _ProductPreviewState extends State<ProductPreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context: context, title: "Product Preview"),
-        body: Center(
-            child: Stack(
-              alignment: Alignment.center,
-          children: [
-            _controller.value.initialized
-                ? GestureDetector(
-                  onTap: (){
+      appBar: appBar(context: context, title: "Product Preview"),
+      body: Center(
+          child: Stack(
+        alignment: Alignment.center,
+        children: [
+          _controller.value.initialized
+              ? GestureDetector(
+                  onTap: () {
                     if (_controller.value.isPlaying) {
                       _controller.pause();
                       setState(() {
@@ -62,29 +63,35 @@ class _ProductPreviewState extends State<ProductPreview> {
                     }
                   },
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: VideoPlayer(_controller),
-                        ),
-                        VideoProgressIndicator(_controller, allowScrubbing: true),
-                      ],
-                    ),
-                )
-                : SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
-                    ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: VideoPlayer(_controller),
+                      ),
+                      VideoProgressIndicator(_controller, allowScrubbing: true),
+                    ],
                   ),
-            isPlaying ? Align(
-              alignment: Alignment.center,
-              child: Icon(Icons.play_arrow, size: 50, color: Colors.white,),
-            ) : SizedBox()
-          ],
-        )),);
+                )
+              : SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(primaryColor),
+                  ),
+                ),
+          isPlaying
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.play_arrow,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                )
+              : SizedBox()
+        ],
+      )),
+    );
   }
 }

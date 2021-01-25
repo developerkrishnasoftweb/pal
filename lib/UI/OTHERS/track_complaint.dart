@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/userdata.dart';
-import '../../Constant/color.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 
 class TrackComplaint extends StatefulWidget {
   final String complainNumber;
@@ -25,22 +26,30 @@ class _TrackComplaintState extends State<TrackComplaint> {
   @override
   void initState() {
     setState(() {
-      complainNo.text = widget.complainNumber != null ? widget.complainNumber : "";
+      complainNo.text =
+          widget.complainNumber != null ? widget.complainNumber : "";
     });
     _getComplainData();
     super.initState();
   }
+
   _getComplainData() async {
     details = null;
-    if(complainNo.text.isNotEmpty){
+    if (complainNo.text.isNotEmpty) {
       setState(() {
         isLoading = true;
       });
-      Services.trackComplaint(FormData.fromMap({"api_key" : Urls.apiKey, "ticket_no" : complainNo.text})).then((value) {
-        if(value.response == "y"){
-          if(value.data[0].length != 0) {
+      Services.trackComplaint(FormData.fromMap(
+              {"api_key": Urls.apiKey, "ticket_no": complainNo.text}))
+          .then((value) {
+        if (value.response == "y") {
+          if (value.data[0].length != 0) {
             setState(() {
-              details = ComplainDetails(complainNo: value.data[0]["detail"]["ticket_no"], status: value.data[0]["detail"]["status"], desc: value.data[0]["detail"]["description"], progress: value.data[0]["progress"]);
+              details = ComplainDetails(
+                  complainNo: value.data[0]["detail"]["ticket_no"],
+                  status: value.data[0]["detail"]["status"],
+                  desc: value.data[0]["detail"]["description"],
+                  progress: value.data[0]["progress"]);
               isLoading = false;
             });
           } else {
@@ -63,6 +72,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
       Fluttertoast.showToast(msg: "Please enter complain no.");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -82,42 +92,78 @@ class _TrackComplaintState extends State<TrackComplaint> {
                 border: border(),
               ),
               onEditingComplete: _getComplainData,
-              onChanged: (value){
+              onChanged: (value) {
                 setState(() {
                   complainNo.text = value;
                 });
               },
               controller: complainNo,
             ),
-            SizedBox(height: 10,),
-            details != null ? ExpansionTile(
-              title: Text("Complain No : " + details.complainNo),
-              initiallyExpanded: true,
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Issue : " + details.desc),
-                  Text("Status : " + details.status),
-                ],
-              ),
-              childrenPadding: EdgeInsets.only(left: 20),
-              children: [
-                Divider(endIndent: 20,),
-                Align(child: Text("Progress", style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.bold, fontSize: 17)), alignment: Alignment.centerLeft,),
-                for(int i = 0; i < details.progress.length; i++)...[
-                  Container(child: Text(details.progress[i]["comment"]), padding: EdgeInsets.symmetric(vertical: 5), alignment: Alignment.centerLeft,),
-                ]
-              ],
-            ) : dataFound ? SizedBox() : isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : SizedBox()
+            SizedBox(
+              height: 10,
+            ),
+            details != null
+                ? ExpansionTile(
+                    title: Text("Complain No : " + details.complainNo),
+                    initiallyExpanded: true,
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Issue : " + details.desc),
+                        Text("Status : " + details.status),
+                      ],
+                    ),
+                    childrenPadding: EdgeInsets.only(left: 20),
+                    children: [
+                      Divider(
+                        endIndent: 20,
+                      ),
+                      Align(
+                        child: Text("Progress",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    fontWeight: FontWeight.bold, fontSize: 17)),
+                        alignment: Alignment.centerLeft,
+                      ),
+                      for (int i = 0; i < details.progress.length; i++) ...[
+                        Container(
+                          child: Text(details.progress[i]["comment"]),
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          alignment: Alignment.centerLeft,
+                        ),
+                      ]
+                    ],
+                  )
+                : dataFound
+                    ? SizedBox()
+                    : isLoading
+                        ? SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(primaryColor),
+                            ),
+                          )
+                        : SizedBox()
           ],
         ),
       ),
-      floatingActionButton: complainNo.text.isNotEmpty ? customButton(context: context, onPressed: _getComplainData, height: 60, width: size.width, text: "SEARCH") : null,
+      floatingActionButton: complainNo.text.isNotEmpty
+          ? customButton(
+              context: context,
+              onPressed: _getComplainData,
+              height: 60,
+              width: size.width,
+              text: "SEARCH")
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-class ComplainDetails{
+
+class ComplainDetails {
   final String complainNo, desc, status;
   final List<dynamic> progress;
   ComplainDetails({this.status, this.desc, this.complainNo, this.progress});

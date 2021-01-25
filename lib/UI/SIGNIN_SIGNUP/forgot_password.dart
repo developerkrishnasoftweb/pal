@@ -69,8 +69,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         height: 30,
                         width: 30,
                         child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation(AppColors.primaryColor),
+                          valueColor: AlwaysStoppedAnimation(primaryColor),
                         ),
                       )
                     : null,

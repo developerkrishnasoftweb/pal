@@ -62,8 +62,7 @@ class _ProductReviewState extends State<ProductReview> {
                       height: 30,
                       width: 30,
                       child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
                       ))
                   : null)
           : null,

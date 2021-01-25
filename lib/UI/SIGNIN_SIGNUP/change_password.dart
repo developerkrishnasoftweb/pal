@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 
 class ResetPassword extends StatefulWidget {
   final String mobile;
@@ -60,9 +61,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             showPassword = !showPassword;
                           });
                         },
-                        color: showPassword
-                            ? AppColors.primaryColor
-                            : Colors.grey))),
+                        color: showPassword ? primaryColor : Colors.grey))),
             input(
                 context: context,
                 text: "Confirm Password",
@@ -87,7 +86,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 30,
                   width: 30,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                    valueColor: AlwaysStoppedAnimation(primaryColor),
                   ),
                 )
               : null),

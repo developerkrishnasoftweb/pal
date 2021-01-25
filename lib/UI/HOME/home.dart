@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
                   RatingBuilder(
                     itemCount: 5,
                     itemExtent: 35,
-                    activeColor: AppColors.primaryColor,
+                    activeColor: primaryColor,
                     onChanged: (rate) {
                       switch (rate) {
                         case 1:
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
           }),
           title: Text(
             "RATE US",
-            style: TextStyle(color: AppColors.primaryColor),
+            style: TextStyle(color: primaryColor),
           ),
           actions: [
             FlatButton(
@@ -169,7 +169,7 @@ class _HomeState extends State<Home> {
               onPressed: _rateApp,
               child: Text(
                 "RATE",
-                style: TextStyle(color: AppColors.primaryColor),
+                style: TextStyle(color: primaryColor),
               ),
             ),
           ],
@@ -228,7 +228,7 @@ class _HomeState extends State<Home> {
             height: size.height > 500 ? size.height * 0.3 : 180,
             width: size.width,
             decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: primaryColor,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30)),

@@ -444,7 +444,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
             children: [
               Container(
                 width: size.width,
-                color: AppColors.primaryColor,
+                color: primaryColor,
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Total earned point : ${totalEarnedPoints.toString()}",
@@ -504,8 +504,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                     height: 30,
                     width: 30,
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
           );
@@ -520,7 +519,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
               Container(
                 width: size.width,
                 padding: const EdgeInsets.all(8.0),
-                color: AppColors.primaryColor,
+                color: primaryColor,
                 child: Text(
                   "Total Score : ${totalPurchasePoint.toString()}",
                   style: TextStyle(
@@ -584,8 +583,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                     height: 30,
                     width: 30,
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
           );
@@ -599,7 +597,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
             children: [
               Container(
                 padding: const EdgeInsets.all(8.0),
-                color: AppColors.primaryColor,
+                color: primaryColor,
                 width: size.width,
                 child: Text(
                   "Total redeemed point : ${totalRedeemPoint.toString()}",
@@ -685,8 +683,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                     height: 30,
                     width: 30,
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
           );
@@ -701,7 +698,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
               Container(
                 width: size.width,
                 padding: const EdgeInsets.all(8.0),
-                color: AppColors.primaryColor,
+                color: primaryColor,
                 child: Text(
                   "Total Festival Points : ${totalFestivalPoint.toString()}",
                   style: TextStyle(
@@ -762,8 +759,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                     height: 30,
                     width: 30,
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
           );

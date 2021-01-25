@@ -95,7 +95,7 @@ class _OTPState extends State<OTP> {
             height: 30,
             width: 30,
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+              valueColor: AlwaysStoppedAnimation(primaryColor),
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -128,7 +128,7 @@ class _OTPState extends State<OTP> {
                         (route) => false),
                     child: Text(
                       "GO TO HOME",
-                      style: TextStyle(color: AppColors.primaryColor),
+                      style: TextStyle(color: primaryColor),
                     ),
                   ),
                 ]);

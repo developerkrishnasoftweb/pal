@@ -167,8 +167,7 @@ class _SignInState extends State<SignIn> {
                     height: 40,
                     width: 40,
                     child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation(AppColors.primaryColor),
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
                   height: 65,
@@ -191,7 +190,7 @@ class _SignInState extends State<SignIn> {
                                 .textTheme
                                 .bodyText1
                                 .copyWith(
-                                    color: AppColors.primaryColor,
+                                    color: primaryColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                           ),

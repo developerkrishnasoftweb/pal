@@ -11,7 +11,7 @@ AppBar appBar(
     Color backgroundColor,
     PreferredSizeWidget bottom,
     Color leadingColor}) {
-  if(leading == null)
+  if (leading == null)
     leading = IconButton(
       icon: Icon(Icons.arrow_back_ios),
       onPressed: () => Navigator.pop(context),
@@ -19,7 +19,7 @@ AppBar appBar(
       splashRadius: 25,
     );
   return AppBar(
-    backgroundColor: backgroundColor ?? AppColors.primaryColor,
+    backgroundColor: backgroundColor ?? primaryColor,
     title: Text(
       title != null ? title : "",
       style: Theme.of(context).textTheme.bodyText1.copyWith(

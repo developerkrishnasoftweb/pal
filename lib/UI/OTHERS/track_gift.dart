@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/userdata.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 
 class TrackGift extends StatefulWidget {
@@ -45,48 +46,89 @@ class _TrackGiftState extends State<TrackGift> {
             SizedBox(
               height: 10,
             ),
-            bookingInfo != null ? Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  child: Align(alignment: Alignment.centerLeft, child: Text("BOOKING INFORMATION", style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 17, color: Colors.blue, fontWeight: FontWeight.bold),)),
-                ),
-                buildRow(title: "document no", value: bookingInfo.documentNo),
-                buildRow(title: "booking date", value: bookingInfo.bookingDate),
-                buildRow(title: "booking center", value: bookingInfo.bookingCenter),
-                buildRow(title: "to center", value: bookingInfo.toCenter),
-                buildRow(title: "receiver", value: bookingInfo.receiver),
-                buildRow(title: "booking type", value: bookingInfo.bookingType),
-                buildRow(title: "delivery type", value: bookingInfo.deliveryDate),
-                buildRow(title: "status", value: bookingInfo.status),
-              ],
-            ) : SizedBox(),
+            bookingInfo != null
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "BOOKING INFORMATION",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      fontSize: 17,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                      buildRow(
+                          title: "document no", value: bookingInfo.documentNo),
+                      buildRow(
+                          title: "booking date",
+                          value: bookingInfo.bookingDate),
+                      buildRow(
+                          title: "booking center",
+                          value: bookingInfo.bookingCenter),
+                      buildRow(title: "to center", value: bookingInfo.toCenter),
+                      buildRow(title: "receiver", value: bookingInfo.receiver),
+                      buildRow(
+                          title: "booking type",
+                          value: bookingInfo.bookingType),
+                      buildRow(
+                          title: "delivery type",
+                          value: bookingInfo.deliveryDate),
+                      buildRow(title: "status", value: bookingInfo.status),
+                    ],
+                  )
+                : SizedBox(),
           ],
         ),
       ),
       floatingActionButton: trackNo.isNotEmpty
-          ? isLoading ? SizedBox(height: 30, width: 30, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),) : customButton(
-              context: context,
-              onPressed: _getDeliveryData,
-              height: 60,
-              width: size.width,
-              text: "SEARCH")
+          ? isLoading
+              ? SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(primaryColor),
+                  ),
+                )
+              : customButton(
+                  context: context,
+                  onPressed: _getDeliveryData,
+                  height: 60,
+                  width: size.width,
+                  text: "SEARCH")
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
   Widget buildRow({String title, String value}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title.toUpperCase() ?? "-", style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),),
-          Text(value != null &&  value != "" ? value : "-", style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),),
+          Text(
+            title.toUpperCase() ?? "-",
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value != null && value != "" ? value : "-",
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
   }
+
   _getDeliveryData() async {
     FocusScope.of(context).unfocus();
     if (trackNo.isNotEmpty) {
@@ -118,7 +160,7 @@ class _TrackGiftState extends State<TrackGift> {
         }
       });
       Services.trackTravellingInfo(trackNo: trackNo).then((value) {
-        if(value.response == "1") {
+        if (value.response == "1") {
           Fluttertoast.showToast(msg: value.message);
         } else {
           Fluttertoast.showToast(msg: value.message);
@@ -130,7 +172,8 @@ class _TrackGiftState extends State<TrackGift> {
       int year = int.parse(dateMonth.last.split(", ").last);
     }
   }
-  int getMonthIndex ({String monthName}) {
+
+  int getMonthIndex({String monthName}) {
     switch (monthName.toLowerCase()) {
       case "jan":
         return 1;
@@ -168,7 +211,7 @@ class _TrackGiftState extends State<TrackGift> {
       case "dec":
         return 12;
         break;
-      default :
+      default:
         return 1;
         break;
     }

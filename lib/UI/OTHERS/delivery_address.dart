@@ -192,7 +192,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   height: 30,
                   width: 30,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                    valueColor: AlwaysStoppedAnimation(primaryColor),
                   ),
                 )
               : null,
@@ -333,7 +333,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 height: 30,
                 width: 30,
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                  valueColor: AlwaysStoppedAnimation(primaryColor),
                 ),
               ),
               SizedBox(

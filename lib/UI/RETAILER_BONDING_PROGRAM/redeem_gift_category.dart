@@ -88,7 +88,7 @@ class _GiftState extends State<GiftCategory> {
                   height: 40,
                   width: 40,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),
+                    valueColor: AlwaysStoppedAnimation(primaryColor),
                   ),
                 ),
               ));
@@ -123,7 +123,7 @@ class _GiftState extends State<GiftCategory> {
               errorBuilder: (context, object, stackTrace) {
                 return Icon(
                   Icons.signal_cellular_connected_no_internet_4_bar,
-                  color: AppColors.primaryColor,
+                  color: primaryColor,
                 );
               },
               loadingBuilder: (context, child, progress) {
@@ -135,8 +135,7 @@ class _GiftState extends State<GiftCategory> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(
-                                  AppColors.primaryColor),
+                              valueColor: AlwaysStoppedAnimation(primaryColor),
                               strokeWidth: 1,
                             )),
                       );

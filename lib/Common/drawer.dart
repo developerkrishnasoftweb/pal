@@ -128,7 +128,7 @@ Widget drawer(
                           WidgetSpan(
                               child: Icon(
                                 Icons.account_balance_wallet_outlined,
-                                color: AppColors.primaryColor,
+                                color: primaryColor,
                               ),
                               alignment: PlaceholderAlignment.middle),
                           TextSpan(
@@ -136,7 +136,7 @@ Widget drawer(
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
-                                  color: AppColors.primaryColor))
+                                  color: primaryColor))
                         ],
                       ),
                     ),

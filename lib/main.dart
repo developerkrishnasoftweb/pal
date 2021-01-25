@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:pal/Constant/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Constant/color.dart';
 import 'Constant/userdata.dart';
 import 'UI/HOME/home.dart';
 import 'UI/SIGNIN_SIGNUP/signin.dart';
@@ -22,7 +23,7 @@ Future<void> main() async {
       title: 'PAL',
       theme: ThemeData(
         fontFamily: "Poppins",
-        primarySwatch: Colors.blue,
+        primarySwatch: primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: status ? Home() : SignIn(),

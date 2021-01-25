@@ -52,7 +52,7 @@ class _ProductState extends State<ProductCatalog> {
             ],
           ],
         ),
-      ) : Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(AppColors.primaryColor),),),)
+      ) : Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(primaryColor),),),)
     );
   }
   Widget categoryBuilder(CategoryItem item){

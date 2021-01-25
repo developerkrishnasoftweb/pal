@@ -94,8 +94,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                       height: 30,
                       width: 30,
                       child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
                       ),
                     )
             ],

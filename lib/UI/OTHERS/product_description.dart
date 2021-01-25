@@ -54,8 +54,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               height: 40,
                               width: 40,
                               child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(
-                                      AppColors.primaryColor))),
+                                  valueColor:
+                                      AlwaysStoppedAnimation(primaryColor))),
                         );
                 },
               ),

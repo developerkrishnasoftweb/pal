@@ -115,8 +115,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                       height: 40,
                       width: 40,
                       child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation(AppColors.primaryColor),
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
                       ))
                   : Image(
                       image: AssetImage("assets/images/no-gifts2.png"),
@@ -145,7 +144,7 @@ class _RedeemGiftState extends State<RedeemGift> {
             errorBuilder: (context, object, stackTrace) {
               return Icon(
                 Icons.signal_cellular_connected_no_internet_4_bar,
-                color: AppColors.primaryColor,
+                color: primaryColor,
               );
             },
             loadingBuilder: (context, child, progress) {
@@ -157,8 +156,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation(AppColors.primaryColor),
+                            valueColor: AlwaysStoppedAnimation(primaryColor),
                             strokeWidth: 1,
                           )),
                     );
