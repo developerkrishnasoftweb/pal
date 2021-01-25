@@ -1,16 +1,18 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/page_route.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 
 class GiftCategory extends StatefulWidget {
   @override
@@ -110,8 +112,13 @@ class _GiftState extends State<GiftCategory> {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       borderRadius: BorderRadius.circular(10),
-      onTap: (){
-        Navigator.push(context, CustomPageRoute(widget: RedeemGift(maxPoints: giftCategoryData.max, minPoints: giftCategoryData.min)));
+      onTap: () {
+        Navigator.push(
+            context,
+            CustomPageRoute(
+                widget: RedeemGift(
+                    maxPoints: giftCategoryData.max,
+                    minPoints: giftCategoryData.min)));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -137,18 +144,23 @@ class _GiftState extends State<GiftCategory> {
                 return progress == null
                     ? child
                     : Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(
-                            AppColors.primaryColor), strokeWidth: 1,)),
-                );
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(
+                                  AppColors.primaryColor),
+                              strokeWidth: 1,
+                            )),
+                      );
               },
             ),
-            SizedBox(height: 10,),
-            Text("${int.parse(giftCategoryData.min) > 0 ? giftCategoryData.min + " - " : ""}${giftCategoryData.max} Points",
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "${int.parse(giftCategoryData.min) > 0 ? giftCategoryData.min + " - " : ""}${giftCategoryData.max} Points",
               textAlign: TextAlign.center,
               softWrap: true,
               maxLines: 2,
@@ -203,5 +215,6 @@ class GiftCategoryData {
   final String max;
   final String image;
   final String status;
-  GiftCategoryData({this.id, this.title, this.max, this.min, this.status, this.image});
+  GiftCategoryData(
+      {this.id, this.title, this.max, this.min, this.status, this.image});
 }

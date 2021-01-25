@@ -1,24 +1,25 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import '../../Common/page_route.dart';
-import '../../SERVICES/urls.dart';
-import '../../UI/HOME/home.dart';
-import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Common/show_dialog.dart';
-import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
-import '../../SERVICES/services.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
+import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/HOME/home.dart';
 
 class ChangeAddress extends StatefulWidget {
   final Userdata userdata;
@@ -54,8 +55,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
       if (pickedFile != null) image = File(pickedFile.path);
     });
   }
+
   Future getAdhaar() async {
-    File result = await FilePicker.getFile(type: FileType.custom, fileExtension: "pdf");
+    File result =
+        await FilePicker.getFile(type: FileType.custom, fileExtension: "pdf");
     if (result != null) {
       setState(() {
         ext = result.path.split("/").last.split(".").last;
@@ -94,8 +97,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
       dob.text = widget.userdata.dob;
       anniversaryDate.text = widget.userdata.anniversaryDate;
     });
-    if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
-        .hasMatch(widget.userdata.alternateMobile)){
+    if (RegExp(r"^(?:[+0]9)?[0-9]{10}$")
+        .hasMatch(widget.userdata.alternateMobile)) {
       setState(() {
         validMobile = true;
       });
@@ -120,11 +123,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
           children: [
             profileImage(),
             input(
-                context: context,
-                text: "Name $mandatoryChar",
-                controller: name,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(border: border()),),
+              context: context,
+              text: "Name $mandatoryChar",
+              controller: name,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(border: border()),
+            ),
             input(
               context: context,
               controller: altMobile,
@@ -133,8 +137,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               textInputAction: TextInputAction.next,
               onChanged: (value) {
                 setState(() {
-                  if(RegExp(r"^(?:[+0]9)?[0-9]{10}$")
-                      .hasMatch(value)) {
+                  if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(value)) {
                     setState(() {
                       validMobile = true;
                     });
@@ -145,7 +148,17 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   }
                 });
               },
-              decoration: InputDecoration(border: border(), suffixIcon: validMobile ? Icon(Icons.check_circle_outline_outlined, color: Colors.green,) : Icon(Icons.cancel_outlined, color: Colors.red,)),
+              decoration: InputDecoration(
+                  border: border(),
+                  suffixIcon: validMobile
+                      ? Icon(
+                          Icons.check_circle_outline_outlined,
+                          color: Colors.green,
+                        )
+                      : Icon(
+                          Icons.cancel_outlined,
+                          color: Colors.red,
+                        )),
             ),
             input(
               context: context,
@@ -154,7 +167,14 @@ class _ChangeAddressState extends State<ChangeAddress> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               readOnly: widget.status == "y" ?? false,
-              decoration: InputDecoration(border: border(), suffixIcon: widget.status == "y" ? Icon(Icons.check_circle_outline_outlined, color: Colors.green,) : null),
+              decoration: InputDecoration(
+                  border: border(),
+                  suffixIcon: widget.status == "y"
+                      ? Icon(
+                          Icons.check_circle_outline_outlined,
+                          color: Colors.green,
+                        )
+                      : null),
             ),
             input(
               context: context,
@@ -263,7 +283,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 context: context,
                 text: "Date of Birth $mandatoryChar",
                 controller: dob,
-                onTap: widget.status == "y" ? null : () => _selectDate(SelectDateType.DOB),
+                onTap: widget.status == "y"
+                    ? null
+                    : () => _selectDate(SelectDateType.DOB),
                 readOnly: true,
                 keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(border: border())),
@@ -311,7 +333,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(border: border()))
                 : SizedBox.shrink(),
-            SizedBox(
+            /* SizedBox(
               height: 10,
             ),
             Align(
@@ -343,7 +365,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                       height: 50, width: 100)
                 ],
               ),
-            ),
+            ), */
           ],
         ),
       ),
@@ -369,7 +391,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
   _updateKYC() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String id = sharedPreferences.getString(UserParams.id);
-    if(widget.status != "y"){
+    if (widget.status != "y") {
       if (name.text.isNotEmpty &&
           altMobile.text.isNotEmpty &&
           email.text.isNotEmpty &&
@@ -379,74 +401,77 @@ class _ChangeAddressState extends State<ChangeAddress> {
           city.text.isNotEmpty &&
           area.text.isNotEmpty &&
           selectedGender.isNotEmpty &&
-          adhaar != null &&
+          /* adhaar != null && */
           dob.text.isNotEmpty) {
-        if((await adhaar.length() / 1024) < 200) {
-          if (selectedMaritalStatus == "y" &&
-              anniversaryDate.text.isNotEmpty &&
-              DateTime.parse(anniversaryDate.text).year == -1) {
-            Fluttertoast.showToast(msg: "Please provide anniversary date");
-            return;
-          }
-          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
-            if (RegExp(
-                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                .hasMatch(email.text)) {
-              FormData data = FormData.fromMap({
-                "customer_id": id,
-                "name": name.text,
-                "alt_mobile": altMobile.text,
-                "email": email.text,
-                "gender": selectedGender,
-                "address": address.text,
-                "pincode": pinCode.text,
-                "area": area.text,
-                "city": city.text,
-                "state": state.text,
-                "dob": dob.text,
-                "marital_status": selectedMaritalStatus,
-                "anniversary": anniversaryDate.text,
-                "api_key": Urls.apiKey,
-                "image": image != null
-                    ? await MultipartFile.fromFile(image.path,
-                    filename: image.path.split("/").last)
-                    : null,
-                "adhaar" : adhaar != null ? await MultipartFile.fromFile(adhaar.path,
-                    filename: adhaar.path.split("/").last) : null,
-              });
-              setState(() {
-                isLoading = true;
-              });
-              Services.customerKYC(data).then((value) {
-                if (value.response == "y") {
-                  userData(value.data);
-                  Fluttertoast.showToast(msg: value.message);
-                  Navigator.pushAndRemoveUntil(
-                      context, CustomPageRoute(widget: Home()), (route) => false);
-                } else {
-                  setState(() {
-                    isLoading = false;
-                  });
-                  Fluttertoast.showToast(msg: value.message);
-                }
-              });
-            } else {
-              Fluttertoast.showToast(msg: "Invalid email");
-            }
-          } else {
-            Fluttertoast.showToast(msg: "Invalid mobile number");
-          }
+        /* if ((await adhaar.length() / 1024) < 200) {
+
         } else {
           Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
+        } */
+        // If aadhar is added move the "if" condition given below in above condition
+        if (selectedMaritalStatus == "y" &&
+            anniversaryDate.text.isNotEmpty &&
+            DateTime.parse(anniversaryDate.text).year == -1) {
+          Fluttertoast.showToast(msg: "Please provide anniversary date");
+          return;
+        }
+        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+          if (RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(email.text)) {
+            FormData data = FormData.fromMap({
+              "customer_id": id,
+              "name": name.text,
+              "alt_mobile": altMobile.text,
+              "email": email.text,
+              "gender": selectedGender,
+              "address": address.text,
+              "pincode": pinCode.text,
+              "area": area.text,
+              "city": city.text,
+              "state": state.text,
+              "dob": dob.text,
+              "marital_status": selectedMaritalStatus,
+              "anniversary": anniversaryDate.text,
+              "api_key": Urls.apiKey,
+              "image": image != null
+                  ? await MultipartFile.fromFile(image.path,
+                      filename: image.path.split("/").last)
+                  : null,
+              "adhaar": adhaar != null
+                  ? await MultipartFile.fromFile(adhaar.path,
+                      filename: adhaar.path.split("/").last)
+                  : null,
+            });
+            setState(() {
+              isLoading = true;
+            });
+            Services.customerKYC(data).then((value) {
+              if (value.response == "y") {
+                userData(value.data);
+                Fluttertoast.showToast(msg: value.message);
+                Navigator.pushAndRemoveUntil(
+                    context, CustomPageRoute(widget: Home()), (route) => false);
+              } else {
+                setState(() {
+                  isLoading = false;
+                });
+                Fluttertoast.showToast(msg: value.message);
+              }
+            });
+          } else {
+            Fluttertoast.showToast(msg: "Invalid email");
+          }
+        } else {
+          Fluttertoast.showToast(msg: "Invalid mobile number");
         }
       } else {
         Fluttertoast.showToast(msg: "Fields can't be empty");
       }
     } else {
-      if(name.text.isNotEmpty && altMobile.text.isNotEmpty) {
-        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)){
-          if (selectedMaritalStatus == "y" &&
-              anniversaryDate.text.isEmpty) {
+      if (name.text.isNotEmpty && altMobile.text.isNotEmpty) {
+        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+          if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
             Fluttertoast.showToast(msg: "Please provide anniversary date");
             return;
           }
@@ -466,11 +491,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
             "state": state.text,
             "dob": dob.text,
             "marital_status": selectedMaritalStatus,
-            "anniversary": anniversaryDate.text.isNotEmpty ? anniversaryDate.text : null,
+            "anniversary":
+                anniversaryDate.text.isNotEmpty ? anniversaryDate.text : null,
             "api_key": Urls.apiKey,
             "image": image != null
                 ? await MultipartFile.fromFile(image.path,
-                filename: image.path.split("/").last)
+                    filename: image.path.split("/").last)
                 : null,
           });
           Services.customerKYC(formData).then((value) {
@@ -490,7 +516,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
           Fluttertoast.showToast(msg: "Invalid mobile no");
         }
       } else {
-        Fluttertoast.showToast(msg: "Name and Alternate Mobile can't be empty.");
+        Fluttertoast.showToast(
+            msg: "Name and Alternate Mobile can't be empty.");
       }
     }
   }

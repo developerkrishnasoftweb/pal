@@ -1,9 +1,12 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
@@ -11,10 +14,9 @@ import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
-import '../../UI/SERVICE_REQUEST/service_request.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../UI/SERVICE_REQUEST/service_request.dart';
 
 class Complain extends StatefulWidget {
   @override
@@ -41,7 +43,7 @@ class _ComplainState extends State<Complain> {
     setState(() {
       if (pickedFile != null) image = File(pickedFile.path);
     });
-    if(image != null) {
+    if (image != null) {
       if ((await image.length() / 1024) > 2048) {
         setState(() {
           image = null;
@@ -57,7 +59,7 @@ class _ComplainState extends State<Complain> {
     setState(() {
       if (pickedFile != null) video = File(pickedFile.path);
     });
-    if(video != null) {
+    if (video != null) {
       if ((await video.length() / 1024) > 2048) {
         setState(() {
           video = null;
@@ -139,17 +141,23 @@ class _ComplainState extends State<Complain> {
                           mediaType: MediaType.IMAGE, source: Source.CAMERA),
                       galleryOnPressed: () => _getFile(
                           mediaType: MediaType.IMAGE, source: Source.GALLERY)),
-                  text: image != null ? image.path.split("/").last : "Attach Image", showIcon: image != null ? false : true),
+                  text: image != null
+                      ? image.path.split("/").last
+                      : "Attach Image",
+                  showIcon: image != null ? false : true),
               SizedBox(
                 height: 20,
               ),
               attachButton(
-                  onPressed: () => _showSheet(
-                      cameraOnPressed: () => _getFile(
-                          mediaType: MediaType.VIDEO, source: Source.CAMERA),
-                      galleryOnPressed: () => _getFile(
-                          mediaType: MediaType.VIDEO, source: Source.GALLERY)),
-                  text: video != null ? video.path.split("/").last : "Attach Video", showIcon: video != null ? false : true),
+                  // onPressed: () => _showSheet(
+                  //     cameraOnPressed: () => _getFile(
+                  //         mediaType: MediaType.VIDEO, source: Source.CAMERA),
+                  //     galleryOnPressed: () => _getFile(
+                  //         mediaType: MediaType.VIDEO, source: Source.GALLERY)),
+                  text: video != null
+                      ? video.path.split("/").last
+                      : "Attach Video",
+                  showIcon: video != null ? false : true),
             ],
           ),
         ),
@@ -175,17 +183,21 @@ class _ComplainState extends State<Complain> {
     );
   }
 
-  Widget attachButton({String text, @required VoidCallback onPressed, bool showIcon : true}) {
+  Widget attachButton(
+      {String text, @required VoidCallback onPressed, bool showIcon: true}) {
     return customButton(
         context: context,
         onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            showIcon ? Icon(
-              Icons.attach_file,
-              color: Colors.blue[500],
-            ) : SizedBox(),
+            showIcon
+                ? Icon(
+                    Icons.attach_file,
+                    color:
+                        onPressed != null ? Colors.blue[500] : Colors.blue[100],
+                  )
+                : SizedBox(),
             SizedBox(
               width: 10,
             ),
@@ -193,7 +205,9 @@ class _ComplainState extends State<Complain> {
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: Colors.blue[500], fontWeight: FontWeight.bold),
+                    color:
+                        onPressed != null ? Colors.blue[500] : Colors.blue[100],
+                    fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

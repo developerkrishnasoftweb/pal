@@ -1,30 +1,29 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Common/appbar.dart';
 import '../../Common/badge.dart';
+import '../../Common/carousel.dart';
+import '../../Common/drawer.dart';
+import '../../Common/page_route.dart';
 import '../../Common/rating_builder.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
-import '../../Constant/color.dart';
-import '../../UI/OTHERS/notification.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../Common/drawer.dart';
 import '../../Constant/userdata.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../Common/appbar.dart';
-import '../../Common/carousel.dart';
-import '../../Common/page_route.dart';
-import '../../Constant/color.dart';
-import '../PRODUCT_CATALOG/product_catalog.dart';
+import '../../UI/OTHERS/notification.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/earned_points.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '../../UI/SERVICE_REQUEST/service_request.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../PRODUCT_CATALOG/product_catalog.dart';
 
 class Home extends StatefulWidget {
   final bool showRateDialog;
@@ -84,14 +83,115 @@ class _HomeState extends State<Home> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
     super.initState();
-    if(widget.showRateDialog != null && widget.showRateDialog)
+    if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
   }
+
   showRatingDialog() async {
     Size size = MediaQuery.of(context).size;
-    showDialogBox(
+    setState(() {
+      rate = 1;
+      rateMessage = " ";
+    });
+    return showDialog(
         context: context,
-        titleWidget: Text("RATE US", style: TextStyle(color: AppColors.primaryColor),),
+        child: AlertDialog(
+          content: StatefulBuilder(builder: (context, state) {
+            return Container(
+              width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("How would you rate PAL DEPARTMENTAL STORE ?"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RatingBuilder(
+                    itemCount: 5,
+                    itemExtent: 35,
+                    activeColor: AppColors.primaryColor,
+                    onChanged: (rate) {
+                      switch (rate) {
+                        case 1:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = "Poor";
+                          });
+                          break;
+                        case 2:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = "Not Satisfied";
+                          });
+                          break;
+                        case 3:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = "Average";
+                          });
+                          break;
+                        case 4:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = "Good";
+                          });
+                          break;
+                        case 5:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = "Excellent";
+                          });
+                          break;
+                        default:
+                          state(() {
+                            this.rate = rate;
+                            rateMessage = " ";
+                          });
+                          break;
+                      }
+                    },
+                  ),
+                  Text(
+                    rateMessage,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            );
+          }),
+          title: Text(
+            "RATE US",
+            style: TextStyle(color: AppColors.primaryColor),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "NO, THANKS",
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+            FlatButton(
+              //TODO: check once
+              onPressed: rate > 0 && rateMessage.isNotEmpty
+                  ? () => Fluttertoast.showToast(
+                      msg: "Please rate and share your experience.")
+                  : _rateApp,
+              child: Text(
+                "RATE",
+                style: TextStyle(color: AppColors.primaryColor),
+              ),
+            ),
+          ],
+        ),
+        barrierDismissible: true);
+    return showDialogBox(
+        context: context,
+        titleWidget: Text(
+          "RATE US",
+          style: TextStyle(color: AppColors.primaryColor),
+        ),
         widget: Container(
           width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
           child: Column(
@@ -99,23 +199,63 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("How would you rate PAL DEPARTMENTAL STORE ?"),
-              SizedBox(height: 10,),
-              RatingBuilder(itemCount: 5, itemExtent: 35, onChanged: (rate){
-                setState(() {
+              SizedBox(
+                height: 10,
+              ),
+              RatingBuilder(
+                itemCount: 5,
+                itemExtent: 35,
+                onChanged: (rate) {
+                  print(rate);
                   setState(() {
-                    this.rate = rate;
+                    setState(() {
+                      this.rate = rate;
+                    });
+                    switch (rate) {
+                      case 1:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = "Worst";
+                        });
+                        break;
+                      case 2:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = "Not Satisfied";
+                        });
+                        break;
+                      case 3:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = "Average";
+                        });
+                        break;
+                      case 4:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = "Good";
+                        });
+                        break;
+                      case 5:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = "Excellent";
+                        });
+                        break;
+                      default:
+                        setState(() {
+                          this.rate = rate;
+                          rateMessage = " ";
+                        });
+                        break;
+                    }
                   });
-                  if(this.rate < 3) {
-                    setState(() {
-                      rateMessage = "Good";
-                    });
-                  } else {
-                    setState(() {
-                      rateMessage = "Excellent";
-                    });
-                  }
-                });
-              },),
+                },
+              ),
+              Text(
+                rateMessage,
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
         ),
@@ -130,7 +270,10 @@ class _HomeState extends State<Home> {
           ),
           FlatButton(
             //TODO: check once
-            onPressed: rate > 0 && rateMessage.isNotEmpty ? () => Fluttertoast.showToast(msg: "Please rate and share your experience.") : _rateApp,
+            onPressed: rate > 0 && rateMessage.isNotEmpty
+                ? () => Fluttertoast.showToast(
+                    msg: "Please rate and share your experience.")
+                : _rateApp,
             child: Text(
               "RATE",
               style: TextStyle(color: AppColors.primaryColor),
@@ -138,10 +281,11 @@ class _HomeState extends State<Home> {
           ),
         ]);
   }
+
   _rateApp() async {
     Navigator.pop(context);
     Services.rateApp(message: rateMessage, rate: rate.toString()).then((value) {
-      if(value.response == "y") {
+      if (value.response == "y") {
         Fluttertoast.showToast(msg: "Thank you for rate us.");
       }
     });
@@ -179,7 +323,6 @@ class _HomeState extends State<Home> {
           image: AssetImage("assets/images/service-request.png")),
     ];
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -224,31 +367,33 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        (int.parse(notificationCount) == 0) ? IconButton(
-                          icon: ImageIcon(
-                            AssetImage(
-                                "assets/icons/notification-icon.png"),
-                            color: Colors.white,
-                          ),
-                          onPressed: () => Navigator.push(context,
-                              CustomPageRoute(widget: Notifications())),
-                          splashRadius: 23,
-                          iconSize: 20,
-                        ) : badge(
-                            iconButton: IconButton(
-                              icon: ImageIcon(
-                                AssetImage(
-                                    "assets/icons/notification-icon.png"),
-                                color: Colors.white,
-                              ),
-                              onPressed: () => Navigator.push(context,
-                                  CustomPageRoute(widget: Notifications())),
-                              splashRadius: 23,
-                              iconSize: 20,
-                            ),
-                            badgeValue: int.parse(notificationCount),
-                            context: context,
-                            badgeSize: Size(15, 15)),
+                        (int.parse(notificationCount) == 0)
+                            ? IconButton(
+                                icon: ImageIcon(
+                                  AssetImage(
+                                      "assets/icons/notification-icon.png"),
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => Navigator.push(context,
+                                    CustomPageRoute(widget: Notifications())),
+                                splashRadius: 23,
+                                iconSize: 20,
+                              )
+                            : badge(
+                                iconButton: IconButton(
+                                  icon: ImageIcon(
+                                    AssetImage(
+                                        "assets/icons/notification-icon.png"),
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () => Navigator.push(context,
+                                      CustomPageRoute(widget: Notifications())),
+                                  splashRadius: 23,
+                                  iconSize: 20,
+                                ),
+                                badgeValue: int.parse(notificationCount),
+                                context: context,
+                                badgeSize: Size(15, 15)),
                       ]),
                 ),
                 SizedBox(
@@ -296,7 +441,7 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    /* SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String mobileNumber =
         jsonDecode(sharedPreferences.getString(UserParams.config))[0]
             ["contact"];
@@ -304,7 +449,8 @@ class _HomeState extends State<Home> {
     if (await canLaunch(url))
       launch(url);
     else
-      Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");
+      Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp"); */
+    showRatingDialog();
   }
 }
 

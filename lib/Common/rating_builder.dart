@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pal/Constant/color.dart';
 
 class RatingBuilder extends StatefulWidget {
   final double iconSize, itemExtent;
@@ -12,10 +11,11 @@ class RatingBuilder extends StatefulWidget {
       {this.activeColor,
       this.inactiveColor,
       this.itemCount,
-      this.onChanged,
+      @required this.onChanged,
       this.iconSize,
       this.iconList,
-      this.itemExtent});
+      this.itemExtent})
+      : assert(onChanged != null);
   @override
   _RatingBuilderState createState() => _RatingBuilderState();
 }
@@ -23,18 +23,19 @@ class RatingBuilder extends StatefulWidget {
 class _RatingBuilderState extends State<RatingBuilder> {
   List<IconData> icon;
   List<Color> colorList;
-  Color inactiveColor = AppColors.primaryColor.withOpacity(0.2);
+  Color inactiveColor = Colors.grey;
   @override
   void initState() {
+    super.initState();
     setState(() {
-      icon = widget.iconList ?? List.generate(widget.itemCount ?? 5, (index) {
-        return widget.iconList ?? Icons.star_border;
-      });
+      icon = widget.iconList ??
+          List.generate(widget.itemCount ?? 5, (index) {
+            return widget.iconList ?? Icons.star_border;
+          });
       colorList = List.generate(widget.itemCount ?? 5, (index) {
         return widget.inactiveColor ?? inactiveColor;
       });
     });
-    super.initState();
   }
 
   @override
@@ -51,30 +52,31 @@ class _RatingBuilderState extends State<RatingBuilder> {
               padding: EdgeInsets.zero,
               splashRadius: 25,
               onPressed: () {
-                if(index == 0 && colorList[0] == AppColors.primaryColor){
+                if (index == 0 &&
+                    (colorList[0] == widget.activeColor ?? Colors.yellow)) {
                   widget.onChanged(index);
                   for (int i = 0; i < icon.length; i++) {
                     setState(() {
                       colorList[i] = widget.inactiveColor ?? inactiveColor;
-                      if(icon[i] == Icons.star_border){
-                        icon[i] = Icons.star;
+                      if (icon[i] == Icons.star) {
+                        icon[i] = Icons.star_border;
                       }
                     });
                   }
                 } else {
-                  widget.onChanged(index+1);
+                  widget.onChanged(index + 1);
                   for (int i = 0; i < icon.length; i++) {
                     setState(() {
                       colorList[i] = widget.inactiveColor ?? inactiveColor;
-                      if(icon[i] == Icons.star_border){
-                        icon[i] = Icons.star;
+                      if (icon[i] == Icons.star) {
+                        icon[i] = Icons.star_border;
                       }
                     });
                   }
                   for (int i = 0; i <= index; i++) {
                     setState(() {
-                      colorList[i] = widget.activeColor ?? AppColors.primaryColor;
-                      if(icon[i] == Icons.star_border){
+                      colorList[i] = widget.activeColor ?? Colors.yellow;
+                      if (icon[i] == Icons.star_border) {
                         icon[i] = Icons.star;
                       }
                     });

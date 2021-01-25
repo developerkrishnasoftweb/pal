@@ -1,10 +1,11 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart' as dio;
-import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Constant/userdata.dart';
 import '../SERVICES/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../services/data.dart';
 
 class Services {
@@ -593,7 +594,7 @@ class Services {
             ? sharedPreferences.getString(UserParams.lastNotificationId)
             : "0";
     String customerId = sharedPreferences.getString(UserParams.id);
-    if(customerId != null && customerId.isNotEmpty) {
+    if (customerId != null && customerId.isNotEmpty) {
       String url = Urls.baseUrl +
           Urls.getNotificationCount +
           lastNotificationId +
@@ -620,7 +621,6 @@ class Services {
     } else {
       return "0";
     }
-
   }
 
   static Future<Data> getNotifications() async {
@@ -746,8 +746,12 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio().post(url,
-          data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "customer_id": customerId, "rate" : rate, "comment" : message}));
+          data: dio.FormData.fromMap({
+            "api_key": Urls.apiKey,
+            "customer_id": customerId,
+            "rate": rate,
+            "comment": message
+          }));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -927,7 +931,8 @@ class Services {
     }
   }
 
-  static Future<Data> trackDeliveryInfo({String trackNo, String bookingDate}) async {
+  static Future<Data> trackDeliveryInfo(
+      {String trackNo, String bookingDate}) async {
     var headers = {
       'Content-Type': 'text/plain',
       'Username': 'maruticourier',
@@ -937,7 +942,11 @@ class Services {
     try {
       dio.Response response = await dio.Dio().post(Urls.trackGiftBaseUrl,
           data: jsonEncode({
-            "data": {"barcode_no": "$trackNo", "type": "delivery", "booking_date" : "$bookingDate"}
+            "data": {
+              "barcode_no": "$trackNo",
+              "type": "delivery",
+              "booking_date": "$bookingDate"
+            }
           }),
           options: dio.Options(headers: headers));
       if (response.statusCode == 200) {

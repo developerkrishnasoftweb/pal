@@ -1,19 +1,20 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/UI/OTHERS/kyc_details.dart';
 import 'package:pal/UI/OTHERS/product_review.dart';
-import '../../Common/page_route.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/OTHERS/delivery_address.dart';
-import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
+import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/OTHERS/delivery_address.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 
 class ProductDescription extends StatefulWidget {
   final GiftData giftData;
@@ -85,12 +86,14 @@ class _ProductDescriptionState extends State<ProductDescription> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.giftData.title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                Expanded(
+                  child: Text(
+                    widget.giftData.title,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ),
                 !widget.readOnly
                     ? Container(
@@ -185,7 +188,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               msg:
                                   "Your KYC is pending. To avail features please do KYC.",
                               toastLength: Toast.LENGTH_LONG);
-                          Navigator.push(context, CustomPageRoute(widget: KYC()));
+                          Navigator.push(
+                              context, CustomPageRoute(widget: KYC()));
                         }
                   : () {
                       Fluttertoast.showToast(

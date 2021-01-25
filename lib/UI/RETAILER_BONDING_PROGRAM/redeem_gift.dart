@@ -1,17 +1,19 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Common/page_route.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/OTHERS/product_description.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
+import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/OTHERS/product_description.dart';
 
 class RedeemGift extends StatefulWidget {
   final String minPoints;
@@ -171,6 +173,8 @@ class _RedeemGiftState extends State<RedeemGift> {
                 .textTheme
                 .bodyText1
                 .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           Text("${giftData.points} Points",
               style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -179,7 +183,8 @@ class _RedeemGiftState extends State<RedeemGift> {
                   color: Colors.grey)),
           customButton(
               context: context,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
               onPressed: () => Navigator.push(
                   context,
                   CustomPageRoute(

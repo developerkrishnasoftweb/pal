@@ -1,25 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/color.dart';
-import '../../UI/SIGNIN_SIGNUP/otp.dart';
-import '../../UI/SIGNIN_SIGNUP/signup.dart';
-import '../../Common/show_dialog.dart';
-import '../../Common/page_route.dart';
-import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
+import '../../Common/page_route.dart';
+import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Constant/userdata.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
+import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../UI/SIGNIN_SIGNUP/otp.dart';
+import '../../UI/SIGNIN_SIGNUP/signup.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
@@ -42,13 +43,17 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
   // String selectedStoreCode = "";
-  String storeCity = "", storeArea = "", storeState = "", storePinCode = "", storeID = "";
+  String storeCity = "",
+      storeArea = "",
+      storeState = "",
+      storePinCode = "",
+      storeID = "";
 
   Future getFile() async {
     setFileLoading(true);
     File result = await FilePicker.getFile(type: FileType.any);
     if (result != null) {
-      if((await result.length() / 1024) <= 2048) {
+      if ((await result.length() / 1024) <= 2048) {
         setState(() {
           ext = result.path.split("/").last.split(".").last;
         });
@@ -65,24 +70,29 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         setFileLoading(false);
         Fluttertoast.showToast(msg: "File size must be under 2MB");
       }
-    } else setFileLoading(false);
+    } else
+      setFileLoading(false);
   }
+
   setLoading(bool status) {
     setState(() {
       isLoading = status;
     });
   }
-  setFileLoading(bool status){
+
+  setFileLoading(bool status) {
     setState(() {
       fileLoading = status;
     });
   }
+
   @override
   void initState() {
     getStores();
     super.initState();
   }
-  getStores () async {
+
+  getStores() async {
     Services.getStores().then((value) {
       if (value.response == "y") {
         setState(() {
@@ -124,6 +134,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       appBar: appBar(context: context, title: "Delivery Address"),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             SizedBox(
@@ -157,7 +168,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 },
                 underline: SizedBox.shrink(),
                 value: addressType,
-                items: ["Collect from outlet", "Home delivery"].map((text) {
+                //TODO: In future "Home Delivery" option will be added in dropdown
+                items: ["Collect from outlet"].map((text) {
                   return DropdownMenuItem(
                     value: text,
                     child: Text(text),
@@ -414,7 +426,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       });
                     }),
               )
-            : Align(alignment: Alignment.center, child: Text("No store found !!!")),
+            : Align(
+                alignment: Alignment.center, child: Text("No store found !!!")),
         SizedBox(
           height: 15,
         ),
@@ -432,7 +445,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(border: border())),
-        Text(
+        /* Text(
           "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence $mandatoryChar",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
@@ -440,7 +453,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 10,
         ),
-        proofBuilder(onTap: getFile)
+        proofBuilder(onTap: getFile) */
       ],
     );
   }
@@ -476,33 +489,42 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       width: 180,
       padding: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      child: fileLoading ? SizedBox(height: 15, width: 15, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.grey[400]), strokeWidth: 2,),) : file == null
-          ? Column(
-              children: [
-                attachButton(onPressed: getFile, text: "Attach File"),
-              ],
+      child: fileLoading
+          ? SizedBox(
+              height: 15,
+              width: 15,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Colors.grey[400]),
+                strokeWidth: 2,
+              ),
             )
-          : file != null && ext != "pdf"
-              ? Image.file(
-                  File(file.path),
-                  fit: BoxFit.fill,
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+          : file == null
+              ? Column(
                   children: [
-                    Image.asset(
-                      "assets/icons/pdf-icon.png",
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.fill,
-                    ),
-                    Text(
-                      file.path.split("/").last,
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
+                    attachButton(onPressed: getFile, text: "Attach File"),
                   ],
-                ), //Image.file(File(file.path), fit: BoxFit.fill,),
+                )
+              : file != null && ext != "pdf"
+                  ? Image.file(
+                      File(file.path),
+                      fit: BoxFit.fill,
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/pdf-icon.png",
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.fill,
+                        ),
+                        Text(
+                          file.path.split("/").last,
+                          style: TextStyle(fontSize: 13, color: Colors.grey),
+                        ),
+                      ],
+                    ), //Image.file(File(file.path), fit: BoxFit.fill,),
     );
   }
 
@@ -575,13 +597,14 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       * Collect from outlet
       * */
       if (storeState.isNotEmpty &&
-          storePinCode.isNotEmpty &&
-          storeCity.isNotEmpty &&
-          storeArea.isNotEmpty &&
-          storeID.isNotEmpty &&
-          altMobile.isNotEmpty &&
-          file != null) {
-        if(RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
+              storePinCode.isNotEmpty &&
+              storeCity.isNotEmpty &&
+              storeArea.isNotEmpty &&
+              storeID.isNotEmpty &&
+              altMobile.isNotEmpty /* &&
+          file != null */
+          ) {
+        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
           setLoading(true);
           FormData data = FormData.fromMap({
             "customer_id": id,
@@ -594,10 +617,14 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "pincode": storePinCode,
             "alt_mobile": "1234567890",
             "state": storeState,
-            "proof": file != null ? await MultipartFile.fromFile(file.path, filename: file.path.split("/").last) : "",
+            "proof": file != null
+                ? await MultipartFile.fromFile(file.path,
+                    filename: file.path.split("/").last)
+                : "",
             "delivery_type": "s",
             "store_id": storeID,
           });
+          print(otp);
           sendSMS(mobile: mobileNo, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
@@ -607,7 +634,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       }
     }
   }
-  sendSMS ({String mobile, String otp, FormData formData}) async {
+
+  sendSMS({String mobile, String otp, FormData formData}) async {
     FormData smsData = FormData.fromMap({
       "user": Urls.user,
       "password": Urls.password,
@@ -627,12 +655,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             context,
             CustomPageRoute(
                 widget: OTP(
-                  mobile: mobile,
-                  redeemGift: true,
-                  onlyCheckOtp: true,
-                  formData: formData,
-                  otp: otp,
-                )));
+              mobile: mobile,
+              redeemGift: true,
+              onlyCheckOtp: true,
+              formData: formData,
+              otp: otp,
+            )));
       } else {
         setLoading(false);
         Fluttertoast.showToast(msg: value.message);

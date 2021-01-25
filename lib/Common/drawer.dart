@@ -1,18 +1,17 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import './../Constant/color.dart';
 import './../UI/OTHERS/tnc.dart';
-import './../UI/OTHERS/track_gift.dart';
-import '.././UI/OTHERS/notification.dart';
-import '.././UI/OTHERS/report.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
 import '.././UI/HOME/home.dart';
 import '.././UI/OTHERS/kyc_details.dart';
+import '.././UI/OTHERS/notification.dart';
+import '.././UI/OTHERS/report.dart';
 import '.././UI/OTHERS/track_complaint.dart';
 import '.././UI/PRODUCTS/product_demo.dart';
 import '.././UI/PRODUCT_CATALOG/product_catalog.dart';
@@ -22,7 +21,6 @@ import '.././UI/RETAILER_BONDING_PROGRAM/redeemed_gifts.dart';
 import '.././UI/SERVICE_REQUEST/complain.dart';
 import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Widget drawer(
     {@required BuildContext context,
@@ -199,47 +197,67 @@ Widget drawer(
                       Navigator.push(
                           context, CustomPageRoute(widget: ServiceRequest()));
                     }),
+                buildExpansionChild(
+                    title: "Track Complaints",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: TrackComplaint()));
+                    }),
               ]),
-          buildExpansionTile(iconData: Icons.pages_outlined, title: "Products", children: [
-            buildExpansionChild(title: "Product Demo", onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: ProductDemo(
-                        type: "demo",
-                      )));
-            }),
-            buildExpansionChild(title: "Focused Products", onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                      widget: ProductDemo(
-                        type: "focused",
-                      )));
-            }),
-          ]),
-          buildDrawerItems("Track Complaints", () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: TrackComplaint()));
-          }, Icons.outgoing_mail),
-          buildExpansionTile(iconData: Icons.pages_outlined, title: "Gift", children: [
-            buildExpansionChild(title: "Redeem Gift", onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(
-                  context, CustomPageRoute(widget: GiftCategory()));
-            }),
-            buildExpansionChild(title: "Redeemed Gifts", onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(
-                  context, CustomPageRoute(widget: RedeemedGift()));
-            }),
-            buildExpansionChild(title: "Track Gift", onTap: () {
-              scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(context, CustomPageRoute(widget: TrackGift()));
-            }),
-          ]),
+          buildExpansionTile(
+              iconData: Icons.pages_outlined,
+              title: "Products",
+              children: [
+                buildExpansionChild(
+                    title: "Product Demo",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              widget: ProductDemo(
+                            type: "demo",
+                          )));
+                    }),
+                buildExpansionChild(
+                    title: "Focused Products",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              widget: ProductDemo(
+                            type: "focused",
+                          )));
+                    }),
+              ]),
+          buildExpansionTile(
+              iconData: Icons.pages_outlined,
+              title: "Gift",
+              children: [
+                buildExpansionChild(
+                    title: "Redeem Gift",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: GiftCategory()));
+                    }),
+                buildExpansionChild(
+                    title: "Redeemed Gifts",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: RedeemedGift()));
+                    }),
+                /* buildExpansionChild(
+                    title: "Track Gift",
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: TrackGift()));
+                    }), */
+              ]),
           buildDrawerItems("Reports", () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: Report()));
@@ -250,17 +268,24 @@ Widget drawer(
           }, Icons.notifications_on_outlined),
           buildDrawerItems("Terms & Conditions", () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(
-                context, CustomPageRoute(widget: TermsNCondition()));
+            Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
           }, Icons.ballot_outlined),
           buildDrawerItems("Visit our site", () async {
             scaffoldKey.currentState.openEndDrawer();
             var url = "https://www.palshopie.com/";
             if (await canLaunch(url))
-            launch(url);
+              launch(url);
             else
-            Fluttertoast.showToast(msg: "Maybe you don't have installed WhatsApp");
+              Fluttertoast.showToast(msg: "Unable to load web page");
           }, Icons.web),
+          buildDrawerItems("Pal Shoppie", () async {
+            scaffoldKey.currentState.openEndDrawer();
+            var url = "https://www.palshopie.com/";
+            if (await canLaunch(url))
+              launch(url);
+            else
+              Fluttertoast.showToast(msg: "Unable to open play store");
+          }, Icons.play_arrow_rounded),
           buildDrawerItems(
               "Logout",
               () => showDialogBox(

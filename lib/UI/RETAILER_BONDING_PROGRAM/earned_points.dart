@@ -1,15 +1,17 @@
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../Common/appbar.dart';
-import 'package:intl/intl.dart';
 
 class EarnedPoints extends StatefulWidget {
   @override
@@ -34,7 +36,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
     setState(() {
       name = data[0][UserParams.name];
       cumulativePurchase = double.parse(data[0][UserParams.totalOrder] ?? "0");
-      availablePoints = double.parse(sharedPreferences.getString(UserParams.point));
+      availablePoints =
+          double.parse(sharedPreferences.getString(UserParams.point));
     });
   }
 
@@ -50,10 +53,17 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 text: TextSpan(
                   children: [
                     WidgetSpan(
-                        child: Icon(Icons.account_balance_wallet_outlined, color: Colors.white,),
-                        alignment: PlaceholderAlignment.middle
-                    ),
-                    TextSpan(text: "\t" + availablePoints.toString(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white))
+                        child: Icon(
+                          Icons.account_balance_wallet_outlined,
+                          color: Colors.white,
+                        ),
+                        alignment: PlaceholderAlignment.middle),
+                    TextSpan(
+                        text: "\t" + availablePoints.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.white))
                   ],
                 ),
               ),
@@ -86,7 +96,11 @@ class _EarnedPointsState extends State<EarnedPoints> {
               earnedLists.length > 0
                   ? ListView.separated(
                       separatorBuilder: (context, index) {
-                        return Container(height: 10, width: size.width, color: Colors.grey[100],);
+                        return Container(
+                          height: 10,
+                          width: size.width,
+                          color: Colors.grey[100],
+                        );
                       },
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
