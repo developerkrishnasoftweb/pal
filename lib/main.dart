@@ -25,10 +25,7 @@ Future<void> main() async {
       lastNotificationCount = value;
     });
   });
-  Timer.periodic(Duration(milliseconds: 1000), (timer) async {
-    await Services.getUserData();
-    await Services.getConfig();
-  });
+  await Services.getConfig();
   await getCredential().then((status) {
     runApp(MaterialApp(
       title: 'PAL',
@@ -58,6 +55,7 @@ Future<bool> getCredential() async {
 Future<void> setData() async {
   List data = await jsonDecode(
       sharedPreferences.getString(UserParams.userData) ?? "[{}]");
+  print(data);
   if (data != null) {
     if (data.length > 0) {
       userdata = Userdata(

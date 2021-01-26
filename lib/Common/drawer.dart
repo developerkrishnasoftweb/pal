@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/userdata.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,7 +23,6 @@ import '.././UI/RETAILER_BONDING_PROGRAM/redeemed_gifts.dart';
 import '.././UI/SERVICE_REQUEST/complain.dart';
 import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
-import '../Constant/userdata.dart';
 
 Widget drawer(
     {@required BuildContext context,
@@ -85,6 +85,7 @@ Widget drawer(
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
     await sharedPreferences.clear();
+    await sharedPreferences.remove(UserParams.userData);
     userdata = Userdata();
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {

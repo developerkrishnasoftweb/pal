@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/UI/HOME/home.dart';
 
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
@@ -19,7 +20,6 @@ import '../../SERVICES/urls.dart';
 import '../../UI/SIGNIN_SIGNUP/forgot_password.dart';
 import '../../UI/SIGNIN_SIGNUP/signup.dart';
 import '../../main.dart';
-import '../HOME/home.dart';
 
 class SignIn extends StatefulWidget {
   final String email;
