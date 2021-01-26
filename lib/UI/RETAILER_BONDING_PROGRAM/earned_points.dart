@@ -178,6 +178,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
       children: [
         buildChildrenRow(
             title: "Purchase for this cycle", value: data.purchase),
+        buildChildrenRow(title: "Redeem in this cycle", value: data.redeem),
         buildChildrenRow(
             title: "Points earned during this cycle",
             value: data.earnedPoints.padLeft(2)),
@@ -267,9 +268,12 @@ class _EarnedPointsState extends State<EarnedPoints> {
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
         for (int i = value.data.length - 1; i >= 0; i--) {
           setState(() {
-            closingPoints += int.parse(value.data[i]["total_points"] != null
-                ? value.data[i]["total_points"][0]["point"]
-                : "0");
+            closingPoints += value.data[i]["total_points"] != null
+                ? (int.parse(value.data[i]["total_points"][0]["point"]) -
+                    int.parse(value.data[i]["redeem"] != null
+                        ? value.data[i]["redeem"][0]["point"]
+                        : "0"))
+                : 0;
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
                 closingPoints: closingPoints.toString(),
@@ -279,6 +283,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
                 earnedPoints: value.data[i]["total_points"] != null
                     ? value.data[i]["total_points"][0]["point"]
                     : "0.0",
+                redeem: value.data[i]["redeem"] != null
+                    ? value.data[i]["redeem"][0]["point"]
+                    : "0",
                 purchase: value.data[i]["total_purchase"] != null
                     ? value.data[i]["total_purchase"][0]["purchase"] != null
                         ? value.data[i]["total_purchase"][0]["purchase"]
@@ -297,7 +304,13 @@ class _EarnedPointsState extends State<EarnedPoints> {
 }
 
 class CycleData {
-  final String cycleNo, dateFrom, dateTo, purchase, earnedPoints, closingPoints;
+  final String cycleNo,
+      dateFrom,
+      dateTo,
+      purchase,
+      earnedPoints,
+      closingPoints,
+      redeem;
   final List transaction;
   CycleData(
       {this.closingPoints,
@@ -306,5 +319,6 @@ class CycleData {
       this.dateTo,
       this.earnedPoints,
       this.purchase,
+      this.redeem,
       this.transaction});
 }
