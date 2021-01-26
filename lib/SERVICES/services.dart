@@ -373,6 +373,7 @@ class Services {
       response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
+        print(response);
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
@@ -386,10 +387,12 @@ class Services {
             message: "No internet connection !!!", response: null, data: null);
         return data;
       } else {
+        print(e);
         Data data = Data(message: errorMessage, response: null, data: null);
         return data;
       }
     } catch (e) {
+      print(e);
       Data data = Data(message: errorMessage, response: null, data: null);
       return data;
     }

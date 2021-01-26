@@ -55,7 +55,6 @@ Future<bool> getCredential() async {
 Future<void> setData() async {
   List data = await jsonDecode(
       sharedPreferences.getString(UserParams.userData) ?? "[{}]");
-  print(data);
   if (data != null) {
     if (data.length > 0) {
       userdata = Userdata(

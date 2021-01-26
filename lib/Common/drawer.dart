@@ -271,23 +271,54 @@ Widget drawer(
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
           }, Icons.ballot_outlined),
-          buildDrawerItems("Visit our site", () async {
-            scaffoldKey.currentState.openEndDrawer();
-            var url = "https://www.palshopie.com/";
-            if (await canLaunch(url))
-              launch(url);
-            else
-              Fluttertoast.showToast(msg: "Unable to load web page");
-          }, Icons.web),
-          buildDrawerItems("Pal Shoppie", () async {
-            scaffoldKey.currentState.openEndDrawer();
-            var url =
-                "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
-            if (await canLaunch(url))
-              launch(url);
-            else
-              Fluttertoast.showToast(msg: "Unable to open play store");
-          }, Icons.play_arrow_rounded),
+          ListTile(
+            title: Row(
+              children: [
+                ImageIcon(
+                  AssetImage("assets/icons/app-icon.png"),
+                  color: Colors.grey,
+                  size: 30,
+                ),
+                SizedBox(
+                  width: 3,
+                ),
+                Text("Visit Our Site"),
+              ],
+            ),
+            onTap: () async {
+              scaffoldKey.currentState.openEndDrawer();
+              var url = "https://www.palshopie.com/";
+              if (await canLaunch(url))
+                launch(url);
+              else
+                Fluttertoast.showToast(msg: "Unable to open play store");
+            },
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 4,
+                ),
+                ImageIcon(
+                  AssetImage("assets/icons/playstore.png"),
+                  color: Colors.grey,
+                  size: 18,
+                ),
+                gap,
+                Text("Pal Shoppie"),
+              ],
+            ),
+            onTap: () async {
+              scaffoldKey.currentState.openEndDrawer();
+              var url =
+                  "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
+              if (await canLaunch(url))
+                launch(url);
+              else
+                Fluttertoast.showToast(msg: "Unable to open play store");
+            },
+          ),
           buildDrawerItems(
               "Logout",
               () => showDialogBox(
