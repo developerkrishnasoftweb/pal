@@ -39,9 +39,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
   TextEditingController email = TextEditingController();
   TextEditingController dob = TextEditingController();
   TextEditingController anniversaryDate = TextEditingController();
-  String selectedGender = "m", selectedMaritalStatus = "n", ext = "";
+  String selectedGender = "m",
+      selectedMaritalStatus = "n",
+      ext = "",
+      selectedVehicleType = "Cycle";
   List<String> gender = ["Male", "Female"],
       maritalStatus = ["Married", "Unmarried"],
+      vehicleType = ["Cycle", "Activa/Scooter/Motorbike", "Car", "Other"],
       listAreas = [];
   File image, adhaar;
   final picker = ImagePicker();
@@ -329,6 +333,40 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(border: border()))
                 : SizedBox.shrink(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Vehicle Type $mandatoryChar",
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButtonFormField(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      value: selectedVehicleType,
+                      isExpanded: true,
+                      decoration: InputDecoration(border: border()),
+                      items: vehicleType.map((value) {
+                        return DropdownMenuItem(
+                          child: Text(value),
+                          value: value,
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedVehicleType = value;
+                        });
+                      }),
+                ],
+              ),
+            ),
             /* SizedBox(
               height: 10,
             ),

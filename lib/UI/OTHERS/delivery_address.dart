@@ -5,11 +5,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/page_route.dart';
+import 'package:pal/UI/SIGNIN_SIGNUP/otp.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
-import '../../Common/page_route.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -18,7 +19,6 @@ import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
-import '../../UI/SIGNIN_SIGNUP/otp.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
@@ -608,7 +608,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "area": storeArea,
             "city": storeCity,
             "pincode": storePinCode,
-            "alt_mobile": "1234567890",
+            "alt_mobile": altMobile,
             "state": storeState,
             "proof": file != null
                 ? await MultipartFile.fromFile(file.path,
@@ -640,6 +640,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       "fl": Urls.fl,
       "gwid": Urls.gwID
     });
+    // print(formData.files);
+    // print(formData.fields);
+    // setLoading(false);
     await Services.sms(smsData).then((value) {
       if (value.response == "000") {
         setLoading(false);
