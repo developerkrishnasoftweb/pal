@@ -27,56 +27,55 @@ class _EarnedPointsState extends State<EarnedPoints> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Earned Point", actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Center(
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    WidgetSpan(
-                        child: Icon(
-                          Icons.account_balance_wallet_outlined,
-                          color: Colors.white,
-                        ),
-                        alignment: PlaceholderAlignment.middle),
-                    TextSpan(
-                        text: "\t ${userdata.point}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.white))
-                  ],
-                ),
+      appBar: appBar(context: context, title: "Earned Point", actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Center(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  WidgetSpan(
+                      child: Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: Colors.white,
+                      ),
+                      alignment: PlaceholderAlignment.middle),
+                  TextSpan(
+                      text: "\t ${userdata.point}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.white))
+                ],
               ),
             ),
           ),
-        ]),
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                width: size.width,
-                height: 20,
-              ),
-              buildRedeemedAmount(
-                  title: "User Name : ",
-                  value: userdata.name,
-                  leadingTrailing: false,
-                  fontSize: 17),
-              SizedBox(
-                height: 10,
-              ),
-              buildRedeemedAmount(
-                  title: "Cumulative Score : ",
-                  value: userdata.totalOrder,
-                  leadingTrailing: true),
-              SizedBox(
-                height: 20,
-              ),
-              earnedLists.length > 0
-                  ? ListView.separated(
+        ),
+      ]),
+      body: Column(
+        children: [
+          SizedBox(
+            width: size.width,
+            height: 20,
+          ),
+          buildRedeemedAmount(
+              title: "User Name : ",
+              value: userdata.name,
+              leadingTrailing: false,
+              fontSize: 17),
+          SizedBox(
+            height: 10,
+          ),
+          buildRedeemedAmount(
+              title: "Cumulative Score : ",
+              value: userdata.totalOrder,
+              leadingTrailing: true),
+          SizedBox(
+            height: 20,
+          ),
+          earnedLists.length > 0
+              ? Expanded(
+                  child: ListView.separated(
                       separatorBuilder: (context, index) {
                         return Container(
                           height: 10,
@@ -89,17 +88,20 @@ class _EarnedPointsState extends State<EarnedPoints> {
                       itemCount: earnedLists.length,
                       itemBuilder: (context, index) {
                         return buildCard(earnedLists[index]);
-                      })
-                  : SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(primaryColor),
-                      ),
-                    )
-            ],
-          ),
-        ));
+                      }),
+                )
+              : Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(primaryColor),
+                    ),
+                  ),
+                )
+        ],
+      ),
+    );
   }
 
   Widget buildCard(CycleData data) {
