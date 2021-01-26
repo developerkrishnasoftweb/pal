@@ -30,6 +30,7 @@ class _ComplainState extends State<Complain> {
   File image, video;
   final picker = ImagePicker();
   bool isLoading = false;
+  int fileSize = 500;
   List<String> complainCategory = [
     "Product Related",
     "Price Related",
@@ -44,11 +45,13 @@ class _ComplainState extends State<Complain> {
       if (pickedFile != null) image = File(pickedFile.path);
     });
     if (image != null) {
-      if ((await image.length() / 1024) > 2048) {
+      if ((await image.length() / 1024) > fileSize) {
         setState(() {
           image = null;
         });
-        Fluttertoast.showToast(msg: "File size must be under 2MB");
+        Fluttertoast.showToast(
+            msg:
+                "File size must be under ${(fileSize / 1024).toStringAsFixed(2)}MB");
       }
     }
   }
