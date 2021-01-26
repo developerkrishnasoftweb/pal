@@ -87,6 +87,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       selectedGender = userdata.gender ?? "m";
       selectedMaritalStatus =
           userdata.maritalStatus.isNotEmpty ? userdata.maritalStatus : "n";
+      selectedVehicleType = userdata.vehicleType ?? "Cycle";
       name.text = userdata.name;
       altMobile.text = userdata.altMobile;
       email.text = userdata.email;
@@ -318,6 +319,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                       onChanged: (value) {
                         setState(() {
                           selectedMaritalStatus = value;
+                          if (value == "n") anniversaryDate.text = "";
                         });
                       }),
                 ],
@@ -474,6 +476,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   ? await MultipartFile.fromFile(adhaar.path,
                       filename: adhaar.path.split("/").last)
                   : null,
+              "vehicle_type": selectedVehicleType
             });
             setState(() {
               isLoading = true;
@@ -532,6 +535,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 ? await MultipartFile.fromFile(image.path,
                     filename: image.path.split("/").last)
                 : null,
+            "vehicle_type": selectedVehicleType
           });
           Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {

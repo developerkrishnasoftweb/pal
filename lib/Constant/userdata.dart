@@ -29,6 +29,7 @@ class UserParams {
   static String membershipSeries = "membership_series";
   static String kyc = "kyc";
   static String userData = "userdata";
+  static String vehicleType = "vehicle_type";
   static String adhaar = "adhaar";
   static String config = "config";
 }
@@ -59,6 +60,7 @@ class Userdata {
       totalOrder,
       membershipSeries,
       kyc,
+      vehicleType,
       adhaar;
   Userdata(
       {this.maritalStatus,
@@ -86,5 +88,6 @@ class Userdata {
       this.mobile,
       this.point,
       this.token,
+      this.vehicleType,
       this.totalOrder});
 }

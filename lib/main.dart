@@ -86,6 +86,7 @@ Future<void> setData() async {
           status: data[0][UserParams.status],
           token: data[0][UserParams.token],
           totalOrder: data[0][UserParams.totalOrder],
+          vehicleType: data[0][UserParams.vehicleType],
           kyc: data[0][UserParams.kyc]);
     }
   }
