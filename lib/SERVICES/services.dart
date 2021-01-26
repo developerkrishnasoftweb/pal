@@ -371,10 +371,8 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
-      print(response);
       if (response.statusCode == 200) {
         Data data = Data();
-        print(response);
         final jsonResponse = jsonDecode(response.data);
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];

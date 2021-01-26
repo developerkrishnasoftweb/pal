@@ -110,7 +110,6 @@ class _OTPState extends State<OTP> {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
-        print(widget.formData.fields);
         setSignUpStatus(true);
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
