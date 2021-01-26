@@ -20,7 +20,12 @@ class _GiftState extends State<GiftCategory> {
   List<GiftCategoryData> giftCategoryList = [];
   @override
   void initState() {
-    Services.giftCategory(FormData.fromMap({"api_key": Urls.apiKey}))
+    super.initState();
+    getGiftsCategory();
+  }
+
+  getGiftsCategory() async {
+    await Services.giftCategory(FormData.fromMap({"api_key": Urls.apiKey}))
         .then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -38,7 +43,6 @@ class _GiftState extends State<GiftCategory> {
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    super.initState();
   }
 
   @override

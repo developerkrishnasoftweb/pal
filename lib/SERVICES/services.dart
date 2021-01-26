@@ -371,6 +371,7 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio().post(url, data: body);
+      print(response);
       if (response.statusCode == 200) {
         Data data = Data();
         print(response);
@@ -383,6 +384,7 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       if (dio.DioErrorType.DEFAULT == e.type) {
+        print(e);
         Data data = Data(
             message: "No internet connection !!!", response: null, data: null);
         return data;

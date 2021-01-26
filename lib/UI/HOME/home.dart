@@ -41,6 +41,10 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    super.initState();
+    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
+      await Services.getUserData();
+    });
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -57,7 +61,6 @@ class _HomeState extends State<Home> {
     });
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
-    super.initState();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
   }

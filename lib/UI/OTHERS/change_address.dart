@@ -537,7 +537,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 : null,
             "vehicle_type": selectedVehicleType
           });
-          Services.customerKYC(formData).then((value) async {
+          await Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {
               await sharedPreferences.setString(
                   UserParams.userData, jsonEncode(value.data));

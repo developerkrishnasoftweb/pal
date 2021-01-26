@@ -1,16 +1,13 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/product_description.dart';
@@ -25,12 +22,15 @@ class RedeemGift extends StatefulWidget {
 
 class _RedeemGiftState extends State<RedeemGift> {
   List<GiftData> giftList = [];
-  String points = "0", cumulativePurchase = "0";
   bool dataFound = false;
   @override
   void initState() {
-    getUserData();
-    Services.gift(FormData.fromMap({
+    super.initState();
+    getGifts();
+  }
+
+  getGifts() async {
+    await Services.gift(FormData.fromMap({
       "api_key": Urls.apiKey,
       "min": widget.minPoints,
       "max": widget.maxPoints
@@ -50,20 +50,10 @@ class _RedeemGiftState extends State<RedeemGift> {
         }
       } else {
         setState(() {
-          Fluttertoast.showToast(msg: "No gifts available");
+          Fluttertoast.showToast(msg: value.message);
           dataFound = true;
         });
       }
-    });
-    super.initState();
-  }
-
-  void getUserData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List data = jsonDecode(sharedPreferences.getString(UserParams.userData));
-    setState(() {
-      points = data[0][UserParams.point] ?? "0";
-      cumulativePurchase = data[0][UserParams.totalOrder] ?? "0";
     });
   }
 
@@ -83,7 +73,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                   ),
                   buildRedeemedAmount(
                       title: "Available Points : ",
-                      amount: points,
+                      amount: userdata.point,
                       leadingTrailing: false,
                       fontSize: 17),
                   SizedBox(
@@ -91,7 +81,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                   ),
                   buildRedeemedAmount(
                       title: "Cumulative Score : ",
-                      amount: cumulativePurchase,
+                      amount: userdata.totalOrder,
                       leadingTrailing: true),
                   GridView.builder(
                       shrinkWrap: true,

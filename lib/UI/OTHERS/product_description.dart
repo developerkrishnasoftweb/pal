@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/SERVICES/services.dart';
 import 'package:pal/UI/OTHERS/kyc_details.dart';
 import 'package:pal/UI/OTHERS/product_review.dart';
 
@@ -157,28 +158,29 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   int.parse(userdata.point) >= int.parse(widget.giftData.points)
                       ? null
                       : Colors.black,
-              onPressed:
-                  int.parse(userdata.point) >= int.parse(widget.giftData.points)
-                      ? userdata.kyc == "y"
-                          ? () => Navigator.push(
+              onPressed: int.parse(userdata.point) >=
+                      int.parse(widget.giftData.points)
+                  ? userdata.kyc == "y"
+                      ? () => Navigator.push(
                               context,
                               CustomPageRoute(
                                   widget: DeliveryAddress(
                                 giftData: widget.giftData,
                               )))
-                          : () {
-                              Fluttertoast.showToast(
-                                  msg:
-                                      "Your KYC is pending. To avail features please do KYC.",
-                                  toastLength: Toast.LENGTH_LONG);
-                              Navigator.push(
-                                  context, CustomPageRoute(widget: KYC()));
-                            }
+                          .then((value) async => await Services.getUserData())
                       : () {
                           Fluttertoast.showToast(
                               msg:
-                                  "You don't have enough points to redeem this gift.");
-                        },
+                                  "Your KYC is pending. To avail features please do KYC.",
+                              toastLength: Toast.LENGTH_LONG);
+                          Navigator.push(
+                              context, CustomPageRoute(widget: KYC()));
+                        }
+                  : () {
+                      Fluttertoast.showToast(
+                          msg:
+                              "You don't have enough points to redeem this gift.");
+                    },
               height: 60,
               text: "REDEEM",
             ),

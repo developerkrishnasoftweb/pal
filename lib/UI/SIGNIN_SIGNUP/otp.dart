@@ -110,6 +110,7 @@ class _OTPState extends State<OTP> {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
+        print(widget.formData.fields);
         setSignUpStatus(true);
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
@@ -121,7 +122,7 @@ class _OTPState extends State<OTP> {
                 context: context,
                 title: "Gift Redeemed Successfully",
                 content:
-                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.Your gift status is Pending for approval.\nThank you for purchasing with us.",
+                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nThank you for purchasing with us.",
                 barrierDismissible: true,
                 actions: [
                   FlatButton(
