@@ -42,9 +42,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
-      await Services.getUserData();
-    });
+    getNotificationCount();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -63,6 +61,19 @@ class _HomeState extends State<Home> {
     setItemList();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
+  }
+
+  getNotificationCount() {
+    if (this.mounted) {
+      Timer.periodic(Duration(milliseconds: 1000), (timer) async {
+        await Services.getNotificationCount().then((value) {
+          setState(() {
+            lastNotificationCount = value;
+          });
+        });
+        await Services.getUserData();
+      });
+    }
   }
 
   showRatingDialog() async {
@@ -200,6 +211,11 @@ class _HomeState extends State<Home> {
               context, CustomPageRoute(widget: ServiceRequest())),
           image: AssetImage("assets/images/service-request.png")),
     ];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

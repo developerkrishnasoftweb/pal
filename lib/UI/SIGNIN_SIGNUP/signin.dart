@@ -39,6 +39,7 @@ class _SignInState extends State<SignIn> {
   void initState() {
     setState(() {
       emailController.text = username = widget.email ?? "";
+      userdata = null;
     });
     myFocusNode = FocusNode();
     if (widget.email != null) {
@@ -100,12 +101,14 @@ class _SignInState extends State<SignIn> {
         )),
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 30, left: 20, right: 20),
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               Image(
                 image: AssetImage("assets/images/pal-logo.png"),
                 height: 200,
-                width: 200,
+                width: 250,
+                fit: BoxFit.fill,
               ),
               input(
                   context: context,

@@ -599,13 +599,12 @@ class Services {
         sharedPreferences.getString(lastNotificationId) != null
             ? sharedPreferences.getString(lastNotificationId)
             : "0";
-    String customerId = sharedPreferences.getString(UserParams.id);
-    if (customerId != null && customerId.isNotEmpty) {
+    if (userdata.id != null && userdata.id.isNotEmpty) {
       String url = Urls.baseUrl +
           Urls.getNotificationCount +
           lastNotification +
           "/" +
-          customerId;
+          userdata.id;
       try {
         dio.Response response;
         response = await dio.Dio()

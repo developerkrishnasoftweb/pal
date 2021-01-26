@@ -19,12 +19,6 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
-  await setData();
-  Timer.periodic(Duration(milliseconds: 1000), (timer) {
-    Services.getNotificationCount().then((value) {
-      lastNotificationCount = value;
-    });
-  });
   await Services.getConfig();
   await getCredential().then((status) {
     runApp(MaterialApp(
@@ -43,9 +37,11 @@ Future<void> main() async {
 Future<bool> getCredential() async {
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
   if (sharedPreference.getString("username") != null &&
-      sharedPreference.getString(UserParams.password) != null)
+      sharedPreference.getString(UserParams.password) != null) {
+    await Services.getUserData();
+    await setData();
     return true;
-  else
+  } else
     return false;
 }
 
