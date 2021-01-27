@@ -293,7 +293,7 @@ Widget drawer(
                 Fluttertoast.showToast(msg: "Unable to open play store");
             },
           ),
-          ListTile(
+          /* ListTile(
             title: Row(
               children: [
                 SizedBox(
@@ -317,7 +317,7 @@ Widget drawer(
               else
                 Fluttertoast.showToast(msg: "Unable to open play store");
             },
-          ),
+          ), */
           buildDrawerItems(
               "Logout",
               () => showDialogBox(

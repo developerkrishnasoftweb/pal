@@ -34,7 +34,32 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           .toString());
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  List<String> tabs = ["Earn", "Score", "Redeem", "Festival"];
+  List<String> tabs = ["Earn", "Score", "Redeem", "Festival"],
+      earnTabHeader = [
+        "Sr. No.",
+        "Invoice Date",
+        "Point",
+        "Earn",
+        "Branch Name"
+      ],
+      purchaseTabHeader = [
+        "Sr. No.",
+        "Invoice Number",
+        "Invoice Date",
+        "Point Earn",
+        "Branch Name"
+      ],
+      redeemTabHeader = [
+        "Sr. No.",
+        "Date of Redeem",
+        "Redeem Code",
+        "Gift Code",
+        "Gift Name",
+        "Redeem Point",
+        "Delivery",
+        "Status"
+      ],
+      festivalTabHeader = ["Sr. No.", "Date", "Point Earned", "Festival/Event"];
   List earnedData = [], purchaseData = [], redeemData = [], festivalData = [];
   List filteredEarnedData = [],
       filteredPurchaseData = [],
@@ -437,331 +462,175 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   }
 
   Widget earn() {
-    Size size = MediaQuery.of(context).size;
     return filteredEarnedData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: size.width,
-                color: primaryColor,
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Total earned point : ${totalEarnedPoints.toString()}",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: DataTable(
-                          columns: [
-                            DataColumn(
-                                label: Text('Sr.No.', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Date', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Point Earn', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Branch Name', style: headerStyle)),
-                          ],
-                          rows: filteredEarnedData.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (filteredEarnedData.indexOf(data) + 1)
-                                      .toString())),
-                              DataCell(Text(data["created"])),
-                              DataCell(Text(data["point"])),
-                              DataCell(Text(data["branch_name"])),
-                            ]);
-                          }).toList()),
-                    ),
-                  ),
-                  isAlwaysShown: true,
-                  radius: Radius.circular(10),
-                  controller: earnScrollController,
-                  thickness: 3,
-                ),
-              ),
+              pointRow("Total earned point : $totalEarnedPoints"),
+              scrollViewBuilder(
+                  widget: DataTable(
+                      columns: earnTabHeader.map((header) {
+                        return DataColumn(
+                            label: Text(header, style: headerStyle));
+                      }).toList(),
+                      rows: filteredEarnedData.map((data) {
+                        return DataRow(cells: [
+                          DataCell(Text((filteredEarnedData.indexOf(data) + 1)
+                              .toString())),
+                          DataCell(Text(data["created"])),
+                          DataCell(Text(data["point"])),
+                          DataCell(Text(data["branch_name"])),
+                        ]);
+                      }).toList()),
+                  scrollController: earnScrollController),
             ],
           )
-        : Center(
-            child: !isLoading
-                ? Text(
-                    "No data found !!!",
-                    textAlign: TextAlign.center,
-                  )
-                : SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  ),
-          );
+        : progressIndicator();
   }
 
   Widget purchase() {
-    Size size = MediaQuery.of(context).size;
     return filteredPurchaseData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: size.width,
-                padding: const EdgeInsets.all(8.0),
-                color: primaryColor,
-                child: Text(
-                  "Total Score : ${totalPurchasePoint.toString()}",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: DataTable(
-                          columnSpacing: 20,
-                          columns: [
-                            DataColumn(
-                                label: Text('Sr.No.', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Number', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Date', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Point Earn', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Branch Name', style: headerStyle)),
-                          ],
-                          rows: filteredPurchaseData.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (filteredPurchaseData.indexOf(data) + 1)
-                                      .toString())),
-                              DataCell(Text(data["voucher_no"])),
-                              DataCell(Text(data["created"])),
-                              DataCell(Text(data["point"])),
-                              DataCell(Text(data["branch_name"])),
-                            ]);
-                          }).toList()),
-                    ),
-                  ),
-                  isAlwaysShown: true,
-                  radius: Radius.circular(10),
-                  controller: purchaseScrollController,
-                  thickness: 3,
-                ),
-              ),
+              pointRow("Total Score : $totalPurchasePoint"),
+              scrollViewBuilder(
+                  widget: DataTable(
+                      columnSpacing: 20,
+                      columns: purchaseTabHeader.map((header) {
+                        return DataColumn(
+                            label: Text('Branch Name', style: headerStyle));
+                      }).toList(),
+                      rows: filteredPurchaseData.map((data) {
+                        return DataRow(cells: [
+                          DataCell(Text((filteredPurchaseData.indexOf(data) + 1)
+                              .toString())),
+                          DataCell(Text(data["voucher_no"])),
+                          DataCell(Text(data["created"])),
+                          DataCell(Text(data["point"])),
+                          DataCell(Text(data["branch_name"])),
+                        ]);
+                      }).toList()),
+                  scrollController: purchaseScrollController),
             ],
           )
-        : Center(
-            child: !isLoading
-                ? Text(
-                    "No data found !!!",
-                    textAlign: TextAlign.center,
-                  )
-                : SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  ),
-          );
+        : progressIndicator();
   }
 
   Widget redeem() {
-    Size size = MediaQuery.of(context).size;
     return filteredRedeemData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                color: primaryColor,
-                width: size.width,
-                child: Text(
-                  "Total redeemed point : ${totalRedeemPoint.toString()}",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: DataTable(
-                          columns: [
-                            DataColumn(
-                                label: Text('Sr.No.', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Date of Redeem', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Redeem Code', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Gift Code', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Gift Name', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Redeem Point', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Delivery', style: headerStyle)),
-                            /* DataColumn(
-                                label: Text('Tracking Number',
-                                    style: headerStyle)), */
-                            DataColumn(
-                                label: Text('Status', style: headerStyle)),
-                          ],
-                          rows: filteredRedeemData.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (filteredRedeemData.indexOf(data) + 1)
-                                      .toString())),
-                              DataCell(Text(data["datetime"]
-                                  .toString()
-                                  .split(" ")
-                                  .first)),
-                              DataCell(Text(data["code"])),
-                              DataCell(Text(data["gift_code"])),
-                              DataCell(Text(data["title"])),
-                              DataCell(Text(data["point"])),
-                              DataCell(Text(data["delivery_type"] == "s"
-                                  ? data["store_name"]
-                                  : "Home Delivery")),
-                              /* DataCell(Text(data["delivery_type"] == "s"
+              pointRow("Total redeemed point : $totalRedeemPoint"),
+              scrollViewBuilder(
+                  widget: DataTable(
+                      columns: redeemTabHeader.map((header) {
+                        return DataColumn(
+                            label: Text(header, style: headerStyle));
+                      }).toList(),
+                      rows: filteredRedeemData.map((data) {
+                        return DataRow(cells: [
+                          DataCell(Text((filteredRedeemData.indexOf(data) + 1)
+                              .toString())),
+                          DataCell(Text(
+                              data["datetime"].toString().split(" ").first)),
+                          DataCell(Text(data["code"])),
+                          DataCell(Text(data["gift_code"])),
+                          DataCell(Text(data["title"])),
+                          DataCell(Text(data["point"])),
+                          DataCell(Text(data["delivery_type"] == "s"
+                              ? data["store_name"]
+                              : "Home Delivery")),
+                          /* DataCell(Text(data["delivery_type"] == "s"
                                   ? "--"
                                   : data["tracking_number"])), */
-                              DataCell(Text(data["status"] == "y"
-                                  ? "Picked"
-                                  : "Un Picked")),
-                            ]);
-                          }).toList()),
-                    ),
-                  ),
-                  isAlwaysShown: true,
-                  radius: Radius.circular(10),
-                  controller: redeemScrollController,
-                  thickness: 3,
-                ),
-              ),
+                          DataCell(Text(
+                              data["status"] == "y" ? "Picked" : "Un Picked")),
+                        ]);
+                      }).toList()),
+                  scrollController: redeemScrollController),
             ],
           )
-        : Center(
-            child: !isLoading
-                ? Text(
-                    "No data found !!!",
-                    textAlign: TextAlign.center,
-                  )
-                : SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  ),
-          );
+        : progressIndicator();
   }
 
   Widget festival() {
-    Size size = MediaQuery.of(context).size;
     return filteredFestivalData.length > 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: size.width,
-                padding: const EdgeInsets.all(8.0),
-                color: primaryColor,
-                child: Text(
-                  "Total Festival Points : ${totalFestivalPoint.toString()}",
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ),
-              Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    physics: BouncingScrollPhysics(),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: DataTable(
-                          columnSpacing: 20,
-                          columns: [
-                            DataColumn(
-                                label: Text('Sr.No.', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Invoice Date', style: headerStyle)),
-                            DataColumn(
-                                label:
-                                    Text('Point Earned', style: headerStyle)),
-                            DataColumn(
-                                label: Text('Festival', style: headerStyle)),
-                          ],
-                          rows: filteredFestivalData.map((data) {
-                            return DataRow(cells: [
-                              DataCell(Text(
-                                  (filteredFestivalData.indexOf(data) + 1)
-                                      .toString())),
-                              DataCell(Text(data["created"] ?? "--")),
-                              DataCell(Text(data["point"] ?? "--")),
-                              DataCell(Text(data["branch_name"] ?? "--")),
-                            ]);
-                          }).toList()),
-                    ),
-                  ),
-                  isAlwaysShown: true,
-                  radius: Radius.circular(10),
-                  controller: festivalScrollController,
-                  thickness: 3,
-                ),
-              ),
+              pointRow("Total Festival Points : $totalFestivalPoint"),
+              scrollViewBuilder(
+                  widget: DataTable(
+                      columnSpacing: 20,
+                      columns: festivalTabHeader.map((header) {
+                        return DataColumn(
+                            label: Text(header, style: headerStyle));
+                      }).toList(),
+                      rows: filteredFestivalData.map((data) {
+                        return DataRow(cells: [
+                          DataCell(Text((filteredFestivalData.indexOf(data) + 1)
+                              .toString())),
+                          DataCell(Text(data["created"] ?? "--")),
+                          DataCell(Text(data["point"] ?? "--")),
+                          DataCell(Text(data["branch_name"] ?? "--")),
+                        ]);
+                      }).toList()),
+                  scrollController: festivalScrollController),
             ],
           )
-        : Center(
-            child: !isLoading
-                ? Text(
-                    "No data found !!!",
-                    textAlign: TextAlign.center,
-                  )
-                : SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
-                  ),
-          );
+        : progressIndicator();
+  }
+
+  Widget scrollViewBuilder({Widget widget, ScrollController scrollController}) {
+    return Expanded(
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            child: widget,
+          ),
+        ),
+        isAlwaysShown: true,
+        radius: Radius.circular(10),
+        controller: scrollController,
+        thickness: 3,
+      ),
+    );
+  }
+
+  Widget pointRow(String text) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width,
+      color: primaryColor,
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        text ?? " ",
+        style: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget progressIndicator() {
+    return Center(
+      child: !isLoading
+          ? Text(
+              "No data found !!!",
+              textAlign: TextAlign.center,
+            )
+          : SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(primaryColor),
+              ),
+            ),
+    );
   }
 }
