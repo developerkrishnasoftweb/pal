@@ -311,6 +311,7 @@ class _HomeState extends State<Home> {
                         itemBuilder: (BuildContext context, int index) {
                           return buildItems(
                               context: context,
+                              index: index,
                               image: itemList[index].image,
                               onTap: itemList[index].onTap,
                               title: itemList[index].title);
@@ -346,7 +347,8 @@ Widget buildItems(
     {@required BuildContext context,
     ImageProvider image,
     String title,
-    GestureTapCallback onTap}) {
+    GestureTapCallback onTap,
+    int index}) {
   return Card(
     elevation: 2,
     shadowColor: Colors.black.withOpacity(0.15),
@@ -359,8 +361,8 @@ Widget buildItems(
         children: [
           Image(
             image: image,
-            height: 50,
-            width: 50,
+            height: index == 1 || index == 0 ? 60 : 50,
+            width: index == 1 || index == 0 ? 70 : 50,
             fit: BoxFit.fill,
           ),
           SizedBox(
