@@ -539,8 +539,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                           /* DataCell(Text(data["delivery_type"] == "s"
                                   ? "--"
                                   : data["tracking_number"])), */
-                          DataCell(Text(
-                              data["status"] == "y" ? "Picked" : "Un Picked")),
+                          DataCell(Text(data["delivery_status"] == "y"
+                              ? "Picked"
+                              : "Un Picked")),
                         ]);
                       }).toList()),
                   scrollController: redeemScrollController),
