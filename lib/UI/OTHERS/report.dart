@@ -35,13 +35,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   List<String> tabs = ["Earn", "Score", "Redeem", "Festival"],
-      earnTabHeader = [
-        "Sr. No.",
-        "Invoice Date",
-        "Point",
-        "Earn",
-        "Branch Name"
-      ],
+      earnTabHeader = ["Sr. No.", "Invoice Date", "Point Earn", "Branch Name"],
       purchaseTabHeader = [
         "Sr. No.",
         "Invoice Number",
@@ -499,7 +493,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                       columnSpacing: 20,
                       columns: purchaseTabHeader.map((header) {
                         return DataColumn(
-                            label: Text('Branch Name', style: headerStyle));
+                            label: Text(header, style: headerStyle));
                       }).toList(),
                       rows: filteredPurchaseData.map((data) {
                         return DataRow(cells: [
