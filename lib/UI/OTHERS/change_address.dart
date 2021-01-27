@@ -6,7 +6,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../Common/appbar.dart';
@@ -48,15 +47,15 @@ class _ChangeAddressState extends State<ChangeAddress> {
       vehicleType = ["Cycle", "Activa/Scooter/Motorbike", "Car", "Other"],
       listAreas = [];
   File image, adhaar;
-  final picker = ImagePicker();
   DateTime selectedDate = DateTime.now();
   bool isLoading = false, validMobile = false;
 
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) image = File(pickedFile.path);
-    });
+    File result = await FilePicker.getFile(type: FileType.image);
+    if (result != null)
+      setState(() {
+        image = result;
+      });
   }
 
   Future getAdhaar() async {
@@ -115,7 +114,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Change Address"),
+      appBar: appBar(context: context, title: "Profile"),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 10, bottom: 100),
         child: Column(

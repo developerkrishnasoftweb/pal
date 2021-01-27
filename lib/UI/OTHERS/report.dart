@@ -633,9 +633,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                     Text('Redeem Point', style: headerStyle)),
                             DataColumn(
                                 label: Text('Delivery', style: headerStyle)),
-                            DataColumn(
+                            /* DataColumn(
                                 label: Text('Tracking Number',
-                                    style: headerStyle)),
+                                    style: headerStyle)), */
                             DataColumn(
                                 label: Text('Status', style: headerStyle)),
                           ],
@@ -655,12 +655,12 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                               DataCell(Text(data["delivery_type"] == "s"
                                   ? data["store_name"]
                                   : "Home Delivery")),
-                              DataCell(Text(data["delivery_type"] == "s"
+                              /* DataCell(Text(data["delivery_type"] == "s"
                                   ? "--"
-                                  : data["tracking_number"])),
+                                  : data["tracking_number"])), */
                               DataCell(Text(data["status"] == "y"
-                                  ? "Delivered"
-                                  : "In Transit")),
+                                  ? "Picked"
+                                  : "Un Picked")),
                             ]);
                           }).toList()),
                     ),
