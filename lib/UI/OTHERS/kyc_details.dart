@@ -6,7 +6,7 @@ import 'package:pal/Constant/global.dart';
 import '../../Common/appbar.dart';
 import '../../Common/page_route.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/OTHERS/change_address.dart';
+import '../../UI/OTHERS/profile.dart';
 
 class KYC extends StatefulWidget {
   @override

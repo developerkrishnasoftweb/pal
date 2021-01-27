@@ -671,8 +671,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             borderRadius: BorderRadius.circular(150),
             border: Border.all(color: Colors.grey[300]),
             image: image != null
-                ? DecorationImage(
-                    image: AssetImage(image.path), fit: BoxFit.cover)
+                ? DecorationImage(image: FileImage(image))
                 : userdata.image.isNotEmpty
                     ? DecorationImage(
                         image: NetworkImage(Urls.imageBaseUrl + userdata.image),
