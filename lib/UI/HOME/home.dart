@@ -19,9 +19,9 @@ import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/earned_points.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '../../UI/OTHERS/notification.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/earned_points.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '../../UI/SERVICE_REQUEST/service_request.dart';
 import '../PRODUCT_CATALOG/product_catalog.dart';
 

@@ -12,7 +12,7 @@ import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/rating_builder.dart';
 import '../../Common/textinput.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 
 class ProductReview extends StatefulWidget {
   final GiftData giftData;

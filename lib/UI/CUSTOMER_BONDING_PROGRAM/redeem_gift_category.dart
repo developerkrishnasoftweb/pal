@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Common/page_route.dart';
-import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
+import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
+import '../../Constant/global.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 
 class GiftCategory extends StatefulWidget {
   @override

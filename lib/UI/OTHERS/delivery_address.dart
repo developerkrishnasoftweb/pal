@@ -18,7 +18,7 @@ import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
@@ -640,9 +640,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       "fl": Urls.fl,
       "gwid": Urls.gwID
     });
-    // print(formData.files);
-    // print(formData.fields);
-    // setLoading(false);
     await Services.sms(smsData).then((value) {
       if (value.response == "000") {
         setLoading(false);

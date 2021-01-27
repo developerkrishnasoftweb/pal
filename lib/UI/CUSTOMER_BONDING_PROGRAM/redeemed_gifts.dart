@@ -8,8 +8,8 @@ import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../UI/OTHERS/product_description.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 
 class RedeemedGift extends StatefulWidget {
   @override

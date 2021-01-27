@@ -11,8 +11,8 @@ import '../../Common/custom_button.dart';
 import '../../Common/page_route.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/urls.dart';
+import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 import '../../UI/OTHERS/delivery_address.dart';
-import '../../UI/RETAILER_BONDING_PROGRAM/redeem_gift.dart';
 
 class ProductDescription extends StatefulWidget {
   final GiftData giftData;
