@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/color.dart';
-import 'package:pal/Constant/global.dart';
-import 'package:pal/SERVICES/services.dart';
-import 'package:pal/SERVICES/urls.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/rating_builder.dart';
 import '../../Common/textinput.dart';
+import '../../Constant/color.dart';
+import '../../Constant/global.dart';
+import '../../SERVICES/services.dart';
+import '../../SERVICES/urls.dart';
 import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
 
 class ProductReview extends StatefulWidget {
