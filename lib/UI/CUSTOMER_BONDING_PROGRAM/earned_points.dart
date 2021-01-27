@@ -68,7 +68,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
           ),
           buildRedeemedAmount(
               title: "Cumulative Score : ",
-              value: userdata.totalOrder,
+              value: double.parse(userdata.totalOrder).round().toString(),
               leadingTrailing: true),
           SizedBox(
             height: 20,
@@ -140,7 +140,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
           SizedBox(
             height: 20,
           ),
-          Text("Purchase for this cycle : ${data.purchase}", style: style1),
+          Text(
+              "Purchase for this cycle : ${double.parse(data.purchase).round()}",
+              style: style1),
           SizedBox(
             height: 5,
           ),

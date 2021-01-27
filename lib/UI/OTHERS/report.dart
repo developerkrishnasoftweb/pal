@@ -487,7 +487,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total Score : $totalPurchasePoint"),
+              pointRow("Total Score : ${totalPurchasePoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
