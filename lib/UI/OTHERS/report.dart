@@ -59,7 +59,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       filteredPurchaseData = [],
       filteredRedeemData = [],
       filteredFestivalData = [];
-  int totalEarnedPoints = 0,
+  double totalEarnedPoints = 0,
       totalPurchasePoint = 0,
       totalRedeemPoint = 0,
       totalFestivalPoint = 0;
@@ -127,16 +127,16 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           filteredFestivalData = value.data[0]["festival"];
 
           filteredEarnedData.forEach((element) {
-            totalEarnedPoints += int.parse(element["point"]);
+            totalEarnedPoints += double.parse(element["point"]);
           });
           filteredPurchaseData.forEach((element) {
-            totalPurchasePoint += int.parse(element["purchase"]);
+            totalPurchasePoint += double.parse(element["purchase"]);
           });
           filteredRedeemData.forEach((element) {
-            totalRedeemPoint += int.parse(element["point"]);
+            totalRedeemPoint += double.parse(element["point"]);
           });
           filteredFestivalData.forEach((element) {
-            totalFestivalPoint += int.parse(element["point"]);
+            totalFestivalPoint += double.parse(element["point"]);
           });
           isLoading = false;
         });
@@ -211,7 +211,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           DateTime.parse(element["created"]).isBefore(to)) {
         setState(() {
           filteredEarnedData.add(element);
-          totalEarnedPoints += int.parse(element["point"]);
+          totalEarnedPoints += double.parse(element["point"]);
           isFiltered = true;
           count++;
         });
@@ -221,7 +221,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       setState(() {
         filteredEarnedData = earnedData;
         filteredEarnedData.forEach((element) {
-          totalEarnedPoints += int.parse(element["point"]);
+          totalEarnedPoints += double.parse(element["point"]);
         });
       });
       Fluttertoast.showToast(
@@ -241,7 +241,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           DateTime.parse(element["created"]).isBefore(to)) {
         setState(() {
           filteredPurchaseData.add(element);
-          totalPurchasePoint += int.parse(element["purchase"]);
+          totalPurchasePoint += double.parse(element["purchase"]);
           isFiltered = true;
           count++;
         });
@@ -251,7 +251,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       setState(() {
         filteredPurchaseData = purchaseData;
         filteredPurchaseData.forEach((element) {
-          totalPurchasePoint += int.parse(element["purchase"]);
+          totalPurchasePoint += double.parse(element["purchase"]);
         });
       });
       Fluttertoast.showToast(
@@ -271,7 +271,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           DateTime.parse(element["datetime"]).isBefore(to)) {
         setState(() {
           filteredRedeemData.add(element);
-          totalRedeemPoint += int.parse(element["point"]);
+          totalRedeemPoint += double.parse(element["point"]);
           isFiltered = true;
           count++;
         });
@@ -281,7 +281,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       setState(() {
         filteredRedeemData = redeemData;
         filteredRedeemData.forEach((element) {
-          totalRedeemPoint += int.parse(element["point"]);
+          totalRedeemPoint += double.parse(element["point"]);
         });
       });
       Fluttertoast.showToast(
@@ -301,7 +301,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           DateTime.parse(element["created"]).isBefore(to)) {
         setState(() {
           filteredFestivalData.add(element);
-          totalFestivalPoint += int.parse(element["point"]);
+          totalFestivalPoint += double.parse(element["point"]);
           isFiltered = true;
           count++;
         });
@@ -311,7 +311,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       setState(() {
         filteredFestivalData = festivalData;
         filteredFestivalData.forEach((element) {
-          totalFestivalPoint += int.parse(element["point"]);
+          totalFestivalPoint += double.parse(element["point"]);
         });
       });
       Fluttertoast.showToast(
@@ -460,7 +460,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total earned point : $totalEarnedPoints"),
+              pointRow("Total earned point : ${totalEarnedPoints.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: earnTabHeader.map((header) {
@@ -516,7 +516,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total redeemed point : $totalRedeemPoint"),
+              pointRow("Total redeemed point : ${totalRedeemPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: redeemTabHeader.map((header) {
@@ -554,7 +554,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total Festival Points : $totalFestivalPoint"),
+              pointRow("Total Festival Points : ${totalFestivalPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
