@@ -471,9 +471,11 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                         return DataRow(cells: [
                           DataCell(Text((filteredEarnedData.indexOf(data) + 1)
                               .toString())),
-                          DataCell(Text(data["created"])),
-                          DataCell(Text(data["point"])),
-                          DataCell(Text(data["branch_name"])),
+                          DataCell(Text(
+                              data["created"].toString().split(" ").first ??
+                                  "--")),
+                          DataCell(Text(data["point"] ?? "--")),
+                          DataCell(Text(data["branch_name"] ?? "--")),
                         ]);
                       }).toList()),
                   scrollController: earnScrollController),
@@ -499,10 +501,12 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                         return DataRow(cells: [
                           DataCell(Text((filteredPurchaseData.indexOf(data) + 1)
                               .toString())),
-                          DataCell(Text(data["voucher_no"])),
-                          DataCell(Text(data["created"])),
-                          DataCell(Text(data["point"])),
-                          DataCell(Text(data["branch_name"])),
+                          DataCell(Text(data["voucher_no"] ?? "--")),
+                          DataCell(Text(
+                              data["created"].toString().split(" ").first ??
+                                  "--")),
+                          DataCell(Text(data["point"] ?? "--")),
+                          DataCell(Text(data["branch_name"] ?? "--")),
                         ]);
                       }).toList()),
                   scrollController: purchaseScrollController),
@@ -528,20 +532,21 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                           DataCell(Text((filteredRedeemData.indexOf(data) + 1)
                               .toString())),
                           DataCell(Text(
-                              data["datetime"].toString().split(" ").first)),
-                          DataCell(Text(data["code"])),
-                          DataCell(Text(data["gift_code"])),
-                          DataCell(Text(data["title"])),
-                          DataCell(Text(data["point"])),
+                              data["datetime"].toString().split(" ").first ??
+                                  "--")),
+                          DataCell(Text(data["code"] ?? "--")),
+                          DataCell(Text(data["gift_code"] ?? "--")),
+                          DataCell(Text(data["title"] ?? "--")),
+                          DataCell(Text(data["point"] ?? "--")),
                           DataCell(Text(data["delivery_type"] == "s"
                               ? data["store_name"]
-                              : "Home Delivery")),
+                              : "Home Delivery" ?? "--")),
                           /* DataCell(Text(data["delivery_type"] == "s"
                                   ? "--"
                                   : data["tracking_number"])), */
                           DataCell(Text(data["delivery_status"] == "y"
                               ? "Picked"
-                              : "Un Picked")),
+                              : "Un Picked" ?? "--")),
                         ]);
                       }).toList()),
                   scrollController: redeemScrollController),
@@ -567,7 +572,9 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                         return DataRow(cells: [
                           DataCell(Text((filteredFestivalData.indexOf(data) + 1)
                               .toString())),
-                          DataCell(Text(data["created"] ?? "--")),
+                          DataCell(Text(
+                              data["created"].toString().split(" ").first ??
+                                  "--")),
                           DataCell(Text(data["point"] ?? "--")),
                           DataCell(Text(data["branch_name"] ?? "--")),
                         ]);
