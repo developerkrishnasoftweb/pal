@@ -331,16 +331,16 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       filteredEarnedData = earnedData;
       filteredFestivalData = festivalData;
       filteredEarnedData.forEach((element) {
-        totalEarnedPoints += int.parse(element["point"]);
+        totalEarnedPoints += double.parse(element["point"]);
       });
       filteredPurchaseData.forEach((element) {
-        totalPurchasePoint += int.parse(element["purchase"]);
+        totalPurchasePoint += double.parse(element["purchase"]);
       });
       filteredRedeemData.forEach((element) {
-        totalRedeemPoint += int.parse(element["point"]);
+        totalRedeemPoint += double.parse(element["point"]);
       });
       filteredFestivalData.forEach((element) {
-        totalFestivalPoint += int.parse(element["point"]);
+        totalFestivalPoint += double.parse(element["point"]);
       });
       isFiltered = false;
     });

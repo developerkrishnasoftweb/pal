@@ -289,47 +289,59 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 readOnly: true,
                 keyboardType: TextInputType.datetime,
                 decoration: InputDecoration(border: border())),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Marital Status $mandatoryChar",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold),
+            userdata.maritalStatus == "y"
+                ? input(
+                    context: context,
+                    readOnly: true,
+                    text: "Marital Status $mandatoryChar",
+                    controller: TextEditingController(text: "Married"),
+                    decoration: InputDecoration(border: border()))
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Marital Status $mandatoryChar",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.grey,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        DropdownButtonFormField(
+                            onTap: () => FocusScope.of(context).unfocus(),
+                            value: selectedMaritalStatus,
+                            isExpanded: true,
+                            decoration: InputDecoration(border: border()),
+                            items: maritalStatus.map((value) {
+                              return DropdownMenuItem(
+                                child: Text(value),
+                                value: value == "Married" ? "y" : "n",
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedMaritalStatus = value;
+                                if (value == "n")
+                                  setState(() {
+                                    anniversaryDate.text = "";
+                                  });
+                              });
+                            }),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DropdownButtonFormField(
-                      onTap: () => FocusScope.of(context).unfocus(),
-                      value: selectedMaritalStatus,
-                      isExpanded: true,
-                      decoration: InputDecoration(border: border()),
-                      items: maritalStatus.map((value) {
-                        return DropdownMenuItem(
-                          child: Text(value),
-                          value: value == "Married" ? "y" : "n",
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedMaritalStatus = value;
-                          if (value == "n") anniversaryDate.text = "";
-                        });
-                      }),
-                ],
-              ),
-            ),
             selectedMaritalStatus == "y"
                 ? input(
                     context: context,
                     text: "Anniversary Date $mandatoryChar",
                     controller: anniversaryDate,
-                    onTap: () => _selectDate(SelectDateType.ANNIVERSARY_DATE),
+                    onTap: userdata.maritalStatus == "y"
+                        ? null
+                        : () => _selectDate(SelectDateType.ANNIVERSARY_DATE),
                     readOnly: true,
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(border: border()))
