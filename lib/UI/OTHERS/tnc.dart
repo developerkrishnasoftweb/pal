@@ -30,7 +30,6 @@ class _TermsNConditionState extends State<TermsNCondition> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Terms & Conditions"),
       body: WebView(
@@ -44,7 +43,6 @@ class _TermsNConditionState extends State<TermsNCondition> {
   }
 
   _loadHtmlFromAssets() async {
-    ;
     _controller.loadUrl(Uri.dataFromString(termsNConditions,
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
         .toString());

@@ -160,6 +160,7 @@ class _ComplainState extends State<Complain> {
                   text: video != null
                       ? video.path.split("/").last
                       : "Attach Video",
+                  onPressed: null,
                   showIcon: video != null ? false : true),
             ],
           ),
