@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,7 +11,10 @@ import '../main.dart';
 import '../services/data.dart';
 
 class Services {
-  static String errorMessage = "Something went wrong !!!";
+  static Data internetError =
+      Data(message: "No internet connection", response: null, data: null);
+  static Data someThingWentWrong =
+      Data(message: "Something went wrong", response: null, data: null);
 
   static Future<Data> signIn(body) async {
     String url = Urls.baseUrl + Urls.signIn;
@@ -28,18 +32,15 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       print(e);
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -60,17 +61,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -89,17 +87,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -118,17 +113,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -147,17 +139,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -176,17 +165,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -205,17 +191,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -233,17 +216,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -262,17 +242,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -294,17 +271,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -323,17 +297,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -352,17 +323,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -381,20 +349,17 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         print(e);
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -418,17 +383,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -447,17 +409,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -476,17 +435,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -505,17 +461,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -529,7 +482,8 @@ class Services {
         return true;
       }
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
       } else {}
     } catch (e) {}
   }
@@ -549,17 +503,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -578,19 +529,16 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -615,7 +563,8 @@ class Services {
         }
         return null;
       } on dio.DioError catch (e) {
-        if (dio.DioErrorType.DEFAULT == e.type) {
+        if (dio.DioErrorType.DEFAULT == e.type &&
+            e.error.runtimeType == SocketException) {
           return "0";
         } else {
           return "0";
@@ -644,17 +593,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -674,17 +620,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -701,7 +644,8 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         Fluttertoast.showToast(msg: "No internet connection");
       } else {}
     } catch (e) {}
@@ -724,17 +668,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -759,17 +700,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -790,17 +728,14 @@ class Services {
       }
       return null;
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
       } else {
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -827,20 +762,16 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       print(e);
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type && e.error.runtimeType == SocketException) {
         print(e);
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   } */
 
@@ -868,20 +799,17 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       print(e);
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         print(e);
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -909,20 +837,17 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       print(e);
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         print(e);
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -955,20 +880,17 @@ class Services {
       return null;
     } on dio.DioError catch (e) {
       print(e);
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         print(e);
-        Data data = Data(
-            message: "No internet connection !!!", response: null, data: null);
-        return data;
+        return internetError;
       } else {
         print(e);
-        Data data = Data(message: errorMessage, response: null, data: null);
-        return data;
+        return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      Data data = Data(message: errorMessage, response: null, data: null);
-      return data;
+      return someThingWentWrong;
     }
   }
 
@@ -989,7 +911,8 @@ class Services {
         }
       }
     } on dio.DioError catch (e) {
-      if (dio.DioErrorType.DEFAULT == e.type) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
         Fluttertoast.showToast(msg: "No internet connection !!!");
       } else {
         return false;

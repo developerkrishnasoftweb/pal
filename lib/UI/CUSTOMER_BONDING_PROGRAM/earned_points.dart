@@ -68,7 +68,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
           ),
           buildRedeemedAmount(
               title: "Cumulative Score : ",
-              value: double.parse(userdata.totalOrder).round().toString(),
+              value: "${double.parse(userdata.totalOrder).round()}",
               leadingTrailing: true),
           SizedBox(
             height: 20,
@@ -181,7 +181,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
       ),
       children: [
         buildChildrenRow(
-            title: "Purchase for this cycle", value: data.purchase),
+            title: "Purchase for this cycle",
+            value: "${double.parse(data.purchase).round()}"),
         buildChildrenRow(title: "Redeem in this cycle", value: data.redeem),
         buildChildrenRow(
             title: "Points earned during this cycle",

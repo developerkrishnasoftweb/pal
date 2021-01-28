@@ -69,7 +69,7 @@ class _GiftState extends State<GiftCategory> {
                     ),
                     buildRedeemedAmount(
                         title: "Cumulative Score : ",
-                        amount: userdata.totalOrder,
+                        amount: "${double.parse(userdata.totalOrder).round()}",
                         leadingTrailing: true),
                     GridView.builder(
                         shrinkWrap: true,
