@@ -106,8 +106,8 @@ class _SignInState extends State<SignIn> {
             children: [
               Image(
                 image: AssetImage("assets/images/pal-logo.png"),
-                height: 250,
-                width: 380,
+                height: 280,
+                width: 350,
                 fit: BoxFit.fill,
               ),
               input(
