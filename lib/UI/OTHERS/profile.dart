@@ -16,6 +16,8 @@ import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
+import '../../Constant/global.dart';
+import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
@@ -86,7 +88,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       selectedGender = userdata.gender ?? "m";
       selectedMaritalStatus =
           userdata.maritalStatus.isNotEmpty ? userdata.maritalStatus : "n";
-      selectedVehicleType = userdata.vehicleType ?? "Cycle";
+      selectedVehicleType = userdata.vehicleType != null && userdata.vehicleType != "" ? userdata.vehicleType : "Cycle";
       name.text = userdata.name;
       altMobile.text = userdata.altMobile;
       email.text = userdata.email;

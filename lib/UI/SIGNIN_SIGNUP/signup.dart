@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/global.dart';
+import '../../Constant/global.dart';
 
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
@@ -39,13 +39,12 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              Align(
                 alignment: Alignment.centerLeft,
-                width: size.width,
-                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: IconButton(
                   icon: Icon(Icons.arrow_back_ios),
                   iconSize: 25,
+                  splashRadius: 25,
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -225,7 +224,6 @@ class _SignUpState extends State<SignUp> {
             if (fullName.split(" ").length >= 2) {
               firstName = fullName.split(" ")[0];
               lastName = fullName.split(" ")[1];
-              print(firstName + lastName);
             } else
               firstName = fullName;
             FormData userData = FormData.fromMap({
@@ -261,7 +259,9 @@ class _SignUpState extends State<SignUp> {
                         otp: otp,
                         formData: userData,
                         mobile: mobile,
-                      )));
+                      ))).then((value) {
+                    setState(() => signUpStatus = false);
+                  });
                 } else {
                   setState(() => signUpStatus = false);
                   Fluttertoast.showToast(

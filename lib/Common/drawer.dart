@@ -103,6 +103,7 @@ Widget drawer(
     height: size.height,
     child: SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: MediaQuery.of(context).padding.top,
