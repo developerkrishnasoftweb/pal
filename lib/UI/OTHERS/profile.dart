@@ -456,7 +456,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
         } */
         // If aadhar is added move the "if" condition given below in above if condition
-        if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty && anniversaryDate.text == null) {
+        if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
           Fluttertoast.showToast(msg: "Please provide anniversary date");
           return;
         }
