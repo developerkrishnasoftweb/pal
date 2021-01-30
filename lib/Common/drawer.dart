@@ -26,8 +26,7 @@ import '.././UI/SIGNIN_SIGNUP/signin.dart';
 
 Widget drawer(
     {@required BuildContext context,
-    @required GlobalKey<ScaffoldState> scaffoldKey,
-    String version: "1.0.0"}) {
+    @required GlobalKey<ScaffoldState> scaffoldKey}) {
   Size size = MediaQuery.of(context).size;
   SizedBox gap = SizedBox(
     width: 10,
@@ -120,33 +119,24 @@ Widget drawer(
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          WidgetSpan(
-                              child: Icon(
-                                Icons.account_balance_wallet_outlined,
-                                color: primaryColor,
-                              ),
-                              alignment: PlaceholderAlignment.middle),
-                          TextSpan(
-                              text: "\t" + userdata.point ?? "0",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: primaryColor))
-                        ],
-                      ),
-                    ),
-                    Text(
-                      "Version " + version,
-                      style: TextStyle(color: Colors.red[400]),
-                    ),
-                  ],
-                )
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                          child: Icon(
+                            Icons.account_balance_wallet_outlined,
+                            color: primaryColor,
+                          ),
+                          alignment: PlaceholderAlignment.middle),
+                      TextSpan(
+                          text: "\t" + userdata.point ?? "0",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: primaryColor))
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
