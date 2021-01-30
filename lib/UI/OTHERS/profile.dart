@@ -455,10 +455,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
         } else {
           Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
         } */
-        // If aadhar is added move the "if" condition given below in above condition
-        if (selectedMaritalStatus == "y" &&
-            anniversaryDate.text.isNotEmpty &&
-            DateTime.parse(anniversaryDate.text).year == -1) {
+        // If aadhar is added move the "if" condition given below in above if condition
+        if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty && anniversaryDate.text == null) {
           Fluttertoast.showToast(msg: "Please provide anniversary date");
           return;
         }
@@ -491,7 +489,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   : null,
               "vehicle_type": selectedVehicleType
             });
-            setState(() {
+            /* setState(() {
               isLoading = true;
             });
             Services.customerKYC(data).then((value) async {
@@ -508,7 +506,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 });
                 Fluttertoast.showToast(msg: value.message);
               }
-            });
+            }); */
           } else {
             Fluttertoast.showToast(msg: "Invalid email");
           }
@@ -550,7 +548,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 : null,
             "vehicle_type": selectedVehicleType
           });
-          await Services.customerKYC(formData).then((value) async {
+          setState(() {
+            isLoading = false;
+          });
+          /* await Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {
               await sharedPreferences.setString(
                   UserParams.userData, jsonEncode(value.data));
@@ -564,7 +565,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               });
               Fluttertoast.showToast(msg: value.message);
             }
-          });
+          }); */
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile no");
         }
@@ -585,6 +586,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       if (date != null &&
           date != DateTime.now() &&
           (DateTime.now().year - date.year) >= 18) {
+        print(dob.text);
         setState(() {
           selectedDate = date;
           dob.text = DateFormat('yyyy-M-d').format(selectedDate);
@@ -599,7 +601,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
       if (dob.text.isNotEmpty) {
         if (date != null &&
             date != DateTime.now() &&
-            (DateTime.parse(dob.text).year + 15) < date.year) {
+            (DateFormat('y-m-d').parse(dob.text).year + 15) < date.year) {
           setState(() {
             selectedDate = date;
             anniversaryDate.text = DateFormat('yyyy-M-d').format(selectedDate);
