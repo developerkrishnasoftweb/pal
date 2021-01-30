@@ -1,4 +1,4 @@
-package com.krishnasoftweb.pal
+package com.palgeneralstore
 
 import io.flutter.embedding.android.FlutterActivity
 
