@@ -109,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               CustomPageRoute(
                   widget: OTP(
                 otp: otp,
-                onlyCheckOtp: true,
+                action: OtpActions.FORGOT_PASSWORD,
                 mobile: mobile,
               )));
         } else {

@@ -259,6 +259,7 @@ class _SignUpState extends State<SignUp> {
                         otp: otp,
                         formData: userData,
                         mobile: mobile,
+                            action: OtpActions.REGISTER,
                       ))).then((value) {
                     setState(() => signUpStatus = false);
                   });

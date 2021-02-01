@@ -22,13 +22,13 @@ import '../../main.dart';
 class OTP extends StatefulWidget {
   final String otp, mobile;
   final FormData formData;
-  final bool onlyCheckOtp, redeemGift;
-  OTP(
-      {this.otp,
-      this.formData,
-      this.onlyCheckOtp: false,
-      this.mobile,
-      this.redeemGift: false});
+  final OtpActions action;
+  OTP({
+    this.otp,
+    this.formData,
+    this.mobile,
+    this.action,
+  });
   @override
   _OTPState createState() => _OTPState();
 }
@@ -36,10 +36,10 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   FocusNode textFocusNode = new FocusNode();
   String otp = "";
-  bool signUpStatus = false;
-  setSignUpStatus(bool status) {
+  bool isLoading = false;
+  setLoading(bool status) {
     setState(() {
-      signUpStatus = status;
+      isLoading = status;
     });
   }
 
@@ -85,16 +85,14 @@ class _OTPState extends State<OTP> {
       ),
       floatingActionButton: customButton(
           context: context,
-          onPressed: !signUpStatus
-              ? widget.onlyCheckOtp
-                  ? widget.redeemGift
-                      ? _redeemGift
-                      : _forgotPassword
-                  : _register
+          onPressed: isLoading
+              ? null
+              : widget.action != null
+              ? _action
               : null,
           height: 60,
           width: size.width,
-          text: !signUpStatus ? "SUBMIT" : null,
+          text: !isLoading ? "SUBMIT" : null,
           child: SizedBox(
             height: 30,
             width: 30,
@@ -106,17 +104,38 @@ class _OTPState extends State<OTP> {
     );
   }
 
+  _action() {
+    if (widget.otp == this.otp) {
+      switch (widget.action) {
+        case OtpActions.REGISTER:
+          _register();
+          break;
+        case OtpActions.FORGOT_PASSWORD:
+          _forgotPassword();
+          break;
+        case OtpActions.REDEEM_GIFT:
+          _redeemGift();
+          break;
+        default:
+          print("Action can't be null");
+          break;
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Invalid OTP");
+    }
+  }
+
   _redeemGift() async {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
       if (widget.formData != null) {
-        setSignUpStatus(true);
+        setLoading(true);
         await Services.redeemGift(widget.formData).then((value) async {
           if (value.response == "y") {
             await sharedPreferences.setString(
                 UserParams.userData, jsonEncode(value.data[0]["customer"]));
             await setData();
-            setSignUpStatus(false);
+            setLoading(false);
             var dialogStatus = showDialogBox(
                 context: context,
                 title: "Gift Redeemed Successfully",
@@ -149,7 +168,7 @@ class _OTPState extends State<OTP> {
             Fluttertoast.showToast(msg: value.message);
           } else {
             Fluttertoast.showToast(msg: value.message);
-            setSignUpStatus(false);
+            setLoading(false);
           }
         });
       } else
@@ -176,18 +195,21 @@ class _OTPState extends State<OTP> {
   _register() async {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
-      setSignUpStatus(true);
+      setLoading(true);
       await Services.signUp(widget.formData).then((value) {
         if (value.response == "y") {
           Fluttertoast.showToast(msg: value.message);
-          setSignUpStatus(false);
+          setLoading(false);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => SignIn(email: widget.mobile,)),
+              MaterialPageRoute(
+                  builder: (context) => SignIn(
+                        email: widget.mobile,
+                      )),
               (route) => false);
         } else {
           Fluttertoast.showToast(msg: value.message);
-          setSignUpStatus(false);
+          setLoading(false);
           Navigator.pop(context);
         }
       });
@@ -233,3 +255,5 @@ class _OTPState extends State<OTP> {
     );
   }
 }
+
+enum OtpActions { REGISTER, REDEEM_GIFT, FORGOT_PASSWORD }

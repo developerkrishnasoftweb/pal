@@ -649,8 +649,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             CustomPageRoute(
                 widget: OTP(
               mobile: mobile,
-              redeemGift: true,
-              onlyCheckOtp: true,
+              action: OtpActions.REDEEM_GIFT,
               formData: formData,
               otp: otp,
             )));
