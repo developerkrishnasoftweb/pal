@@ -1,4 +1,4 @@
-package com.palgeneralstore
+package com.palgeneralstore.customer
 
 import io.flutter.embedding.android.FlutterActivity
 
