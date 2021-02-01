@@ -38,11 +38,21 @@ Future<bool> getCredential() async {
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
   if (sharedPreference.getString("username") != null &&
       sharedPreference.getString(UserParams.password) != null) {
-    await Services.getUserData();
     await setData();
+    getNotificationCount();
     return true;
   } else
     return false;
+}
+
+getNotificationCount() {
+  Timer.periodic(Duration(milliseconds: 1000), (timer) async {
+    await Services.getNotificationCount().then((value) {
+      lastNotificationCount = NotificationCount(value);
+    });
+    await Services.getUserData();
+    await setData();
+  });
 }
 
 /*
@@ -84,7 +94,6 @@ Future<void> setData() async {
           totalOrder: data[0][UserParams.totalOrder],
           vehicleType: data[0][UserParams.vehicleType],
           kyc: data[0][UserParams.kyc]);
-      return;
     }
   }
 }

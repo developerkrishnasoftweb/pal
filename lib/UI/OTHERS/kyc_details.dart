@@ -24,7 +24,9 @@ class _KYCState extends State<KYC> {
       appBar: appBar(context: context, title: "KYC Details", actions: [
         IconButton(
           onPressed: () {
-            Navigator.push(context, CustomPageRoute(widget: ChangeAddress()));
+            Navigator.push(context, CustomPageRoute(widget: ChangeAddress())).then((value) {
+              setState(() {});
+            });
           },
           icon: Icon(
             userdata.kyc == "y" ? Icons.check_circle : Icons.edit,

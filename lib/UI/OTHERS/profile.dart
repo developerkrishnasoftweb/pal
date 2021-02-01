@@ -52,6 +52,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
   DateTime selectedDate = DateTime.now();
   bool isLoading = false, validMobile = false;
 
+  setLoading(bool status) {
+    setState(() {
+      isLoading = status;
+    });
+  }
+
   Future getImage() async {
     File result = await FilePicker.getFile(type: FileType.image);
     if (result != null)
@@ -79,8 +85,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   void initState() {
-    setUserData();
     super.initState();
+    setUserData();
   }
 
   void setUserData() {
@@ -464,6 +470,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           if (RegExp(
                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
               .hasMatch(email.text)) {
+            setLoading(true);
             FormData data = FormData.fromMap({
               "customer_id": userdata.id,
               "name": name.text,
@@ -489,24 +496,20 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   : null,
               "vehicle_type": selectedVehicleType
             });
-            /* setState(() {
-              isLoading = true;
-            });
             Services.customerKYC(data).then((value) async {
               if (value.response == "y") {
                 await sharedPreferences.setString(
                     UserParams.userData, jsonEncode(value.data));
                 await setData();
                 Fluttertoast.showToast(msg: value.message);
-                Navigator.pushAndRemoveUntil(
-                    context, CustomPageRoute(widget: Home()), (route) => false);
+                Navigator.pop(context);
+                // Navigator.pushAndRemoveUntil(
+                //     context, CustomPageRoute(widget: Home()), (route) => false);
               } else {
-                setState(() {
-                  isLoading = false;
-                });
+                setLoading(false);
                 Fluttertoast.showToast(msg: value.message);
               }
-            }); */
+            });
           } else {
             Fluttertoast.showToast(msg: "Invalid email");
           }
@@ -523,9 +526,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
             Fluttertoast.showToast(msg: "Please provide anniversary date");
             return;
           }
-          setState(() {
-            isLoading = true;
-          });
+          setLoading(true);
           FormData formData = FormData.fromMap({
             "customer_id": userdata.id,
             "name": name.text,
@@ -548,24 +549,20 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 : null,
             "vehicle_type": selectedVehicleType
           });
-          setState(() {
-            isLoading = false;
-          });
-          /* await Services.customerKYC(formData).then((value) async {
+          await Services.customerKYC(formData).then((value) async {
             if (value.response == "y") {
               await sharedPreferences.setString(
                   UserParams.userData, jsonEncode(value.data));
               await setData();
               Fluttertoast.showToast(msg: value.message);
-              Navigator.pushAndRemoveUntil(
-                  context, CustomPageRoute(widget: Home()), (route) => false);
+              Navigator.pop(context);
+              // Navigator.pushAndRemoveUntil(
+              //     context, CustomPageRoute(widget: Home()), (route) => false);
             } else {
-              setState(() {
-                isLoading = false;
-              });
+              setLoading(false);
               Fluttertoast.showToast(msg: value.message);
             }
-          }); */
+          });
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile no");
         }

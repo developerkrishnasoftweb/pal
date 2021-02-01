@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Common/appbar.dart';
@@ -42,7 +43,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getNotificationCount();
     Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
@@ -61,19 +61,6 @@ class _HomeState extends State<Home> {
     setItemList();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
-  }
-
-  getNotificationCount() {
-    if (this.mounted) {
-      Timer.periodic(Duration(milliseconds: 1000), (timer) async {
-        await Services.getNotificationCount().then((value) {
-          setState(() {
-            lastNotificationCount = value;
-          });
-        });
-        await Services.getUserData();
-      });
-    }
   }
 
   showRatingDialog() async {
@@ -257,7 +244,7 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        (int.parse(lastNotificationCount) == 0)
+                        (int.parse(lastNotificationCount.notificationCount) == 0)
                             ? IconButton(
                                 icon: ImageIcon(
                                   AssetImage(
@@ -281,7 +268,7 @@ class _HomeState extends State<Home> {
                                   splashRadius: 23,
                                   iconSize: 20,
                                 ),
-                                badgeValue: int.parse(lastNotificationCount),
+                                badgeValue: int.parse(lastNotificationCount.notificationCount),
                                 context: context,
                                 badgeSize: Size(15, 15)),
                       ]),
