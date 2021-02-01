@@ -25,6 +25,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
 
   @override
   Widget build(BuildContext context) {
+    print(userdata.id);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Earned Point", actions: [
@@ -268,6 +269,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
       "customer_id": userdata.id,
     });
     Services.getEarnedPoints(body).then((value) {
+      print(value.data);
       if (value.response == "y") {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
@@ -276,7 +278,9 @@ class _EarnedPointsState extends State<EarnedPoints> {
             closingPoints += value.data[i]["total_points"] != null
                 ? (int.parse(value.data[i]["total_points"][0]["point"]) -
                     int.parse(value.data[i]["redeem"] != null
-                        ? value.data[i]["redeem"][0]["point"]
+                        ? value.data[i]["redeem"][0]["point"] != null
+                            ? value.data[i]["redeem"][0]["point"]
+                            : "0"
                         : "0"))
                 : 0;
             earnedLists.add(CycleData(
