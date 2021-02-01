@@ -94,7 +94,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
       selectedGender = userdata.gender ?? "m";
       selectedMaritalStatus =
           userdata.maritalStatus.isNotEmpty ? userdata.maritalStatus : "n";
-      selectedVehicleType = userdata.vehicleType != null && userdata.vehicleType != "" ? userdata.vehicleType : "Cycle";
+      selectedVehicleType =
+          userdata.vehicleType != null && userdata.vehicleType != ""
+              ? userdata.vehicleType
+              : "Cycle";
       name.text = userdata.name;
       altMobile.text = userdata.altMobile;
       email.text = userdata.email;
@@ -253,45 +256,47 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     controller: area,
                     readOnly: userdata.kyc == "y" ?? false,
                     decoration: InputDecoration(border: border())),
-            userdata.kyc == "y" ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Gender $mandatoryChar",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold),
+            userdata.kyc == "y"
+                ? input(
+                    context: context,
+                    text: "Gender $mandatoryChar",
+                    controller: TextEditingController(text: selectedGender == "m" ? "Male" : "Female"),
+                    readOnly: true,
+                    decoration: InputDecoration(border: border()))
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Gender $mandatoryChar",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.grey,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        DropdownButtonFormField(
+                            onTap: () => FocusScope.of(context).unfocus(),
+                            value: selectedGender,
+                            isExpanded: true,
+                            decoration: InputDecoration(border: border()),
+                            items: gender.map((value) {
+                              return DropdownMenuItem(
+                                child: Text(value),
+                                value: value.substring(0, 1).toLowerCase(),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedGender = value;
+                              });
+                            }),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DropdownButtonFormField(
-                      onTap: () => FocusScope.of(context).unfocus(),
-                      value: selectedGender,
-                      isExpanded: true,
-                      decoration: InputDecoration(border: border()),
-                      items: gender.map((value) {
-                        return DropdownMenuItem(
-                          child: Text(value),
-                          value: value.substring(0, 1).toLowerCase(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedGender = value;
-                        });
-                      }),
-                ],
-              ),
-            ) : input(
-                context: context,
-                text: "Gender $mandatoryChar",
-                controller: TextEditingController(text: userdata.gender),
-                readOnly: true,
-                decoration: InputDecoration(border: border())),
             input(
                 context: context,
                 text: "Date of Birth $mandatoryChar",
