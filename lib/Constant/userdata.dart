@@ -1,6 +1,6 @@
 const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
-NotificationCount lastNotificationCount;
+String lastNotificationCount = "0";
 
 class UserParams {
   static String id = "id";
@@ -90,9 +90,4 @@ class Userdata {
       this.token,
       this.vehicleType,
       this.totalOrder});
-}
-
-class NotificationCount {
-  String notificationCount;
-  NotificationCount(this.notificationCount);
 }

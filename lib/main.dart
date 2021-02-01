@@ -48,7 +48,7 @@ Future<bool> getCredential() async {
 getNotificationCount() {
   Timer.periodic(Duration(milliseconds: 1000), (timer) async {
     await Services.getNotificationCount().then((value) {
-      lastNotificationCount = NotificationCount(value);
+      lastNotificationCount = value;
     });
     await Services.getUserData();
     await setData();

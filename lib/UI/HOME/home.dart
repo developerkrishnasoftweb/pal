@@ -244,7 +244,7 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        (int.parse(lastNotificationCount.notificationCount) == 0)
+                        (int.parse(lastNotificationCount) == 0)
                             ? IconButton(
                                 icon: ImageIcon(
                                   AssetImage(
@@ -268,7 +268,7 @@ class _HomeState extends State<Home> {
                                   splashRadius: 23,
                                   iconSize: 20,
                                 ),
-                                badgeValue: int.parse(lastNotificationCount.notificationCount),
+                                badgeValue: int.parse(lastNotificationCount),
                                 context: context,
                                 badgeSize: Size(15, 15)),
                       ]),
