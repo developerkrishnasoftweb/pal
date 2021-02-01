@@ -215,7 +215,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
           child: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              value,
+              value ?? "0",
               style: style1,
             ),
           ),
