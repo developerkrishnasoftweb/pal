@@ -183,7 +183,7 @@ class _OTPState extends State<OTP> {
           setSignUpStatus(false);
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => SignIn()),
+              MaterialPageRoute(builder: (context) => SignIn(email: widget.mobile,)),
               (route) => false);
         } else {
           Fluttertoast.showToast(msg: value.message);
