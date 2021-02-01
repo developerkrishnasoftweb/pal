@@ -253,7 +253,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     controller: area,
                     readOnly: userdata.kyc == "y" ?? false,
                     decoration: InputDecoration(border: border())),
-            Padding(
+            userdata.kyc == "y" ? Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +286,12 @@ class _ChangeAddressState extends State<ChangeAddress> {
                       }),
                 ],
               ),
-            ),
+            ) : input(
+                context: context,
+                text: "Gender $mandatoryChar",
+                controller: TextEditingController(text: userdata.gender),
+                readOnly: true,
+                decoration: InputDecoration(border: border())),
             input(
                 context: context,
                 text: "Date of Birth $mandatoryChar",
