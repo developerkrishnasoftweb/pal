@@ -25,7 +25,6 @@ class _EarnedPointsState extends State<EarnedPoints> {
 
   @override
   Widget build(BuildContext context) {
-    print(userdata.id);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Earned Point", actions: [
