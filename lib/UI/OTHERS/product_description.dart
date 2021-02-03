@@ -116,23 +116,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              "Gift Specification : ",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.giftData.specs,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.grey, fontSize: 14),
-            ),
+            buildTitledRow(
+                title: "Gift Specification : ", value: widget.giftData.specs),
           ],
         ),
       ),
@@ -198,18 +183,18 @@ class _ProductDescriptionState extends State<ProductDescription> {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            value,
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
                 .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodyText1.copyWith(
+                color: Colors.grey, fontSize: 14, fontWeight: FontWeight.bold),
           )
         ],
       ),
