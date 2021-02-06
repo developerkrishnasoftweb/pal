@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../SERVICES/urls.dart';
@@ -8,6 +9,7 @@ import 'userdata.dart';
 
 SharedPreferences sharedPreferences;
 Userdata userdata;
+Locale appLocale;
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {

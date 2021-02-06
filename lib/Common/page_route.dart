@@ -4,21 +4,22 @@ class CustomPageRoute extends PageRouteBuilder {
   final Widget widget;
   CustomPageRoute({this.widget})
       : super(
-            transitionDuration: Duration(milliseconds: 300),
-            transitionsBuilder: (context, animation, animationTime, child) {
-              animation =
-                  CurvedAnimation(parent: animation, curve: Curves.decelerate);
-              return SlideTransition(
-                position: Tween<Offset>(
-                        end: Offset.zero, begin: const Offset(1.0, 0.0))
-                    .animate(animation),
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                          end: const Offset(1.0, 0.0), begin: Offset.zero)
-                      .animate(animationTime),
-                  child: child,
-                ),
-              );
-            },
-            pageBuilder: (context, animation, animationTime) => widget);
+      transitionDuration: Duration(milliseconds: 500),
+      transitionsBuilder: (context, animation, animationTime, child) {
+        animation =
+            CurvedAnimation(parent: animation, curve: Curves.linear);
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: Offset(1, 0),
+            end: Offset(0, 0),
+          ).animate(
+            CurvedAnimation(
+              curve: Interval(0, 0.5, curve: Curves.easeOutCubic),
+              parent: animation,
+            ),
+          ),
+          child: child,
+        );
+      },
+      pageBuilder: (context, animation, animationTime) => widget);
 }

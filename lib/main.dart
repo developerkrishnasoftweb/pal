@@ -4,11 +4,13 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Constant/color.dart';
 import 'Constant/global.dart';
 import 'Constant/userdata.dart';
+import 'LOCALIZATION/localization.dart';
 import 'SERVICES/services.dart';
 import 'UI/HOME/home.dart';
 import 'UI/SIGNIN_SIGNUP/signin.dart';
@@ -28,6 +30,25 @@ Future<void> main() async {
         primarySwatch: primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      locale: appLocale,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('hi', 'IN'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      localeResolutionCallback: (deviceLocale, supportedLocale){
+        for(var locale in supportedLocale) {
+          if(locale.languageCode == deviceLocale.languageCode && locale.countryCode == deviceLocale.countryCode) {
+            return deviceLocale;
+          }
+        }
+        return supportedLocale.first;
+      },
       home: status ? Home() : SignIn(),
       debugShowCheckedModeBanner: false,
     ));

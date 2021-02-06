@@ -268,7 +268,6 @@ class _EarnedPointsState extends State<EarnedPoints> {
       "customer_id": userdata.id,
     });
     Services.getEarnedPoints(body).then((value) {
-      print(value.data);
       if (value.response == "y") {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
