@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/language.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,6 +42,7 @@ class _HomeState extends State<Home> {
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
   int rate = 0;
+  Language language;
 
   @override
   void initState() {
@@ -178,26 +182,31 @@ class _HomeState extends State<Home> {
   void setItemList() {
     itemList = [
       ItemListBuilder(
-          title: "Product Catalog",
-          onTap: () => Navigator.push(
-              context, CustomPageRoute(widget: ProductCatalog())),
+          title: LocaleStrings.productCatalog,
+          widget: ServiceRequest(),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
-          title: "Earned Point",
-          onTap: () =>
-              Navigator.push(context, CustomPageRoute(widget: EarnedPoints())),
+          title: LocaleStrings.earnedPoints,
+          widget: ServiceRequest(),
           image: AssetImage("assets/images/earned-point.png")),
       ItemListBuilder(
-          title: "Redeem Gift",
-          onTap: () =>
-              Navigator.push(context, CustomPageRoute(widget: GiftCategory())),
+          title: LocaleStrings.redeemGift,
+          widget: ServiceRequest(),
           image: AssetImage("assets/images/redeem-gift.png")),
       ItemListBuilder(
-          title: "Service Request",
-          onTap: () => Navigator.push(
-              context, CustomPageRoute(widget: ServiceRequest())),
+          title: LocaleStrings.serviceRequest,
+          widget: ServiceRequest(),
           image: AssetImage("assets/images/service-request.png")),
     ];
+  }
+  _languageChanged(Language lang) async {
+    setState(() {
+      language = lang;
+    });
+    // appLocale = await setLocale(lang.languageCode);
+    await setLocale(lang.languageCode);
+    await main();
+    Fluttertoast.showToast(msg: "Language changed successfully");
   }
 
   @override
@@ -229,7 +238,7 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: appBar(
-                      title: "Home",
+                      title: translate(context, LocaleStrings.home),
                       centerTitle: true,
                       context: context,
                       leading: IconButton(
@@ -244,33 +253,31 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        (int.parse(lastNotificationCount) == 0)
-                            ? IconButton(
-                                icon: ImageIcon(
-                                  AssetImage(
-                                      "assets/icons/notification-icon.png"),
-                                  color: Colors.white,
-                                ),
-                                onPressed: () => Navigator.push(context,
-                                    CustomPageRoute(widget: Notifications())),
-                                splashRadius: 23,
-                                iconSize: 20,
-                              )
-                            : badge(
-                                iconButton: IconButton(
-                                  icon: ImageIcon(
-                                    AssetImage(
-                                        "assets/icons/notification-icon.png"),
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () => Navigator.push(context,
-                                      CustomPageRoute(widget: Notifications())),
-                                  splashRadius: 23,
-                                  iconSize: 20,
-                                ),
-                                badgeValue: int.parse(lastNotificationCount),
-                                context: context,
-                                badgeSize: Size(15, 15)),
+                        PopupMenuButton<Language>(
+                          onSelected: _languageChanged,
+                          itemBuilder: (_) => Language.languageList()
+                              .map<PopupMenuItem<Language>>((lang) {
+                            return PopupMenuItem(
+                              child: Text(lang.flag + " " + lang.name),
+                              value: lang,
+                            );
+                          }).toList(),
+                          icon: Icon(Icons.language_outlined),
+                        ),
+                        badge(
+                            iconButton: IconButton(
+                              icon: ImageIcon(
+                                AssetImage(
+                                    "assets/icons/notification-icon.png"),
+                                color: Colors.white,
+                              ),
+                              onPressed: () => Navigator.push(context,
+                                  CustomPageRoute(widget: Notifications())),
+                              splashRadius: 23,
+                              iconSize: 20,
+                            ),
+                            badgeValue: int.parse(lastNotificationCount),
+                            badgeSize: Size(15, 15)),
                       ]),
                 ),
                 SizedBox(
@@ -300,7 +307,7 @@ class _HomeState extends State<Home> {
                               context: context,
                               index: index,
                               image: itemList[index].image,
-                              onTap: itemList[index].onTap,
+                              widget: itemList[index].widget,
                               title: itemList[index].title);
                         }))
               ],
@@ -334,14 +341,14 @@ Widget buildItems(
     {@required BuildContext context,
     ImageProvider image,
     String title,
-    GestureTapCallback onTap,
+    Widget widget,
     int index}) {
   return Card(
     elevation: 2,
     shadowColor: Colors.black.withOpacity(0.15),
     child: InkWell(
       borderRadius: BorderRadius.circular(3),
-      onTap: onTap,
+      onTap: () => Navigator.push(context, CustomPageRoute(widget: widget)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -356,7 +363,7 @@ Widget buildItems(
             height: 10,
           ),
           Text(
-            title,
+            translate(context, title),
             style: Theme.of(context)
                 .textTheme
                 .bodyText1
@@ -371,6 +378,6 @@ Widget buildItems(
 class ItemListBuilder {
   final ImageProvider image;
   final String title;
-  final GestureTapCallback onTap;
-  ItemListBuilder({this.image, this.title, this.onTap});
+  final Widget widget;
+  ItemListBuilder({this.image, this.title, this.widget});
 }

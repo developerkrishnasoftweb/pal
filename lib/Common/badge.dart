@@ -1,27 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Stack badge({@required IconButton iconButton, @required BuildContext context, Color badgeColor, int badgeValue, @required Size badgeSize, double top, double bottom, double left, double right}){
+Stack badge(
+    {@required Widget iconButton,
+      Color badgeColor,
+      int badgeValue,
+      Size badgeSize,
+      BadgePosition badgePosition,
+      TextStyle badgeTextStyle}) {
+  if(badgePosition == null) {
+    badgePosition = BadgePosition();
+  }
   return Stack(
     alignment: Alignment.center,
     children: [
       Positioned(
-        top: top ?? 2,
-        right: right ?? 2,
-        left: left ?? null,
-        bottom: bottom ?? null,
-        child: Container(
-          height: badgeSize.height,
-          width: badgeSize.width,
+        top: badgePosition.top ?? 5,
+        right: badgePosition.right ?? 5,
+        left: badgePosition.left,
+        bottom: badgePosition.bottom,
+        child: AnimatedContainer(
+          height: badgeValue == 0
+              ? 0
+              : badgeSize != null
+              ? badgeSize.height
+              : 17,
+          width: badgeValue == 0
+              ? 0
+              : badgeSize != null
+              ? badgeSize.width
+              : 17,
           alignment: Alignment.center,
-          child: Text(badgeValue.toString(), style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.white, fontSize: 8),),
+          duration: Duration(milliseconds: 500),
+          curve: Curves.bounceInOut,
+          child: Text(
+            badgeValue.toString(),
+            style:
+            badgeTextStyle ?? TextStyle(color: Colors.white, fontSize: 10),
+          ),
           decoration: BoxDecoration(
               color: badgeColor ?? Colors.black,
-              borderRadius: BorderRadius.circular(20)
-          ),
+              borderRadius: BorderRadius.circular(20)),
         ),
       ),
       iconButton
     ],
   );
+}
+
+class BadgePosition {
+  final double top, bottom, right, left;
+  BadgePosition({this.bottom, this.left, this.right, this.top});
 }
