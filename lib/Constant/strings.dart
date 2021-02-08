@@ -4,8 +4,28 @@ class LocaleStrings {
   static String home = "home";
   static String productCatalog = "productCatalog";
 
+  // Update Kyc
+  static String updateKYC = "updateKYC";
+  static String KYCDetails = "KYCDetails";
+  static String name = "name";
+  static String alternateMobileNumber = "alternateMobileNumber";
+  static String currentAddress = "currentAddress";
+  static String pinCode = "pinCode";
+  static String state = "state";
+  static String city = "city";
+  static String area = "area";
+  static String gender = "gender";
+  static String DOB = "DOB";
+  static String registeredMobileNo = "registeredMobileNo";
+  static String email = "email";
+  static String address = "address";
+  static String maritalStatus = "maritalStatus";
+  static String anniversaryDate = "anniversaryDate";
+  static String vehicleType = "vehicleType";
+  static String profile = "profile";
+
   // drawer -> retailer bonding program strings
-  static String retailerBondingProgram = "retailerBondingProgram";
+  static String customerBondingProgram = "customerBondingProgram";
   static String myEarnedPoints = "myEarnedPoints";
   static String earnedPoints = "earnedPoints";
 
@@ -101,7 +121,7 @@ class LocaleStrings {
   static String nameAndAlternateMobileCantBeEmpty = "nameAndAlternateMobileCantBeEmpty";
   static String minimumAgeLimit = "minimumAge";
   static String years = "years";
-  static String anniversaryDate = "anniversaryDate";
+  static String anniversaryDateMustBe = "anniversaryDateMustBe";
   static String provideDOB = "provideDOB";
   static String fileSizeSupportedUpTo = "fileSizeSupportedUpTo";
   static String dontHaveEnoughPointToRedeem = "dontHaveEnoughPointToRedeem";

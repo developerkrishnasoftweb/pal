@@ -29,11 +29,15 @@ import '../../UI/OTHERS/notification.dart';
 import '../../UI/SERVICE_REQUEST/service_request.dart';
 import '../PRODUCT_CATALOG/product_catalog.dart';
 
+_HomeState homeState;
 class Home extends StatefulWidget {
   final bool showRateDialog;
   Home({this.showRateDialog});
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() {
+    homeState = _HomeState();
+    return homeState;
+  }
 }
 
 class _HomeState extends State<Home> {

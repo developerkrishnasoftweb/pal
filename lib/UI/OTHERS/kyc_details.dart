@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/page_route.dart';
@@ -21,7 +23,7 @@ class _KYCState extends State<KYC> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "KYC Details", actions: [
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.KYCDetails), actions: [
         IconButton(
           onPressed: () {
             Navigator.push(context, CustomPageRoute(widget: ChangeAddress())).then((value) {
@@ -73,18 +75,18 @@ class _KYCState extends State<KYC> {
                         },
                       )
                     : SizedBox()),
-            buildTitledRow(title: "Name :", value: userdata.name),
-            buildTitledRow(title: "Current Address :", value: userdata.address),
-            buildTitledRow(title: "Pincode :", value: userdata.pinCode),
-            buildTitledRow(title: "State :", value: userdata.state),
-            buildTitledRow(title: "City :", value: userdata.city),
-            buildTitledRow(title: "Area :", value: userdata.area),
+            buildTitledRow(title: "${translate(context, LocaleStrings.name)} :", value: userdata.name),
+            buildTitledRow(title: "${translate(context, LocaleStrings.currentAddress)} :", value: userdata.address),
+            buildTitledRow(title: "${translate(context, LocaleStrings.pinCode)} :", value: userdata.pinCode),
+            buildTitledRow(title: "${translate(context, LocaleStrings.state)} :", value: userdata.state),
+            buildTitledRow(title: "${translate(context, LocaleStrings.city)} :", value: userdata.city),
+            buildTitledRow(title: "${translate(context, LocaleStrings.area)} :", value: userdata.area),
             buildTitledRow(
-                title: "Gender :",
+                title: "${translate(context, LocaleStrings.gender)} :",
                 value: userdata.gender == "m" ? "Male" : "Female"),
-            buildTitledRow(title: "Date of Birth :", value: userdata.dob),
+            buildTitledRow(title: "${translate(context, LocaleStrings.DOB)} :", value: userdata.dob),
             buildTitledRow(
-                title: "Registered Mo. No. :", value: userdata.mobile),
+                title: "${translate(context, LocaleStrings.registeredMobileNo)} :", value: userdata.mobile),
             /*Container(
               height: 200,
               width: size.width,

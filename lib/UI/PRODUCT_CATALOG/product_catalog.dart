@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/page_route.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
@@ -41,7 +43,7 @@ class _ProductState extends State<ProductCatalog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context: context, title: "By Category"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.byCategory)),
       body: categoryItems.length != 0 ? SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

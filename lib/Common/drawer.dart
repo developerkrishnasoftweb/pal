@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -144,25 +146,24 @@ Widget drawer(
           Divider(
             height: 0,
           ),
-          buildDrawerItems("HOME", () {
+          buildDrawerItems(translate(context, LocaleStrings.home), () {
             scaffoldKey.currentState.openEndDrawer();
-            Navigator.pushAndRemoveUntil(
-                context, CustomPageRoute(widget: Home()), (route) => false);
+            homeState.setState(() {});
           }, Icons.home),
-          buildDrawerItems("Product Catalog", () {
+          buildDrawerItems(translate(context, LocaleStrings.productCatalog), () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: ProductCatalog()));
           }, Icons.book_outlined),
-          buildDrawerItems("Update KYC", () {
+          buildDrawerItems(translate(context, LocaleStrings.updateKYC), () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: KYC()));
           }, Icons.book_online_outlined),
           buildExpansionTile(
               iconData: Icons.table_chart_outlined,
-              title: "Customer Bonding Program",
+              title: translate(context, LocaleStrings.customerBondingProgram),
               children: [
                 buildExpansionChild(
-                  title: "My Earned Points",
+                  title: translate(context, LocaleStrings.myEarnedPoints),
                   onTap: () {
                     scaffoldKey.currentState.openEndDrawer();
                     Navigator.push(
@@ -172,24 +173,24 @@ Widget drawer(
               ]),
           buildExpansionTile(
               iconData: Icons.pages,
-              title: "Service Request",
+              title: translate(context, LocaleStrings.serviceRequest),
               children: [
                 buildExpansionChild(
-                    title: "New Service Request",
+                    title: translate(context, LocaleStrings.newServiceRequest),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
                           context, CustomPageRoute(widget: Complain()));
                     }),
                 buildExpansionChild(
-                    title: "View Service Request",
+                    title: translate(context, LocaleStrings.viewServiceRequest),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
                           context, CustomPageRoute(widget: ServiceRequest()));
                     }),
                 buildExpansionChild(
-                    title: "Track Complaints",
+                    title: translate(context, LocaleStrings.trackComplaints),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -198,10 +199,10 @@ Widget drawer(
               ]),
           buildExpansionTile(
               iconData: Icons.pages_outlined,
-              title: "Products",
+              title: translate(context, LocaleStrings.products),
               children: [
                 buildExpansionChild(
-                    title: "Product Demo",
+                    title: translate(context, LocaleStrings.productDemo),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -212,7 +213,7 @@ Widget drawer(
                           )));
                     }),
                 buildExpansionChild(
-                    title: "Focused Products",
+                    title: translate(context, LocaleStrings.focusedProduct),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -225,17 +226,17 @@ Widget drawer(
               ]),
           buildExpansionTile(
               iconData: Icons.pages_outlined,
-              title: "Gift",
+              title: translate(context, LocaleStrings.gift),
               children: [
                 buildExpansionChild(
-                    title: "Redeem Gift",
+                    title: translate(context, LocaleStrings.redeemGift),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
                           context, CustomPageRoute(widget: GiftCategory()));
                     }),
                 buildExpansionChild(
-                    title: "Redeemed Gifts",
+                    title: translate(context, LocaleStrings.redeemedGifts),
                     onTap: () {
                       scaffoldKey.currentState.openEndDrawer();
                       Navigator.push(
@@ -249,15 +250,15 @@ Widget drawer(
                           context, CustomPageRoute(widget: TrackGift()));
                     }), */
               ]),
-          buildDrawerItems("Reports", () {
+          buildDrawerItems(translate(context, LocaleStrings.reports), () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: Report()));
           }, Icons.report),
-          buildDrawerItems("My Notification", () {
+          buildDrawerItems(translate(context, LocaleStrings.myNotifications), () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: Notifications()));
           }, Icons.notifications_on_outlined),
-          buildDrawerItems("Terms & Conditions", () {
+          buildDrawerItems(translate(context, LocaleStrings.termsAndConditions), () {
             scaffoldKey.currentState.openEndDrawer();
             Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
           }, Icons.ballot_outlined),
@@ -272,7 +273,7 @@ Widget drawer(
                 SizedBox(
                   width: 3,
                 ),
-                Text("Visit Our Site"),
+                Text(translate(context, LocaleStrings.visitOurSite)),
               ],
             ),
             onTap: () async {
@@ -310,20 +311,20 @@ Widget drawer(
             },
           ), */
           buildDrawerItems(
-              "Logout",
+              translate(context, LocaleStrings.logout),
               () => showDialogBox(
                   context: context,
                   actions: [
                     buildAlertButton(
-                        text: "NO",
+                        text: translate(context, LocaleStrings.no),
                         context: context,
                         onPressed: () => Navigator.pop(context),
                         textColor: Colors.grey),
                     buildAlertButton(
-                        text: "YES", context: context, onPressed: _logout),
+                        text: translate(context, LocaleStrings.yes), context: context, onPressed: _logout),
                   ],
-                  title: "Alert",
-                  content: "Are you sure you want to exit?"),
+                  title: translate(context, LocaleStrings.palShoppie),
+                  content: translate(context, LocaleStrings.areYouSureYouWantTOExit)),
               Icons.logout),
         ],
       ),
