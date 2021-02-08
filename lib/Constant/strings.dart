@@ -57,6 +57,7 @@ class LocaleStrings {
   static String totalTarget = "totalTarget";
   static String totalSales = "totalSales";
   static String byCategory = "byCategory";
+  static String catalogPreview = "catalogPreview";
   static String complain = "complain";
 
   //Earned points screen strings

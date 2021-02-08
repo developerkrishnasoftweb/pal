@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../Common/appbar.dart';
@@ -81,7 +83,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
     return Scaffold(
         appBar: appBar(
             context: context,
-            title: widget.adhaarView ? "Adhaar View" : "Catalog Preview",
+            title: widget.adhaarView ? "Adhaar View" : translate(context, LocaleStrings.catalogPreview),
             actions: [
               Center(
                   child: Padding(
