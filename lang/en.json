@@ -141,6 +141,8 @@
   "areYouSureYouWantTOExit" : "Are you sure you want to exit?",
   "yes" : "हाँ",
   "no" : "नहीं",
-  "languageChanged" : "Language changed to English"
+  "languageChanged" : "Language changed to English",
+
+  "pleaseWait" : ""
 
 }

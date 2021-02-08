@@ -131,7 +131,7 @@ class LocaleStrings {
   static String aadharSize = "aadharSize";
   static String allFieldsAreRequired = "allFieldsAreRequired";
   static String nameAndAlternateMobileCantBeEmpty = "nameAndAlternateMobileCantBeEmpty";
-  static String minimumAgeLimit = "minimumAge";
+  static String minimumAgeLimit = "minimumAgeLimit";
   static String years = "years";
   static String anniversaryDateMustBe = "anniversaryDateMustBe";
   static String provideDOB = "provideDOB";
@@ -162,4 +162,6 @@ class LocaleStrings {
   static String no = "no";
 
   static String languageChanged = "languageChanged";
+
+  static String pleaseWait = "pleaseWait";
 }

@@ -80,7 +80,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
           adhaar = File(result.path);
         });
       } else {
-        Fluttertoast.showToast(msg: "File type " + ext + " is not supported");
+        Fluttertoast.showToast(msg: "${translate(context, LocaleStrings.fileType)} " + ext + " ${translate(context, LocaleStrings.isNotSupported)}");
       }
     }
   }
@@ -475,7 +475,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         } */
         // If aadhar is added move the "if" condition given below in above if condition
         if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
-          Fluttertoast.showToast(msg: "Please provide anniversary date");
+          Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideAnniversaryDate));
           return;
         }
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
@@ -523,19 +523,19 @@ class _ChangeAddressState extends State<ChangeAddress> {
               }
             });
           } else {
-            Fluttertoast.showToast(msg: "Invalid email");
+            Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidEmail));
           }
         } else {
-          Fluttertoast.showToast(msg: "Invalid mobile number");
+          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
-        Fluttertoast.showToast(msg: "Fields can't be empty");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
       }
     } else {
       if (name.text.isNotEmpty && altMobile.text.isNotEmpty) {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
           if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
-            Fluttertoast.showToast(msg: "Please provide anniversary date");
+            Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideAnniversaryDate));
             return;
           }
           setLoading(true);
@@ -576,11 +576,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
             }
           });
         } else {
-          Fluttertoast.showToast(msg: "Invalid mobile no");
+          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
         Fluttertoast.showToast(
-            msg: "Name and Alternate Mobile can't be empty.");
+            msg: translate(context, LocaleStrings.nameAndAlternateMobileCantBeEmpty));
       }
     }
   }
@@ -604,7 +604,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         setState(() {
           dob.clear();
         });
-        Fluttertoast.showToast(msg: "Minimum age limit 18 yrs");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.minimumAgeLimit) + " 15 " + translate(context, LocaleStrings.years));
       }
     } else {
       if (dob.text.isNotEmpty) {
@@ -620,11 +620,11 @@ class _ChangeAddressState extends State<ChangeAddress> {
             anniversaryDate.clear();
           });
           Fluttertoast.showToast(
-              msg: "Anniversary date should be 15 years after Date of birth",
+              msg: translate(context, LocaleStrings.anniversaryDateMustBe),
               toastLength: Toast.LENGTH_LONG);
         }
       } else {
-        Fluttertoast.showToast(msg: "Provide date of birth");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.provideDOB));
       }
     }
   }
@@ -651,7 +651,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 width: 20,
               ),
               Text(
-                "Please wait...",
+                translate(context, LocaleStrings.pleaseWait),
                 style: Theme.of(context).textTheme.bodyText1,
               )
             ],

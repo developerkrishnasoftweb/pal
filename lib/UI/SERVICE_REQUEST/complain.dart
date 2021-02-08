@@ -259,7 +259,7 @@ class _ComplainState extends State<Complain> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: "Please provide description");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideDescription));
     }
   }
 
@@ -306,7 +306,7 @@ class _ComplainState extends State<Complain> {
                         color: Colors.grey,
                       ),
                       Text(
-                        "Camera",
+                        translate(context, LocaleStrings.camera),
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1
@@ -326,7 +326,7 @@ class _ComplainState extends State<Complain> {
                         color: Colors.grey,
                       ),
                       Text(
-                        "Gallery",
+                        translate(context, LocaleStrings.gallery),
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1

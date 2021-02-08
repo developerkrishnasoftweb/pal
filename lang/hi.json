@@ -112,7 +112,7 @@
   "aadharSizeSupportedUpTo" : "आधार आकार तक समर्थित है",
   "allFieldsAreRequired" : "सभी फ़ील्ड आवश्यक हैं",
   "nameAndAlternateMobileCantBeEmpty" : "नाम और वैकल्पिक मोबाइल खाली नहीं हो सकता",
-  "minimumAgeLimit" : "न्यूनतम आयु",
+  "minimumAgeLimit" : "न्यूनतम आयु सीमा",
   "years" : "साल",
   "anniversaryDateMustBe" : "सालगिरह जन्म तिथि से 15 वर्ष बाद होनी चाहिए",
   "provideDOB" : "कृपया जन्म तिथि प्रदान करें",
@@ -141,6 +141,8 @@
   "areYouSureYouWantTOExit" : "क्या आप बाहर निकलना चाहते हैं?",
   "yes" : "हाँ",
   "no" : "नहीं",
-  "languageChanged" : "भाषा बदल गई हिंदी में"
+  "languageChanged" : "भाषा बदल गई हिंदी में",
+
+  "pleaseWait" : "कृपया प्रतीक्षा करें"
 
 }

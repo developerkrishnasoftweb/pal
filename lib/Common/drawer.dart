@@ -69,7 +69,7 @@ Widget drawer(
         ],
       ),
       initiallyExpanded: true,
-      childrenPadding: EdgeInsets.only(left: 50),
+      childrenPadding: EdgeInsets.only(left: 0),
       children: children,
     );
   }
@@ -79,6 +79,7 @@ Widget drawer(
     return ListTile(
       title: Text(title),
       onTap: onTap,
+      contentPadding: EdgeInsets.only(left: 55),
     );
   }
 
@@ -103,230 +104,232 @@ Widget drawer(
     width: size.width * 0.85,
     color: Colors.white,
     height: size.height,
-    child: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).padding.top,
-          ),
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hi!, " + userdata.name ?? " ",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      WidgetSpan(
-                          child: Icon(
-                            Icons.account_balance_wallet_outlined,
-                            color: primaryColor,
-                          ),
-                          alignment: PlaceholderAlignment.middle),
-                      TextSpan(
-                          text: "\t" + userdata.point ?? "0",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: primaryColor))
-                    ],
+    child: Drawer(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).padding.top,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hi!, " + userdata.name ?? " ",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                            child: Icon(
+                              Icons.account_balance_wallet_outlined,
+                              color: primaryColor,
+                            ),
+                            alignment: PlaceholderAlignment.middle),
+                        TextSpan(
+                            text: "\t" + userdata.point ?? "0",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: primaryColor))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Divider(
-            height: 0,
-          ),
-          buildDrawerItems(translate(context, LocaleStrings.home), () {
-            scaffoldKey.currentState.openEndDrawer();
-            homeState.setState(() {});
-          }, Icons.home),
-          buildDrawerItems(translate(context, LocaleStrings.productCatalog), () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: ProductCatalog()));
-          }, Icons.book_outlined),
-          buildDrawerItems(translate(context, LocaleStrings.updateKYC), () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: KYC()));
-          }, Icons.book_online_outlined),
-          buildExpansionTile(
-              iconData: Icons.table_chart_outlined,
-              title: translate(context, LocaleStrings.customerBondingProgram),
-              children: [
-                buildExpansionChild(
-                  title: translate(context, LocaleStrings.myEarnedPoints),
-                  onTap: () {
-                    scaffoldKey.currentState.openEndDrawer();
-                    Navigator.push(
-                        context, CustomPageRoute(widget: EarnedPoints()));
-                  },
-                ),
-              ]),
-          buildExpansionTile(
-              iconData: Icons.pages,
-              title: translate(context, LocaleStrings.serviceRequest),
-              children: [
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.newServiceRequest),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: Complain()));
-                    }),
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.viewServiceRequest),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: ServiceRequest()));
-                    }),
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.trackComplaints),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: TrackComplaint()));
-                    }),
-              ]),
-          buildExpansionTile(
-              iconData: Icons.pages_outlined,
-              title: translate(context, LocaleStrings.products),
-              children: [
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.productDemo),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              widget: ProductDemo(
-                            type: "demo",
-                          )));
-                    }),
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.focusedProduct),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              widget: ProductDemo(
-                            type: "focused",
-                          )));
-                    }),
-              ]),
-          buildExpansionTile(
-              iconData: Icons.pages_outlined,
-              title: translate(context, LocaleStrings.gift),
-              children: [
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.redeemGift),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: GiftCategory()));
-                    }),
-                buildExpansionChild(
-                    title: translate(context, LocaleStrings.redeemedGifts),
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: RedeemedGift()));
-                    }),
-                /* buildExpansionChild(
-                    title: "Track Gift",
-                    onTap: () {
-                      scaffoldKey.currentState.openEndDrawer();
-                      Navigator.push(
-                          context, CustomPageRoute(widget: TrackGift()));
-                    }), */
-              ]),
-          buildDrawerItems(translate(context, LocaleStrings.reports), () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: Report()));
-          }, Icons.report),
-          buildDrawerItems(translate(context, LocaleStrings.myNotifications), () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: Notifications()));
-          }, Icons.notifications_on_outlined),
-          buildDrawerItems(translate(context, LocaleStrings.termsAndConditions), () {
-            scaffoldKey.currentState.openEndDrawer();
-            Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
-          }, Icons.ballot_outlined),
-          ListTile(
-            title: Row(
-              children: [
-                ImageIcon(
-                  AssetImage("assets/icons/app-icon.png"),
-                  color: Colors.grey,
-                  size: 30,
-                ),
-                SizedBox(
-                  width: 3,
-                ),
-                Text(translate(context, LocaleStrings.visitOurSite)),
-              ],
+            Divider(
+              height: 0,
             ),
-            onTap: () async {
+            buildDrawerItems(translate(context, LocaleStrings.home), () {
               scaffoldKey.currentState.openEndDrawer();
-              var url = "https://www.palshopie.com/";
-              if (await canLaunch(url))
-                launch(url);
-              else
-                Fluttertoast.showToast(msg: "Unable to open play store");
-            },
-          ),
-          /* ListTile(
-            title: Row(
-              children: [
-                SizedBox(
-                  width: 4,
-                ),
-                ImageIcon(
-                  AssetImage("assets/icons/playstore.png"),
-                  color: Colors.grey,
-                  size: 18,
-                ),
-                gap,
-                Text("Pal Shoppie"),
-              ],
-            ),
-            onTap: () async {
+              homeState.setState(() {});
+            }, Icons.home),
+            buildDrawerItems(translate(context, LocaleStrings.productCatalog), () {
               scaffoldKey.currentState.openEndDrawer();
-              var url =
-                  "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
-              if (await canLaunch(url))
-                launch(url);
-              else
-                Fluttertoast.showToast(msg: "Unable to open play store");
-            },
-          ), */
-          buildDrawerItems(
-              translate(context, LocaleStrings.logout),
-              () => showDialogBox(
-                  context: context,
-                  actions: [
-                    buildAlertButton(
-                        text: translate(context, LocaleStrings.no),
-                        context: context,
-                        onPressed: () => Navigator.pop(context),
-                        textColor: Colors.grey),
-                    buildAlertButton(
-                        text: translate(context, LocaleStrings.yes), context: context, onPressed: _logout),
-                  ],
-                  title: translate(context, LocaleStrings.palShoppie),
-                  content: translate(context, LocaleStrings.areYouSureYouWantTOExit)),
-              Icons.logout),
-        ],
+              Navigator.push(context, CustomPageRoute(widget: ProductCatalog()));
+            }, Icons.book_outlined),
+            buildDrawerItems(translate(context, LocaleStrings.updateKYC), () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(context, CustomPageRoute(widget: KYC()));
+            }, Icons.book_online_outlined),
+            buildExpansionTile(
+                iconData: Icons.table_chart_outlined,
+                title: translate(context, LocaleStrings.customerBondingProgram),
+                children: [
+                  buildExpansionChild(
+                    title: translate(context, LocaleStrings.myEarnedPoints),
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(
+                          context, CustomPageRoute(widget: EarnedPoints()));
+                    },
+                  ),
+                ]),
+            buildExpansionTile(
+                iconData: Icons.pages,
+                title: translate(context, LocaleStrings.serviceRequest),
+                children: [
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.newServiceRequest),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: Complain()));
+                      }),
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.viewServiceRequest),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: ServiceRequest()));
+                      }),
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.trackComplaints),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: TrackComplaint()));
+                      }),
+                ]),
+            buildExpansionTile(
+                iconData: Icons.pages_outlined,
+                title: translate(context, LocaleStrings.products),
+                children: [
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.productDemo),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                widget: ProductDemo(
+                              type: "demo",
+                            )));
+                      }),
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.focusedProduct),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                widget: ProductDemo(
+                              type: "focused",
+                            )));
+                      }),
+                ]),
+            buildExpansionTile(
+                iconData: Icons.pages_outlined,
+                title: translate(context, LocaleStrings.gift),
+                children: [
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.redeemGift),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: GiftCategory()));
+                      }),
+                  buildExpansionChild(
+                      title: translate(context, LocaleStrings.redeemedGifts),
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: RedeemedGift()));
+                      }),
+                  /* buildExpansionChild(
+                      title: "Track Gift",
+                      onTap: () {
+                        scaffoldKey.currentState.openEndDrawer();
+                        Navigator.push(
+                            context, CustomPageRoute(widget: TrackGift()));
+                      }), */
+                ]),
+            buildDrawerItems(translate(context, LocaleStrings.reports), () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(context, CustomPageRoute(widget: Report()));
+            }, Icons.report),
+            buildDrawerItems(translate(context, LocaleStrings.myNotifications), () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(context, CustomPageRoute(widget: Notifications()));
+            }, Icons.notifications_on_outlined),
+            buildDrawerItems(translate(context, LocaleStrings.termsAndConditions), () {
+              scaffoldKey.currentState.openEndDrawer();
+              Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
+            }, Icons.ballot_outlined),
+            ListTile(
+              title: Row(
+                children: [
+                  ImageIcon(
+                    AssetImage("assets/icons/app-icon.png"),
+                    color: Colors.grey,
+                    size: 30,
+                  ),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  Text(translate(context, LocaleStrings.visitOurSite)),
+                ],
+              ),
+              onTap: () async {
+                scaffoldKey.currentState.openEndDrawer();
+                var url = "https://www.palshopie.com/";
+                if (await canLaunch(url))
+                  launch(url);
+                else
+                  Fluttertoast.showToast(msg: "Unable to open play store");
+              },
+            ),
+            /* ListTile(
+              title: Row(
+                children: [
+                  SizedBox(
+                    width: 4,
+                  ),
+                  ImageIcon(
+                    AssetImage("assets/icons/playstore.png"),
+                    color: Colors.grey,
+                    size: 18,
+                  ),
+                  gap,
+                  Text("Pal Shoppie"),
+                ],
+              ),
+              onTap: () async {
+                scaffoldKey.currentState.openEndDrawer();
+                var url =
+                    "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
+                if (await canLaunch(url))
+                  launch(url);
+                else
+                  Fluttertoast.showToast(msg: "Unable to open play store");
+              },
+            ), */
+            buildDrawerItems(
+                translate(context, LocaleStrings.logout),
+                () => showDialogBox(
+                    context: context,
+                    actions: [
+                      buildAlertButton(
+                          text: translate(context, LocaleStrings.no),
+                          context: context,
+                          onPressed: () => Navigator.pop(context),
+                          textColor: Colors.grey),
+                      buildAlertButton(
+                          text: translate(context, LocaleStrings.yes), context: context, onPressed: _logout),
+                    ],
+                    title: translate(context, LocaleStrings.palShoppie),
+                    content: translate(context, LocaleStrings.areYouSureYouWantTOExit)),
+                Icons.logout),
+          ],
+        ),
       ),
     ),
   );
