@@ -1,6 +1,5 @@
 const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
-String lastNotificationCount = "0";
 
 class UserParams {
   static String id = "id";

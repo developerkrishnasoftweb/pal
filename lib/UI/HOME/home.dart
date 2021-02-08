@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
   String rateMessage = "";
   List<CarouselItems> carouselItems = [];
   List<ItemListBuilder> itemList = [];
-  int rate = 0;
+  int rate = 0, lastNotificationCount = 0;
   Language language;
 
   @override
@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
     });
     scaffoldKey = GlobalKey<ScaffoldState>();
     setItemList();
+    getNotificationCount();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
   }
@@ -212,6 +213,13 @@ class _HomeState extends State<Home> {
     await main();
     Fluttertoast.showToast(msg: "Language changed successfully");
   }
+  getNotificationCount() async {
+    await Services.getNotificationCount().then((value) {
+      setState(() {
+        lastNotificationCount = int.parse(value);
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -276,11 +284,11 @@ class _HomeState extends State<Home> {
                                 color: Colors.white,
                               ),
                               onPressed: () => Navigator.push(context,
-                                  CustomPageRoute(widget: Notifications())),
+                                  CustomPageRoute(widget: Notifications())).then((value) => getNotificationCount()),
                               splashRadius: 23,
                               iconSize: 20,
                             ),
-                            badgeValue: int.parse(lastNotificationCount),
+                            badgeValue: lastNotificationCount,
                             badgeSize: Size(15, 15)),
                       ]),
                 ),

@@ -62,21 +62,11 @@ Future<bool> getCredential() async {
   if (sharedPreference.getString("username") != null &&
       sharedPreference.getString(UserParams.password) != null) {
     await setData();
-    getNotificationCount();
     return true;
   } else
     return false;
 }
 
-getNotificationCount() {
-  Timer.periodic(Duration(milliseconds: 1000), (timer) async {
-    await Services.getNotificationCount().then((value) {
-      lastNotificationCount = value;
-    });
-    await Services.getUserData();
-    await setData();
-  });
-}
 
 /*
 * set userdata
