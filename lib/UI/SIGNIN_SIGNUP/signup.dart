@@ -220,12 +220,6 @@ class _SignUpState extends State<SignUp> {
           if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
             String otp = RandomInt.generate().toString();
             setState(() => signUpStatus = true);
-            String firstName, lastName;
-            if (fullName.split(" ").length >= 2) {
-              firstName = fullName.split(" ")[0];
-              lastName = fullName.split(" ")[1];
-            } else
-              firstName = fullName;
             FormData userData = FormData.fromMap({
               "name": fullName,
               "email": email,

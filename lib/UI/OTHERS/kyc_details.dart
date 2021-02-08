@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 

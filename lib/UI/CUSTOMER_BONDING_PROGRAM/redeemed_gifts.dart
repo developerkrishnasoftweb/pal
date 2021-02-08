@@ -2,16 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Common/appbar.dart';
+import 'package:pal/Constant/color.dart';
 import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
-
-import '../../Common/appbar.dart';
-import '../../Constant/color.dart';
-import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
-import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift.dart';
-import '../../UI/OTHERS/product_description.dart';
+import 'package:pal/SERVICES/services.dart';
+import 'package:pal/SERVICES/urls.dart';
+import 'package:pal/UI/OTHERS/product_description.dart';
 
 class RedeemedGift extends StatefulWidget {
   @override

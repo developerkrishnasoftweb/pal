@@ -13,17 +13,13 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
-import '../../Common/page_route.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
-import '../../Constant/global.dart';
-import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/HOME/home.dart';
 import '../../main.dart';
 
 class ChangeAddress extends StatefulWidget {
