@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -97,7 +99,7 @@ class _ComplainState extends State<Complain> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      appBar: appBar(context: context, title: "Complain"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.complain)),
       body: Stack(children: [
         SingleChildScrollView(
           padding: EdgeInsets.only(top: 30, bottom: 100),
@@ -131,7 +133,7 @@ class _ComplainState extends State<Complain> {
               ),
               input(
                   context: context,
-                  text: "Brief Description $mandatoryChar",
+                  text: "${translate(context, LocaleStrings.briefDescriptions)} $mandatoryChar",
                   decoration: InputDecoration(border: border()),
                   maxLines: 5,
                   controller: descriptionText),
@@ -146,7 +148,7 @@ class _ComplainState extends State<Complain> {
                           mediaType: MediaType.IMAGE, source: Source.GALLERY)),
                   text: image != null
                       ? image.path.split("/").last
-                      : "Attach Image",
+                      : translate(context, LocaleStrings.attachImage),
                   showIcon: image != null ? false : true),
               SizedBox(
                 height: 20,
@@ -159,7 +161,7 @@ class _ComplainState extends State<Complain> {
                   //         mediaType: MediaType.VIDEO, source: Source.GALLERY)),
                   text: video != null
                       ? video.path.split("/").last
-                      : "Attach Video",
+                      : translate(context, LocaleStrings.attachVideo),
                   onPressed: null,
                   showIcon: video != null ? false : true),
             ],
@@ -170,7 +172,7 @@ class _ComplainState extends State<Complain> {
               context: context,
               onPressed: isLoading ? null : _addComplain,
               height: 60,
-              text: isLoading ? null : "SUBMIT",
+              text: isLoading ? null : translate(context, LocaleStrings.submitBtn),
               child: isLoading
                   ? SizedBox(
                       height: 30,

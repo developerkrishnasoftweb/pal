@@ -64,6 +64,12 @@ class LocaleStrings {
   static String earnPoint = "earnPoint";
   static String sales = "sales";
   static String closingPoint = "closingPoint";
+  static String cumulativeScore = "cumulativeScore";
+  static String cycleNo = "cycleNo";
+  static String purchaseForThisCycle = "purchaseForThisCycle";
+  static String redeemInThisCycle = "redeemInThisCycle";
+  static String pointsEarnedDuringThisCycle = "pointsEarnedDuringThisCycle";
+  static String lastTransactionOn = "lastTransactionOn";
 
   //complain screen strings
   static String productRelated = "productRelated";
@@ -87,6 +93,7 @@ class LocaleStrings {
   //track complain
   static String enterComplainNo = "enterComplainNo";
   static String complainNo = "complainNo";
+  static String close = "close";
 
   //redeem amount
   static String enterAmount = "enterAmount";

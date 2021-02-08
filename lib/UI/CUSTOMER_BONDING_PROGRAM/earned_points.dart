@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
@@ -27,7 +29,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Earned Point", actions: [
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.earnedPoints), actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Center(
@@ -59,7 +61,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
             height: 20,
           ),
           buildRedeemedAmount(
-              title: "User Name : ",
+              title: "${translate(context, LocaleStrings.userName)} : ",
               value: userdata.name,
               leadingTrailing: false,
               fontSize: 17),
@@ -67,7 +69,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
             height: 10,
           ),
           buildRedeemedAmount(
-              title: "Cumulative Score : ",
+              title: "${translate(context, LocaleStrings.cumulativeScore)} : ",
               value: "${double.parse(userdata.totalOrder).round()}",
               leadingTrailing: true),
           SizedBox(
@@ -128,7 +130,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Cycle No.: ${data.cycleNo}",
+                "${translate(context, LocaleStrings.cycleNo)}.: ${data.cycleNo}",
                 style: style2,
               ),
               Text(
@@ -141,7 +143,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
             height: 20,
           ),
           Text(
-              "Purchase for this cycle : ${double.parse(data.purchase).round()}",
+              "${translate(context, LocaleStrings.purchaseForThisCycle)} : ${double.parse(data.purchase).round()}",
               style: style1),
           SizedBox(
             height: 5,
@@ -154,7 +156,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   alignment: Alignment.centerLeft,
                   child: RichText(
                     text: TextSpan(
-                        text: "Earned Point : ",
+                        text: "${translate(context, LocaleStrings.earnedPoints)} : ",
                         style: style1,
                         children: [
                           TextSpan(text: data.earnedPoints, style: style)
@@ -167,7 +169,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   alignment: Alignment.centerRight,
                   child: RichText(
                     text: TextSpan(
-                        text: "Closing Point : ",
+                        text: "${translate(context, LocaleStrings.closingPoint)} : ",
                         style: style1,
                         children: [
                           TextSpan(text: data.closingPoints, style: style)
@@ -181,14 +183,14 @@ class _EarnedPointsState extends State<EarnedPoints> {
       ),
       children: [
         buildChildrenRow(
-            title: "Purchase for this cycle",
+            title: translate(context, LocaleStrings.purchaseForThisCycle),
             value: "${double.parse(data.purchase).round()}"),
-        buildChildrenRow(title: "Redeem in this cycle", value: data.redeem),
+        buildChildrenRow(title: translate(context, LocaleStrings.redeemInThisCycle), value: data.redeem),
         buildChildrenRow(
-            title: "Points earned during this cycle",
+            title: translate(context, LocaleStrings.pointsEarnedDuringThisCycle),
             value: data.earnedPoints.padLeft(2)),
         buildChildrenRow(
-            title: "Last transaction on",
+            title: translate(context, LocaleStrings.lastTransactionOn),
             value: data.transaction.length > 0
                 ? data.transaction.last["created"]
                 : "--"),

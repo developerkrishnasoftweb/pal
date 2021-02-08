@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/UI/OTHERS/track_complaint.dart';
 
 import '../../Common/appbar.dart';
@@ -58,7 +60,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Service Request"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.serviceRequest)),
       body: services.length != 0
           ? SingleChildScrollView(
               physics: PageScrollPhysics(),
@@ -78,7 +80,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
             )
           : Center(
               child: isLoading
-                  ? Text("No services found !!!!")
+                  ? Text(translate(context, LocaleStrings.noServiceRequestFound))
                   : SizedBox(
                       height: 30,
                       width: 30,
@@ -95,7 +97,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
           },
           height: 60,
           width: size.width,
-          text: "NEW SERVICE REQUEST"),
+          text: translate(context, LocaleStrings.newServiceRequest)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -110,7 +112,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
           children: [
             RichText(
               text: TextSpan(
-                  text: "Complain Code : ",
+                  text: "${translate(context, LocaleStrings.complainNo)} : ",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
@@ -130,7 +132,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
                           onPressed: () {
                             Clipboard.setData(
                                 ClipboardData(text: complainNumber));
-                            Fluttertoast.showToast(msg: "Copied");
+                            Fluttertoast.showToast(msg: translate(context, LocaleStrings.copied));
                           },
                           splashRadius: 25,
                           iconSize: 18,
@@ -160,7 +162,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
                               complainNumber: complainNumber,
                             ))),
                         child: Text(
-                          status.toUpperCase(),
+                          translate(context, LocaleStrings.openBtn).toUpperCase(),
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                               fontSize: 14,
                               color: status == "open"
@@ -169,7 +171,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
                         ),
                       )
                     : Text(
-                        "CLOSE",
+                        translate(context, LocaleStrings.close),
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1

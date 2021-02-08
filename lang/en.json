@@ -54,6 +54,12 @@
   "earnPoint" : "Earn Point",
   "sales" : "Sales",
   "closingPoint" : "Closing Point",
+  "cumulativeScore" : "Cumulative Score",
+  "cycleNo" : "Cycle No",
+  "purchaseForThisCycle" : "Purchase For This Cycle",
+  "redeemInThisCycle" : "Redeem In This Cycle",
+  "pointsEarnedDuringThisCycle" : "Points Earned During This Cycle",
+  "lastTransactionOn" : "Last Transaction On",
 
   "productRelated" : "Product Related",
   "seniorRelated" : "Senior Related",
@@ -73,6 +79,7 @@
 
   "complainNo" : "Complain Number",
   "enterComplainNo" : "Enter Complain No",
+  "close" : "Close",
 
   "enterAmount" : "Enter Amount",
 

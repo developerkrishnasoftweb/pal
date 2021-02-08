@@ -54,6 +54,12 @@
   "earnPoint" : "अर्जित अंक",
   "sales" : "बिक्री",
   "closingPoint" : "समापन राशि",
+  "cumulativeScore" : "संचयी स्कोर",
+  "cycleNo" : "चक्र नं",
+  "purchaseForThisCycle" : "इस चक्र के लिए खरीद",
+  "redeemInThisCycle" : "इस चक्र में भुनाएं",
+  "pointsEarnedDuringThisCycle" : "इस चक्र के दौरान अर्जित अंक",
+  "lastTransactionOn" : "अंतिम लेनदेन",
 
   "productRelated" : "उत्पाद संबंधी",
   "seniorRelated" : "वरिष्ठ संबंधित",
@@ -73,6 +79,7 @@
 
   "complainNo" : "शिकायत सं",
   "enterComplainNo" : "शिकायत नंबर दर्ज करें",
+  "close" : "बंद",
 
   "enterAmount" : "राशी डालें",
 
