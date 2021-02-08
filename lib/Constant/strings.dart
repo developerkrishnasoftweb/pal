@@ -101,6 +101,8 @@ class LocaleStrings {
 
   //product description
   static String productDescription = "productDescription";
+  static String points = "points";
+  static String giftSpecification = "giftSpecification";
 
   // report screen
   static String earned = "earned";
