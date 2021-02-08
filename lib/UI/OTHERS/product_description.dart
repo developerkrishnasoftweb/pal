@@ -45,7 +45,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 Urls.imageBaseUrl + widget.giftData.image,
                 height: 250,
                 width: size.width,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
                 loadingBuilder: (context, child, progress) {
                   return progress == null
                       ? child
