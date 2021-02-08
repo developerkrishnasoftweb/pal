@@ -167,7 +167,7 @@ class _GiftState extends State<GiftCategory> {
               height: 10,
             ),
             Text(
-              "${int.parse(giftCategoryData.min) > 0 ? giftCategoryData.min + " - " : ""}${giftCategoryData.max} Points",
+              "${int.parse(giftCategoryData.min) > 0 ? giftCategoryData.min + " - " : ""}${giftCategoryData.max} ${translate(context, LocaleStrings.points)}",
               textAlign: TextAlign.center,
               softWrap: true,
               maxLines: 2,

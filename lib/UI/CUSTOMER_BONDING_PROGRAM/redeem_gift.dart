@@ -183,7 +183,7 @@ class _RedeemGiftState extends State<RedeemGift> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          Text("${giftData.points} Points",
+          Text("${giftData.points} ${translate(context, LocaleStrings.points)}",
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                     width: 5,
                   ),
                   Text(
-                    "VIEW",
+                    translate(context, LocaleStrings.viewBtn),
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
