@@ -16,8 +16,8 @@ class Urls{
   /*
   * API Urls
   * */
-  static String baseUrl = "http://generalstore.krishnasoftweb.com/api/";
-  static String imageBaseUrl = "http://generalstore.krishnasoftweb.com/";
+  static String baseUrl = "https://generalstore.krishnasoftweb.com/api/";
+  static String imageBaseUrl = "https://generalstore.krishnasoftweb.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
   static String checkUsersPurchaseBPGS = "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
