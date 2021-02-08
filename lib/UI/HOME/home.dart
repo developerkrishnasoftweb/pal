@@ -187,15 +187,15 @@ class _HomeState extends State<Home> {
     itemList = [
       ItemListBuilder(
           title: LocaleStrings.productCatalog,
-          widget: ServiceRequest(),
+          widget: ProductCatalog(),
           image: AssetImage("assets/images/product-catalog.png")),
       ItemListBuilder(
           title: LocaleStrings.earnedPoints,
-          widget: ServiceRequest(),
+          widget: EarnedPoints(),
           image: AssetImage("assets/images/earned-point.png")),
       ItemListBuilder(
           title: LocaleStrings.redeemGift,
-          widget: ServiceRequest(),
+          widget: GiftCategory(),
           image: AssetImage("assets/images/redeem-gift.png")),
       ItemListBuilder(
           title: LocaleStrings.serviceRequest,

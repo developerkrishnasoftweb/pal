@@ -60,7 +60,9 @@ class _ServiceRequestState extends State<ServiceRequest> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.serviceRequest)),
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.serviceRequest)),
       body: services.length != 0
           ? SingleChildScrollView(
               physics: PageScrollPhysics(),
@@ -72,7 +74,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
                     buildRequest(
                         complainNumber: services[i].ticketNo,
                         date: services[i].dateTime.split(" ").first,
-                        status: services[i].status,
+                        status: services[i].status.toLowerCase(),
                         time: services[i].dateTime.split(" ").last),
                   ],
                 ],
@@ -80,7 +82,8 @@ class _ServiceRequestState extends State<ServiceRequest> {
             )
           : Center(
               child: isLoading
-                  ? Text(translate(context, LocaleStrings.noServiceRequestFound))
+                  ? Text(
+                      translate(context, LocaleStrings.noServiceRequestFound))
                   : SizedBox(
                       height: 30,
                       width: 30,
@@ -132,7 +135,8 @@ class _ServiceRequestState extends State<ServiceRequest> {
                           onPressed: () {
                             Clipboard.setData(
                                 ClipboardData(text: complainNumber));
-                            Fluttertoast.showToast(msg: translate(context, LocaleStrings.copied));
+                            Fluttertoast.showToast(
+                                msg: translate(context, LocaleStrings.copied));
                           },
                           splashRadius: 25,
                           iconSize: 18,
@@ -162,20 +166,21 @@ class _ServiceRequestState extends State<ServiceRequest> {
                               complainNumber: complainNumber,
                             ))),
                         child: Text(
-                          translate(context, LocaleStrings.openBtn).toUpperCase(),
+                          translate(context, LocaleStrings.openBtn)
+                              .toUpperCase(),
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                               fontSize: 14,
-                              color: status == "open"
-                                  ? Colors.green
-                                  : Colors.redAccent),
+                              color: Colors.green),
                         ),
                       )
-                    : Text(
-                        translate(context, LocaleStrings.close),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(fontSize: 14, color: Colors.redAccent),
+                    : FlatButton(
+                        onPressed: null,
+                        child: Text(
+                          translate(context, LocaleStrings.close).toUpperCase(),
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 14,
+                              color: Colors.redAccent),
+                        ),
                       )
               ],
             ),

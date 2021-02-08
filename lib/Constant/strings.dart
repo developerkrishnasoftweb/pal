@@ -48,6 +48,7 @@ class LocaleStrings {
   static String trackGift = "trackGift";
   static String reports = "reports";
   static String myNotifications = "myNotifications";
+  static String youDontHaveNotifications = "youDontHaveNotifications";
   static String termsAndConditions = "termsAndConditions";
   static String visitOurSite = "visitOurSite";
   static String palShoppie = "palShoppie";
@@ -102,12 +103,14 @@ class LocaleStrings {
   static String productDescription = "productDescription";
 
   // report screen
-  static String daily = "daily";
-  static String monthly = "monthly";
-  static String quarterly = "quarterly";
-  static String totalDailySales = "totalDailySales";
-  static String totalMonthlySales = "totalMonthlySales";
-  static String totalQuarterlySales = "totalQuarterlySales";
+  static String earned = "earned";
+  static String scored = "scored";
+  static String redeemed = "redeemed";
+  static String festival = "festival";
+  static String totalEarnedPoint = "totalEarnedPoint";
+  static String totalScored = "totalScored";
+  static String totalRedeemedPoint = "totalRedeemedPoint";
+  static String totalFestivalPoint = "totalFestivalPoint";
 
   static String submitBtn = "submitBtn";
   static String viewBtn = "viewBtn";

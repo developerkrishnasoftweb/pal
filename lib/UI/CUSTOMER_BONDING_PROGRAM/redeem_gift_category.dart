@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/page_route.dart';
@@ -49,7 +51,7 @@ class _GiftState extends State<GiftCategory> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Redeem Gift"),
+        appBar: appBar(context: context, title: translate(context, LocaleStrings.redeemGift), actions: [wallet()]),
         body: giftCategoryList.length != 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -59,18 +61,34 @@ class _GiftState extends State<GiftCategory> {
                       width: size.width,
                       height: 20,
                     ),
-                    buildRedeemedAmount(
-                        title: "Available Points : ",
-                        amount: userdata.point,
-                        leadingTrailing: false,
-                        fontSize: 17),
-                    SizedBox(
-                      height: 10,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: "( ",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: translate(context, LocaleStrings.cumulativeScore) + " : ",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: userdata.totalOrder,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black, fontSize: 15),
+                        ),
+                        TextSpan(
+                          text: " )",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      ]),
                     ),
-                    buildRedeemedAmount(
-                        title: "Cumulative Score : ",
-                        amount: "${double.parse(userdata.totalOrder).round()}",
-                        leadingTrailing: true),
                     GridView.builder(
                         shrinkWrap: true,
                         itemCount: giftCategoryList.length,
@@ -161,38 +179,6 @@ class _GiftState extends State<GiftCategory> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget buildRedeemedAmount(
-      {String title, String amount, bool leadingTrailing, double fontSize}) {
-    TextStyle style = Theme.of(context).textTheme.bodyText1.copyWith(
-        color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold);
-    return RichText(
-      text: TextSpan(children: [
-        TextSpan(
-          text: leadingTrailing ? "(" : "",
-          style: style,
-        ),
-        TextSpan(
-          text: title,
-          style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: Colors.grey,
-              fontSize: fontSize ?? 13,
-              fontWeight: FontWeight.bold),
-        ),
-        TextSpan(
-          text: amount,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              .copyWith(color: Colors.black, fontSize: fontSize ?? 13),
-        ),
-        TextSpan(
-          text: leadingTrailing ? ")" : "",
-          style: style,
-        ),
-      ]),
     );
   }
 }

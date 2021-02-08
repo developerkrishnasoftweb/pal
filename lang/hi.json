@@ -38,6 +38,7 @@
   "trackGift" : "ट्रैक उपहार",
   "reports" : "रिपोर्ट",
   "myNotifications" : "मेरी सूचनाएँ",
+  "youDontHaveNotifications" : "आपके पास सूचनाएं नहीं हैं",
   "termsAndConditions" : "नियम और शर्तें",
   "visitOurSite" : "हमारी साइट पर जाएँ",
   "palShoppie" : "पाल शॉपी",
@@ -85,12 +86,14 @@
 
   "productDescription" : "उत्पाद वर्णन",
 
-  "daily" : "रोज के",
-  "monthly" : "महीने के",
-  "quarterly" : "त्रैमासिक",
-  "totalDailySales" : "कुल दैनिक बिक्री",
-  "totalMonthlySales" : "कुल मासिक बिक्री",
-  "totalQuarterlySales" : "कुल त्रैमासिक बिक्री",
+  "earned" : "कमाया हुआ",
+  "scored" : "रन बनाए",
+  "redeemed" : "छुड़ाया",
+  "festival" : "त्यौहार",
+  "totalEarnedPoint" : "कुल अर्जित अंक",
+  "totalScored" : "कुल स्कोर किया",
+  "totalRedeemedPoint" : "कुल भुनाए गए अंक",
+  "totalFestivalPoint" : "कुल त्योहार में अर्जित",
 
   "submitBtn" : "जमा",
   "viewBtn" : "देखे",

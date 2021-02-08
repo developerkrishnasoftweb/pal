@@ -29,3 +29,30 @@ FormData SMSDATA({String mobile, String message}) {
     "gwid": Urls.gwID
   });
 }
+
+Widget wallet({Color color}) {
+  return Center(
+    child: Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            WidgetSpan(
+                child: Icon(
+                  Icons.account_balance_wallet_outlined,
+                  color: color ?? Colors.white,
+                ),
+                alignment: PlaceholderAlignment.middle),
+            TextSpan(
+                text: "\t" +
+                    "${userdata != null ? userdata.point != null ? double.parse(userdata.point).round() : "0" : "0"}",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: color ?? Colors.white))
+          ],
+        ),
+      ),
+    ),
+  );
+}

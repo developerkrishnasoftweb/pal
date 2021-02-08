@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
 import 'package:pal/Constant/userdata.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsNCondition extends StatefulWidget {
@@ -31,7 +33,7 @@ class _TermsNConditionState extends State<TermsNCondition> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context: context, title: "Terms & Conditions"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.termsAndConditions)),
       body: WebView(
         initialUrl: 'about:blank',
         onWebViewCreated: (WebViewController webViewController) {

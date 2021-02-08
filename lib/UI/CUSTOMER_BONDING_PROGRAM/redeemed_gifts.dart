@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
@@ -55,7 +57,7 @@ class _RedeemedGiftState extends State<RedeemedGift> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: "Redeemed Gifts"),
+        appBar: appBar(context: context, title: translate(context, LocaleStrings.redeemedGifts)),
         body: giftList.length != 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),

@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
@@ -69,7 +71,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: "Please enter complain no.");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.enterComplainNo));
     }
   }
 
@@ -77,7 +79,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Track Complaint"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.trackComplaints)),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: 100),
@@ -86,17 +88,15 @@ class _TrackComplaintState extends State<TrackComplaint> {
             input(
               autoFocus: widget.complainNumber != null ? false : true,
               context: context,
-              text: "Enter Complaint No $mandatoryChar",
+              text: "${translate(context, LocaleStrings.enterComplainNo)} $mandatoryChar",
               padding: EdgeInsets.all(20),
               decoration: InputDecoration(
                 border: border(),
               ),
-              onEditingComplete: _getComplainData,
               onChanged: (value) {
-                setState(() {
-                  complainNo.text = value;
-                });
+                setState(() {});
               },
+              onEditingComplete: _getComplainData,
               controller: complainNo,
             ),
             SizedBox(
@@ -104,7 +104,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
             ),
             details != null
                 ? ExpansionTile(
-                    title: Text("Complain No : " + details.complainNo),
+                    title: Text("${translate(context, LocaleStrings.complainNo)} : " + details.complainNo),
                     initiallyExpanded: true,
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,13 +150,13 @@ class _TrackComplaintState extends State<TrackComplaint> {
           ],
         ),
       ),
-      floatingActionButton: complainNo.text.isNotEmpty
+      floatingActionButton: complainNo.text.length > 0
           ? customButton(
               context: context,
               onPressed: _getComplainData,
               height: 60,
               width: size.width,
-              text: "SEARCH")
+              text: translate(context, LocaleStrings.searchBtn))
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

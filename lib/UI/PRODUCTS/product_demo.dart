@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
@@ -78,7 +80,7 @@ class _ProductDemoState extends State<ProductDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context: context, title: "Product Demo"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.productDemo)),
       body: Column(
         children: [
           input(
@@ -87,7 +89,7 @@ class _ProductDemoState extends State<ProductDemo> {
               onChanged: _search,
               decoration: InputDecoration(
                   border: border(),
-                  hintText: "Search product...",
+                  hintText: translate(context, LocaleStrings.searchProduct),
                   suffixIcon: Icon(Icons.search))),
           Expanded(
               child: searchedDataFound

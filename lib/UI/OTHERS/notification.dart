@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
@@ -75,7 +77,7 @@ class _NotificationState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context: context, title: "Notification"),
+        appBar: appBar(context: context, title: translate(context, LocaleStrings.myNotifications)),
         body: notifications != null
             ? notifications.length > 0
                 ? SingleChildScrollView(
@@ -97,7 +99,7 @@ class _NotificationState extends State<Notifications> {
                     ),
                   )
             : Center(
-                child: Text("You don't have notifications"),
+                child: Text(translate(context, LocaleStrings.youDontHaveNotifications)),
               ));
   }
 

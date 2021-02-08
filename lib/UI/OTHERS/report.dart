@@ -4,6 +4,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/input_decoration.dart';
@@ -34,7 +36,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           .toString());
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  List<String> tabs = ["Earn", "Score", "Redeem", "Festival"],
+  List<String> tabs = [LocaleStrings.earned, LocaleStrings.scored, LocaleStrings.redeemed, LocaleStrings.festival],
       earnTabHeader = ["Sr. No.", "Invoice Date", "Point Earn", "Branch Name"],
       purchaseTabHeader = [
         "Sr. No.",
@@ -354,7 +356,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         child: Scaffold(
           appBar: appBar(
               context: context,
-              title: "Report",
+              title: translate(context, LocaleStrings.reports),
               actions: [
                 IconButton(
                   icon: Icon(Icons.filter_list_outlined),
@@ -398,7 +400,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                               onPressed: isFiltered
                                   ? _reset
                                   : () => Navigator.pop(context),
-                              child: Text(isFiltered ? "Reset" : "Close")),
+                              child: Text(isFiltered ? "Reset" : translate(context, LocaleStrings.close))),
                           FlatButton(onPressed: _filter, child: Text("Filter")),
                         ]);
                   },
@@ -444,7 +446,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   },
                   tabs: tabs.map((e) {
                     return Tab(
-                      text: e,
+                      text: translate(context, e),
                     );
                   }).toList())),
           body: TabBarView(
@@ -460,7 +462,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total earned point : ${totalEarnedPoints.round()}"),
+              pointRow("${translate(context, LocaleStrings.totalEarnedPoint)} : ${totalEarnedPoints.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: earnTabHeader.map((header) {
@@ -489,7 +491,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total Score : ${totalPurchasePoint.round()}"),
+              pointRow("${translate(context, LocaleStrings.totalScored)} : ${totalPurchasePoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
@@ -520,7 +522,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total redeemed point : ${totalRedeemPoint.round()}"),
+              pointRow("${translate(context, LocaleStrings.totalRedeemedPoint)} : ${totalRedeemPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: redeemTabHeader.map((header) {
@@ -560,7 +562,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("Total Festival Points : ${totalFestivalPoint.round()}"),
+              pointRow("${translate(context, LocaleStrings.totalFestivalPoint)} : ${totalFestivalPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
@@ -623,7 +625,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
     return Center(
       child: !isLoading
           ? Text(
-              "No data found !!!",
+              translate(context, LocaleStrings.noDataFound),
               textAlign: TextAlign.center,
             )
           : SizedBox(

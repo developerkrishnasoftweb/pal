@@ -38,6 +38,7 @@
   "trackGift" : "Track Gift",
   "reports" : "Reports",
   "myNotifications" : "My Notifications",
+  "youDontHaveNotifications" : "You don't have notifications",
   "termsAndConditions" : "Terms & Conditions",
   "visitOurSite" : "Visit Our Site",
   "palShoppie" : "Pal Shoppie",
@@ -85,12 +86,14 @@
 
   "productDescription" : "Product Description",
 
-  "daily" : "Daily",
-  "monthly" : "Monthly",
-  "quarterly" : "Quarterly",
-  "totalDailySales" : "Total Daily Sales",
-  "totalMonthlySales" : "Total Monthly Sales",
-  "totalQuarterlySales" : "Total Quarterly Sales",
+  "earned" : "Earned",
+  "scored" : "Scored",
+  "redeemed" : "Redeemed",
+  "festival" : "Festival",
+  "totalEarnedPoint" : "Total Earned Points",
+  "totalScored" : "Total Scored",
+  "totalRedeemedPoint" : "Total Redeemed Points",
+  "totalFestivalPoint" : "Total Festival Points",
 
   "submitBtn" : "Submit",
   "viewBtn" : "View",

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/SERVICES/services.dart';
 import 'package:pal/UI/OTHERS/kyc_details.dart';
 import 'package:pal/UI/OTHERS/product_review.dart';
@@ -27,7 +29,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Product Description"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.productDescription)),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
         child: Column(
@@ -112,7 +114,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
             buildTitledRow(title: "Points", value: widget.giftData.points),
             buildTitledRow(
-                title: "Product Description", value: widget.giftData.desc),
+                title: translate(context, LocaleStrings.productDescription), value: widget.giftData.desc),
             SizedBox(
               height: 10,
             ),
@@ -164,10 +166,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   : () {
                       Fluttertoast.showToast(
                           msg:
-                              "You don't have enough points to redeem this gift.");
+                          translate(context, LocaleStrings.dontHaveEnoughPointToRedeem));
                     },
               height: 60,
-              text: "REDEEM",
+              text: translate(context, LocaleStrings.redeemBtn),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
