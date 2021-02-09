@@ -6,7 +6,7 @@ class Urls{
   /*
   * some constant strings used for api
   * */
-  static String apiKey = "abc1234";
+  static String apiKey = "0imfnc8mVLWwsAawjYr4Rx";
   static String user = "pal";
   static String password = "Admin@pal";
   static String sID = "PALSMS";
@@ -16,8 +16,8 @@ class Urls{
   /*
   * API Urls
   * */
-  static String baseUrl = "https://generalstore.krishnasoftweb.com/api/";
-  static String imageBaseUrl = "https://generalstore.krishnasoftweb.com/";
+  static String baseUrl = "https://www.palloyalty.com/api/";
+  static String imageBaseUrl = "https://www.palloyalty.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
   static String checkUsersPurchaseBPGS = "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
