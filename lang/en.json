@@ -140,10 +140,10 @@
   "pleaseEnterUserCode" : "Please enter user code",
 
   "areYouSureYouWantTOExit" : "Are you sure you want to exit?",
-  "yes" : "हाँ",
-  "no" : "नहीं",
+  "yes" : "Yes",
+  "no" : "No",
   "languageChanged" : "Language changed to English",
 
-  "pleaseWait" : ""
+  "pleaseWait" : "Please wait"
 
 }

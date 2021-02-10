@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalizations {
@@ -38,7 +38,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return ['hi', 'en'].contains(locale.languageCode);
+    return ['hi', 'en', 'pa'].contains(locale.languageCode);
   }
 
   @override

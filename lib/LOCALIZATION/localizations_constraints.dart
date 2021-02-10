@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 
 import '../Constant/global.dart';
-
 import 'localization.dart';
-import 'package:flutter/material.dart';
 
 String translate(BuildContext context, String key) {
   return AppLocalizations.of(context).translate(key) ?? "N/A";
@@ -11,6 +10,7 @@ String translate(BuildContext context, String key) {
 //Language Codes
 const String ENGLISH = 'en';
 const String HINDI = 'hi';
+const String PUNJABI = 'pa';
 
 const String LANGUAGE_CODE = 'languageCode';
 
@@ -24,13 +24,16 @@ Future<Locale> getLocale() async {
   return _locale(languageCode);
 }
 
-Locale _locale (String languageCode) {
+Locale _locale(String languageCode) {
   Locale locale;
-  switch(languageCode) {
+  switch (languageCode) {
     case ENGLISH:
       locale = Locale(languageCode, 'US');
       break;
     case HINDI:
+      locale = Locale(languageCode, 'IN');
+      break;
+    case PUNJABI:
       locale = Locale(languageCode, 'IN');
       break;
     default:

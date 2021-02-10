@@ -36,6 +36,7 @@ Future<void> main() async {
       supportedLocales: [
         Locale('en', 'US'),
         Locale('hi', 'IN'),
+        Locale('pa', 'IN'),
       ],
       localizationsDelegates: [
         AppLocalizations.delegate,
@@ -43,9 +44,10 @@ Future<void> main() async {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
-      localeResolutionCallback: (deviceLocale, supportedLocale){
-        for(var locale in supportedLocale) {
-          if(locale.languageCode == deviceLocale.languageCode && locale.countryCode == deviceLocale.countryCode) {
+      localeResolutionCallback: (deviceLocale, supportedLocale) {
+        for (var locale in supportedLocale) {
+          if (locale.languageCode == deviceLocale.languageCode &&
+              locale.countryCode == deviceLocale.countryCode) {
             return deviceLocale;
           }
         }
@@ -66,7 +68,6 @@ Future<bool> getCredential() async {
   } else
     return false;
 }
-
 
 /*
 * set userdata
