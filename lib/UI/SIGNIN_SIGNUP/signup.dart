@@ -273,19 +273,27 @@ class _SignUpState extends State<SignUp> {
                 signUpStatus = false;
               });
               Fluttertoast.showToast(
-                  msg: "You must have to purchase to avail the features");
+                  msg: translate(
+                      context,
+                      LocaleStrings
+                          .youMustHaveToPurchaseToAvailAllTheFeatures));
             }
           } else {
-            Fluttertoast.showToast(msg: "Invalid Mobile");
+            Fluttertoast.showToast(
+                msg: translate(context, LocaleStrings.invalidMobileNumber));
           }
         } else {
-          Fluttertoast.showToast(msg: "Invalid Email");
+          Fluttertoast.showToast(
+              msg: translate(context, LocaleStrings.invalidEmail));
         }
       } else {
-        Fluttertoast.showToast(msg: "Please check terms & conditions");
+        Fluttertoast.showToast(
+            msg: translate(
+                context, LocaleStrings.pleaseCheckTermsAndConditions));
       }
     } else {
-      Fluttertoast.showToast(msg: "All fields are required!");
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.allFieldsAreRequired));
     }
   }
 }

@@ -110,6 +110,9 @@
   "pleaseProvideAnniversaryDate" : "Please provide anniversary date",
   "invalidEmail" : "Invalid email",
   "invalidMobileNumber" : "Invalid mobile number",
+  "pleaseCheckTermsAndConditions" : "Please check terms and conditions",
+  "youMustHaveToPurchaseToAvailAllTheFeatures" :
+  "You must have to purchase to avail all the features",
   "aadharSizeSupportedUpTo" : "Aadhar size supported up to",
   "allFieldsAreRequired" : "All fields are required",
   "nameAndAlternateMobileCantBeEmpty" : "Name and Alternate mobile number cant be empty",

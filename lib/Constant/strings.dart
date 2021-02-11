@@ -127,6 +127,9 @@ class LocaleStrings {
   static String pleaseProvideAnniversaryDate = "pleaseProvideAnniversaryDate";
   static String invalidEmail = "invalidEmail";
   static String invalidMobileNumber = "invalidMobileNumber";
+  static String pleaseCheckTermsAndConditions = "pleaseCheckTermsAndConditions";
+  static String youMustHaveToPurchaseToAvailAllTheFeatures =
+      "youMustHaveToPurchaseToAvailAllTheFeatures";
   static String aadharSize = "aadharSize";
   static String allFieldsAreRequired = "allFieldsAreRequired";
   static String nameAndAlternateMobileCantBeEmpty =

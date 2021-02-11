@@ -110,6 +110,9 @@
   "pleaseProvideAnniversaryDate" : "कृपया वर्षगांठ की तारीख प्रदान करें",
   "invalidEmail" : "अमान्य ईमेल",
   "invalidMobileNumber" : "अमान्य मोबाइल नंबर",
+  "pleaseCheckTermsAndConditions" : "कृपया नियम और शर्तें जांचें",
+  "youMustHaveToPurchaseToAvailAllTheFeatures" :
+  "सभी सुविधाओं का लाभ उठाने के लिए आपको खरीदारी करनी होगी",
   "aadharSizeSupportedUpTo" : "आधार आकार तक समर्थित है",
   "allFieldsAreRequired" : "सभी फ़ील्ड आवश्यक हैं",
   "nameAndAlternateMobileCantBeEmpty" : "नाम और वैकल्पिक मोबाइल खाली नहीं हो सकता",
