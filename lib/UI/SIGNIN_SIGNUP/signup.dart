@@ -238,7 +238,6 @@ class _SignUpState extends State<SignUp> {
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
                 mobile: mobile);
-
             var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {

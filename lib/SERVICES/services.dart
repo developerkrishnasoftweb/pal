@@ -641,8 +641,8 @@ class Services {
           final jsonResponse = jsonDecode(response.data);
           await sharedPreferences.setString(
               UserParams.config, jsonEncode(jsonResponse["data"]));
-          config = Config.fromJson(
-              jsonDecode(sharedPreferences.getString(UserParams.config)));
+          config = Config.fromJson(await jsonDecode(
+              sharedPreferences.getString(UserParams.config) ?? "{}"));
         }
         return null;
       } on dio.DioError catch (e) {
@@ -652,8 +652,8 @@ class Services {
         } else {}
       } catch (e) {}
     } else {
-      config = Config.fromJson(
-          jsonDecode(sharedPreferences.getString(UserParams.config)));
+      config = Config.fromJson(await jsonDecode(
+          sharedPreferences.getString(UserParams.config) ?? {}));
     }
   }
 

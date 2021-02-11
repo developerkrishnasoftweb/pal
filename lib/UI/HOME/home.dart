@@ -25,6 +25,7 @@ import '../../Constant/global.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/notification.dart';
+import '../../main.dart';
 
 _HomeState homeState;
 
@@ -205,8 +206,8 @@ class _HomeState extends State<Home> {
       isChangingLang = true;
     });
     await setLocale(lang.languageCode);
-    appLocale = await setLocale(lang.languageCode);
-    // await main();
+    // appLocale = await setLocale(lang.languageCode);
+    await main();
     setState(() {
       isChangingLang = false;
     });
