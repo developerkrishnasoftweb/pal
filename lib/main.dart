@@ -87,9 +87,9 @@ Future<void> setData() async {
           address: data[0][UserParams.address],
           adhaar: data[0][UserParams.adhaar],
           altMobile: data[0][UserParams.altMobile],
-          anniversary: data[0][UserParams.anniversary],
+          anniversary: data[0][UserParams.anniversary] ?? "0000-00-00",
           area: data[0][UserParams.area],
-          dob: data[0][UserParams.dob],
+          dob: data[0][UserParams.dob] ?? "0000-00-00",
           maritalStatus: data[0][UserParams.maritalStatus],
           email: data[0][UserParams.email],
           gender: data[0][UserParams.gender] != null &&

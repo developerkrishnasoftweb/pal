@@ -9,7 +9,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/language.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
-import 'package:pal/main.dart';
+import 'package:pal/UI/CUSTOMER_BONDING_PROGRAM/earned_points.dart';
+import 'package:pal/UI/CUSTOMER_BONDING_PROGRAM/redeem_gift_category.dart';
+import 'package:pal/UI/PRODUCT_CATALOG/product_catalog.dart';
+import 'package:pal/UI/SERVICE_REQUEST/service_request.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Common/appbar.dart';
@@ -23,13 +26,10 @@ import '../../Constant/global.dart';
 import '../../Constant/userdata.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
-import '../../UI/CUSTOMER_BONDING_PROGRAM/earned_points.dart';
-import '../../UI/CUSTOMER_BONDING_PROGRAM/redeem_gift_category.dart';
 import '../../UI/OTHERS/notification.dart';
-import '../../UI/SERVICE_REQUEST/service_request.dart';
-import '../PRODUCT_CATALOG/product_catalog.dart';
 
 _HomeState homeState;
+
 class Home extends StatefulWidget {
   final bool showRateDialog;
   Home({this.showRateDialog});
@@ -44,9 +44,27 @@ class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> scaffoldKey;
   String rateMessage = "";
   List<CarouselItems> carouselItems = [];
-  List<ItemListBuilder> itemList = [];
+  List<ItemListBuilder> itemList = [
+    ItemListBuilder(
+        title: LocaleStrings.productCatalog,
+        widget: ProductCatalog(),
+        image: AssetImage("assets/images/product-catalog.png")),
+    ItemListBuilder(
+        title: LocaleStrings.earnedPoints,
+        widget: EarnedPoints(),
+        image: AssetImage("assets/images/earned-point.png")),
+    ItemListBuilder(
+        title: LocaleStrings.redeemGift,
+        widget: GiftCategory(),
+        image: AssetImage("assets/images/redeem-gift.png")),
+    ItemListBuilder(
+        title: LocaleStrings.serviceRequest,
+        widget: ServiceRequest(),
+        image: AssetImage("assets/images/service-request.png")),
+  ];
   int rate = 0, lastNotificationCount = 0;
   Language language;
+  bool isChangingLang = false;
 
   @override
   void initState() {
@@ -66,7 +84,6 @@ class _HomeState extends State<Home> {
       }
     });
     scaffoldKey = GlobalKey<ScaffoldState>();
-    setItemList();
     getNotificationCount();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
@@ -184,35 +201,20 @@ class _HomeState extends State<Home> {
     }
   }
 
-  void setItemList() {
-    itemList = [
-      ItemListBuilder(
-          title: LocaleStrings.productCatalog,
-          widget: ProductCatalog(),
-          image: AssetImage("assets/images/product-catalog.png")),
-      ItemListBuilder(
-          title: LocaleStrings.earnedPoints,
-          widget: EarnedPoints(),
-          image: AssetImage("assets/images/earned-point.png")),
-      ItemListBuilder(
-          title: LocaleStrings.redeemGift,
-          widget: GiftCategory(),
-          image: AssetImage("assets/images/redeem-gift.png")),
-      ItemListBuilder(
-          title: LocaleStrings.serviceRequest,
-          widget: ServiceRequest(),
-          image: AssetImage("assets/images/service-request.png")),
-    ];
-  }
   _languageChanged(Language lang) async {
     setState(() {
       language = lang;
+      isChangingLang = true;
     });
-    // appLocale = await setLocale(lang.languageCode);
     await setLocale(lang.languageCode);
-    await main();
+    appLocale = await setLocale(lang.languageCode);
+    // await main();
+    setState(() {
+      isChangingLang = false;
+    });
     Fluttertoast.showToast(msg: "Language changed successfully");
   }
+
   getNotificationCount() async {
     await Services.getNotificationCount().then((value) {
       setState(() {
@@ -265,17 +267,30 @@ class _HomeState extends State<Home> {
                         iconSize: 20,
                       ),
                       actions: [
-                        PopupMenuButton<Language>(
-                          onSelected: _languageChanged,
-                          itemBuilder: (_) => Language.languageList()
-                              .map<PopupMenuItem<Language>>((lang) {
-                            return PopupMenuItem(
-                              child: Text(lang.flag + " " + lang.name),
-                              value: lang,
-                            );
-                          }).toList(),
-                          icon: Icon(Icons.language_outlined),
-                        ),
+                        isChangingLang
+                            ? Center(
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              )
+                            : PopupMenuButton<Language>(
+                                onSelected: _languageChanged,
+                                itemBuilder: (_) => Language.languageList()
+                                    .map<PopupMenuItem<Language>>((lang) {
+                                  return PopupMenuItem(
+                                    child: Text(lang.flag + " " + lang.name),
+                                    value: lang,
+                                  );
+                                }).toList(),
+                                icon: Icon(Icons.language_outlined),
+                              ),
+                        SizedBox(width: isChangingLang ? 20 : 0),
                         badge(
                             iconButton: IconButton(
                               icon: ImageIcon(
@@ -284,7 +299,8 @@ class _HomeState extends State<Home> {
                                 color: Colors.white,
                               ),
                               onPressed: () => Navigator.push(context,
-                                  CustomPageRoute(widget: Notifications())).then((value) => getNotificationCount()),
+                                      CustomPageRoute(widget: Notifications()))
+                                  .then((value) => getNotificationCount()),
                               splashRadius: 23,
                               iconSize: 20,
                             ),

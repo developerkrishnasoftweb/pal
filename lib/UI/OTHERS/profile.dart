@@ -550,6 +550,19 @@ class _ChangeAddressState extends State<ChangeAddress> {
     } else {
       if (name.text.isNotEmpty && altMobile.text.isNotEmpty) {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
+          if (DateTime.parse(dob.text ?? "0000-00-00").year.isNegative) {
+            Fluttertoast.showToast(
+                msg: translate(context, LocaleStrings.provideDOB));
+            return;
+          }
+          if (DateTime.parse(anniversaryDate.text ?? "0000-00-00")
+              .year
+              .isNegative) {
+            Fluttertoast.showToast(
+                msg: translate(
+                    context, LocaleStrings.pleaseProvideAnniversaryDate));
+            return;
+          }
           if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
             Fluttertoast.showToast(
                 msg: translate(
