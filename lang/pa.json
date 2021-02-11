@@ -144,6 +144,20 @@
   "no" : "ਨਹੀਂ",
   "languageChanged" : "ਭਾਸ਼ਾ ਅੰਗਰੇਜ਼ੀ ਵਿਚ ਬਦਲ ਗਈ",
 
-  "pleaseWait" : "ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ"
+  "pleaseWait" : "ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ",
 
+  "password" : "ਪਾਸਵਰਡ",
+  "forgotPassword" : "ਪਾਸਵਰਡ ਭੁੱਲ ਗਏ",
+  "login" : "ਲਾਗਿਨ",
+  "donthaveAnAccount" : "ਕੋਈ ਖਾਤਾ ਨਹੀਂ ਹੈ",
+  "signUp" : "ਸਾਇਨ ਅਪ",
+  "signIn" : "ਸਾਈਨ - ਇਨ",
+  "letsGetStart" : "ਆਓ ਸ਼ੁਰੂ ਕਰੀਏ",
+  "createAnAccountOnToUseAllTheFeatures" :
+  "ਸਾਰੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਇੱਕ ਖਾਤਾ ਬਣਾਓ",
+  "fullName" : "ਪੂਰਾ ਨਾਂਮ",
+  "mobileNo" : "ਮੋਬਾਇਲ ਨੰਬਰ",
+  "bySigningUpYouAgreeToOurTermsAndPolicy" :
+  "ਸਾਈਨ ਅਪ ਕਰਕੇ ਤੁਸੀਂ ਸਾਡੇ ਨਿਯਮਾਂ ਅਤੇ ਨੀਤੀ ਨਾਲ ਸਹਿਮਤ ਹੋ",
+  "alreadyHaveAnAccount" : "ਪਹਿਲਾਂ ਹੀ ਇਕ ਖਾਤਾ ਹੈ"
 }

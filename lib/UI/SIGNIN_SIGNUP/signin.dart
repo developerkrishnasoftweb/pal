@@ -6,6 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/UI/HOME/home.dart';
 
 import '../../Common/custom_button.dart';
@@ -113,7 +115,7 @@ class _SignInState extends State<SignIn> {
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
-                  text: "User Name",
+                  text: translate(context, LocaleStrings.userName),
                   autoFocus: true,
                   keyboardType: TextInputType.emailAddress,
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
@@ -130,7 +132,7 @@ class _SignInState extends State<SignIn> {
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
-                  text: "Password",
+                  text: translate(context, LocaleStrings.password),
                   obscureText: true,
                   onEditingComplete: _signIn,
                   onChanged: (value) {
@@ -151,7 +153,7 @@ class _SignInState extends State<SignIn> {
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Text(
-                      "Forgot Password?",
+                      "${translate(context, LocaleStrings.forgotPassword)}?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -167,7 +169,9 @@ class _SignInState extends State<SignIn> {
               customButton(
                   context: context,
                   onPressed: !isLogging ? () => _signIn() : null,
-                  text: !isLogging ? "LOGIN" : null,
+                  text: !isLogging
+                      ? translate(context, LocaleStrings.login)
+                      : null,
                   child: SizedBox(
                     height: 40,
                     width: 40,
@@ -181,7 +185,8 @@ class _SignInState extends State<SignIn> {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: RichText(
                   text: TextSpan(
-                      text: "Don't have an account?\t",
+                      text:
+                          "${translate(context, LocaleStrings.donthaveAnAccount)}?\t",
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Color(0xffa8a8a8),
                           fontSize: 16,
@@ -190,7 +195,7 @@ class _SignInState extends State<SignIn> {
                         WidgetSpan(
                             child: GestureDetector(
                           child: Text(
-                            "Sign Up",
+                            translate(context, LocaleStrings.signUp),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -253,7 +258,9 @@ class _SignInState extends State<SignIn> {
         }
       });
     } else {
-      Fluttertoast.showToast(msg: "Please enter username and password");
+      Fluttertoast.showToast(
+          msg:
+              translate(context, LocaleStrings.pleaseEnterUsernameAndPassword));
       setState(() {
         isLogging = false;
       });

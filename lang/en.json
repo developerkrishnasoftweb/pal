@@ -144,6 +144,20 @@
   "no" : "No",
   "languageChanged" : "Language changed to English",
 
-  "pleaseWait" : "Please wait"
+  "pleaseWait" : "Please wait",
 
+  "password" : "Password",
+  "forgotPassword" : "Forgot Password",
+  "login" : "Login",
+  "donthaveAnAccount" : "Don't have an account",
+  "signUp" : "Sign Up",
+  "signIn" : "Sign In",
+  "letsGetStart" : "Let's get start",
+  "createAnAccountOnToUseAllTheFeatures" :
+  "Create an account on to use all the features",
+  "fullName" : "Full name",
+  "mobileNo" : "Mobile No",
+  "bySigningUpYouAgreeToOurTermsAndPolicy" :
+  "By signing up you agree to our terms and policy",
+  "alreadyHaveAnAccount" : "Already have an account"
 }

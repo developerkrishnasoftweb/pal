@@ -76,7 +76,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
           adhaar = File(result.path);
         });
       } else {
-        Fluttertoast.showToast(msg: "${translate(context, LocaleStrings.fileType)} " + ext + " ${translate(context, LocaleStrings.isNotSupported)}");
+        Fluttertoast.showToast(
+            msg: "${translate(context, LocaleStrings.fileType)} " +
+                ext +
+                " ${translate(context, LocaleStrings.isNotSupported)}");
       }
     }
   }
@@ -123,7 +126,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.profile)),
+      appBar: appBar(
+          context: context, title: translate(context, LocaleStrings.profile)),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 10, bottom: 100),
         child: Column(
@@ -141,7 +145,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
             input(
               context: context,
               controller: altMobile,
-              text: "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
+              text:
+                  "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onChanged: (value) {
@@ -187,7 +192,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
             ),
             input(
               context: context,
-              text: "${translate(context, LocaleStrings.address)} $mandatoryChar",
+              text:
+                  "${translate(context, LocaleStrings.address)} $mandatoryChar",
               controller: address,
               maxLines: userdata.kyc == "y" ? 2 : 5,
               textInputAction: TextInputAction.next,
@@ -196,7 +202,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
             ),
             input(
                 context: context,
-                text: "${translate(context, LocaleStrings.pinCode)} $mandatoryChar",
+                text:
+                    "${translate(context, LocaleStrings.pinCode)} $mandatoryChar",
                 controller: pinCode,
                 keyboardType: TextInputType.number,
                 readOnly: userdata.kyc == "y" ?? false,
@@ -206,13 +213,15 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
-                text: "${translate(context, LocaleStrings.state)} $mandatoryChar",
+                text:
+                    "${translate(context, LocaleStrings.state)} $mandatoryChar",
                 controller: state,
                 readOnly: userdata.kyc == "y" ?? false,
                 decoration: InputDecoration(border: border())),
             input(
                 context: context,
-                text: "${translate(context, LocaleStrings.city)} $mandatoryChar",
+                text:
+                    "${translate(context, LocaleStrings.city)} $mandatoryChar",
                 controller: city,
                 readOnly: userdata.kyc == "y" ?? false,
                 decoration: InputDecoration(border: border())),
@@ -250,15 +259,18 @@ class _ChangeAddressState extends State<ChangeAddress> {
                   )
                 : input(
                     context: context,
-                    text: "${translate(context, LocaleStrings.area)} $mandatoryChar",
+                    text:
+                        "${translate(context, LocaleStrings.area)} $mandatoryChar",
                     controller: area,
                     readOnly: userdata.kyc == "y" ?? false,
                     decoration: InputDecoration(border: border())),
             userdata.kyc == "y"
                 ? input(
                     context: context,
-                    text: "${translate(context, LocaleStrings.gender)} $mandatoryChar",
-                    controller: TextEditingController(text: selectedGender == "m" ? "Male" : "Female"),
+                    text:
+                        "${translate(context, LocaleStrings.gender)} $mandatoryChar",
+                    controller: TextEditingController(
+                        text: selectedGender == "m" ? "Male" : "Female"),
                     readOnly: true,
                     decoration: InputDecoration(border: border()))
                 : Padding(
@@ -309,7 +321,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 ? input(
                     context: context,
                     readOnly: true,
-                    text: "${translate(context, LocaleStrings.maritalStatus)} $mandatoryChar",
+                    text:
+                        "${translate(context, LocaleStrings.maritalStatus)} $mandatoryChar",
                     controller: TextEditingController(text: "Married"),
                     decoration: InputDecoration(border: border()))
                 : Padding(
@@ -353,7 +366,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
             selectedMaritalStatus == "y"
                 ? input(
                     context: context,
-                    text: "${translate(context, LocaleStrings.anniversaryDate)} $mandatoryChar",
+                    text:
+                        "${translate(context, LocaleStrings.anniversaryDate)} $mandatoryChar",
                     controller: anniversaryDate,
                     onTap: userdata.maritalStatus == "y"
                         ? null
@@ -396,6 +410,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 ],
               ),
             ),
+            //Don't remove the commented line below
             /* SizedBox(
               height: 10,
             ),
@@ -471,7 +486,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
         } */
         // If aadhar is added move the "if" condition given below in above if condition
         if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
-          Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideAnniversaryDate));
+          Fluttertoast.showToast(
+              msg: translate(
+                  context, LocaleStrings.pleaseProvideAnniversaryDate));
           return;
         }
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
@@ -519,19 +536,24 @@ class _ChangeAddressState extends State<ChangeAddress> {
               }
             });
           } else {
-            Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidEmail));
+            Fluttertoast.showToast(
+                msg: translate(context, LocaleStrings.invalidEmail));
           }
         } else {
-          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
+          Fluttertoast.showToast(
+              msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.allFieldsAreRequired));
       }
     } else {
       if (name.text.isNotEmpty && altMobile.text.isNotEmpty) {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
           if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
-            Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideAnniversaryDate));
+            Fluttertoast.showToast(
+                msg: translate(
+                    context, LocaleStrings.pleaseProvideAnniversaryDate));
             return;
           }
           setLoading(true);
@@ -572,11 +594,13 @@ class _ChangeAddressState extends State<ChangeAddress> {
             }
           });
         } else {
-          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
+          Fluttertoast.showToast(
+              msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
         Fluttertoast.showToast(
-            msg: translate(context, LocaleStrings.nameAndAlternateMobileCantBeEmpty));
+            msg: translate(
+                context, LocaleStrings.nameAndAlternateMobileCantBeEmpty));
       }
     }
   }
@@ -600,7 +624,10 @@ class _ChangeAddressState extends State<ChangeAddress> {
         setState(() {
           dob.clear();
         });
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.minimumAgeLimit) + " 15 " + translate(context, LocaleStrings.years));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.minimumAgeLimit) +
+                " 15 " +
+                translate(context, LocaleStrings.years));
       }
     } else {
       if (dob.text.isNotEmpty) {
@@ -620,7 +647,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
               toastLength: Toast.LENGTH_LONG);
         }
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.provideDOB));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.provideDOB));
       }
     }
   }

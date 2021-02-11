@@ -1,4 +1,3 @@
-
 class LocaleStrings {
   //drawer strings
   static String home = "home";
@@ -121,7 +120,6 @@ class LocaleStrings {
   static String searchBtn = "searchBtn";
   static String openBtn = "openBtn";
 
-
   //flutter toast message
   static String pressAgainToExit = "pressAgainToExit";
   static String fileType = "fileType";
@@ -131,14 +129,16 @@ class LocaleStrings {
   static String invalidMobileNumber = "invalidMobileNumber";
   static String aadharSize = "aadharSize";
   static String allFieldsAreRequired = "allFieldsAreRequired";
-  static String nameAndAlternateMobileCantBeEmpty = "nameAndAlternateMobileCantBeEmpty";
+  static String nameAndAlternateMobileCantBeEmpty =
+      "nameAndAlternateMobileCantBeEmpty";
   static String minimumAgeLimit = "minimumAgeLimit";
   static String years = "years";
   static String anniversaryDateMustBe = "anniversaryDateMustBe";
   static String provideDOB = "provideDOB";
   static String fileSizeSupportedUpTo = "fileSizeSupportedUpTo";
   static String dontHaveEnoughPointToRedeem = "dontHaveEnoughPointToRedeem";
-  static String toDateMustBeGreaterThanFromDate = "toDateMustBeGreaterThanFromDate";
+  static String toDateMustBeGreaterThanFromDate =
+      "toDateMustBeGreaterThanFromDate";
   static String pleaseSelectToAndFromDate = "pleaseSelectToAndFromDate";
   static String noDailyReportFoundBetween = "noDailyReportFoundBetween";
   static String noMonthlyReportFoundBetween = "noMonthlyReportFoundBetween";
@@ -151,12 +151,30 @@ class LocaleStrings {
   static String camera = "camera";
   static String gallery = "gallery";
   static String copied = "copied";
-  static String passwordAndConfirmPasswordDoesntMatch = "passwordAndConfirmPasswordDoesntMatch";
+  static String passwordAndConfirmPasswordDoesntMatch =
+      "passwordAndConfirmPasswordDoesntMatch";
   static String pleaseEnterPassword = "pleaseEnterPassword";
   static String invalidOTP = "invalidOTP";
   static String somethingWentWrong = "somethingWentWrong";
-  static String pleaseEnterUsernameAndPassword = "pleaseEnterUsernameAndPassword";
+  static String pleaseEnterUsernameAndPassword =
+      "pleaseEnterUsernameAndPassword";
   static String pleaseEnterUserCode = "pleaseEnterUserCode";
+
+  //signin and signup screen strings
+  static String password = "password";
+  static String forgotPassword = "forgotPassword";
+  static String login = "login";
+  static String donthaveAnAccount = "donthaveAnAccount";
+  static String signUp = "signUp";
+  static String signIn = "signIn";
+  static String letsGetStart = "letsGetStart";
+  static String createAnAccountOnToUseAllTheFeatures =
+      "createAnAccountOnToUseAllTheFeatures";
+  static String fullName = "fullName";
+  static String mobileNo = "mobileNo";
+  static String bySigningUpYouAgreeToOurTermsAndPolicy =
+      "bySigningUpYouAgreeToOurTermsAndPolicy";
+  static String alreadyHaveAnAccount = "alreadyHaveAnAccount";
 
   static String areYouSureYouWantTOExit = "areYouSureYouWantTOExit";
   static String yes = "yes";

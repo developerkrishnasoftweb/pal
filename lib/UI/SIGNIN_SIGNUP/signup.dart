@@ -2,13 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/global.dart';
+import 'package:pal/Constant/strings.dart';
+import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
+import '../../Constant/global.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
@@ -55,7 +57,7 @@ class _SignUpState extends State<SignUp> {
                 width: size.width,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Text(
-                  "Let's get start!",
+                  "${translate(context, LocaleStrings.letsGetStart)}!",
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: Color(0xff000000),
                       fontSize: 24,
@@ -67,7 +69,8 @@ class _SignUpState extends State<SignUp> {
                 width: size.width,
                 padding: const EdgeInsets.only(top: 5, bottom: 20),
                 child: Text(
-                  "Create an account on to use all the features",
+                  translate(context,
+                      LocaleStrings.createAnAccountOnToUseAllTheFeatures),
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: Color(0xffA8A8A8),
                       fontSize: 14,
@@ -86,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                     });
                   },
                   textInputAction: TextInputAction.next,
-                  text: "Full Name"),
+                  text: translate(context, LocaleStrings.userName)),
               input(
                   context: context,
                   keyboardType: TextInputType.emailAddress,
@@ -100,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                     });
                   },
                   textInputAction: TextInputAction.next,
-                  text: "Email"),
+                  text: translate(context, LocaleStrings.email)),
               input(
                   context: context,
                   keyboardType: TextInputType.number,
@@ -114,7 +117,7 @@ class _SignUpState extends State<SignUp> {
                     });
                   },
                   textInputAction: TextInputAction.next,
-                  text: "Mobile No."),
+                  text: translate(context, LocaleStrings.mobileNo)),
               input(
                   context: context,
                   decoration: InputDecoration(
@@ -128,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   onEditingComplete: _signUp,
                   obscureText: true,
-                  text: "Password"),
+                  text: translate(context, LocaleStrings.password)),
               Container(
                 width: size.width,
                 padding:
@@ -140,7 +143,8 @@ class _SignUpState extends State<SignUp> {
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      "By signing up, you agree to our terms & policy",
+                      translate(context,
+                          LocaleStrings.bySigningUpYouAgreeToOurTermsAndPolicy),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Color(0xffa8a8a8),
                           fontSize: 12,
@@ -168,7 +172,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                         )
                       : Text(
-                          "Sign Up",
+                          translate(context, LocaleStrings.signUp),
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                                 color: Color(0xffffffff),
                                 fontSize: 18,
@@ -178,7 +182,8 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(vertical: 30),
                 child: RichText(
                   text: TextSpan(
-                      text: "Already have an account?\t",
+                      text:
+                          "${translate(context, LocaleStrings.alreadyHaveAnAccount)}?\t",
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Color(0xffa8a8a8),
                           fontSize: 16,
@@ -187,7 +192,7 @@ class _SignUpState extends State<SignUp> {
                         WidgetSpan(
                             child: GestureDetector(
                           child: Text(
-                            "Sign In",
+                            translate(context, LocaleStrings.signIn),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -253,7 +258,7 @@ class _SignUpState extends State<SignUp> {
                         otp: otp,
                         formData: userData,
                         mobile: mobile,
-                            action: OtpActions.REGISTER,
+                        action: OtpActions.REGISTER,
                       ))).then((value) {
                     setState(() => signUpStatus = false);
                   });
