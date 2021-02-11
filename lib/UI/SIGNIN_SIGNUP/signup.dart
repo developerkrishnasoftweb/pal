@@ -234,17 +234,11 @@ class _SignUpState extends State<SignUp> {
               "token": "1234",
               "api_key": Urls.apiKey
             });
-            FormData smsData = FormData.fromMap({
-              "user": Urls.user,
-              "password": Urls.password,
-              "msisdn": mobile,
-              "sid": Urls.sID,
-              "msg": "<#> " +
-                  otp +
-                  " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-              "fl": Urls.fl,
-              "gwid": Urls.gwID
-            });
+            FormData smsData = SMSDATA(
+                message: otp +
+                    " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+                mobile: mobile);
+
             var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {

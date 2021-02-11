@@ -124,4 +124,21 @@ class Config {
       this.smsSenderId,
       this.smsFL,
       this.smsGwID});
+
+  Config.fromJson(Map<String, dynamic> json)
+      : title = json['title'],
+        logo = json['logo'],
+        contact = json['contact'],
+        email = json['email'],
+        copyright = json['copyright'],
+        about = json['about'],
+        terms = json['terms'],
+        termsTitle = json['terms_title'],
+        razorPayKey = json['razorpay_key'],
+        razorPaySecretKey = json['razorpay_secret_key'],
+        smsUserName = json['sms_username'],
+        smsPassword = json['sms_password'],
+        smsSenderId = json['sms_sender_id'],
+        smsFL = json['sms_fl'],
+        smsGwID = json['sms_gwid'];
 }

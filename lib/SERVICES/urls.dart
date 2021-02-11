@@ -1,4 +1,4 @@
-class Urls{
+class Urls {
   /*
   *
   * */
@@ -7,11 +7,11 @@ class Urls{
   * some constant strings used for api
   * */
   static String apiKey = "0imfnc8mVLWwsAawjYr4Rx";
-  static String user = "pal";
-  static String password = "Admin@pal";
-  static String sID = "PALSMS";
-  static String fl = "0";
-  static String gwID = "2";
+  // static String user = "pal";
+  // static String password = "Admin@pal";
+  // static String sID = "PALSMS";
+  // static String fl = "0";
+  // static String gwID = "2";
 
   /*
   * API Urls
@@ -20,9 +20,12 @@ class Urls{
   static String imageBaseUrl = "https://www.palloyalty.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
-  static String checkUsersPurchaseBPGS = "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
-  static String checkUsersPurchaseBPGN = "http://logic2.paldepartmentalstores.com/bpgnapi/api/ConsumerDetails/QueryRecords_BymobileNo";
-  static String trackGiftBaseUrl = "https://api.sevasetu.in/index.php/tracking/track_v2";
+  static String checkUsersPurchaseBPGS =
+      "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";
+  static String checkUsersPurchaseBPGN =
+      "http://logic2.paldepartmentalstores.com/bpgnapi/api/ConsumerDetails/QueryRecords_BymobileNo";
+  static String trackGiftBaseUrl =
+      "https://api.sevasetu.in/index.php/tracking/track_v2";
   static String signIn = "login";
   static String signUp = "registration";
   static String category = "category";

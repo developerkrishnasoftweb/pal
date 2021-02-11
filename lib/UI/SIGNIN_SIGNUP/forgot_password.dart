@@ -11,7 +11,6 @@ import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -87,17 +86,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         isLoading = true;
       });
       String otp = RandomInt.generate().toString();
-      FormData smsData = FormData.fromMap({
-        "user": Urls.user,
-        "password": Urls.password,
-        "msisdn": mobile,
-        "sid": Urls.sID,
-        "msg": "<#> " +
-            otp +
-            " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-        "fl": Urls.fl,
-        "gwid": Urls.gwID
-      });
+      FormData smsData = SMSDATA(
+          message: otp +
+              " is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
+          mobile: mobile);
       await Services.sms(smsData).then((value) {
         if (value.response == "000") {
           setState(() {

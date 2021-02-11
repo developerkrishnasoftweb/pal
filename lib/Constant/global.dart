@@ -4,13 +4,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../SERVICES/urls.dart';
 import 'models.dart';
 
 SharedPreferences sharedPreferences;
 Userdata userdata;
 Config config;
 Locale appLocale;
+String SMS_USERNAME;
+String SMS_PASSWORD;
+String SMS_SENDERID;
+String SMS_FL;
+String SMS_GWID;
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
@@ -21,13 +25,13 @@ extension RandomInt on int {
 
 FormData SMSDATA({String mobile, String message}) {
   return FormData.fromMap({
-    "user": Urls.user,
-    "password": Urls.password,
+    "user": SMS_USERNAME,
+    "password": SMS_PASSWORD,
     "msisdn": mobile,
-    "sid": Urls.sID,
+    "sid": SMS_SENDERID,
     "msg": "<#> $message",
-    "fl": Urls.fl,
-    "gwid": Urls.gwID
+    "fl": SMS_FL,
+    "gwid": SMS_GWID
   });
 }
 

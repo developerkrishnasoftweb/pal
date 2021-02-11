@@ -640,6 +640,7 @@ class Services {
         final jsonResponse = jsonDecode(response.data);
         final data = [jsonResponse["data"]];
         await sharedPreferences.setString(UserParams.config, jsonEncode(data));
+        config = Config.fromJson(jsonResponse['data']);
       }
       return null;
     } on dio.DioError catch (e) {

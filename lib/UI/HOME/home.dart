@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +22,6 @@ import '../../Common/page_route.dart';
 import '../../Common/rating_builder.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
-import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/notification.dart';
@@ -354,9 +352,7 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
-    String mobileNumber =
-        jsonDecode(sharedPreferences.getString(UserParams.config))[0]
-            ["contact"];
+    String mobileNumber = config.contact;
     var url = "https://wa.me/+91$mobileNumber";
     if (await canLaunch(url))
       launch(url);

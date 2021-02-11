@@ -628,17 +628,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   sendSMS({String mobile, String otp, FormData formData}) async {
-    FormData smsData = FormData.fromMap({
-      "user": Urls.user,
-      "password": Urls.password,
-      "msisdn": mobile,
-      "sid": Urls.sID,
-      "msg": "<#> " +
-          otp +
-          " is your OTP to Redeem to PAL App. Don't share it with anyone.",
-      "fl": Urls.fl,
-      "gwid": Urls.gwID
-    });
+    FormData smsData = SMSDATA(
+        message: otp +
+            " is your OTP to Redeem to PAL App. Don't share it with anyone.",
+        mobile: mobile);
     await Services.sms(smsData).then((value) {
       if (value.response == "000") {
         setLoading(false);
