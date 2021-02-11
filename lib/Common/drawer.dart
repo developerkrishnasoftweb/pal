@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import './../Constant/color.dart';
 import './../Constant/global.dart';
-import './../Constant/userdata.dart';
 import './../UI/OTHERS/tnc.dart';
 import '.././Common/page_route.dart';
 import '.././Common/show_dialog.dart';
@@ -19,12 +18,12 @@ import '.././UI/HOME/home.dart';
 import '.././UI/OTHERS/kyc_details.dart';
 import '.././UI/OTHERS/notification.dart';
 import '.././UI/OTHERS/report.dart';
-import '../UI/SERVICE_REQUEST/track_complaint.dart';
 import '.././UI/PRODUCTS/product_demo.dart';
 import '.././UI/PRODUCT_CATALOG/product_catalog.dart';
 import '.././UI/SERVICE_REQUEST/complain.dart';
 import '.././UI/SERVICE_REQUEST/service_request.dart';
 import '.././UI/SIGNIN_SIGNUP/signin.dart';
+import '../UI/SERVICE_REQUEST/track_complaint.dart';
 
 Widget drawer(
     {@required BuildContext context,
@@ -86,8 +85,9 @@ Widget drawer(
   _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
+    var langCode = sharedPreferences.getString(LANGUAGE_CODE);
     await sharedPreferences.clear();
-    await sharedPreferences.remove(UserParams.userData);
+    await sharedPreferences.setString(LANGUAGE_CODE, langCode);
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {
       Navigator.pushAndRemoveUntil(
@@ -152,9 +152,11 @@ Widget drawer(
               scaffoldKey.currentState.openEndDrawer();
               homeState.setState(() {});
             }, Icons.home),
-            buildDrawerItems(translate(context, LocaleStrings.productCatalog), () {
+            buildDrawerItems(translate(context, LocaleStrings.productCatalog),
+                () {
               scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(context, CustomPageRoute(widget: ProductCatalog()));
+              Navigator.push(
+                  context, CustomPageRoute(widget: ProductCatalog()));
             }, Icons.book_outlined),
             buildDrawerItems(translate(context, LocaleStrings.updateKYC), () {
               scaffoldKey.currentState.openEndDrawer();
@@ -178,14 +180,16 @@ Widget drawer(
                 title: translate(context, LocaleStrings.serviceRequest),
                 children: [
                   buildExpansionChild(
-                      title: translate(context, LocaleStrings.newServiceRequest),
+                      title:
+                          translate(context, LocaleStrings.newServiceRequest),
                       onTap: () {
                         scaffoldKey.currentState.openEndDrawer();
                         Navigator.push(
                             context, CustomPageRoute(widget: Complain()));
                       }),
                   buildExpansionChild(
-                      title: translate(context, LocaleStrings.viewServiceRequest),
+                      title:
+                          translate(context, LocaleStrings.viewServiceRequest),
                       onTap: () {
                         scaffoldKey.currentState.openEndDrawer();
                         Navigator.push(
@@ -256,13 +260,16 @@ Widget drawer(
               scaffoldKey.currentState.openEndDrawer();
               Navigator.push(context, CustomPageRoute(widget: Report()));
             }, Icons.report),
-            buildDrawerItems(translate(context, LocaleStrings.myNotifications), () {
+            buildDrawerItems(translate(context, LocaleStrings.myNotifications),
+                () {
               scaffoldKey.currentState.openEndDrawer();
               Navigator.push(context, CustomPageRoute(widget: Notifications()));
             }, Icons.notifications_on_outlined),
-            buildDrawerItems(translate(context, LocaleStrings.termsAndConditions), () {
+            buildDrawerItems(
+                translate(context, LocaleStrings.termsAndConditions), () {
               scaffoldKey.currentState.openEndDrawer();
-              Navigator.push(context, CustomPageRoute(widget: TermsNCondition()));
+              Navigator.push(
+                  context, CustomPageRoute(widget: TermsNCondition()));
             }, Icons.ballot_outlined),
             ListTile(
               title: Row(
@@ -323,10 +330,13 @@ Widget drawer(
                           onPressed: () => Navigator.pop(context),
                           textColor: Colors.grey),
                       buildAlertButton(
-                          text: translate(context, LocaleStrings.yes), context: context, onPressed: _logout),
+                          text: translate(context, LocaleStrings.yes),
+                          context: context,
+                          onPressed: _logout),
                     ],
                     title: translate(context, LocaleStrings.palShoppie),
-                    content: translate(context, LocaleStrings.areYouSureYouWantTOExit)),
+                    content: translate(
+                        context, LocaleStrings.areYouSureYouWantTOExit)),
                 Icons.logout),
           ],
         ),
