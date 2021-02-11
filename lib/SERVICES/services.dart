@@ -653,7 +653,7 @@ class Services {
       } catch (e) {}
     } else {
       config = Config.fromJson(await jsonDecode(
-          sharedPreferences.getString(UserParams.config) ?? {}));
+          sharedPreferences.getString(UserParams.config) ?? "{}"));
     }
   }
 
