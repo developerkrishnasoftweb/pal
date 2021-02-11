@@ -90,3 +90,38 @@ class Userdata {
       this.vehicleType,
       this.totalOrder});
 }
+
+class Config {
+  final String title,
+      logo,
+      contact,
+      email,
+      copyright,
+      about,
+      terms,
+      termsTitle,
+      razorPayKey,
+      razorPaySecretKey,
+      smsUserName,
+      smsPassword,
+      smsSenderId,
+      smsFL,
+      smsGwID;
+
+  Config(
+      {this.title,
+      this.logo,
+      this.contact,
+      this.email,
+      this.copyright,
+      this.about,
+      this.terms,
+      this.termsTitle,
+      this.razorPayKey,
+      this.razorPaySecretKey,
+      this.smsUserName,
+      this.smsPassword,
+      this.smsSenderId,
+      this.smsFL,
+      this.smsGwID});
+}

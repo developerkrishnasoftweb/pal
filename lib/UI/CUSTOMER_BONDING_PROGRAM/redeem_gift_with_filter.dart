@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/show_dialog.dart';
 import '../../Common/page_route.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../Pages/OTHERS/product_description.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';

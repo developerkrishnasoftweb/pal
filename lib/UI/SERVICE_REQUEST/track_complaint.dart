@@ -10,7 +10,7 @@ import '../../Common/custom_button.dart';
 import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 
@@ -71,7 +71,8 @@ class _TrackComplaintState extends State<TrackComplaint> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: translate(context, LocaleStrings.enterComplainNo));
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.enterComplainNo));
     }
   }
 
@@ -79,7 +80,9 @@ class _TrackComplaintState extends State<TrackComplaint> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.trackComplaints)),
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.trackComplaints)),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(bottom: 100),
@@ -88,7 +91,8 @@ class _TrackComplaintState extends State<TrackComplaint> {
             input(
               autoFocus: widget.complainNumber != null ? false : true,
               context: context,
-              text: "${translate(context, LocaleStrings.enterComplainNo)} $mandatoryChar",
+              text:
+                  "${translate(context, LocaleStrings.enterComplainNo)} $mandatoryChar",
               padding: EdgeInsets.all(20),
               decoration: InputDecoration(
                 border: border(),
@@ -104,7 +108,9 @@ class _TrackComplaintState extends State<TrackComplaint> {
             ),
             details != null
                 ? ExpansionTile(
-                    title: Text("${translate(context, LocaleStrings.complainNo)} : " + details.complainNo),
+                    title: Text(
+                        "${translate(context, LocaleStrings.complainNo)} : " +
+                            details.complainNo),
                     initiallyExpanded: true,
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

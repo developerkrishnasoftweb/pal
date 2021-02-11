@@ -23,7 +23,7 @@ import '../../Common/page_route.dart';
 import '../../Common/rating_builder.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/OTHERS/notification.dart';

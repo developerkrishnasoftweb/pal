@@ -12,7 +12,7 @@ import '../../Common/page_route.dart';
 import '../../Common/show_dialog.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 import '../../UI/HOME/home.dart';
 import '../../UI/SIGNIN_SIGNUP/change_password.dart';
@@ -88,8 +88,8 @@ class _OTPState extends State<OTP> {
           onPressed: isLoading
               ? null
               : widget.action != null
-              ? _action
-              : null,
+                  ? _action
+                  : null,
           height: 60,
           width: size.width,
           text: !isLoading ? "SUBMIT" : null,

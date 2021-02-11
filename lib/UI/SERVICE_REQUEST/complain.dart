@@ -15,7 +15,7 @@ import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 import '../../SERVICES/urls.dart';
 import '../../UI/SERVICE_REQUEST/service_request.dart';
@@ -99,7 +99,8 @@ class _ComplainState extends State<Complain> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.complain)),
+      appBar: appBar(
+          context: context, title: translate(context, LocaleStrings.complain)),
       body: Stack(children: [
         SingleChildScrollView(
           padding: EdgeInsets.only(top: 30, bottom: 100),
@@ -133,7 +134,8 @@ class _ComplainState extends State<Complain> {
               ),
               input(
                   context: context,
-                  text: "${translate(context, LocaleStrings.briefDescriptions)} $mandatoryChar",
+                  text:
+                      "${translate(context, LocaleStrings.briefDescriptions)} $mandatoryChar",
                   decoration: InputDecoration(border: border()),
                   maxLines: 5,
                   controller: descriptionText),
@@ -172,7 +174,9 @@ class _ComplainState extends State<Complain> {
               context: context,
               onPressed: isLoading ? null : _addComplain,
               height: 60,
-              text: isLoading ? null : translate(context, LocaleStrings.submitBtn),
+              text: isLoading
+                  ? null
+                  : translate(context, LocaleStrings.submitBtn),
               child: isLoading
                   ? SizedBox(
                       height: 30,
@@ -259,7 +263,8 @@ class _ComplainState extends State<Complain> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseProvideDescription));
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.pleaseProvideDescription));
     }
   }
 

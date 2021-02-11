@@ -7,7 +7,7 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
-import '../../Constant/userdata.dart';
+import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
 
 class Notifications extends StatefulWidget {
@@ -77,7 +77,9 @@ class _NotificationState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar(context: context, title: translate(context, LocaleStrings.myNotifications)),
+        appBar: appBar(
+            context: context,
+            title: translate(context, LocaleStrings.myNotifications)),
         body: notifications != null
             ? notifications.length > 0
                 ? SingleChildScrollView(
@@ -99,7 +101,8 @@ class _NotificationState extends State<Notifications> {
                     ),
                   )
             : Center(
-                child: Text(translate(context, LocaleStrings.youDontHaveNotifications)),
+                child: Text(
+                    translate(context, LocaleStrings.youDontHaveNotifications)),
               ));
   }
 

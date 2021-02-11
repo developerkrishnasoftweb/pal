@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../SERVICES/urls.dart';
-import 'userdata.dart';
+import 'models.dart';
 
 SharedPreferences sharedPreferences;
 Userdata userdata;
+Config config;
 Locale appLocale;
 
 extension RandomInt on int {
@@ -61,10 +62,10 @@ class GiftData {
   final String specs, rating, points, desc, image, title, id;
   GiftData(
       {this.id,
-        this.title,
-        this.image,
-        this.points,
-        this.desc,
-        this.specs,
-        this.rating});
+      this.title,
+      this.image,
+      this.points,
+      this.desc,
+      this.specs,
+      this.rating});
 }
