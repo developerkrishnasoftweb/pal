@@ -115,7 +115,8 @@ class _ChangeAddressState extends State<ChangeAddress> {
         validMobile = true;
       });
     }
-    if (userdata.dob != null) {
+    if (!DateTime.parse(userdata.dob ?? "0000-00-00").year.isNegative &&
+        userdata.dob != "0000-00-00") {
       setState(() {
         selectedDate = DateTime.parse(userdata.dob);
       });
@@ -485,12 +486,31 @@ class _ChangeAddressState extends State<ChangeAddress> {
           Fluttertoast.showToast(msg: "Adhaar file size must be under 200 KB");
         } */
         // If aadhar is added move the "if" condition given below in above if condition
-        if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
+
+        if (selectedMaritalStatus == "y") {
+          if (DateFormat("yyyy-M-d")
+                  .parse(anniversaryDate.text.isNotEmpty
+                      ? anniversaryDate.text
+                      : "0000-00-00")
+                  .year
+                  .isNegative ||
+              anniversaryDate.text == "0000-00-00") {
+            Fluttertoast.showToast(
+                msg: translate(
+                    context, LocaleStrings.pleaseProvideAnniversaryDate));
+            return;
+          }
+        }
+        if (DateFormat("yyyy-M-d")
+                .parse(dob.text.isNotEmpty ? dob.text : "0000-00-00")
+                .year
+                .isNegative ||
+            dob.text == "0000-00-00") {
           Fluttertoast.showToast(
-              msg: translate(
-                  context, LocaleStrings.pleaseProvideAnniversaryDate));
+              msg: translate(context, LocaleStrings.provideDOB));
           return;
         }
+
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
           if (RegExp(
                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -550,24 +570,28 @@ class _ChangeAddressState extends State<ChangeAddress> {
     } else {
       if (name.text.isNotEmpty && altMobile.text.isNotEmpty) {
         if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile.text)) {
-          if (DateTime.parse(dob.text ?? "0000-00-00").year.isNegative) {
+          if (DateFormat("yyyy-M-d")
+                  .parse(dob.text.isNotEmpty ? dob.text : "0000-00-00")
+                  .year
+                  .isNegative ||
+              dob.text == "0000-00-00") {
             Fluttertoast.showToast(
                 msg: translate(context, LocaleStrings.provideDOB));
             return;
           }
-          if (DateTime.parse(anniversaryDate.text ?? "0000-00-00")
-              .year
-              .isNegative) {
-            Fluttertoast.showToast(
-                msg: translate(
-                    context, LocaleStrings.pleaseProvideAnniversaryDate));
-            return;
-          }
-          if (selectedMaritalStatus == "y" && anniversaryDate.text.isEmpty) {
-            Fluttertoast.showToast(
-                msg: translate(
-                    context, LocaleStrings.pleaseProvideAnniversaryDate));
-            return;
+          if (selectedMaritalStatus == "y") {
+            if (DateFormat("yyyy-M-d")
+                    .parse(anniversaryDate.text.isNotEmpty
+                        ? anniversaryDate.text
+                        : "0000-00-00")
+                    .year
+                    .isNegative ||
+                anniversaryDate.text == "0000-00-00") {
+              Fluttertoast.showToast(
+                  msg: translate(
+                      context, LocaleStrings.pleaseProvideAnniversaryDate));
+              return;
+            }
           }
           setLoading(true);
           FormData formData = FormData.fromMap({
@@ -628,7 +652,6 @@ class _ChangeAddressState extends State<ChangeAddress> {
       if (date != null &&
           date != DateTime.now() &&
           (DateTime.now().year - date.year) >= 18) {
-        print(dob.text);
         setState(() {
           selectedDate = date;
           dob.text = DateFormat('yyyy-M-d').format(selectedDate);
