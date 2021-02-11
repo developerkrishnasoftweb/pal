@@ -353,8 +353,7 @@ class _HomeState extends State<Home> {
   }
 
   _messaging() async {
-    String mobileNumber = config.contact;
-    var url = "https://wa.me/+91$mobileNumber";
+    var url = "https://wa.me/+91${config.contact}";
     if (await canLaunch(url))
       launch(url);
     else
