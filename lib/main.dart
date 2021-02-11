@@ -23,11 +23,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
   await Services.getConfig();
-  SMS_GWID = config.smsGwID;
-  SMS_SENDERID = config.smsSenderId;
-  SMS_PASSWORD = config.smsPassword;
-  SMS_USERNAME = config.smsUserName;
-  SMS_FL = config.smsFL;
   appLocale = await getLocale();
   await getCredential().then((status) {
     runApp(MaterialApp(

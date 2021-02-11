@@ -10,11 +10,6 @@ SharedPreferences sharedPreferences;
 Userdata userdata;
 Config config;
 Locale appLocale;
-String SMS_USERNAME;
-String SMS_PASSWORD;
-String SMS_SENDERID;
-String SMS_FL;
-String SMS_GWID;
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
@@ -25,13 +20,13 @@ extension RandomInt on int {
 
 FormData SMSDATA({String mobile, String message}) {
   return FormData.fromMap({
-    "user": SMS_USERNAME,
-    "password": SMS_PASSWORD,
+    "user": config.smsUserName,
+    "password": config.smsPassword,
     "msisdn": mobile,
-    "sid": SMS_SENDERID,
+    "sid": config.smsSenderId,
     "msg": "<#> $message",
-    "fl": SMS_FL,
-    "gwid": SMS_GWID
+    "fl": config.smsFL,
+    "gwid": config.smsGwID
   });
 }
 
