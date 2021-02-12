@@ -144,31 +144,34 @@ class _RedeemGiftState extends State<RedeemGift> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-            Urls.imageBaseUrl + giftData.image,
-            height: size.width * 0.25,
-            width: size.width * 0.25,
-            fit: BoxFit.fill,
-            errorBuilder: (context, object, stackTrace) {
-              return Icon(
-                Icons.signal_cellular_connected_no_internet_4_bar,
-                color: primaryColor,
-              );
-            },
-            loadingBuilder: (context, child, progress) {
-              return progress == null
-                  ? child
-                  : Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(primaryColor),
-                            strokeWidth: 1,
-                          )),
-                    );
-            },
+          Hero(
+            tag: giftData.image,
+            child: Image.network(
+              Urls.imageBaseUrl + giftData.image,
+              height: size.width * 0.25,
+              width: size.width * 0.25,
+              fit: BoxFit.fill,
+              errorBuilder: (context, object, stackTrace) {
+                return Icon(
+                  Icons.signal_cellular_connected_no_internet_4_bar,
+                  color: primaryColor,
+                );
+              },
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(primaryColor),
+                              strokeWidth: 1,
+                            )),
+                      );
+              },
+            ),
           ),
           SizedBox(
             height: 5,

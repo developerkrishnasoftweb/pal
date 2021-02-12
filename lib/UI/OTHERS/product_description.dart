@@ -38,27 +38,27 @@ class _ProductDescriptionState extends State<ProductDescription> {
               width: size.width,
               height: 20,
             ),
-            Align(
-              alignment: Alignment.center,
+            Hero(
+              tag: widget.giftData.image,
               child: Image.network(
                 Urls.imageBaseUrl + widget.giftData.image,
-                height: 250,
+                height: 270,
                 width: size.width,
                 fit: BoxFit.contain,
                 loadingBuilder: (context, child, progress) {
                   return progress == null
                       ? child
                       : Container(
-                          height: 200,
-                          width: 200,
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(primaryColor))),
-                        );
+                    height: 200,
+                    width: 200,
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation(primaryColor))),
+                  );
                 },
               ),
             ),
