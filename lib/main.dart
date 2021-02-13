@@ -77,37 +77,7 @@ Future<void> setData() async {
       sharedPreferences.getString(UserParams.userData) ?? "[{}]");
   if (data != null) {
     if (data.length > 0) {
-      userdata = Userdata(
-          name: data[0][UserParams.name],
-          pinCode: data[0][UserParams.pinCode],
-          state: data[0][UserParams.state],
-          city: data[0][UserParams.city],
-          mobile: data[0][UserParams.mobile],
-          image: data[0][UserParams.image],
-          address: data[0][UserParams.address],
-          adhaar: data[0][UserParams.adhaar],
-          altMobile: data[0][UserParams.altMobile],
-          anniversary: data[0][UserParams.anniversary] ?? "0000-00-00",
-          area: data[0][UserParams.area],
-          dob: data[0][UserParams.dob] ?? "0000-00-00",
-          maritalStatus: data[0][UserParams.maritalStatus],
-          email: data[0][UserParams.email],
-          gender: data[0][UserParams.gender] != null &&
-                  data[0][UserParams.gender] != ""
-              ? data[0][UserParams.gender]
-              : "m",
-          branchCode: data[0][UserParams.branchCode],
-          branchName: data[0][UserParams.branchName],
-          id: data[0][UserParams.id],
-          membershipSeries: data[0][UserParams.membershipSeries],
-          memDetNo: data[0][UserParams.memDetNo],
-          password: data[0][UserParams.password],
-          point: data[0][UserParams.point],
-          status: data[0][UserParams.status],
-          token: data[0][UserParams.token],
-          totalOrder: data[0][UserParams.totalOrder],
-          vehicleType: data[0][UserParams.vehicleType],
-          kyc: data[0][UserParams.kyc]);
+      userdata = Userdata.fromJSON(data[0]);
     }
   }
 }
