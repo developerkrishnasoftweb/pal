@@ -60,9 +60,7 @@ Future<void> main() async {
 }
 
 Future<bool> getCredential() async {
-  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-  if (sharedPreference.getString("username") != null &&
-      sharedPreference.getString(UserParams.password) != null) {
+  if (sharedPreferences.getString(UserParams.userData) != null) {
     await setData();
     return true;
   } else

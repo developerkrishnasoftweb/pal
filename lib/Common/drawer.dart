@@ -83,7 +83,7 @@ Widget drawer(
   }
 
   _logout() async {
-    var email = sharedPreferences.getString("username");
+    var email = userdata.email;
     var notificationCount =
     sharedPreferences.getString(UserParams.lastNotificationId);
     var langCode = sharedPreferences.getString(LANGUAGE_CODE);

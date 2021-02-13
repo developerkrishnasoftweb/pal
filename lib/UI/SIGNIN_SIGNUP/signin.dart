@@ -254,9 +254,6 @@ class _SignInState extends State<SignIn> {
           });
           await sharedPreferences.setString(
               UserParams.userData, jsonEncode(result.data));
-          await sharedPreferences.setString("username", username);
-          await sharedPreferences.setString(
-              UserParams.password, result.data[0][UserParams.password]);
           await setData();
           if (userdata != null) {
             Fluttertoast.showToast(msg: result.message);
