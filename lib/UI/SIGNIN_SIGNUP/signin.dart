@@ -70,8 +70,8 @@ class _SignInState extends State<SignIn> {
         print('on launch $message');
       },
     );
-    _firebaseMessaging.subscribeToTopic('all');
-    _firebaseMessaging.getToken().then((token) {
+    await _firebaseMessaging.subscribeToTopic('all');
+    await _firebaseMessaging.getToken().then((token) {
       setState(() {
         this.token = token;
       });
