@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
@@ -37,8 +39,14 @@ class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   FocusNode myFocusNode;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  new FlutterLocalNotificationsPlugin();
   @override
   void initState() {
+    var android = new AndroidInitializationSettings('mipmap/ic_launcher');
+    var ios = new IOSInitializationSettings();
+    var platform = new InitializationSettings(android: android, iOS: ios);
+    flutterLocalNotificationsPlugin.initialize(platform);
     setState(() {
       emailController.text = username = widget.email ?? "";
       userdata = null;
@@ -61,8 +69,8 @@ class _SignInState extends State<SignIn> {
     if (Platform.isIOS) iOSPermission();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
+        showNotification(message);
+    },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
       },
@@ -76,6 +84,13 @@ class _SignInState extends State<SignIn> {
         this.token = token;
       });
     });
+  }
+
+  showNotification(Map<String, dynamic> msg) async {
+    var android = new AndroidNotificationDetails('channel_id', 'CHANNEL NAME', 'channelDescription');
+    var ios = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: ios);
+    await flutterLocalNotificationsPlugin.show(Random().nextInt(100), msg["notification"]["title"], msg["notification"]["body"], platform);
   }
 
   void iOSPermission() {
