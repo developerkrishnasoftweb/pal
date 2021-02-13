@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/models.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import './../Constant/color.dart';
@@ -83,10 +83,14 @@ Widget drawer(
   }
 
   _logout() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var email = sharedPreferences.getString("username");
+    var notificationCount =
+    sharedPreferences.getString(UserParams.lastNotificationId);
     var langCode = sharedPreferences.getString(LANGUAGE_CODE);
     await sharedPreferences.clear();
+    await sharedPreferences.setString(
+        UserParams.lastNotificationId, notificationCount);
+    userdata = Userdata();
     await sharedPreferences.setString(LANGUAGE_CODE, langCode);
     if (sharedPreferences.getString("userdata") == null &&
         sharedPreferences.getString("password") == null) {

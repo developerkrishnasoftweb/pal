@@ -31,6 +31,7 @@ class UserParams {
   static String vehicleType = "vehicle_type";
   static String adhaar = "adhaar";
   static String config = "config";
+  static String lastNotificationId = "lastNotificationId";
 }
 
 class Userdata {
