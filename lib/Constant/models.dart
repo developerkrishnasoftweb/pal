@@ -89,6 +89,33 @@ class Userdata {
       this.token,
       this.vehicleType,
       this.totalOrder});
+  Userdata.fromJSON(Map<String, dynamic> json) : id = json[UserParams.id],
+        name = json[UserParams.name],
+        mobile = json[UserParams.mobile],
+        email = json[UserParams.email],
+        image = json[UserParams.image],
+        gender = json[UserParams.gender],
+        password = json[UserParams.password],
+        status = json[UserParams.status],
+        point = json[UserParams.point],
+        token = json[UserParams.token],
+        memDetNo = json[UserParams.memDetNo],
+        branchName = json[UserParams.branchName],
+        address = json[UserParams.address],
+        pinCode = json[UserParams.pinCode],
+        area = json[UserParams.area],
+        city = json[UserParams.city],
+        state = json[UserParams.state],
+        dob = json[UserParams.dob],
+        maritalStatus = json[UserParams.maritalStatus],
+        anniversary = json[UserParams.anniversary],
+        altMobile = json[UserParams.altMobile],
+        branchCode = json[UserParams.branchCode],
+        totalOrder = json[UserParams.totalOrder],
+        membershipSeries = json[UserParams.membershipSeries],
+        kyc = json[UserParams.kyc],
+        vehicleType = json[UserParams.vehicleType],
+        adhaar = json[UserParams.adhaar];
 }
 
 class Config {
