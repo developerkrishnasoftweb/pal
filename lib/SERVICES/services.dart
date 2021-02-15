@@ -631,30 +631,25 @@ class Services {
   }
 
   static Future<void> getConfig() async {
-    if (sharedPreferences.getString(UserParams.config) == null) {
-      String url = Urls.baseUrl + Urls.getConfig;
-      try {
-        dio.Response response;
-        response = await dio.Dio()
-            .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
-        if (response.statusCode == 200) {
-          final jsonResponse = jsonDecode(response.data);
-          await sharedPreferences.setString(
-              UserParams.config, jsonEncode(jsonResponse["data"]));
-          config = Config.fromJson(await jsonDecode(
-              sharedPreferences.getString(UserParams.config) ?? "{}"));
-        }
-        return null;
-      } on dio.DioError catch (e) {
-        if (dio.DioErrorType.DEFAULT == e.type &&
-            e.error.runtimeType == SocketException) {
-          Fluttertoast.showToast(msg: "No internet connection");
-        } else {}
-      } catch (e) {}
-    } else {
-      config = Config.fromJson(await jsonDecode(
-          sharedPreferences.getString(UserParams.config) ?? "{}"));
-    }
+    String url = Urls.baseUrl + Urls.getConfig;
+    try {
+      dio.Response response;
+      response = await dio.Dio()
+          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.data);
+        await sharedPreferences.setString(
+            UserParams.config, jsonEncode(jsonResponse["data"]));
+        config = Config.fromJson(await jsonDecode(
+            sharedPreferences.getString(UserParams.config) ?? "{}"));
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        Fluttertoast.showToast(msg: "No internet connection");
+      } else {}
+    } catch (e) {}
   }
 
   static Future<Data> getReports() async {
