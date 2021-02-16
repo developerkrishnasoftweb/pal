@@ -28,7 +28,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.productDescription)),
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.productDescription)),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
         child: Column(
@@ -49,16 +51,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   return progress == null
                       ? child
                       : Container(
-                    height: 200,
-                    width: 200,
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation(primaryColor))),
-                  );
+                          height: 200,
+                          width: 200,
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: CircularProgressIndicator(
+                                  valueColor:
+                                      AlwaysStoppedAnimation(primaryColor))),
+                        );
                 },
               ),
             ),
@@ -111,14 +113,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     : SizedBox()
               ],
             ),
-            buildTitledRow(title: translate(context, LocaleStrings.points), value: widget.giftData.points),
             buildTitledRow(
-                title: translate(context, LocaleStrings.productDescription), value: removeHtmlTags(data: widget.giftData.desc)),
+                title: translate(context, LocaleStrings.points),
+                value: widget.giftData.points),
+            buildTitledRow(
+                title: translate(context, LocaleStrings.productDescription),
+                value: removeHtmlTags(data: widget.giftData.desc)),
             SizedBox(
               height: 10,
             ),
             buildTitledRow(
-                title: "${translate(context, LocaleStrings.giftSpecification)} : ", value: removeHtmlTags(data: widget.giftData.specs)),
+                title:
+                    "${translate(context, LocaleStrings.giftSpecification)} : ",
+                value: removeHtmlTags(data: widget.giftData.specs)),
           ],
         ),
       ),
@@ -164,8 +171,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         }
                   : () {
                       Fluttertoast.showToast(
-                          msg:
-                          translate(context, LocaleStrings.dontHaveEnoughPointToRedeem));
+                          msg: translate(context,
+                              LocaleStrings.dontHaveEnoughPointToRedeem));
                     },
               height: 60,
               text: translate(context, LocaleStrings.redeemBtn),
