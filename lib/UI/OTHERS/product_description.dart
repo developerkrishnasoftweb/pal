@@ -44,14 +44,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
               loadingBuilder: (context, child, progress) {
                 return progress == null
                     ? child
-                    : Center(
-                  child: SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation(primaryColor))),
-                );
+                    : Container(
+                        height: 250,
+                        width: size.width,
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(primaryColor))));
               },
             ),
             SizedBox(
