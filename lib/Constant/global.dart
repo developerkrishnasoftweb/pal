@@ -30,6 +30,15 @@ FormData SMS_DATA({String mobile, String message}) {
   });
 }
 
+String removeHtmlTags({String data : "N/A"}) {
+  RegExp regExp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+  return data
+      .replaceAll(regExp, "")
+      .replaceAll("&nbsp;", " ")
+      .replaceAll("&amp;", "&")
+      .replaceAll("&quot;", "\"") ?? "N/A";
+}
+
 Widget wallet({Color color}) {
   return Center(
     child: Padding(

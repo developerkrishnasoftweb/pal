@@ -113,12 +113,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
             buildTitledRow(title: translate(context, LocaleStrings.points), value: widget.giftData.points),
             buildTitledRow(
-                title: translate(context, LocaleStrings.productDescription), value: widget.giftData.desc),
+                title: translate(context, LocaleStrings.productDescription), value: removeHtmlTags(data: widget.giftData.desc)),
             SizedBox(
               height: 10,
             ),
             buildTitledRow(
-                title: "${translate(context, LocaleStrings.giftSpecification)} : ", value: widget.giftData.specs),
+                title: "${translate(context, LocaleStrings.giftSpecification)} : ", value: removeHtmlTags(data: widget.giftData.specs)),
           ],
         ),
       ),
