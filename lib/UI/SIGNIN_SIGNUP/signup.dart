@@ -234,7 +234,7 @@ class _SignUpState extends State<SignUp> {
               "token": "1234",
               "api_key": Urls.apiKey
             });
-            FormData smsData = SMSDATA(
+            FormData smsData = SMS_DATA(
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
                 mobile: mobile);

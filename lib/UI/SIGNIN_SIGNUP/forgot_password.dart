@@ -86,7 +86,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         isLoading = true;
       });
       String otp = RandomInt.generate().toString();
-      FormData smsData = SMSDATA(
+      FormData smsData = SMS_DATA(
           message: otp +
               " is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
           mobile: mobile);

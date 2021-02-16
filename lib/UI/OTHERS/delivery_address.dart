@@ -628,7 +628,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   sendSMS({String mobile, String otp, FormData formData}) async {
-    FormData smsData = SMSDATA(
+    FormData smsData = SMS_DATA(
         message: otp +
             " is your OTP to Redeem to PAL App. Don't share it with anyone.",
         mobile: mobile);

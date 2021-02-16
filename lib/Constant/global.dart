@@ -18,7 +18,7 @@ extension RandomInt on int {
   }
 }
 
-FormData SMSDATA({String mobile, String message}) {
+FormData SMS_DATA({String mobile, String message}) {
   return FormData.fromMap({
     "user": config.smsUserName,
     "password": config.smsPassword,
