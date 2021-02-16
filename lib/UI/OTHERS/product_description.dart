@@ -36,33 +36,23 @@ class _ProductDescriptionState extends State<ProductDescription> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            Image.network(
+              Urls.imageBaseUrl + widget.giftData.image,
+              height: 270,
               width: size.width,
-              height: 20,
-            ),
-            Hero(
-              tag: widget.giftData.image,
-              child: Image.network(
-                Urls.imageBaseUrl + widget.giftData.image,
-                height: 270,
-                width: size.width,
-                fit: BoxFit.contain,
-                loadingBuilder: (context, child, progress) {
-                  return progress == null
-                      ? child
-                      : Container(
-                          height: 200,
-                          width: 200,
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(primaryColor))),
-                        );
-                },
-              ),
+              fit: BoxFit.contain,
+              loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : Center(
+                  child: SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation(primaryColor))),
+                );
+              },
             ),
             SizedBox(
               height: 20,

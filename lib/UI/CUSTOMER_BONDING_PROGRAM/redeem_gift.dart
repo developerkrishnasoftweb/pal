@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Common/custom_button.dart';
@@ -144,46 +145,46 @@ class _RedeemGiftState extends State<RedeemGift> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Hero(
-            tag: giftData.image,
-            child: Image.network(
-              Urls.imageBaseUrl + giftData.image,
-              height: size.width * 0.25,
-              width: size.width * 0.25,
-              fit: BoxFit.fill,
-              errorBuilder: (context, object, stackTrace) {
-                return Icon(
-                  Icons.signal_cellular_connected_no_internet_4_bar,
-                  color: primaryColor,
-                );
-              },
-              loadingBuilder: (context, child, progress) {
-                return progress == null
-                    ? child
-                    : Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(primaryColor),
-                              strokeWidth: 1,
-                            )),
-                      );
-              },
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(
+                Urls.imageBaseUrl + giftData.image,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                errorBuilder: (context, object, stackTrace) {
+                  return Image(image: AssetImage("assets/images/pal-logo.png"));
+                },
+                loadingBuilder: (context, child, progress) {
+                  return progress == null
+                      ? child
+                      : Center(
+                    child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(primaryColor),
+                          strokeWidth: 1,
+                        )),
+                  );
+                },
+              ),
             ),
           ),
           SizedBox(
             height: 5,
           ),
-          Text(
-            giftData.title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(fontSize: 17, fontWeight: FontWeight.bold),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              giftData.title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           Text("${giftData.points} ${translate(context, LocaleStrings.points)}",
               style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -204,6 +205,7 @@ class _RedeemGiftState extends State<RedeemGift> {
               width: size.width * 0.3,
               color: Colors.white,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.card_giftcard,
