@@ -36,7 +36,12 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           .toString());
   TextEditingController toDate = TextEditingController(
       text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  List<String> tabs = [LocaleStrings.earned, LocaleStrings.scored, LocaleStrings.redeemed, LocaleStrings.festival],
+  List<String> tabs = [
+        LocaleStrings.earned,
+        LocaleStrings.scored,
+        LocaleStrings.redeemed,
+        LocaleStrings.festival
+      ],
       earnTabHeader = ["Sr. No.", "Invoice Date", "Point Earn", "Branch Name"],
       purchaseTabHeader = [
         "Sr. No.",
@@ -195,10 +200,13 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
             break;
         }
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.toDateMustBeGreaterThanFromDate));
+        Fluttertoast.showToast(
+            msg: translate(
+                context, LocaleStrings.toDateMustBeGreaterThanFromDate));
       }
     } else {
-      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseSelectToAndFromDate));
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.pleaseSelectToAndFromDate));
     }
   }
 
@@ -363,7 +371,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   onPressed: () {
                     showDialogBox(
                         context: context,
-                        title: translate(context, LocaleStrings.filterReportByDate),
+                        title: translate(
+                            context, LocaleStrings.filterReportByDate),
                         widget: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -371,10 +380,12 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
-                                    hintText: translate(context, LocaleStrings.fromDate),
+                                    hintText: translate(
+                                        context, LocaleStrings.fromDate),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
-                                text: translate(context, LocaleStrings.fromDate),
+                                text:
+                                    translate(context, LocaleStrings.fromDate),
                                 height: 50,
                                 width: size.width * 0.7,
                                 readOnly: true,
@@ -384,7 +395,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
-                                    hintText: translate(context, LocaleStrings.toDate),
+                                    hintText: translate(
+                                        context, LocaleStrings.toDate),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
                                 text: translate(context, LocaleStrings.toDate),
@@ -400,8 +412,13 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                               onPressed: isFiltered
                                   ? _reset
                                   : () => Navigator.pop(context),
-                              child: Text(isFiltered ? translate(context, LocaleStrings.resetBtn) : translate(context, LocaleStrings.close))),
-                          FlatButton(onPressed: _filter, child: Text(translate(context, LocaleStrings.filter))),
+                              child: Text(isFiltered
+                                  ? translate(context, LocaleStrings.resetBtn)
+                                  : translate(context, LocaleStrings.close))),
+                          FlatButton(
+                              onPressed: _filter,
+                              child: Text(
+                                  translate(context, LocaleStrings.filter))),
                         ]);
                   },
                   splashRadius: 25,
@@ -462,7 +479,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("${translate(context, LocaleStrings.totalEarnedPoint)} : ${totalEarnedPoints.round()}"),
+              pointRow(
+                  "${translate(context, LocaleStrings.totalEarnedPoint)} : ${totalEarnedPoints.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: earnTabHeader.map((header) {
@@ -491,7 +509,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("${translate(context, LocaleStrings.totalScored)} : ${totalPurchasePoint.round()}"),
+              pointRow(
+                  "${translate(context, LocaleStrings.totalScored)} : ${totalPurchasePoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
@@ -522,7 +541,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("${translate(context, LocaleStrings.totalRedeemedPoint)} : ${totalRedeemPoint.round()}"),
+              pointRow(
+                  "${translate(context, LocaleStrings.totalRedeemedPoint)} : ${totalRedeemPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columns: redeemTabHeader.map((header) {
@@ -562,7 +582,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              pointRow("${translate(context, LocaleStrings.totalFestivalPoint)} : ${totalFestivalPoint.round()}"),
+              pointRow(
+                  "${translate(context, LocaleStrings.totalFestivalPoint)} : ${totalFestivalPoint.round()}"),
               scrollViewBuilder(
                   widget: DataTable(
                       columnSpacing: 20,
