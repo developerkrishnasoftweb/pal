@@ -98,11 +98,17 @@
   "totalRedeemedPoint" : "कुल भुनाए गए अंक",
   "totalFestivalPoint" : "कुल त्योहार में अर्जित",
 
+  "filterReportByDate" : "फ़िल्टर रिपोर्ट दिनांक तक",
+  "fromDate" : "तारीख से",
+  "toDate" : "तारीख तक",
+  "filter" : "फिल्टर",
+
   "submitBtn" : "जमा",
   "viewBtn" : "देखे",
   "redeemBtn" : "छुड़ाए",
   "searchBtn" : "खोजें",
   "openBtn" : "खोलें",
+  "resetBtn" : "रीसेट",
 
   "pressAgainToExit" : "बाहर निकलने के लिए फिर से दबाएं",
   "fileType" : "फाइल का प्रकार",

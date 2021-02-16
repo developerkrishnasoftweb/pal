@@ -195,10 +195,10 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
             break;
         }
       } else {
-        Fluttertoast.showToast(msg: "TO DATE must be greater than FROM DATE");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.toDateMustBeGreaterThanFromDate));
       }
     } else {
-      Fluttertoast.showToast(msg: "Please select from and to date");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseSelectToAndFromDate));
     }
   }
 
@@ -363,7 +363,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   onPressed: () {
                     showDialogBox(
                         context: context,
-                        title: "Filter Report By Date",
+                        title: translate(context, LocaleStrings.filterReportByDate),
                         widget: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -371,10 +371,10 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
-                                    hintText: "From Date",
+                                    hintText: translate(context, LocaleStrings.fromDate),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
-                                text: "From Date",
+                                text: translate(context, LocaleStrings.fromDate),
                                 height: 50,
                                 width: size.width * 0.7,
                                 readOnly: true,
@@ -384,10 +384,10 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                                 context: context,
                                 decoration: InputDecoration(
                                     border: border(),
-                                    hintText: "To Date",
+                                    hintText: translate(context, LocaleStrings.toDate),
                                     contentPadding:
                                         EdgeInsets.symmetric(horizontal: 20)),
-                                text: "To Date",
+                                text: translate(context, LocaleStrings.toDate),
                                 height: 50,
                                 width: size.width * 0.7,
                                 readOnly: true,
@@ -400,8 +400,8 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                               onPressed: isFiltered
                                   ? _reset
                                   : () => Navigator.pop(context),
-                              child: Text(isFiltered ? "Reset" : translate(context, LocaleStrings.close))),
-                          FlatButton(onPressed: _filter, child: Text("Filter")),
+                              child: Text(isFiltered ? translate(context, LocaleStrings.resetBtn) : translate(context, LocaleStrings.close))),
+                          FlatButton(onPressed: _filter, child: Text(translate(context, LocaleStrings.filter))),
                         ]);
                   },
                   splashRadius: 25,

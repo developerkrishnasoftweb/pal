@@ -98,11 +98,17 @@
   "totalRedeemedPoint" : "Total Redeemed Points",
   "totalFestivalPoint" : "Total Festival Points",
 
+  "filterReportByDate" : "Filter Report By Date",
+  "fromDate" : "From Date",
+  "toDate" : "To Date",
+  "filter" : "Filter",
+
   "submitBtn" : "Submit",
   "viewBtn" : "View",
   "redeemBtn" : "Redeem",
   "searchBtn" : "Search",
   "openBtn" : "Open",
+  "resetBtn" : "Reset",
 
   "pressAgainToExit" : "Press again to exit",
   "fileType" : "File Type",

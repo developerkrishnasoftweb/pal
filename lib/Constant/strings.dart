@@ -114,11 +114,17 @@ class LocaleStrings {
   static String totalRedeemedPoint = "totalRedeemedPoint";
   static String totalFestivalPoint = "totalFestivalPoint";
 
+  static String filterReportByDate = "filterReportByDate";
+  static String fromDate = "fromDate";
+  static String toDate = "toDate";
+  static String filter = "filter";
+
   static String submitBtn = "submitBtn";
   static String viewBtn = "viewBtn";
   static String redeemBtn = "redeemBtn";
   static String searchBtn = "searchBtn";
   static String openBtn = "openBtn";
+  static String resetBtn = "resetBtn";
 
   //flutter toast message
   static String pressAgainToExit = "pressAgainToExit";

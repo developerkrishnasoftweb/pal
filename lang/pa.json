@@ -98,11 +98,17 @@
   "totalRedeemedPoint" : "ਕੁਲ ਛੁਟਕਾਰੇ ਦੇ ਬਿੰਦੂ",
   "totalFestivalPoint" : "ਕੁੱਲ ਤਿਉਹਾਰ ਬਿੰਦੂ",
 
+  "filterReportByDate" : "ਤਾਰੀਖ ਅਨੁਸਾਰ ਫਿਲਟਰ ਰਿਪੋਰਟ",
+  "fromDate" : "ਤਾਰੀਖ ਤੋਂ",
+  "toDate" : "ਮਿਤੀ ਤੱਕ",
+  "filter" : "ਫਿਲਟਰ",
+
   "submitBtn" : "ਜਮ੍ਹਾਂ ਕਰੋ",
   "viewBtn" : "ਵੇਖੋ",
   "redeemBtn" : "ਛੁਟਕਾਰਾ",
   "searchBtn" : "ਖੋਜ",
   "openBtn" : "ਖੁੱਲਾ",
+  "resetBtn" : "ਰੀਸੈੱਟ",
 
   "pressAgainToExit" : "ਬਾਹਰ ਜਾਣ ਲਈ ਦੁਬਾਰਾ ਦਬਾਓ",
   "fileType" : "ਫਾਈਲ ਕਿਸਮ",
