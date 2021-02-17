@@ -40,6 +40,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  DateTime currentBackPressTime;
   GlobalKey<ScaffoldState> scaffoldKey;
   String rateMessage = "";
   List<CarouselItems> carouselItems = [];
@@ -230,126 +231,140 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: drawer(context: context, scaffoldKey: scaffoldKey),
-      body: Stack(
-        children: [
-          Container(
-            height: size.height > 500 ? size.height * 0.3 : 180,
-            width: size.width,
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
+    return WillPopScope(
+      onWillPop: _exit,
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: drawer(context: context, scaffoldKey: scaffoldKey),
+        body: Stack(
+          children: [
+            Container(
+              height: size.height > 500 ? size.height * 0.3 : 180,
+              width: size.width,
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)),
+              ),
             ),
-          ),
-          SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                  child: appBar(
-                      title: translate(context, LocaleStrings.home),
-                      centerTitle: true,
-                      context: context,
-                      leading: IconButton(
-                        icon: ImageIcon(
-                          AssetImage("assets/icons/menu-hamburger.png"),
-                          color: Colors.white,
+            SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: appBar(
+                        title: translate(context, LocaleStrings.home),
+                        centerTitle: true,
+                        context: context,
+                        leading: IconButton(
+                          icon: ImageIcon(
+                            AssetImage("assets/icons/menu-hamburger.png"),
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            scaffoldKey.currentState.openDrawer();
+                          },
+                          splashRadius: 23,
+                          iconSize: 20,
                         ),
-                        onPressed: () {
-                          scaffoldKey.currentState.openDrawer();
-                        },
-                        splashRadius: 23,
-                        iconSize: 20,
-                      ),
-                      actions: [
-                        isChangingLang
-                            ? Center(
-                                child: SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    valueColor:
-                                        AlwaysStoppedAnimation(Colors.white),
-                                    strokeWidth: 2,
+                        actions: [
+                          isChangingLang
+                              ? Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(Colors.white),
+                                      strokeWidth: 2,
+                                    ),
                                   ),
+                                )
+                              : PopupMenuButton<Language>(
+                                  onSelected: _languageChanged,
+                                  itemBuilder: (_) => Language.languageList()
+                                      .map<PopupMenuItem<Language>>((lang) {
+                                    return PopupMenuItem(
+                                      child: Text(lang.flag + " " + lang.name),
+                                      value: lang,
+                                    );
+                                  }).toList(),
+                                  icon: Icon(Icons.language_outlined),
                                 ),
-                              )
-                            : PopupMenuButton<Language>(
-                                onSelected: _languageChanged,
-                                itemBuilder: (_) => Language.languageList()
-                                    .map<PopupMenuItem<Language>>((lang) {
-                                  return PopupMenuItem(
-                                    child: Text(lang.flag + " " + lang.name),
-                                    value: lang,
-                                  );
-                                }).toList(),
-                                icon: Icon(Icons.language_outlined),
+                          SizedBox(width: isChangingLang ? 20 : 0),
+                          badge(
+                              iconButton: IconButton(
+                                icon: ImageIcon(
+                                  AssetImage(
+                                      "assets/icons/notification-icon.png"),
+                                  color: Colors.white,
+                                ),
+                                onPressed: () => Navigator.push(context,
+                                        CustomPageRoute(widget: Notifications()))
+                                    .then((value) => getNotificationCount()),
+                                splashRadius: 23,
+                                iconSize: 20,
                               ),
-                        SizedBox(width: isChangingLang ? 20 : 0),
-                        badge(
-                            iconButton: IconButton(
-                              icon: ImageIcon(
-                                AssetImage(
-                                    "assets/icons/notification-icon.png"),
-                                color: Colors.white,
-                              ),
-                              onPressed: () => Navigator.push(context,
-                                      CustomPageRoute(widget: Notifications()))
-                                  .then((value) => getNotificationCount()),
-                              splashRadius: 23,
-                              iconSize: 20,
-                            ),
-                            badgeValue: lastNotificationCount,
-                            badgeSize: Size(15, 15)),
-                      ]),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Carousel(
-                  height: size.height > 500 ? null : 150,
-                  items: carouselItems,
-                  width: size.width * 0.92,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Expanded(
-                    child: GridView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        physics: BouncingScrollPhysics(),
-                        itemCount: itemList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 1),
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildItems(
-                              context: context,
-                              index: index,
-                              image: itemList[index].image,
-                              widget: itemList[index].widget,
-                              title: itemList[index].title);
-                        }))
-              ],
+                              badgeValue: lastNotificationCount,
+                              badgeSize: Size(15, 15)),
+                        ]),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Carousel(
+                    height: size.height > 500 ? null : 150,
+                    items: carouselItems,
+                    width: size.width * 0.92,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                      child: GridView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          physics: BouncingScrollPhysics(),
+                          itemCount: itemList.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: 1),
+                          itemBuilder: (BuildContext context, int index) {
+                            return buildItems(
+                                context: context,
+                                index: index,
+                                image: itemList[index].image,
+                                widget: itemList[index].widget,
+                                title: itemList[index].title);
+                          }))
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _messaging,
-        child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        tooltip: "Message",
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _messaging,
+          child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          tooltip: "Message",
+        ),
       ),
     );
+  }
+
+  Future<bool> _exit() async {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pressAgainToExit));
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 
   _messaging() async {

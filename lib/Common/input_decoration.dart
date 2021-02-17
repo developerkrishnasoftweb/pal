@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 OutlineInputBorder border({double borderRadius}){
   return OutlineInputBorder(
-    borderRadius: BorderRadius.circular(borderRadius ?? 10),
+    borderRadius: BorderRadius.circular(borderRadius ?? 5),
     borderSide: BorderSide(color: Colors.grey)
   );
 }
 
 class AppTextFieldDecoration{
-  static EdgeInsets textFieldPadding = EdgeInsets.symmetric(horizontal: 20, vertical: 15);
+  static EdgeInsets textFieldPadding = EdgeInsets.symmetric(horizontal: 10, vertical: 15);
 }
