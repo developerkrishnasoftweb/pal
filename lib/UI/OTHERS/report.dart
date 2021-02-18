@@ -367,7 +367,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
               title: translate(context, LocaleStrings.reports),
               actions: [
                 IconButton(
-                  icon: Icon(Icons.filter_list_outlined),
+                  icon: ImageIcon(AssetImage("assets/icons/calendar.png")),
                   onPressed: () {
                     showDialogBox(
                         context: context,
