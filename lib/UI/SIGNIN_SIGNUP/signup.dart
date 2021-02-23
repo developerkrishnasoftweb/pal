@@ -2,11 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/strings.dart';
-import 'package:pal/LOCALIZATION/localizations_constraints.dart';
+import '../../Constant/strings.dart';
+import '../../LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -146,7 +145,7 @@ class _SignUpState extends State<SignUp> {
               customButton(
                   context: context,
                   onPressed: !signUpStatus ? _signUp : null,
-                  height: 55,
+                  height: 50,
                   child: signUpStatus
                       ? SizedBox(
                           height: 30,

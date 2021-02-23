@@ -90,7 +90,7 @@ class _OTPState extends State<OTP> {
               : widget.action != null
                   ? _action
                   : null,
-          height: 60,
+          height: 50,
           width: size.width,
           text: !isLoading ? "SUBMIT" : null,
           child: SizedBox(

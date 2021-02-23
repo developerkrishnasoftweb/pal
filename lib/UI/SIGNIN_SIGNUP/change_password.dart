@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
@@ -78,6 +77,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       ),
       floatingActionButton: customButton(
           context: context,
+          height: 50,
           onPressed: isLoading ? null : _changePassword,
           text: isLoading ? null : "SAVE",
           outerPadding: EdgeInsets.symmetric(horizontal: 20),

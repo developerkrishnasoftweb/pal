@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -58,7 +57,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 context: context,
                 onPressed: isLoading ? null : _forgotPassword,
                 text: isLoading ? null : "GET OTP",
-                height: 65,
+                height: 50,
                 child: isLoading
                     ? SizedBox(
                         height: 30,
@@ -91,11 +90,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           setState(() {
             isLoading = false;
           });
-          Navigator.pop(context);
-          Navigator.push(
-              context,
-              CustomPageRoute(
-                  widget: OTP(
+          Navigator.pushReplacement(context, CustomPageRoute(
+              widget: OTP(
                 otp: otp,
                 action: OtpActions.FORGOT_PASSWORD,
                 mobile: mobile,

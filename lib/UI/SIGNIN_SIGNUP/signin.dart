@@ -8,12 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/Constant/strings.dart';
-import 'package:pal/LOCALIZATION/localizations_constraints.dart';
-import 'package:pal/UI/HOME/home.dart';
+import '../../Constant/strings.dart';
+import '../../LOCALIZATION/localizations_constraints.dart';
+import '../../UI/HOME/home.dart';
 
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -188,7 +187,7 @@ class _SignInState extends State<SignIn> {
                       valueColor: AlwaysStoppedAnimation(primaryColor),
                     ),
                   ),
-                  height: 65,
+                  height: 50,
                   width: size.width),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30),
