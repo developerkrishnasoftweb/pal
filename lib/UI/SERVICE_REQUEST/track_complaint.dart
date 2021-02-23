@@ -7,7 +7,6 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/models.dart';
@@ -93,10 +92,6 @@ class _TrackComplaintState extends State<TrackComplaint> {
               context: context,
               text:
                   "${translate(context, LocaleStrings.enterComplainNo)} $mandatoryChar",
-              padding: EdgeInsets.all(20),
-              decoration: InputDecoration(
-                border: border(),
-              ),
               onChanged: (value) {
                 setState(() {});
               },

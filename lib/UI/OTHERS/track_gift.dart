@@ -33,10 +33,6 @@ class _TrackGiftState extends State<TrackGift> {
                 autoFocus: true,
                 context: context,
                 text: "Enter your shipment no  $mandatoryChar",
-                padding: EdgeInsets.all(20),
-                decoration: InputDecoration(
-                  border: border(),
-                ),
                 onEditingComplete: _getDeliveryData,
                 onChanged: (value) {
                   setState(() {

@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/rating_builder.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -45,7 +44,6 @@ class _ProductReviewState extends State<ProductReview> {
           ),
           input(
               context: context,
-              decoration: InputDecoration(border: border()),
               maxLines: 5,
               text: "Review",
               onChanged: (value) => setState(() => review = value)),

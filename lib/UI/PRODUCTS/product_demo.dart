@@ -85,10 +85,10 @@ class _ProductDemoState extends State<ProductDemo> {
         children: [
           input(
               context: context,
-              padding: EdgeInsets.symmetric(horizontal: 25),
               onChanged: _search,
               decoration: InputDecoration(
                   border: border(),
+                  contentPadding: EdgeInsets.all(10),
                   hintText: translate(context, LocaleStrings.searchProduct),
                   suffixIcon: Icon(Icons.search))),
           Expanded(

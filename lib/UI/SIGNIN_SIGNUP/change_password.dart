@@ -54,6 +54,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 obscureText: !showPassword,
                 decoration: InputDecoration(
                     border: border(),
+                    contentPadding: EdgeInsets.all(10),
                     suffixIcon: IconButton(
                         icon: Icon(Icons.remove_red_eye),
                         onPressed: () {
@@ -71,8 +72,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     confirmPassword = value;
                   });
                 },
-                onEditingComplete: _changePassword,
-                decoration: InputDecoration(border: border())),
+                onEditingComplete: _changePassword),
           ],
         ),
       ),

@@ -10,7 +10,6 @@ import 'package:pal/UI/SIGNIN_SIGNUP/otp.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -212,11 +211,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 address = value;
               });
             },
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              border: border(),
-            ),
-            maxLines: 5),
+            textInputAction: TextInputAction.next),
         input(
             context: context,
             text: "Alternate Mobile No.",
@@ -225,8 +220,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 altMobile = value;
               });
             },
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(border: border())),
+            keyboardType: TextInputType.number),
         input(
             context: context,
             text: "Pincode",
@@ -240,6 +234,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 border: border(),
+                contentPadding: EdgeInsets.all(10),
                 prefixIcon: Padding(
                     padding: EdgeInsets.all(10),
                     child: Image.asset(
@@ -252,13 +247,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         input(
             context: context,
             text: "State",
-            controller: stateAPI,
-            decoration: InputDecoration(border: border())),
+            controller: stateAPI),
         input(
             context: context,
             text: "City",
-            controller: cityAPI,
-            decoration: InputDecoration(border: border())),
+            controller: cityAPI),
         listAreas.length > 1
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -294,8 +287,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             : input(
                 context: context,
                 text: "Area",
-                controller: areaAPI,
-                decoration: InputDecoration(border: border())),
+                controller: areaAPI),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
@@ -440,8 +432,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 altMobile = value;
               });
             },
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(border: border())),
+            keyboardType: TextInputType.number),
         /* Text(
           "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence $mandatoryChar",
           style: Theme.of(context).textTheme.bodyText1.copyWith(

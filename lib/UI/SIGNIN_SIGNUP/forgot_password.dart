@@ -50,11 +50,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   });
                 },
                 keyboardType: TextInputType.number,
-                onEditingComplete: _forgotPassword,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
-                  border: border(),
-                )),
+                onEditingComplete: _forgotPassword),
             SizedBox(
               height: 40,
             ),

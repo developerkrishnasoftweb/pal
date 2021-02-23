@@ -79,10 +79,6 @@ class _SignUpState extends State<SignUp> {
               ),
               input(
                   context: context,
-                  decoration: InputDecoration(
-                    contentPadding: AppTextFieldDecoration.textFieldPadding,
-                    border: border(),
-                  ),
                   onChanged: (value) {
                     setState(() {
                       fullName = value;
@@ -93,10 +89,6 @@ class _SignUpState extends State<SignUp> {
               input(
                   context: context,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    contentPadding: AppTextFieldDecoration.textFieldPadding,
-                    border: border(),
-                  ),
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -107,10 +99,6 @@ class _SignUpState extends State<SignUp> {
               input(
                   context: context,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    contentPadding: AppTextFieldDecoration.textFieldPadding,
-                    border: border(),
-                  ),
                   onChanged: (value) {
                     setState(() {
                       mobile = value;
@@ -120,10 +108,6 @@ class _SignUpState extends State<SignUp> {
                   text: translate(context, LocaleStrings.mobileNo)),
               input(
                   context: context,
-                  decoration: InputDecoration(
-                    contentPadding: AppTextFieldDecoration.textFieldPadding,
-                    border: border(),
-                  ),
                   onChanged: (value) {
                     setState(() {
                       password = value;

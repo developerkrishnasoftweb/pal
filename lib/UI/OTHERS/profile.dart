@@ -12,7 +12,6 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/show_dialog.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -140,8 +139,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               context: context,
               text: "${translate(context, LocaleStrings.name)} $mandatoryChar",
               controller: name,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(border: border()),
+              textInputAction: TextInputAction.next
             ),
             input(
               context: context,
@@ -165,6 +163,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               },
               decoration: InputDecoration(
                   border: border(),
+                  contentPadding: EdgeInsets.all(10),
                   suffixIcon: validMobile
                       ? Icon(
                           Icons.check_circle_outline_outlined,
@@ -184,6 +183,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               readOnly: userdata.kyc == "y" ?? false,
               decoration: InputDecoration(
                   border: border(),
+                  contentPadding: EdgeInsets.all(10),
                   suffixIcon: userdata.kyc == "y"
                       ? Icon(
                           Icons.check_circle_outline_outlined,
@@ -199,7 +199,6 @@ class _ChangeAddressState extends State<ChangeAddress> {
               maxLines: userdata.kyc == "y" ? 2 : 5,
               textInputAction: TextInputAction.next,
               readOnly: userdata.kyc == "y" ?? false,
-              decoration: InputDecoration(border: border()),
             ),
             input(
                 context: context,
@@ -210,22 +209,19 @@ class _ChangeAddressState extends State<ChangeAddress> {
                 readOnly: userdata.kyc == "y" ?? false,
                 onChanged: (value) {
                   _getPinCodeData();
-                },
-                decoration: InputDecoration(border: border())),
+                }),
             input(
                 context: context,
                 text:
                     "${translate(context, LocaleStrings.state)} $mandatoryChar",
                 controller: state,
-                readOnly: userdata.kyc == "y" ?? false,
-                decoration: InputDecoration(border: border())),
+                readOnly: userdata.kyc == "y" ?? false),
             input(
                 context: context,
                 text:
                     "${translate(context, LocaleStrings.city)} $mandatoryChar",
                 controller: city,
-                readOnly: userdata.kyc == "y" ?? false,
-                decoration: InputDecoration(border: border())),
+                readOnly: userdata.kyc == "y" ?? false),
             listAreas.length > 1
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -263,8 +259,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     text:
                         "${translate(context, LocaleStrings.area)} $mandatoryChar",
                     controller: area,
-                    readOnly: userdata.kyc == "y" ?? false,
-                    decoration: InputDecoration(border: border())),
+                    readOnly: userdata.kyc == "y" ?? false),
             userdata.kyc == "y"
                 ? input(
                     context: context,
@@ -272,8 +267,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                         "${translate(context, LocaleStrings.gender)} $mandatoryChar",
                     controller: TextEditingController(
                         text: selectedGender == "m" ? "Male" : "Female"),
-                    readOnly: true,
-                    decoration: InputDecoration(border: border()))
+                    readOnly: true)
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
@@ -316,16 +310,14 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     ? null
                     : () => _selectDate(SelectDateType.DOB),
                 readOnly: true,
-                keyboardType: TextInputType.datetime,
-                decoration: InputDecoration(border: border())),
+                keyboardType: TextInputType.datetime),
             userdata.maritalStatus == "y"
                 ? input(
                     context: context,
                     readOnly: true,
                     text:
                         "${translate(context, LocaleStrings.maritalStatus)} $mandatoryChar",
-                    controller: TextEditingController(text: "Married"),
-                    decoration: InputDecoration(border: border()))
+                    controller: TextEditingController(text: "Married"))
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
@@ -374,8 +366,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                         ? null
                         : () => _selectDate(SelectDateType.ANNIVERSARY_DATE),
                     readOnly: true,
-                    keyboardType: TextInputType.datetime,
-                    decoration: InputDecoration(border: border()))
+                    keyboardType: TextInputType.datetime)
                 : SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

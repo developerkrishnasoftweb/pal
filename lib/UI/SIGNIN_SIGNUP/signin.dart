@@ -140,10 +140,7 @@ class _SignInState extends State<SignIn> {
                       username = value;
                     });
                   },
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      contentPadding: AppTextFieldDecoration.textFieldPadding,
-                      border: border())),
+                  controller: emailController),
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
@@ -155,10 +152,7 @@ class _SignInState extends State<SignIn> {
                       password = value;
                     });
                   },
-                  focusNode: myFocusNode,
-                  decoration: InputDecoration(
-                      contentPadding: AppTextFieldDecoration.textFieldPadding,
-                      border: border())),
+                  focusNode: myFocusNode),
               Align(
                 child: GestureDetector(
                   onTap: () {

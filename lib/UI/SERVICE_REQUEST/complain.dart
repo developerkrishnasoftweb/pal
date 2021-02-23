@@ -11,7 +11,6 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
-import '../../Common/input_decoration.dart';
 import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
@@ -136,7 +135,6 @@ class _ComplainState extends State<Complain> {
                   context: context,
                   text:
                       "${translate(context, LocaleStrings.briefDescriptions)} $mandatoryChar",
-                  decoration: InputDecoration(border: border()),
                   maxLines: 5,
                   controller: descriptionText),
               SizedBox(
