@@ -30,7 +30,9 @@ _HomeState homeState;
 
 class Home extends StatefulWidget {
   final bool showRateDialog;
+
   Home({this.showRateDialog});
+
   @override
   _HomeState createState() {
     homeState = _HomeState();
@@ -299,8 +301,10 @@ class _HomeState extends State<Home> {
                                       "assets/icons/notification-icon.png"),
                                   color: Colors.white,
                                 ),
-                                onPressed: () => Navigator.push(context,
-                                        CustomPageRoute(widget: Notifications()))
+                                onPressed: () => Navigator.push(
+                                        context,
+                                        CustomPageRoute(
+                                            widget: Notifications()))
                                     .then((value) => getNotificationCount()),
                                 splashRadius: 23,
                                 iconSize: 20,
@@ -326,11 +330,12 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           physics: BouncingScrollPhysics(),
                           itemCount: itemList.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 1),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 1),
                           itemBuilder: (BuildContext context, int index) {
                             return buildItems(
                                 context: context,
@@ -344,13 +349,18 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _messaging,
-          child: Image.asset("assets/icons/whatsapp.png", fit: BoxFit.fill),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          tooltip: "Message",
-        ),
+        floatingActionButton: config.whatsAppNumber != null
+            ? config.whatsAppNumber.isNotEmpty
+                ? FloatingActionButton(
+                    onPressed: _messaging,
+                    child: Image.asset("assets/icons/whatsapp.png",
+                        fit: BoxFit.fill),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    tooltip: "Message",
+                  )
+                : null
+            : null,
       ),
     );
   }
@@ -360,7 +370,8 @@ class _HomeState extends State<Home> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pressAgainToExit));
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.pressAgainToExit));
       return Future.value(false);
     }
     return Future.value(true);
@@ -417,5 +428,6 @@ class ItemListBuilder {
   final ImageProvider image;
   final String title;
   final Widget widget;
+
   ItemListBuilder({this.image, this.title, this.widget});
 }

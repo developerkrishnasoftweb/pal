@@ -123,7 +123,7 @@ Widget drawer(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hi!, " + userdata.name ?? " ",
+                    "Hi!, " + (userdata != null ? userdata.name : " "),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   SizedBox(
