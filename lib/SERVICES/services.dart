@@ -368,7 +368,7 @@ class Services {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "id": userdata.id}));
+              {"api_key": API_KEY, "id": userdata.id}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
         Data data = Data();
@@ -478,7 +478,7 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+          .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         return true;
       }
@@ -557,7 +557,7 @@ class Services {
       try {
         dio.Response response;
         response = await dio.Dio()
-            .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+            .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
         if (response.statusCode == 200) {
           final jsonResponse = [jsonDecode(response.data)];
           return jsonResponse[0]["count"].toString();
@@ -583,7 +583,7 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+          .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -610,7 +610,7 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+          .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -637,7 +637,7 @@ class Services {
     try {
       dio.Response response;
       response = await dio.Dio()
-          .post(url, data: dio.FormData.fromMap({"api_key": Urls.apiKey}));
+          .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
         await sharedPreferences.setString(
@@ -660,7 +660,7 @@ class Services {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "customer_id": userdata.id}));
+              {"api_key": API_KEY, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -688,7 +688,7 @@ class Services {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap({
-            "api_key": Urls.apiKey,
+            "api_key": API_KEY,
             "customer_id": userdata.id,
             "rate": rate,
             "comment": message
@@ -720,7 +720,7 @@ class Services {
       dio.Response response;
       response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
-              {"api_key": Urls.apiKey, "customer_id": userdata.id}));
+              {"api_key": API_KEY, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);

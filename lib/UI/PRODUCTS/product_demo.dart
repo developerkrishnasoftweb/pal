@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
@@ -10,7 +11,6 @@ import '../../Common/page_route.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import '../../UI/PRODUCTS/product_preview.dart';
 
 class ProductDemo extends StatefulWidget {
@@ -33,7 +33,7 @@ class _ProductDemoState extends State<ProductDemo> {
 
   void getProducts() {
     FormData body =
-        FormData.fromMap({"api_key": Urls.apiKey, "type": widget.type});
+        FormData.fromMap({"api_key": API_KEY, "type": widget.type});
     Services.getProducts(body).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {

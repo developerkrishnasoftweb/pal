@@ -10,7 +10,6 @@ import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import '../../Common/appbar.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 
 class EarnedPoints extends StatefulWidget {
   @override
@@ -265,7 +264,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     });
     await Services.getCycle();
     FormData body = FormData.fromMap({
-      "api_key": Urls.apiKey,
+      "api_key": API_KEY,
       "limit": null,
       "customer_id": userdata.id,
     });

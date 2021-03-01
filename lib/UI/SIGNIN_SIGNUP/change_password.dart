@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 
 import '../../Common/appbar.dart';
 import '../../Common/custom_button.dart';
 import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 
 class ResetPassword extends StatefulWidget {
   final String mobile;
@@ -103,7 +103,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           isLoading = true;
         });
         FormData formData = FormData.fromMap({
-          "api_key": Urls.apiKey,
+          "api_key": API_KEY,
           "mobile": widget.mobile,
           "password": confirmPassword,
         });

@@ -27,7 +27,7 @@ class _GiftState extends State<GiftCategory> {
   }
 
   getGiftsCategory() async {
-    await Services.giftCategory(FormData.fromMap({"api_key": Urls.apiKey}))
+    await Services.giftCategory(FormData.fromMap({"api_key": API_KEY}))
         .then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/page_route.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import '../../UI/PRODUCT_CATALOG/catalog_preview.dart';
 import '../../Constant/color.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import '../../Common/appbar.dart';
 
 class ProductCatalog extends StatefulWidget {
@@ -21,7 +21,7 @@ class _ProductState extends State<ProductCatalog> {
   ShapeBorder shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
   @override
   void initState() {
-    Services.category(FormData.fromMap({"api_key" : Urls.apiKey})).then((value) {
+    Services.category(FormData.fromMap({"api_key" : API_KEY})).then((value) {
       if(value.response == "y"){
         for(int i = 0; i < value.data.length; i++){
           setState(() {

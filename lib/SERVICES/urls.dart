@@ -1,17 +1,4 @@
 class Urls {
-  /*
-  *
-  * */
-
-  /*
-  * some constant strings used for api
-  * */
-  static String apiKey = "0imfnc8mVLWwsAawjYr4Rx";
-  // static String user = "pal";
-  // static String password = "Admin@pal";
-  // static String sID = "PALSMS";
-  // static String fl = "0";
-  // static String gwID = "2";
 
   /*
   * API Urls

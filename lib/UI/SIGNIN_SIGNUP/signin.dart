@@ -19,7 +19,6 @@ import '../../Constant/color.dart';
 import '../../Constant/global.dart';
 import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import '../../UI/SIGNIN_SIGNUP/forgot_password.dart';
 import '../../UI/SIGNIN_SIGNUP/signup.dart';
 import '../../main.dart';
@@ -237,7 +236,7 @@ class _SignInState extends State<SignIn> {
       FormData formData = FormData.fromMap({
         "username": username,
         "password": password,
-        "api_key": Urls.apiKey,
+        "api_key": API_KEY,
         "token": token
       });
       Services.signIn(formData).then((result) async {

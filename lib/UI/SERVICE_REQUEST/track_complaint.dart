@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/Constant/global.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 
@@ -11,7 +12,6 @@ import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/models.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 
 class TrackComplaint extends StatefulWidget {
   final String complainNumber;
@@ -41,7 +41,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
         isLoading = true;
       });
       Services.trackComplaint(FormData.fromMap(
-              {"api_key": Urls.apiKey, "ticket_no": complainNo.text}))
+              {"api_key": API_KEY, "ticket_no": complainNo.text}))
           .then((value) {
         if (value.response == "y") {
           if (value.data[0].length != 0) {

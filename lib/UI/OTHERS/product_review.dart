@@ -73,7 +73,7 @@ class _ProductReviewState extends State<ProductReview> {
       isLoading = true;
     });
     FormData body = FormData.fromMap({
-      "api_key": Urls.apiKey,
+      "api_key": API_KEY,
       "customer_id": userdata.id,
       "gift_id": widget.giftData.id,
       "rate": feedback,

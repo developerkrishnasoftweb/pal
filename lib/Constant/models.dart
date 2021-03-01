@@ -62,6 +62,7 @@ class Userdata {
       kyc,
       vehicleType,
       adhaar;
+
   Userdata(
       {this.maritalStatus,
       this.area,
@@ -90,7 +91,9 @@ class Userdata {
       this.token,
       this.vehicleType,
       this.totalOrder});
-  Userdata.fromJSON(Map<String, dynamic> json) : id = json[UserParams.id],
+
+  Userdata.fromJSON(Map<String, dynamic> json)
+      : id = json[UserParams.id],
         name = json[UserParams.name],
         mobile = json[UserParams.mobile],
         email = json[UserParams.email],
@@ -140,22 +143,22 @@ class Config {
 
   Config(
       {this.title,
-        this.logo,
-        this.contact,
-        this.whatsAppNumber,
-        this.email,
-        this.copyright,
-        this.about,
-        this.apkLink,
-        this.terms,
-        this.termsTitle,
-        this.razorPayKey,
-        this.razorPaySecretKey,
-        this.smsUserName,
-        this.smsPassword,
-        this.smsSenderId,
-        this.smsFL,
-        this.smsGwID});
+      this.logo,
+      this.contact,
+      this.whatsAppNumber,
+      this.email,
+      this.copyright,
+      this.about,
+      this.apkLink,
+      this.terms,
+      this.termsTitle,
+      this.razorPayKey,
+      this.razorPaySecretKey,
+      this.smsUserName,
+      this.smsPassword,
+      this.smsSenderId,
+      this.smsFL,
+      this.smsGwID});
 
   Config.fromJson(Map<String, dynamic> json)
       : title = json['title'],
@@ -179,6 +182,7 @@ class Config {
 
 class GiftData {
   final String specs, rating, points, desc, image, title, id;
+
   GiftData(
       {this.id,
       this.title,
@@ -187,4 +191,13 @@ class GiftData {
       this.desc,
       this.specs,
       this.rating});
+
+  GiftData.fromJson(Map<String, dynamic> json)
+      : id = json['id'] ?? " ",
+        title = json['title'] ?? " ",
+        image = json['image'] ?? " ",
+        points = json['point'] ?? " ",
+        desc = json['description'] ?? " ",
+        specs = json['specification'] ?? " ",
+        rating = json['rating'] ?? " ";
 }

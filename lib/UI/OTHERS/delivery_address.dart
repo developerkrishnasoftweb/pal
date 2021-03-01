@@ -552,7 +552,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           setLoading(true);
           FormData data = FormData.fromMap({
             "customer_id": userdata.id,
-            "api_key": Urls.apiKey,
+            "api_key": API_KEY,
             "gift_id": widget.giftData.id,
             "point": widget.giftData.points,
             "address": address,
@@ -591,7 +591,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           setLoading(true);
           FormData data = FormData.fromMap({
             "customer_id": userdata.id,
-            "api_key": Urls.apiKey,
+            "api_key": API_KEY,
             "gift_id": widget.giftData.id,
             "point": widget.giftData.points,
             "address": storeArea,

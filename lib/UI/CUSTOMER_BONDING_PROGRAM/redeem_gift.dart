@@ -34,21 +34,14 @@ class _RedeemGiftState extends State<RedeemGift> {
 
   getGifts() async {
     await Services.gift(FormData.fromMap({
-      "api_key": Urls.apiKey,
+      "api_key": API_KEY,
       "min": widget.minPoints,
       "max": widget.maxPoints
     })).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
-            giftList.add(GiftData(
-                id: value.data[i]["id"] ?? " ",
-                title: value.data[i]["title"] ?? " ",
-                points: value.data[i]["point"] ?? " ",
-                desc: value.data[i]["description"] ?? " ",
-                image: value.data[i]["image"] ?? " ",
-                rating: value.data[i]["rating"] ?? " ",
-                specs: value.data[i]["specification"] ?? " "));
+            giftList.add(GiftData.fromJson(value.data[i]));
           });
         }
       } else {

@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    Services.banners(FormData.fromMap({"api_key": Urls.apiKey})).then((value) {
+    Services.banners(FormData.fromMap({"api_key": API_KEY})).then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {

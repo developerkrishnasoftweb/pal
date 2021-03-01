@@ -11,7 +11,6 @@ import '../../Common/textinput.dart';
 import '../../Constant/color.dart';
 import '../../Constant/global.dart';
 import '../../SERVICES/services.dart';
-import '../../SERVICES/urls.dart';
 import '../../UI/SIGNIN_SIGNUP/otp.dart';
 
 class SignUp extends StatefulWidget {
@@ -215,7 +214,7 @@ class _SignUpState extends State<SignUp> {
               "gender": "male",
               "password": password,
               "token": "1234",
-              "api_key": Urls.apiKey
+              "api_key": API_KEY
             });
             FormData smsData = SMS_DATA(
                 message: otp +

@@ -10,6 +10,7 @@ SharedPreferences sharedPreferences;
 Userdata userdata;
 Config config;
 Locale appLocale;
+const String API_KEY = "0imfnc8mVLWwsAawjYr4Rx";
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
