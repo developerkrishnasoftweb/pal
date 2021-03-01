@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Constant/models.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
+import 'package:pal/SERVICES/urls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import './../Constant/color.dart';
@@ -291,14 +292,14 @@ Widget drawer(
               ),
               onTap: () async {
                 scaffoldKey.currentState.openEndDrawer();
-                var url = "https://www.palshopie.com/";
+                var url = Urls.imageBaseUrl;
                 if (await canLaunch(url))
                   launch(url);
                 else
-                  Fluttertoast.showToast(msg: "Unable to open play store");
+                  Fluttertoast.showToast(msg: "Unable to open");
               },
             ),
-            /* ListTile(
+            ListTile(
               title: Row(
                 children: [
                   SizedBox(
@@ -310,19 +311,19 @@ Widget drawer(
                     size: 18,
                   ),
                   gap,
-                  Text("Pal Shoppie"),
+                  Text(translate(context, LocaleStrings.palShoppie)),
                 ],
               ),
               onTap: () async {
                 scaffoldKey.currentState.openEndDrawer();
                 var url =
-                    "https://play.google.com/store/apps/details?id=com.krishnasoftweb.palshoppie";
+                    config.apkLink ?? "https://play.google.com/store/apps/details?id=com.palgeneralstore.palshoppie";
                 if (await canLaunch(url))
                   launch(url);
                 else
-                  Fluttertoast.showToast(msg: "Unable to open play store");
+                  Fluttertoast.showToast(msg: "Unable to open");
               },
-            ), */
+            ),
             buildDrawerItems(
                 translate(context, LocaleStrings.logout),
                 () => showDialogBox(
