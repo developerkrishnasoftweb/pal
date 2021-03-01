@@ -62,6 +62,10 @@ Future<void> main() async {
 Future<bool> getCredential() async {
   if (sharedPreferences.getString(UserParams.userData) != null) {
     await setData();
+    Timer.periodic(Duration(seconds: 5), (timer) async {
+      await Services.getUserData();
+      await setData();
+    });
     return true;
   } else
     return false;
