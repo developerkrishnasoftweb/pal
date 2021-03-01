@@ -2,16 +2,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/strings.dart';
-import '../../LOCALIZATION/localizations_constraints.dart';
+import '../../common/custom_button.dart';
+import '../../common/page_route.dart';
+import '../../common/textinput.dart';
+import '../../constant/color.dart';
+import '../../constant/global.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
+import '../../services/services.dart';
 
-import '../../Common/custom_button.dart';
-import '../../Common/page_route.dart';
-import '../../Common/textinput.dart';
-import '../../Constant/color.dart';
-import '../../Constant/global.dart';
-import '../../SERVICES/services.dart';
-import '../../UI/SIGNIN_SIGNUP/otp.dart';
+import 'otp.dart';
+
 
 class SignUp extends StatefulWidget {
   @override
@@ -144,7 +145,6 @@ class _SignUpState extends State<SignUp> {
               customButton(
                   context: context,
                   onPressed: !signUpStatus ? _signUp : null,
-                  height: 50,
                   child: signUpStatus
                       ? SizedBox(
                           height: 30,
@@ -223,7 +223,7 @@ class _SignUpState extends State<SignUp> {
             var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {
-              Services.sms(smsData).then((value) {
+              await Services.sms(smsData).then((value) {
                 if (value.response == "000") {
                   setState(() => signUpStatus = false);
                   Navigator.push(

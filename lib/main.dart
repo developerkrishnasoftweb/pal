@@ -5,16 +5,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Constant/color.dart';
-import 'Constant/global.dart';
-import 'Constant/models.dart';
-import 'LOCALIZATION/localization.dart';
-import 'SERVICES/services.dart';
-import 'UI/HOME/home.dart';
-import 'UI/SIGNIN_SIGNUP/signin.dart';
+import 'constant/color.dart';
+import 'constant/global.dart';
+import 'constant/models.dart';
+import 'localization/localization.dart';
+import 'localization/localizations_constraints.dart';
+import 'services/services.dart';
+import 'ui/home/home.dart';
+import 'ui/signin_signup/signin.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

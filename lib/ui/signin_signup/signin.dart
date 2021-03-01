@@ -8,20 +8,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../Constant/strings.dart';
-import '../../LOCALIZATION/localizations_constraints.dart';
-import '../../UI/HOME/home.dart';
+import '../../common/custom_button.dart';
+import '../../common/page_route.dart';
+import '../../common/textinput.dart';
+import '../../constant/color.dart';
+import '../../constant/global.dart';
+import '../../constant/models.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
+import '../../services/services.dart';
+import '../../ui/home/home.dart';
 
-import '../../Common/custom_button.dart';
-import '../../Common/page_route.dart';
-import '../../Common/textinput.dart';
-import '../../Constant/color.dart';
-import '../../Constant/global.dart';
-import '../../Constant/models.dart';
-import '../../SERVICES/services.dart';
-import '../../UI/SIGNIN_SIGNUP/forgot_password.dart';
-import '../../UI/SIGNIN_SIGNUP/signup.dart';
 import '../../main.dart';
+import 'forgot_password.dart';
+import 'signup.dart';
+
 
 class SignIn extends StatefulWidget {
   final String email;
@@ -239,7 +240,7 @@ class _SignInState extends State<SignIn> {
         "api_key": API_KEY,
         "token": token
       });
-      Services.signIn(formData).then((result) async {
+      await Services.signIn(formData).then((result) async {
         if (result.response == "y") {
           setState(() {
             isLogging = false;
