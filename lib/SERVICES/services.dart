@@ -370,14 +370,16 @@ class Services {
           data: dio.FormData.fromMap(
               {"api_key": Urls.apiKey, "id": userdata.id}));
       if (response.statusCode == 200) {
-        Data data = Data();
         final jsonResponse = jsonDecode(response.data);
+        Data data = Data();
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = jsonResponse["data"];
-        await sharedPreferences.setString(
-            UserParams.userData, jsonEncode(data.data));
-        await setData();
+        if(data.response == "y") {
+          await sharedPreferences.setString(
+              UserParams.userData, jsonEncode(data.data));
+          await setData();
+        }
         return data;
       }
       return null;
