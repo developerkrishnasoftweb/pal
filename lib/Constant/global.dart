@@ -65,15 +65,3 @@ Widget wallet({Color color}) {
     ),
   );
 }
-
-class GiftData {
-  final String specs, rating, points, desc, image, title, id;
-  GiftData(
-      {this.id,
-      this.title,
-      this.image,
-      this.points,
-      this.desc,
-      this.specs,
-      this.rating});
-}

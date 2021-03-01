@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/Common/appbar.dart';
 import 'package:pal/Constant/color.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/models.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/SERVICES/services.dart';

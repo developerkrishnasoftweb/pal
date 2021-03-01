@@ -8,6 +8,7 @@ import 'package:pal/Common/custom_button.dart';
 import 'package:pal/Common/page_route.dart';
 import 'package:pal/Constant/color.dart';
 import 'package:pal/Constant/global.dart';
+import 'package:pal/Constant/models.dart';
 import 'package:pal/Constant/strings.dart';
 import 'package:pal/LOCALIZATION/localizations_constraints.dart';
 import 'package:pal/SERVICES/services.dart';

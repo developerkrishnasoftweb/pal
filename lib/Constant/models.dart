@@ -176,3 +176,15 @@ class Config {
         smsFL = json['sms_fl'],
         smsGwID = json['sms_gwid'];
 }
+
+class GiftData {
+  final String specs, rating, points, desc, image, title, id;
+  GiftData(
+      {this.id,
+      this.title,
+      this.image,
+      this.points,
+      this.desc,
+      this.specs,
+      this.rating});
+}
