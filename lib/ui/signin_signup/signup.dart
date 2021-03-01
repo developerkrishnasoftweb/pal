@@ -220,29 +220,10 @@ class _SignUpState extends State<SignUp> {
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
                 mobile: mobile);
-            var shouldLogin = await Services.checkUsersPurchase(
+            /* var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {
-              await Services.sms(smsData).then((value) {
-                if (value.response == "000") {
-                  setState(() => signUpStatus = false);
-                  Navigator.push(
-                      context,
-                      CustomPageRoute(
-                          widget: OTP(
-                        otp: otp,
-                        formData: userData,
-                        mobile: mobile,
-                        action: OtpActions.REGISTER,
-                      ))).then((value) {
-                    setState(() => signUpStatus = false);
-                  });
-                } else {
-                  setState(() => signUpStatus = false);
-                  Fluttertoast.showToast(
-                      msg: value.message, toastLength: Toast.LENGTH_LONG);
-                }
-              });
+
             } else {
               setState(() {
                 signUpStatus = false;
@@ -252,7 +233,27 @@ class _SignUpState extends State<SignUp> {
                       context,
                       LocaleStrings
                           .youMustHaveToPurchaseToAvailAllTheFeatures));
-            }
+            } */
+            await Services.sms(smsData).then((value) {
+              if (value.response == "000") {
+                setState(() => signUpStatus = false);
+                Navigator.push(
+                    context,
+                    CustomPageRoute(
+                        widget: OTP(
+                          otp: otp,
+                          formData: userData,
+                          mobile: mobile,
+                          action: OtpActions.REGISTER,
+                        ))).then((value) {
+                  setState(() => signUpStatus = false);
+                });
+              } else {
+                setState(() => signUpStatus = false);
+                Fluttertoast.showToast(
+                    msg: value.message, toastLength: Toast.LENGTH_LONG);
+              }
+            });
           } else {
             Fluttertoast.showToast(
                 msg: translate(context, LocaleStrings.invalidMobileNumber));

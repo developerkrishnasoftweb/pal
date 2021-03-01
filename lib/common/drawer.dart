@@ -276,7 +276,7 @@ Widget drawer(
               Navigator.push(
                   context, CustomPageRoute(widget: TermsNCondition()));
             }, Icons.ballot_outlined),
-            ListTile(
+            config.websiteLink != null ? config.websiteLink.isNotEmpty ? ListTile(
               title: Row(
                 children: [
                   ImageIcon(
@@ -292,14 +292,13 @@ Widget drawer(
               ),
               onTap: () async {
                 scaffoldKey.currentState.openEndDrawer();
-                var url = Urls.imageBaseUrl;
-                if (await canLaunch(url))
-                  launch(url);
+                if (await canLaunch(config.websiteLink))
+                  launch(config.websiteLink);
                 else
                   Fluttertoast.showToast(msg: "Unable to open");
               },
-            ),
-            ListTile(
+            ) : SizedBox() : SizedBox(),
+            config.apkLink != null ? config.apkLink.isNotEmpty ? ListTile(
               title: Row(
                 children: [
                   SizedBox(
@@ -316,14 +315,12 @@ Widget drawer(
               ),
               onTap: () async {
                 scaffoldKey.currentState.openEndDrawer();
-                var url =
-                    config.apkLink ?? "https://play.google.com/store/apps/details?id=com.palgeneralstore.palshoppie";
-                if (await canLaunch(url))
-                  launch(url);
+                if (await canLaunch(config.apkLink))
+                  launch(config.apkLink);
                 else
                   Fluttertoast.showToast(msg: "Unable to open");
               },
-            ),
+            ) : SizedBox() : SizedBox(),
             buildDrawerItems(
                 translate(context, LocaleStrings.logout),
                 () => showDialogBox(
