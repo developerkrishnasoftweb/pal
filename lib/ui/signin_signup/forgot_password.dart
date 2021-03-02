@@ -28,6 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       //TODO: Add to locale strings
       appBar: appBar(context: context, title: "Forgot Password"),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             image: DecorationImage(
                 image:

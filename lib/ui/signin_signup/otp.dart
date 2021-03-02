@@ -137,6 +137,10 @@ class _OTPState extends State<OTP> {
   }
 
   _action() {
+    otp = "";
+    controllers.forEach((controller) {
+      otp += controller.text;
+    });
     if (widget.otp == this.otp) {
       switch (widget.action) {
         case OtpActions.REGISTER:
