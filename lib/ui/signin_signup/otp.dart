@@ -38,9 +38,38 @@ class _OTPState extends State<OTP> {
   FocusNode textFocusNode = new FocusNode();
   String otp = "";
   bool isLoading = false;
+  int length = 4;
+  List<TextEditingController> controllers;
+  List<FocusNode> focusNodes;
   setLoading(bool status) {
     setState(() {
       isLoading = status;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = List.generate(length, (index) => TextEditingController());
+    focusNodes = List.generate(length, (index) => FocusNode());
+    focusNodes.forEach((node) {
+      TextEditingController controller = controllers[focusNodes.indexOf(node)];
+      node.addListener(() {
+        if(node.hasFocus) {
+          controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controllers.forEach((controller) {
+      controller.dispose();
+    });
+    focusNodes.forEach((node) {
+      node.dispose();
     });
   }
 
@@ -73,9 +102,11 @@ class _OTPState extends State<OTP> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  for (int i = 0; i < 4; i++) ...[
-                    buildOtpTextField(i),
-                  ]
+                  for (int i = 0; i < controllers.length; i++)
+                    buildOtpTextField(
+                        pos: i,
+                        textEditingController: controllers[i],
+                        focusNode: focusNodes[i]),
                 ],
               ),
             ),
@@ -219,7 +250,10 @@ class _OTPState extends State<OTP> {
     }
   }
 
-  Widget buildOtpTextField(int pos) {
+  Widget buildOtpTextField(
+      {int pos,
+        TextEditingController textEditingController,
+        FocusNode focusNode}) {
     return SizedBox(
       height: 50,
       width: 50,
@@ -229,25 +263,21 @@ class _OTPState extends State<OTP> {
             contentPadding: EdgeInsets.all(10)),
         keyboardType: TextInputType.number,
         maxLength: 1,
+        cursorColor: primaryColor,
         buildCounter: (BuildContext context,
-                {int currentLength, int maxLength, bool isFocused}) =>
-            null,
+            {int currentLength, int maxLength, bool isFocused}) =>
+        null,
         onChanged: (value) {
           if (value.isEmpty) {
-            if (otp != null && otp.length > 0) {
-              setState(() {
-                otp = otp.substring(0, otp.length - 1);
-              });
-            }
             FocusScope.of(context).previousFocus();
           }
           if (value.length == 1) {
             FocusScope.of(context).nextFocus();
-            setState(() {
-              otp += value;
-            });
           }
         },
+        enableInteractiveSelection: false,
+        focusNode: focusNode,
+        controller: textEditingController,
         onEditingComplete: () => FocusScope.of(context).nextFocus(),
         textInputAction: TextInputAction.next,
         textAlign: TextAlign.center,
