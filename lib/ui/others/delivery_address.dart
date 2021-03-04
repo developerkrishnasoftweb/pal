@@ -36,12 +36,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   TextEditingController cityAPI = TextEditingController();
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
+  StoreDetails storeDetails;
   // String selectedStoreCode = "";
-  String storeCity = "",
-      storeArea = "",
-      storeState = "",
-      storePinCode = "",
-      storeID = "";
 
   Future getFile() async {
     setFileLoading(true);
@@ -89,9 +85,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   getStores() async {
     await Services.getStores().then((value) {
       if (value.response == "y") {
-        setState(() {
-          storeID = value.data[0]["store_code"];
-        });
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
             stores.add(StoreDetails(
@@ -104,17 +97,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 storeCode: value.data[i]["store_code"]));
           });
         }
-        stores.forEach((store) {
-          if (store.storeCode == storeID) {
-            setState(() {
-              storeID = store.id;
-              storeArea = store.location;
-              storeCity = store.city;
-              storeState = store.state;
-              storePinCode = store.pinCode;
-            });
-          }
-        });
+        if(stores.length > 0)
+          setState(() {
+            storeDetails = stores[0];
+          });
       } else {
         Fluttertoast.showToast(msg: value.message);
       }
@@ -173,7 +159,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             ),
             Visibility(
                 replacement: buildCollectToShop(),
-                visible: collectToShop,
+                visible:
+                collectToShop,
                 child: buildHomeDelivery())
           ],
         ),
@@ -386,29 +373,18 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       )
                     ],
                     borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton(
+                child: DropdownButton<StoreDetails>(
                     underline: SizedBox.shrink(),
                     style: TextStyle(color: Colors.black, fontSize: 18),
-                    value: storeID,
+                    value: storeDetails,
                     isExpanded: true,
                     items: stores.map((store) {
                       return DropdownMenuItem(
-                          value: store.id, child: Text(store.name));
+                          value: store, child: Text(store.name));
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        storeID = value;
-                      });
-                      stores.forEach((store) {
-                        if (store.id == storeID) {
-                          setState(() {
-                            storeID = store.id;
-                            storeArea = store.location;
-                            storeCity = store.city;
-                            storeState = store.state;
-                            storePinCode = store.pinCode;
-                          });
-                        }
+                        storeDetails = value;
                       });
                     }),
               )
@@ -417,10 +393,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 15,
         ),
-        buildTitledRow(title: "Area", value: storeArea),
-        buildTitledRow(title: "City", value: storeCity),
-        buildTitledRow(title: "State", value: storeState),
-        buildTitledRow(title: "Pincode", value: storePinCode),
+        buildTitledRow(title: "Area", value: storeDetails.location),
+        buildTitledRow(title: "City", value: storeDetails.city),
+        buildTitledRow(title: "State", value: storeDetails.state),
+        buildTitledRow(title: "Pincode", value: storeDetails.pinCode),
         input(
             context: context,
             text: "Alternate Mobile No. $mandatoryChar",
@@ -576,11 +552,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       /*
       * Collect from outlet
       * */
-      if (storeState.isNotEmpty &&
-              storePinCode.isNotEmpty &&
-              storeCity.isNotEmpty &&
-              storeArea.isNotEmpty &&
-              storeID.isNotEmpty &&
+      if (storeDetails != null &&
               altMobile.isNotEmpty /* &&
           file != null */
           ) {
@@ -591,18 +563,18 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "api_key": API_KEY,
             "gift_id": widget.giftData.id,
             "point": widget.giftData.points,
-            "address": storeArea,
-            "area": storeArea,
-            "city": storeCity,
-            "pincode": storePinCode,
+            "address": storeDetails.location,
+            "area": storeDetails.location,
+            "city": storeDetails.city,
+            "pincode": storeDetails.pinCode,
             "alt_mobile": altMobile,
-            "state": storeState,
+            "state": storeDetails.state,
             "proof": file != null
                 ? await MultipartFile.fromFile(file.path,
                     filename: file.path.split("/").last)
                 : null,
             "delivery_type": "s",
-            "store_id": storeID,
+            "store_id": storeDetails.id,
           });
           print(otp);
           sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
