@@ -139,7 +139,7 @@ Widget drawer(
                             ),
                             alignment: PlaceholderAlignment.middle),
                         TextSpan(
-                            text: "\t" + userdata.point ?? "0",
+                            text: "\t" + (userdata != null ? userdata.point : "0"),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,

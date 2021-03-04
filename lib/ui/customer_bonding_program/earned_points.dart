@@ -10,7 +10,6 @@ import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
 
-
 class EarnedPoints extends StatefulWidget {
   @override
   _EarnedPointsState createState() => _EarnedPointsState();
@@ -18,6 +17,7 @@ class EarnedPoints extends StatefulWidget {
 
 class _EarnedPointsState extends State<EarnedPoints> {
   List<CycleData> earnedLists = [];
+
   @override
   void initState() {
     _getEarnedPoints();
@@ -28,31 +28,34 @@ class _EarnedPointsState extends State<EarnedPoints> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.earnedPoints), actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Center(
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  WidgetSpan(
-                      child: Icon(
-                        Icons.account_balance_wallet_outlined,
-                        color: Colors.white,
-                      ),
-                      alignment: PlaceholderAlignment.middle),
-                  TextSpan(
-                      text: "\t ${userdata.point}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.white))
-                ],
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.earnedPoints),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Center(
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                          child: Icon(
+                            Icons.account_balance_wallet_outlined,
+                            color: Colors.white,
+                          ),
+                          alignment: PlaceholderAlignment.middle),
+                      TextSpan(
+                          text: "\t ${userdata.point}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.white))
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ]),
+          ]),
       body: Column(
         children: [
           SizedBox(
@@ -155,7 +158,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   alignment: Alignment.centerLeft,
                   child: RichText(
                     text: TextSpan(
-                        text: "${translate(context, LocaleStrings.earnedPoints)} : ",
+                        text:
+                            "${translate(context, LocaleStrings.earnedPoints)} : ",
                         style: style1,
                         children: [
                           TextSpan(text: data.earnedPoints, style: style)
@@ -168,7 +172,8 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   alignment: Alignment.centerRight,
                   child: RichText(
                     text: TextSpan(
-                        text: "${translate(context, LocaleStrings.closingPoint)} : ",
+                        text:
+                            "${translate(context, LocaleStrings.closingPoint)} : ",
                         style: style1,
                         children: [
                           TextSpan(text: data.closingPoints, style: style)
@@ -184,10 +189,13 @@ class _EarnedPointsState extends State<EarnedPoints> {
         buildChildrenRow(
             title: translate(context, LocaleStrings.purchaseForThisCycle),
             value: "${double.parse(data.purchase).round()}"),
-        buildChildrenRow(title: translate(context, LocaleStrings.redeemInThisCycle), value: data.redeem),
         buildChildrenRow(
-            title: translate(context, LocaleStrings.pointsEarnedDuringThisCycle),
-            value: data.earnedPoints.padLeft(2)),
+            title: translate(context, LocaleStrings.redeemInThisCycle),
+            value: data.redeem),
+        buildChildrenRow(
+            title:
+                translate(context, LocaleStrings.pointsEarnedDuringThisCycle),
+            value: data.earnedPoints ?? "0"),
         buildChildrenRow(
             title: translate(context, LocaleStrings.lastTransactionOn),
             value: data.transaction.length > 0
@@ -274,14 +282,13 @@ class _EarnedPointsState extends State<EarnedPoints> {
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
         for (int i = value.data.length - 1; i >= 0; i--) {
           setState(() {
-            closingPoints += value.data[i]["total_points"] != null
-                ? (int.parse(value.data[i]["total_points"][0]["point"]) -
-                    int.parse(value.data[i]["redeem"] != null
-                        ? value.data[i]["redeem"][0]["point"] != null
-                            ? value.data[i]["redeem"][0]["point"]
-                            : "0"
-                        : "0"))
-                : 0;
+            closingPoints += ((value.data[i]["total_points"] != null
+                    ? double.parse(
+                        value.data[i]["total_points"][0]["point"] ?? "0")
+                    : 0) -
+                (value.data[i]["redeem"] != null
+                    ? double.parse(value.data[i]["redeem"][0]["point"] ?? "0")
+                    : 0)).round();
             earnedLists.add(CycleData(
                 cycleNo: value.data[i]["id"],
                 closingPoints: closingPoints.toString(),
@@ -320,6 +327,7 @@ class CycleData {
       closingPoints,
       redeem;
   final List transaction;
+
   CycleData(
       {this.closingPoints,
       this.cycleNo,

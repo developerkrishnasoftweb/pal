@@ -7,6 +7,7 @@ class RatingBuilder extends StatefulWidget {
   final ValueChanged<int> onChanged;
   final Color activeColor, inactiveColor;
   final List<IconData> iconList;
+
   RatingBuilder(
       {this.activeColor,
       this.inactiveColor,
@@ -16,6 +17,7 @@ class RatingBuilder extends StatefulWidget {
       this.iconList,
       this.itemExtent})
       : assert(onChanged != null);
+
   @override
   _RatingBuilderState createState() => _RatingBuilderState();
 }
@@ -24,6 +26,7 @@ class _RatingBuilderState extends State<RatingBuilder> {
   List<IconData> icon;
   List<Color> colorList;
   Color inactiveColor = Colors.grey;
+
   @override
   void initState() {
     super.initState();

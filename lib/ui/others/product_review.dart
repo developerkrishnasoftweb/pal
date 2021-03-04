@@ -32,15 +32,20 @@ class _ProductReviewState extends State<ProductReview> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30),
-            child: RatingBuilder(
-              iconSize: 50,
-              itemExtent: 50,
-              onChanged: (value) {
-                setState(() {
-                  feedback = value;
-                });
-              },
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: RatingBuilder(
+                iconSize: 35,
+                itemExtent: 35,
+                activeColor: primaryColorSwatch[500],
+                inactiveColor: primaryColorSwatch[200],
+                onChanged: (value) {
+                  setState(() {
+                    feedback = value;
+                  });
+                },
+              ),
             ),
           ),
           input(

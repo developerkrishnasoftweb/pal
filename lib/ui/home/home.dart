@@ -191,10 +191,12 @@ class _HomeState extends State<Home> {
   _rateApp() async {
     if (rate > 0 && rateMessage.isNotEmpty) {
       Navigator.pop(context);
-      Services.rateApp(message: rateMessage, rate: rate.toString())
+      await Services.rateApp(message: rateMessage, rate: rate.toString())
           .then((value) {
         if (value.response == "y") {
-          Fluttertoast.showToast(msg: "Thank you for rate us.");
+          Fluttertoast.showToast(msg: value.message);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
         }
       });
     } else {

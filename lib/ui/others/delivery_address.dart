@@ -18,7 +18,9 @@ import '../../ui/signin_signup/otp.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
+
   DeliveryAddress({@required this.giftData});
+
   @override
   _DeliveryAddressState createState() => _DeliveryAddressState();
 }
@@ -37,6 +39,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   List<String> listAreas = [];
   List<StoreDetails> stores = [];
   StoreDetails storeDetails;
+
   // String selectedStoreCode = "";
 
   Future getFile() async {
@@ -97,7 +100,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 storeCode: value.data[i]["store_code"]));
           });
         }
-        if(stores.length > 0)
+        if (stores.length > 0)
           setState(() {
             storeDetails = stores[0];
           });
@@ -112,73 +115,76 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: "Delivery Address"),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              width: size.width,
-              height: 20,
-            ),
-            Container(
-              width: size.width - 20,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey[200],
-                      blurRadius: 10,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(10)),
-              child: DropdownButton(
-                isExpanded: true,
-                onChanged: (value) {
-                  setState(() {
-                    file = null;
-                    addressType = value;
-                    if (value == "Collect from outlet") {
-                      collectToShop = false;
-                    } else if (value == "Home delivery") {
-                      collectToShop = true;
-                    }
-                  });
-                },
-                underline: SizedBox.shrink(),
-                value: addressType,
-                //TODO: In future "Home Delivery" option will be added in dropdown
-                items: ["Collect from outlet"].map((text) {
-                  return DropdownMenuItem(
-                    value: text,
-                    child: Text(text),
-                  );
-                }).toList(),
-              ),
-            ),
-            Visibility(
-                replacement: buildCollectToShop(),
-                visible:
-                collectToShop,
-                child: buildHomeDelivery())
-          ],
-        ),
-      ),
-      floatingActionButton: customButton(
-          context: context,
-          onPressed: isLoading ? null : _redeem,
-          width: size.width,
-          child: isLoading
-              ? SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(primaryColor),
+      body: storeDetails != null
+          ? SingleChildScrollView(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    height: 20,
                   ),
-                )
-              : null,
-          text: isLoading ? null : "CONFIRM"),
+                  Container(
+                    width: size.width - 20,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[200],
+                            blurRadius: 10,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton(
+                      isExpanded: true,
+                      onChanged: (value) {
+                        setState(() {
+                          file = null;
+                          addressType = value;
+                          if (value == "Collect from outlet") {
+                            collectToShop = false;
+                          } else if (value == "Home delivery") {
+                            collectToShop = true;
+                          }
+                        });
+                      },
+                      underline: SizedBox.shrink(),
+                      value: addressType,
+                      //TODO: In future "Home Delivery" option will be added in dropdown
+                      items: ["Collect from outlet"].map((text) {
+                        return DropdownMenuItem(
+                          value: text,
+                          child: Text(text),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Visibility(
+                      replacement: buildCollectToShop(),
+                      visible: collectToShop,
+                      child: buildHomeDelivery())
+                ],
+              ),
+            )
+          : Center(child: Text("Looking for stores...")),
+      floatingActionButton: storeDetails != null
+          ? customButton(
+              context: context,
+              onPressed: isLoading ? null : _redeem,
+              width: size.width,
+              child: isLoading
+                  ? SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(primaryColor),
+                      ),
+                    )
+                  : null,
+              text: isLoading ? null : "CONFIRM")
+          : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -228,14 +234,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       fit: BoxFit.fill,
                       alignment: Alignment.center,
                     )))),
-        input(
-            context: context,
-            text: "State",
-            controller: stateAPI),
-        input(
-            context: context,
-            text: "City",
-            controller: cityAPI),
+        input(context: context, text: "State", controller: stateAPI),
+        input(context: context, text: "City", controller: cityAPI),
         listAreas.length > 1
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -268,10 +268,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   ],
                 ),
               )
-            : input(
-                context: context,
-                text: "Area",
-                controller: areaAPI),
+            : input(context: context, text: "Area", controller: areaAPI),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
@@ -576,7 +573,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             "delivery_type": "s",
             "store_id": storeDetails.id,
           });
-          print(otp);
           sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
           Fluttertoast.showToast(msg: "Invalid mobile number");
@@ -595,8 +591,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     await Services.sms(smsData).then((value) {
       if (value.response == "000") {
         setLoading(false);
-        Navigator.pop(context);
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             CustomPageRoute(
                 widget: OTP(
@@ -615,6 +610,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
 class StoreDetails {
   final String id, name, location, city, state, pinCode, storeCode;
+
   StoreDetails(
       {this.state,
       this.city,

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/common/page_route.dart';
 import '../../common/appbar.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
@@ -96,8 +97,8 @@ class _RedeemedGiftState extends State<RedeemedGift> {
     return InkWell(
       onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => ProductDescription(
+          CustomPageRoute(
+              widget: ProductDescription(
                     giftData: giftData,
                     readOnly: true,
                   ))),

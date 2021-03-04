@@ -19,17 +19,18 @@ import '../../ui/signin_signup/signin.dart';
 import '../../main.dart';
 import 'change_password.dart';
 
-
 class OTP extends StatefulWidget {
   final String otp, mobile;
   final FormData formData;
   final OtpActions action;
+
   OTP({
     this.otp,
     this.formData,
     this.mobile,
     this.action,
   });
+
   @override
   _OTPState createState() => _OTPState();
 }
@@ -41,6 +42,7 @@ class _OTPState extends State<OTP> {
   int length = 4;
   List<TextEditingController> controllers;
   List<FocusNode> focusNodes;
+
   setLoading(bool status) {
     setState(() {
       isLoading = status;
@@ -55,8 +57,9 @@ class _OTPState extends State<OTP> {
     focusNodes.forEach((node) {
       TextEditingController controller = controllers[focusNodes.indexOf(node)];
       node.addListener(() {
-        if(node.hasFocus) {
-          controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
+        if (node.hasFocus) {
+          controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
         }
       });
     });
@@ -83,13 +86,11 @@ class _OTPState extends State<OTP> {
         children: [
           SizedBox(
             height: 10,
+            width: size.width,
           ),
           Text(
             "We have sent OTP ${widget.mobile != null ? "***" + widget.mobile.substring(6) : "."}",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          SizedBox(
-            width: size.width,
           ),
           Image(
             image: AssetImage("assets/images/message.png"),
@@ -176,7 +177,7 @@ class _OTPState extends State<OTP> {
                 context: context,
                 title: "Gift Redeemed Successfully",
                 content:
-                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nThank you for purchasing with us.",
+                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nThank you for purchasing from us.",
                 barrierDismissible: true,
                 actions: [
                   FlatButton(
@@ -216,8 +217,7 @@ class _OTPState extends State<OTP> {
   _forgotPassword() async {
     FocusScope.of(context).unfocus();
     if (widget.otp == otp) {
-      Navigator.pop(context);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           CustomPageRoute(
               widget: ResetPassword(
@@ -256,8 +256,8 @@ class _OTPState extends State<OTP> {
 
   Widget buildOtpTextField(
       {int pos,
-        TextEditingController textEditingController,
-        FocusNode focusNode}) {
+      TextEditingController textEditingController,
+      FocusNode focusNode}) {
     return SizedBox(
       height: 50,
       width: 50,
@@ -269,8 +269,8 @@ class _OTPState extends State<OTP> {
         maxLength: 1,
         cursorColor: primaryColor,
         buildCounter: (BuildContext context,
-            {int currentLength, int maxLength, bool isFocused}) =>
-        null,
+                {int currentLength, int maxLength, bool isFocused}) =>
+            null,
         onChanged: (value) {
           if (value.isEmpty) {
             FocusScope.of(context).previousFocus();
