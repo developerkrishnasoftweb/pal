@@ -8,6 +8,7 @@ class Carousel extends StatefulWidget {
   final double width, height;
   final BorderRadiusGeometry borderRadius;
   final bool autoplay;
+
   Carousel(
       {@required this.items,
       @required this.width,
@@ -15,6 +16,7 @@ class Carousel extends StatefulWidget {
       this.borderRadius,
       this.autoplay})
       : assert(items != null && width != null);
+
   @override
   _CarouselState createState() => _CarouselState();
 }
@@ -22,6 +24,7 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   int _index = 0;
   bool error = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,8 +44,13 @@ class _CarouselState extends State<Carousel> {
                     fit: BoxFit.fill,
                     width: widget.width,
                     height: widget.height,
-                    errorBuilder: (BuildContext context, Object object, StackTrace trace){
-                      return Icon(Icons.error_rounded, color: Colors.white, size: 30,);
+                    errorBuilder: (BuildContext context, Object object,
+                        StackTrace trace) {
+                      return Icon(
+                        Icons.error_rounded,
+                        color: Colors.white,
+                        size: 30,
+                      );
                     },
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent event) {
@@ -56,8 +64,8 @@ class _CarouselState extends State<Carousel> {
                                 height: 30,
                                 width: 30,
                                 child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(
-                                      Colors.grey),
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.grey),
                                 ),
                               ),
                             );
@@ -113,6 +121,7 @@ class _CarouselState extends State<Carousel> {
 class CarouselItems {
   final String title, category, categoryId, image;
   final GestureTapCallback onTap;
+
   CarouselItems(
       {@required this.image,
       this.title,

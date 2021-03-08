@@ -66,6 +66,7 @@ class _HomeState extends State<Home> {
   int rate = 0, lastNotificationCount = 0;
   Language language;
   bool isChangingLang = false;
+  Timer timer;
 
   @override
   void initState() {
@@ -85,9 +86,11 @@ class _HomeState extends State<Home> {
       }
     });
     scaffoldKey = GlobalKey<ScaffoldState>();
-    getNotificationCount();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      getNotificationCount();
+    });
   }
 
   showRatingDialog() async {
@@ -110,7 +113,7 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     height: 10,
                   ),
-                  RatingBuilder(
+                  /* RatingBuilder(
                     itemCount: 5,
                     itemExtent: 35,
                     activeColor: primaryColor,
@@ -158,7 +161,7 @@ class _HomeState extends State<Home> {
                   Text(
                     rateMessage,
                     style: TextStyle(color: Colors.black),
-                  ),
+                  ), */
                 ],
               ),
             );
@@ -189,7 +192,7 @@ class _HomeState extends State<Home> {
   }
 
   _rateApp() async {
-    if (rate > 0 && rateMessage.isNotEmpty) {
+    /* if (rate > 0 && rateMessage.isNotEmpty) {
       Navigator.pop(context);
       await Services.rateApp(message: rateMessage, rate: rate.toString())
           .then((value) {
@@ -201,7 +204,11 @@ class _HomeState extends State<Home> {
       });
     } else {
       Fluttertoast.showToast(msg: "Please choose your experience to rate");
-    }
+    } */
+    if (await canLaunch(""))
+      launch("");
+    else
+      Fluttertoast.showToast(msg: "Unable to open");
   }
 
   _languageChanged(Language lang) async {
@@ -220,9 +227,11 @@ class _HomeState extends State<Home> {
 
   getNotificationCount() async {
     await Services.getNotificationCount().then((value) {
-      setState(() {
-        lastNotificationCount = int.parse(value);
-      });
+      if(this.mounted) {
+        setState(() {
+          lastNotificationCount = int.parse(value);
+        });
+      }
     });
   }
 
@@ -306,8 +315,7 @@ class _HomeState extends State<Home> {
                                 onPressed: () => Navigator.push(
                                         context,
                                         CustomPageRoute(
-                                            widget: Notifications()))
-                                    .then((value) => getNotificationCount()),
+                                            widget: Notifications())),
                                 splashRadius: 23,
                                 iconSize: 20,
                               ),
