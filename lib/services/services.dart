@@ -545,38 +545,40 @@ class Services {
   }
 
   static Future<String> getNotificationCount() async {
-    String lastNotification =
-        sharedPreferences.getString(lastNotificationId) != null
-            ? sharedPreferences.getString(lastNotificationId)
-            : "0";
-    if (userdata.id != null && userdata.id.isNotEmpty) {
-      String url = Urls.baseUrl +
-          Urls.getNotificationCount +
-          lastNotification +
-          "/" +
-          userdata.id;
-      try {
-        dio.Response response;
-        response = await dio.Dio()
-            .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
-        if (response.statusCode == 200) {
-          final jsonResponse = [jsonDecode(response.data)];
-          return jsonResponse[0]["count"].toString();
-        }
-        return null;
-      } on dio.DioError catch (e) {
-        if (dio.DioErrorType.DEFAULT == e.type &&
-            e.error.runtimeType == SocketException) {
+    if(userdata != null) {
+      String lastNotification =
+      sharedPreferences.getString(lastNotificationId) != null
+          ? sharedPreferences.getString(lastNotificationId)
+          : "0";
+      if (userdata.id != null && userdata.id.isNotEmpty) {
+        String url = Urls.baseUrl +
+            Urls.getNotificationCount +
+            lastNotification +
+            "/" +
+            userdata.id;
+        try {
+          dio.Response response;
+          response = await dio.Dio()
+              .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
+          if (response.statusCode == 200) {
+            final jsonResponse = [jsonDecode(response.data)];
+            return jsonResponse[0]["count"].toString();
+          }
+          return null;
+        } on dio.DioError catch (e) {
+          if (dio.DioErrorType.DEFAULT == e.type &&
+              e.error.runtimeType == SocketException) {
+            return "0";
+          } else {
+            return "0";
+          }
+        } catch (e) {
           return "0";
-        } else {
-          return "0";
         }
-      } catch (e) {
+      } else {
         return "0";
       }
-    } else {
-      return "0";
-    }
+    } else return "0";
   }
 
   static Future<Data> getNotifications() async {
