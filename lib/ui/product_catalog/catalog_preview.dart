@@ -126,7 +126,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text(loaded + "/100% Please wait"),
+                      Text(loaded + "/100% ${translate(context, LocaleStrings.pleaseWait)}"),
                     ],
                   ),
                 ),
