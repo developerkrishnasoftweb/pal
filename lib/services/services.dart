@@ -20,8 +20,7 @@ class Services {
   static Future<Data> signIn(body) async {
     String url = Urls.baseUrl + Urls.signIn;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       final jsonResponse = jsonDecode(response.data);
       Data data = Data();
       if (response.statusCode == 200) {
@@ -75,8 +74,7 @@ class Services {
   static Future<Data> category(body) async {
     String url = Urls.baseUrl + Urls.category;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -101,8 +99,7 @@ class Services {
   static Future<Data> gift(body) async {
     String url = Urls.baseUrl + Urls.gift;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -127,8 +124,7 @@ class Services {
   static Future<Data> redeemedGifts(body) async {
     String url = Urls.baseUrl + Urls.redeemedGifts;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -153,8 +149,7 @@ class Services {
   static Future<Data> productReview(body) async {
     String url = Urls.baseUrl + Urls.productReview;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -179,8 +174,7 @@ class Services {
   static Future<Data> banners(body) async {
     String url = Urls.baseUrl + Urls.banners;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -204,8 +198,7 @@ class Services {
 
   static Future<Data> sms(body) async {
     try {
-      dio.Response response;
-      response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
+      dio.Response response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -220,7 +213,7 @@ class Services {
           e.error.runtimeType == SocketException) {
         return internetError;
       } else {
-        return someThingWentWrong;
+        throw(e);
       }
     } catch (e) {
       return someThingWentWrong;
@@ -230,8 +223,7 @@ class Services {
   static Future<Data> giftCategory(body) async {
     String url = Urls.baseUrl + Urls.giftCategory;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -256,8 +248,7 @@ class Services {
   static Future<Data> addComplain(body) async {
     String url = Urls.baseUrl + Urls.addComplain;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(
+      dio.Response response = await dio.Dio().post(
         url,
         data: body,
       );
@@ -285,8 +276,7 @@ class Services {
   static Future<Data> serviceRequests(body) async {
     String url = Urls.baseUrl + Urls.getComplain;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -311,8 +301,7 @@ class Services {
   static Future<Data> trackComplaint(body) async {
     String url = Urls.baseUrl + Urls.trackComplaint;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -337,8 +326,7 @@ class Services {
   static Future<Data> redeemGift(dio.FormData body) async {
     String url = Urls.baseUrl + Urls.redeemGift;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -366,8 +354,7 @@ class Services {
   static Future<Data> getUserData() async {
     String url = Urls.baseUrl + Urls.getUserData;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url,
+      dio.Response response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
               {"api_key": API_KEY, "id": userdata.id}));
       if (response.statusCode == 200) {
@@ -399,8 +386,7 @@ class Services {
   static Future<Data> getPinData(String pinCode) async {
     String url = Urls.pinCodeData + pinCode;
     try {
-      dio.Response response;
-      response = await dio.Dio().get(url);
+      dio.Response response = await dio.Dio().get(url);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = response.data;
@@ -425,8 +411,7 @@ class Services {
   static Future<Data> forgotPassword(body) async {
     String url = Urls.baseUrl + Urls.forgotPassword;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -451,8 +436,7 @@ class Services {
   static Future<Data> getEarnedPoints(body) async {
     String url = Urls.baseUrl + Urls.getEarnedPoints;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -477,8 +461,7 @@ class Services {
   static Future<void> getCycle() async {
     String url = Urls.baseUrl + Urls.getCycles;
     try {
-      dio.Response response;
-      response = await dio.Dio()
+      dio.Response response = await dio.Dio()
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         return true;
@@ -493,8 +476,7 @@ class Services {
   static Future<Data> getProducts(body) async {
     String url = Urls.baseUrl + Urls.getProducts;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -519,8 +501,7 @@ class Services {
   static Future<Data> customerKYC(body) async {
     String url = Urls.baseUrl + Urls.customerKYC;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url, data: body);
+      dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
@@ -557,8 +538,7 @@ class Services {
             "/" +
             userdata.id;
         try {
-          dio.Response response;
-          response = await dio.Dio()
+          dio.Response response = await dio.Dio()
               .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
           if (response.statusCode == 200) {
             final jsonResponse = [jsonDecode(response.data)];
@@ -584,8 +564,7 @@ class Services {
   static Future<Data> getNotifications() async {
     String url = Urls.baseUrl + Urls.getNotifications + userdata.id;
     try {
-      dio.Response response;
-      response = await dio.Dio()
+      dio.Response response = await dio.Dio()
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         Data data = Data();
@@ -611,8 +590,7 @@ class Services {
   static Future<Data> getStores() async {
     String url = Urls.baseUrl + Urls.getStores;
     try {
-      dio.Response response;
-      response = await dio.Dio()
+      dio.Response response = await dio.Dio()
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         Data data = Data();
@@ -638,8 +616,7 @@ class Services {
   static Future<void> getConfig() async {
     String url = Urls.baseUrl + Urls.getConfig;
     try {
-      dio.Response response;
-      response = await dio.Dio()
+      dio.Response response = await dio.Dio()
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
@@ -660,8 +637,7 @@ class Services {
   static Future<Data> getReports() async {
     String url = Urls.baseUrl + Urls.getReports;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url,
+      dio.Response response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
               {"api_key": API_KEY, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
@@ -688,8 +664,7 @@ class Services {
   static Future<Data> rateApp({String rate, String message}) async {
     String url = Urls.baseUrl + Urls.appRate;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url,
+      dio.Response response = await dio.Dio().post(url,
           data: dio.FormData.fromMap({
             "api_key": API_KEY,
             "customer_id": userdata.id,
@@ -720,8 +695,7 @@ class Services {
   static Future<Data> weeklyReport() async {
     String url = Urls.baseUrl + Urls.weeklyReport;
     try {
-      dio.Response response;
-      response = await dio.Dio().post(url,
+      dio.Response response = await dio.Dio().post(url,
           data: dio.FormData.fromMap(
               {"api_key": API_KEY, "customer_id": userdata.id}));
       if (response.statusCode == 200) {
@@ -903,8 +877,7 @@ class Services {
   static Future<bool> checkUsersPurchase(
       {String mobile, String fromDate, String toDate}) async {
     try {
-      dio.Response response;
-      response = await dio.Dio().get(Urls.checkUsersPurchaseBPGS +
+      dio.Response response = await dio.Dio().get(Urls.checkUsersPurchaseBPGS +
           "?MobileNo=$mobile&FromDate=$fromDate&ToDate=$toDate");
       dio.Response response1;
       response1 = await dio.Dio().get(Urls.checkUsersPurchaseBPGN +
