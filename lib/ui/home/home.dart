@@ -100,8 +100,7 @@ class _HomeState extends State<Home> {
       rateMessage = " ";
     });
     return showDialog(
-        context: context,
-        child: AlertDialog(
+        builder: (context) => AlertDialog(
           content: StatefulBuilder(builder: (context, state) {
             return Container(
               width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
@@ -187,7 +186,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ],
-        ),
+        ), context: context,
         barrierDismissible: true);
   }
 
