@@ -76,7 +76,7 @@ class _CarouselState extends State<Carousel> {
               );
             }).toList(),
             options: CarouselOptions(
-                initialPage: 1,
+                initialPage: 0,
                 height: widget.height ?? 200,
                 autoPlay: widget.autoplay ?? true,
                 viewportFraction: 1,
