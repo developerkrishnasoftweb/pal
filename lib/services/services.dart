@@ -15,7 +15,7 @@ class Services {
   static Data internetError =
       Data(message: "No internet connection", response: null, data: null);
   static Data someThingWentWrong =
-      Data(message: "Something went wrong", response: null, data: null);
+      Data(message: "Something went wrong, please try later", response: null, data: null);
 
   static Future<Data> signIn(body) async {
     String url = Urls.baseUrl + Urls.signIn;
@@ -214,6 +214,7 @@ class Services {
         return internetError;
       } else {
         throw(e);
+        return someThingWentWrong;
       }
     } catch (e) {
       return someThingWentWrong;
