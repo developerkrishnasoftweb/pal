@@ -185,5 +185,8 @@
   "giftRedeemedSuccessfully" : "Gift redeemed successfully",
   "goTOHome" : "GO TO HOME",
   "yourRedeemCodeIs" : "You redeem code is",
-  "thankYouForPurchasingWithUs" : "Thank you for purchasing from us"
+  "thankYouForPurchasingWithUs" : "Thank you for purchasing from us",
+  "issue" : "Issue",
+  "status" : "Status",
+  "progress" : "Progress"
 }

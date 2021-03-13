@@ -185,5 +185,8 @@
   "giftRedeemedSuccessfully" : "उपहार को सफलतापूर्वक भुनाया गया",
   "goTOHome" : "घर जाओ",
   "yourRedeemCodeIs" : "आपका रिडीम कोड है",
-  "thankYouForPurchasingWithUs" : "हमसे खरीदने के लिए धन्यवाद"
+  "thankYouForPurchasingWithUs" : "हमसे खरीदने के लिए धन्यवाद",
+  "issue" : "समस्या",
+  "status" : "स्थिति",
+  "progress" : "प्रगति"
 }

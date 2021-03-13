@@ -109,8 +109,8 @@ class _TrackComplaintState extends State<TrackComplaint> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Issue : " + details.desc),
-                        Text("Status : " + details.status),
+                        Text("${translate(context, LocaleStrings.issue)} : " + details.desc),
+                        Text("${translate(context, LocaleStrings.status)} : " + details.status),
                       ],
                     ),
                     childrenPadding: EdgeInsets.only(left: 20),
@@ -119,7 +119,7 @@ class _TrackComplaintState extends State<TrackComplaint> {
                         endIndent: 20,
                       ),
                       Align(
-                        child: Text("Progress",
+                        child: Text("${translate(context, LocaleStrings.progress)}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1

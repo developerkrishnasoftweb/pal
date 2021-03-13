@@ -208,4 +208,7 @@ class LocaleStrings {
   static String goTOHome = "goTOHome";
   static String yourRedeemCodeIs = "yourRedeemCodeIs";
   static String thankYouForPurchasingWithUs = "thankYouForPurchasingWithUs";
+  static String issue = "issue";
+  static String status = "status";
+  static String progress = "progress";
 }

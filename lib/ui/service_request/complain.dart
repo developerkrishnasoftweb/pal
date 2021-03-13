@@ -50,7 +50,7 @@ class _ComplainState extends State<Complain> {
         });
         Fluttertoast.showToast(
             msg:
-                "File size must be under ${(fileSize / 1024).toStringAsFixed(2)}MB");
+                "File size must be up to ${(fileSize / 1024).toStringAsFixed(2)}MB");
       }
     }
   }
@@ -66,7 +66,7 @@ class _ComplainState extends State<Complain> {
         setState(() {
           video = null;
         });
-        Fluttertoast.showToast(msg: "File size must be under 2MB");
+        Fluttertoast.showToast(msg: "File size must be up to 2MB");
       }
     }
   }

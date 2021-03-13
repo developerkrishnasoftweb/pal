@@ -185,5 +185,8 @@
   "giftRedeemedSuccessfully" : "ਉਪਹਾਰ ਸਫਲਤਾਪੂਰਵਕ ਛੁਟਕਾਰਾ ਪਾਇਆ",
   "goTOHome" : "ਘਰ ਨੂੰ ਜਾਓ",
   "yourRedeemCodeIs" : "ਤੁਹਾਡਾ ਰਿਡੀਮ ਕੋਡ ਹੈ",
-  "thankYouForPurchasingWithUs" : "ਸਾਡੇ ਤੋਂ ਖਰੀਦਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ"
+  "thankYouForPurchasingWithUs" : "ਸਾਡੇ ਤੋਂ ਖਰੀਦਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ",
+  "issue" : "ਮੁੱਦੇ",
+  "status" : "ਸਥਿਤੀ",
+  "progress" : "ਤਰੱਕੀ"
 }

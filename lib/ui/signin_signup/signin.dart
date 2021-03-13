@@ -252,7 +252,7 @@ class _SignInState extends State<SignIn> {
             Navigator.pushAndRemoveUntil(
                 context, CustomPageRoute(widget: Home()), (route) => false);
           } else {
-            Fluttertoast.showToast(msg: "Something went wrong");
+            Fluttertoast.showToast(msg: translate(context, LocaleStrings.somethingWentWrong));
           }
         } else {
           setState(() {
