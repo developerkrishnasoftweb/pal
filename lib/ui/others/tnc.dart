@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../common/appbar.dart';
+import '../../ui/widgets/appbar.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';

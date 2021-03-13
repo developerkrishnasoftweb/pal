@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../common/appbar.dart';
-import '../../common/custom_button.dart';
-import '../../common/page_route.dart';
-import '../../common/textinput.dart';
-import '../../constant/color.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/custom_button.dart';
+import '../../ui/widgets/page_route.dart';
+import '../../ui/widgets/textinput.dart';
+import '../../ui/widgets/appbar.dart';
 import '../../constant/global.dart';
 import '../../services/services.dart';
 
@@ -64,9 +64,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ? SizedBox(
                         height: 30,
                         width: 30,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(primaryColor),
-                        ),
+                        child: circularProgressIndicator(),
                       )
                     : null,
                 width: size.width),

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import '../../common/appbar.dart';
-import '../../common/show_dialog.dart';
-import '../../common/textinput.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/show_dialog.dart';
+import '../../ui/widgets/textinput.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
@@ -500,7 +501,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: earnScrollController),
             ],
           )
-        : progressIndicator();
+        : Center(child: circularProgressIndicator());
   }
 
   Widget purchase() {
@@ -532,7 +533,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: purchaseScrollController),
             ],
           )
-        : progressIndicator();
+        : Center(child: circularProgressIndicator());
   }
 
   Widget redeem() {
@@ -573,7 +574,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: redeemScrollController),
             ],
           )
-        : progressIndicator();
+        : Center(child: circularProgressIndicator());
   }
 
   Widget festival() {
@@ -604,7 +605,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: festivalScrollController),
             ],
           )
-        : progressIndicator();
+        : Center(child: circularProgressIndicator());
   }
 
   Widget scrollViewBuilder({Widget widget, ScrollController scrollController}) {
@@ -638,23 +639,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         style: TextStyle(
             fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
       ),
-    );
-  }
-
-  Widget progressIndicator() {
-    return Center(
-      child: !isLoading
-          ? Text(
-              translate(context, LocaleStrings.noDataFound),
-              textAlign: TextAlign.center,
-            )
-          : SizedBox(
-              height: 30,
-              width: 30,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(primaryColor),
-              ),
-            ),
     );
   }
 }

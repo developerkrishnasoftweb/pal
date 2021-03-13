@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../constant/color.dart';
+import '../../constant/color.dart';
 
 Widget input(
     {@required BuildContext context,

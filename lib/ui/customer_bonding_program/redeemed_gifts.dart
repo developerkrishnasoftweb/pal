@@ -2,8 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/common/page_route.dart';
-import '../../common/appbar.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/page_route.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/models.dart';
@@ -82,9 +83,7 @@ class _RedeemedGiftState extends State<RedeemedGift> {
                     ? SizedBox(
                         height: 40,
                         width: 40,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(primaryColor),
-                        ))
+                        child: circularProgressIndicator())
                     : Image(
                         image: AssetImage("assets/images/no-gifts2.png"),
                         height: 150,
@@ -127,10 +126,7 @@ class _RedeemedGiftState extends State<RedeemedGift> {
                       child: SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(primaryColor),
-                            strokeWidth: 1,
-                          )),
+                          child: circularProgressIndicator()),
                     );
             },
           ),

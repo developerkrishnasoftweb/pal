@@ -1,30 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../constant/color.dart';
+import '../../constant/global.dart';
+import '../../constant/models.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
+import '../../ui/customer_bonding_program/earned_points.dart';
+import '../../ui/customer_bonding_program/redeem_gift_category.dart';
+import '../../ui/customer_bonding_program/redeemed_gifts.dart';
+import '../../ui/home/home.dart';
+import '../../ui/others/kyc_details.dart';
+import '../../ui/others/notification.dart';
+import '../../ui/others/report.dart';
+import '../../ui/others/tnc.dart';
+import '../../ui/product_catalog/product_catalog.dart';
+import '../../ui/products/product_demo.dart';
+import '../../ui/service_request/complain.dart';
+import '../../ui/service_request/service_request.dart';
+import '../../ui/service_request/track_complaint.dart';
+import '../../ui/signin_signup/signin.dart';
+import '../../ui/widgets/show_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../common/page_route.dart';
-import '../common/show_dialog.dart';
-import '../constant/color.dart';
-import '../constant/global.dart';
-import '../constant/models.dart';
-import '../constant/strings.dart';
-import '../localization/localizations_constraints.dart';
-import '../services/urls.dart';
-import '../ui/customer_bonding_program/earned_points.dart';
-import '../ui/customer_bonding_program/redeem_gift_category.dart';
-import '../ui/customer_bonding_program/redeemed_gifts.dart';
-import '../ui/home/home.dart';
-import '../ui/others/kyc_details.dart';
-import '../ui/others/notification.dart';
-import '../ui/others/report.dart';
-import '../ui/others/tnc.dart';
-import '../ui/product_catalog/product_catalog.dart';
-import '../ui/products/product_demo.dart';
-import '../ui/service_request/complain.dart';
-import '../ui/service_request/service_request.dart';
-import '../ui/service_request/track_complaint.dart';
-import '../ui/signin_signup/signin.dart';
+import 'page_route.dart';
+
 
 Widget drawer(
     {@required BuildContext context,

@@ -7,11 +7,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import '../../common/appbar.dart';
-import '../../common/custom_button.dart';
-import '../../common/show_dialog.dart';
-import '../../common/textinput.dart';
-import '../../constant/color.dart';
+import '../../ui/widgets/show_dialog.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/custom_button.dart';
+import '../../ui/widgets/textinput.dart';
 import '../../constant/global.dart';
 import '../../constant/models.dart';
 import '../../constant/strings.dart';
@@ -447,9 +447,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               ? SizedBox(
                   height: 30,
                   width: 30,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(primaryColor),
-                  ),
+                  child: circularProgressIndicator(),
                 )
               : null,
           text: isLoading ? null : translate(context, LocaleStrings.submitBtn)),
@@ -693,9 +691,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
               SizedBox(
                 height: 30,
                 width: 30,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(primaryColor),
-                ),
+                child: circularProgressIndicator(),
               ),
               SizedBox(
                 width: 20,

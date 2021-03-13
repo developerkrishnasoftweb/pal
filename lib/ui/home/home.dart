@@ -5,12 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../common/appbar.dart';
-import '../../common/badge.dart';
-import '../../common/carousel.dart';
-import '../../common/drawer.dart';
-import '../../common/page_route.dart';
-import '../../common/rating_builder.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/badge.dart';
+import '../../ui/widgets/carousel.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/drawer.dart';
+import '../../ui/widgets/page_route.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
@@ -285,11 +285,7 @@ class _HomeState extends State<Home> {
                                   child: SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: CircularProgressIndicator(
-                                      valueColor:
-                                          AlwaysStoppedAnimation(Colors.white),
-                                      strokeWidth: 2,
-                                    ),
+                                    child: circularProgressIndicator(),
                                   ),
                                 )
                               : PopupMenuButton<Language>(

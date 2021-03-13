@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../common/appbar.dart';
-import '../../common/page_route.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/page_route.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
@@ -62,10 +63,7 @@ class _KYCState extends State<KYC> {
                                   child: SizedBox(
                                       height: 40,
                                       width: 40,
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation(Colors.grey),
-                                      )),
+                                      child: circularProgressIndicator()),
                                 );
                         },
                         errorBuilder: (BuildContext context, Object object,

@@ -2,8 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../common/appbar.dart';
-import '../../common/page_route.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/page_route.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
@@ -109,9 +110,7 @@ class _GiftState extends State<GiftCategory> {
                 child: SizedBox(
                   height: 40,
                   width: 40,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(primaryColor),
-                  ),
+                  child: circularProgressIndicator(),
                 ),
               ));
   }
@@ -156,10 +155,7 @@ class _GiftState extends State<GiftCategory> {
                         child: SizedBox(
                             height: 20,
                             width: 20,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(primaryColor),
-                              strokeWidth: 1,
-                            )),
+                            child: circularProgressIndicator()),
                       );
               },
             ),

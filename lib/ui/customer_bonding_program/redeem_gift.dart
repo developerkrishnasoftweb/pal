@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/common/appbar.dart';
-import 'package:pal/common/custom_button.dart';
-import 'package:pal/common/page_route.dart';
-import 'package:pal/constant/color.dart';
-import 'package:pal/constant/global.dart';
-import 'package:pal/constant/models.dart';
-import 'package:pal/constant/strings.dart';
-import 'package:pal/localization/localizations_constraints.dart';
-import 'package:pal/services/services.dart';
-import 'package:pal/services/urls.dart';
-import 'package:pal/ui/others/product_description.dart';
+import '../../constant/global.dart';
+import '../../constant/models.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
+import '../../services/services.dart';
+import '../../services/urls.dart';
+import '../../ui/others/product_description.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/custom_button.dart';
+import '../../ui/widgets/page_route.dart';
 
 
 class RedeemGift extends StatefulWidget {
@@ -118,9 +118,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                   ? SizedBox(
                       height: 40,
                       width: 40,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(primaryColor),
-                      ))
+                      child: circularProgressIndicator())
                   : Image(
                       image: AssetImage("assets/images/no-gifts2.png"),
                       height: 150,
@@ -157,10 +155,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                     child: SizedBox(
                         height: 20,
                         width: 20,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(primaryColor),
-                          strokeWidth: 1,
-                        )),
+                        child: circularProgressIndicator()),
                   );
                 },
               ),

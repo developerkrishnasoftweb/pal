@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import '../../common/appbar.dart';
-import '../../constant/color.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
 import '../../services/urls.dart';
@@ -121,9 +121,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
                       SizedBox(
                         height: 30,
                         width: 30,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(primaryColor),
-                        ),
+                        child: circularProgressIndicator(),
                       ),
                       SizedBox(
                         width: 20,

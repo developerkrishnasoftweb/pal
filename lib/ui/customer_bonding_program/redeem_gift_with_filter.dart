@@ -136,10 +136,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                     ? SizedBox(
                     height: 40,
                     width: 40,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(
-                          AppColors.primaryColor),
-                    ))
+                    child: circularProgressIndicator())
                     : Image(
                   image: AssetImage("assets/images/no-gifts2.png"),
                   height: 150,
@@ -232,11 +229,7 @@ class _RedeemGiftState extends State<RedeemGift> {
                 child: SizedBox(
                     height: 20,
                     width: 20,
-                    child: CircularProgressIndicator(
-                      valueColor:
-                      AlwaysStoppedAnimation(AppColors.primaryColor),
-                      strokeWidth: 1,
-                    )),
+                    child: circularProgressIndicator()),
               );
             },
           ),

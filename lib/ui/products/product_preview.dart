@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pal/common/appbar.dart';
-import 'package:pal/constant/color.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
 import 'package:video_player/video_player.dart';
 
 
@@ -77,9 +77,7 @@ class _ProductPreviewState extends State<ProductPreview> {
               : SizedBox(
                   height: 30,
                   width: 30,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(primaryColor),
-                  ),
+                  child: circularProgressIndicator(),
                 ),
           isPlaying
               ? Align(

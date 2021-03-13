@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/common/appbar.dart';
-import 'package:pal/constant/global.dart';
-import 'package:pal/services/services.dart';
+import '../../constant/global.dart';
+import '../../services/services.dart';
+import '../../ui/widgets/appbar.dart';
 
 
 class WeeklyUpdate extends StatefulWidget {

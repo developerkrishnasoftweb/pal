@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'circular_progress_indicator.dart';
+
 class Carousel extends StatefulWidget {
   final List<CarouselItems> items;
   final double width, height;
@@ -63,10 +65,7 @@ class _CarouselState extends State<Carousel> {
                               child: SizedBox(
                                 height: 30,
                                 width: 30,
-                                child: CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Colors.grey),
-                                ),
+                                child: circularProgressIndicator(),
                               ),
                             );
                     },

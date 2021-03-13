@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../common/appbar.dart';
-import '../../common/page_route.dart';
-import '../../constant/color.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/page_route.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
@@ -56,7 +56,7 @@ class _ProductState extends State<ProductCatalog> {
             ],
           ],
         ),
-      ) : Center(child: SizedBox(height: 40, width: 40, child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(primaryColor),),),)
+      ) : Center(child: SizedBox(height: 40, width: 40, child: circularProgressIndicator()),)
     );
   }
   Widget categoryBuilder(CategoryItem item){

@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../services/services.dart';
-import '../../common/appbar.dart';
-import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
@@ -98,9 +98,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
                   child: SizedBox(
                     height: 30,
                     width: 30,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(primaryColor),
-                    ),
+                    child: circularProgressIndicator(),
                   ),
                 )
         ],

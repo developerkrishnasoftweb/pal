@@ -5,11 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../common/appbar.dart';
-import '../../common/custom_button.dart';
-import '../../common/page_route.dart';
-import '../../common/textinput.dart';
-import '../../constant/color.dart';
+import '../../ui/widgets/appbar.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/custom_button.dart';
+import '../../ui/widgets/page_route.dart';
+import '../../ui/widgets/textinput.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
@@ -176,9 +176,7 @@ class _ComplainState extends State<Complain> {
                   ? SizedBox(
                       height: 30,
                       width: 30,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(primaryColor),
-                      ),
+                      child: circularProgressIndicator(),
                     )
                   : null),
           alignment: Alignment(0.0, 0.95),

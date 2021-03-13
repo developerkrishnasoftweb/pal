@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../common/custom_button.dart';
-import '../../common/page_route.dart';
-import '../../common/textinput.dart';
+import '../../ui/widgets/circular_progress_indicator.dart';
+import '../../ui/widgets/custom_button.dart';
+import '../../ui/widgets/page_route.dart';
+import '../../ui/widgets/textinput.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/strings.dart';
@@ -149,9 +150,7 @@ class _SignUpState extends State<SignUp> {
                       ? SizedBox(
                           height: 30,
                           width: 30,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(primaryColor),
-                          ),
+                          child: circularProgressIndicator(),
                         )
                       : Text(
                           translate(context, LocaleStrings.signUp),
