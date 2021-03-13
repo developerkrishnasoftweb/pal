@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/page_route.dart';
@@ -17,7 +16,6 @@ class KYC extends StatefulWidget {
 }
 
 class _KYCState extends State<KYC> {
-  GoogleMapController googleMapController;
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +123,5 @@ class _KYCState extends State<KYC> {
         ],
       ),
     );
-  }
-
-  void onMapCreated(GoogleMapController controller) {
-    setState(() {
-      googleMapController = controller;
-    });
   }
 }
