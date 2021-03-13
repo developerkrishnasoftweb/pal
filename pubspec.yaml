@@ -32,7 +32,6 @@ dependencies:
   carousel_slider:
   flutter_slidable: ^0.5.7
   fluttertoast:
-  google_maps_flutter:
   dio: ^3.0.10
   shared_preferences:
   image_picker: ^0.6.7+17
