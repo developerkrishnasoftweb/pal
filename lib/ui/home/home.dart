@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/constant/models.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/badge.dart';
 import '../../ui/widgets/carousel.dart';
@@ -108,7 +109,7 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("How would you rate PAL DEPARTMENTAL STORE ?"),
+                  Text("${translate(context, LocaleStrings.howWouldYouRatePalDepartmentalStore)}?"),
                   SizedBox(
                     height: 10,
                   ),
@@ -203,8 +204,8 @@ class _HomeState extends State<Home> {
     } else {
       Fluttertoast.showToast(msg: "Please choose your experience to rate");
     } */
-    if (await canLaunch(""))
-      launch("");
+    if (await canLaunch(config.apkLink))
+      launch(config.apkLink);
     else
       Fluttertoast.showToast(msg: "Unable to open");
   }
