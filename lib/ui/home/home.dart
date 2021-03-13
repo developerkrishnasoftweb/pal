@@ -285,7 +285,7 @@ class _HomeState extends State<Home> {
                                   child: SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: circularProgressIndicator(),
+                                    child: circularProgressIndicator(color: Colors.white),
                                   ),
                                 )
                               : PopupMenuButton<Language>(

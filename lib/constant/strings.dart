@@ -212,4 +212,5 @@ class LocaleStrings {
   static String status = "status";
   static String progress = "progress";
   static String howWouldYouRatePalDepartmentalStore = "howWouldYouRatePalDepartmentalStore";
+  static String deliveryAddress = "deliveryAddress";
 }

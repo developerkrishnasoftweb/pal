@@ -5,6 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/constant/strings.dart';
+import 'package:pal/localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/custom_button.dart';
@@ -114,7 +116,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: "Delivery Address"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.deliveryAddress)),
       body: storeDetails != null
           ? SingleChildScrollView(
               padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
@@ -181,7 +183,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       child: circularProgressIndicator(),
                     )
                   : null,
-              text: isLoading ? null : "CONFIRM")
+              text: isLoading ? null : translate(context, LocaleStrings.submitBtn))
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -193,7 +195,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       children: [
         input(
             context: context,
-            text: "Address",
+            text: translate(context, LocaleStrings.address),
             onChanged: (value) {
               setState(() {
                 address = value;
@@ -202,7 +204,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             textInputAction: TextInputAction.next),
         input(
             context: context,
-            text: "Alternate Mobile No.",
+            text: translate(context, LocaleStrings.alternateMobileNumber),
             onChanged: (value) {
               setState(() {
                 altMobile = value;
@@ -211,7 +213,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             keyboardType: TextInputType.number),
         input(
             context: context,
-            text: "Pincode",
+            text: translate(context, LocaleStrings.pinCode),
             onChanged: (value) {
               setState(() {
                 pincode = value;
@@ -232,8 +234,8 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       fit: BoxFit.fill,
                       alignment: Alignment.center,
                     )))),
-        input(context: context, text: "State", controller: stateAPI),
-        input(context: context, text: "City", controller: cityAPI),
+        input(context: context, text: translate(context, LocaleStrings.state), controller: stateAPI),
+        input(context: context, text: translate(context, LocaleStrings.city), controller: cityAPI),
         listAreas.length > 1
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -241,7 +243,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Area",
+                      translate(context, LocaleStrings.area),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.grey,
                           fontSize: 13,
@@ -266,7 +268,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   ],
                 ),
               )
-            : input(context: context, text: "Area", controller: areaAPI),
+            : input(context: context, text: translate(context, LocaleStrings.area), controller: areaAPI),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
@@ -308,7 +310,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 width: 20,
               ),
               Text(
-                "Please wait...",
+                translate(context, LocaleStrings.pleaseWait),
                 style: Theme.of(context).textTheme.bodyText1,
               )
             ],
@@ -349,7 +351,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           height: 15,
         ),
         Text(
-          "Current Address :",
+          "${translate(context, LocaleStrings.currentAddress)} :",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),
@@ -386,13 +388,13 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 15,
         ),
-        buildTitledRow(title: "Area", value: storeDetails.location),
-        buildTitledRow(title: "City", value: storeDetails.city),
-        buildTitledRow(title: "State", value: storeDetails.state),
-        buildTitledRow(title: "Pincode", value: storeDetails.pinCode),
+        buildTitledRow(title: translate(context, LocaleStrings.area), value: storeDetails.location),
+        buildTitledRow(title: translate(context, LocaleStrings.city), value: storeDetails.city),
+        buildTitledRow(title: translate(context, LocaleStrings.state), value: storeDetails.state),
+        buildTitledRow(title: translate(context, LocaleStrings.pinCode), value: storeDetails.pinCode),
         input(
             context: context,
-            text: "Alternate Mobile No. $mandatoryChar",
+            text: "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
             onChanged: (value) {
               setState(() {
                 altMobile = value;
@@ -533,10 +535,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           });
           sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
-          Fluttertoast.showToast(msg: "Invalid mobile number");
+          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
-        Fluttertoast.showToast(msg: "All fields are required");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
       }
     } else {
       /*
@@ -568,10 +570,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           });
           sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
-          Fluttertoast.showToast(msg: "Invalid mobile number");
+          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
-        Fluttertoast.showToast(msg: "All fields are required");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
       }
     }
   }

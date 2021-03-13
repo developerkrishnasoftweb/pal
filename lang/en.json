@@ -189,5 +189,6 @@
   "issue" : "Issue",
   "status" : "Status",
   "progress" : "Progress",
-  "howWouldYouRatePalDepartmentalStore" : "How would you rate Pal Departmental Store"
+  "howWouldYouRatePalDepartmentalStore" : "How would you rate Pal Departmental Store",
+  "deliveryAddress" : "Delivery Address"
 }

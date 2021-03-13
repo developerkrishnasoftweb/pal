@@ -189,5 +189,6 @@
   "issue" : "समस्या",
   "status" : "स्थिति",
   "progress" : "प्रगति",
-  "howWouldYouRatePalDepartmentalStore" : "How would you rate Pal Departmental Store"
+  "howWouldYouRatePalDepartmentalStore" : "How would you rate Pal Departmental Store",
+  "deliveryAddress" : "डिलिवरी का पता"
 }
