@@ -192,4 +192,20 @@ class LocaleStrings {
   static String languageChanged = "languageChanged";
 
   static String pleaseWait = "pleaseWait";
+  static String rateUs = "rateUs";
+  static String noThanks = "noThanks";
+  static String rateBtn = "rateBtn";
+  static String review = "review";
+  static String productPreview = "productPreview";
+  static String resetPassword = "resetPassword";
+  static String newPassword = "newPassword";
+  static String confirmPassword = "confirmPassword";
+  static String passwordDoesntMatch = "passwordDoesntMatch";
+  static String getOTP = "getOTP";
+  static String pleaseEnterValidMobileNo = "pleaseEnterValidMobileNo";
+  static String enterOTP = "enterOTP";
+  static String giftRedeemedSuccessfully = "giftRedeemedSuccessfully";
+  static String goTOHome = "goTOHome";
+  static String yourRedeemCodeIs = "yourRedeemCodeIs";
+  static String thankYouForPurchasingWithUs = "thankYouForPurchasingWithUs";
 }

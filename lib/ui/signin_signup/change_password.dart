@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/custom_button.dart';
@@ -24,8 +26,7 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //TODO: Add to locale Strings
-      appBar: appBar(context: context, title: "Reset password"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.resetPassword)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
@@ -34,7 +35,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                "Reset Password",
+                translate(context, LocaleStrings.resetPassword),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1
@@ -43,7 +44,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
             input(
                 context: context,
-                text: "New Password",
+                text: translate(context, LocaleStrings.newPassword),
                 onChanged: (value) {
                   setState(() {
                     password = value;
@@ -66,7 +67,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         color: showPassword ? primaryColor : Colors.grey))),
             input(
                 context: context,
-                text: "Confirm Password",
+                text: translate(context, LocaleStrings.confirmPassword),
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
@@ -81,7 +82,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           context: context,
           height: 50,
           onPressed: isLoading ? null : _changePassword,
-          text: isLoading ? null : "SAVE",
+          text: isLoading ? null : translate(context, LocaleStrings.submitBtn),
           outerPadding: EdgeInsets.symmetric(horizontal: 20),
           child: isLoading
               ? SizedBox(
@@ -119,10 +120,10 @@ class _ResetPasswordState extends State<ResetPassword> {
           }
         });
       } else {
-        Fluttertoast.showToast(msg: "Password doesn't matched");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.passwordDoesntMatch));
       }
     } else {
-      Fluttertoast.showToast(msg: "Please enter password");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
     }
   }
 }

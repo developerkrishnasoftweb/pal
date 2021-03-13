@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/constant/strings.dart';
+import 'package:pal/localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/custom_button.dart';
 import '../../ui/widgets/page_route.dart';
@@ -81,7 +83,7 @@ class _OTPState extends State<OTP> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       //TODO: Add to locale strings
-      appBar: appBar(context: context, title: "Enter OTP"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.enterOTP)),
       body: Column(
         children: [
           SizedBox(
@@ -125,7 +127,7 @@ class _OTPState extends State<OTP> {
                   ? _action
                   : null,
           width: size.width,
-          text: !isLoading ? "SUBMIT" : null,
+          text: !isLoading ? translate(context, LocaleStrings.submitBtn) : null,
           child: SizedBox(
             height: 30,
             width: 30,
@@ -158,7 +160,7 @@ class _OTPState extends State<OTP> {
           break;
       }
     } else {
-      Fluttertoast.showToast(msg: "Invalid OTP");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidOTP));
     }
   }
 
@@ -175,9 +177,9 @@ class _OTPState extends State<OTP> {
             setLoading(false);
             var dialogStatus = showDialogBox(
                 context: context,
-                title: "Gift Redeemed Successfully",
+                title: translate(context, LocaleStrings.giftRedeemedSuccessfully),
                 content:
-                    "Your Redeem Code is ${value.data[0]["redeem"]["code"]}.\nThank you for purchasing from us.",
+                    "${translate(context, LocaleStrings.yourRedeemCodeIs)} ${value.data[0]["redeem"]["code"]}.\n${translate(context, LocaleStrings.thankYouForPurchasingWithUs)}.",
                 barrierDismissible: true,
                 actions: [
                   FlatButton(
@@ -189,7 +191,7 @@ class _OTPState extends State<OTP> {
                         )),
                         (route) => false),
                     child: Text(
-                      "GO TO HOME",
+                      translate(context, LocaleStrings.goTOHome),
                       style: TextStyle(color: primaryColor),
                     ),
                   ),
@@ -209,9 +211,9 @@ class _OTPState extends State<OTP> {
           }
         });
       } else
-        Fluttertoast.showToast(msg: "Something went wrong");
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.somethingWentWrong));
     } else
-      Fluttertoast.showToast(msg: "Invalid OTP");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidOTP));
   }
 
   _forgotPassword() async {
@@ -224,7 +226,7 @@ class _OTPState extends State<OTP> {
             mobile: widget.mobile,
           )));
     } else {
-      Fluttertoast.showToast(msg: "Invalid OTP");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidOTP));
     }
   }
 
@@ -250,7 +252,7 @@ class _OTPState extends State<OTP> {
         }
       });
     } else {
-      Fluttertoast.showToast(msg: "Invalid OTP");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidOTP));
     }
   }
 

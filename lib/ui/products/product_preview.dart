@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import 'package:video_player/video_player.dart';
@@ -41,8 +43,7 @@ class _ProductPreviewState extends State<ProductPreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //TODO: Add to Locale Strings
-      appBar: appBar(context: context, title: "Product Preview"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.productPreview)),
       body: Center(
           child: Stack(
         alignment: Alignment.center,

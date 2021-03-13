@@ -168,5 +168,22 @@
   "mobileNo" : "ਮੋਬਾਇਲ ਨੰਬਰ",
   "bySigningUpYouAgreeToOurTermsAndPolicy" :
   "ਸਾਈਨ ਅਪ ਕਰਕੇ ਤੁਸੀਂ ਸਾਡੇ ਨਿਯਮਾਂ ਅਤੇ ਨੀਤੀ ਨਾਲ ਸਹਿਮਤ ਹੋ",
-  "alreadyHaveAnAccount" : "ਪਹਿਲਾਂ ਹੀ ਇਕ ਖਾਤਾ ਹੈ"
+  "alreadyHaveAnAccount" : "ਪਹਿਲਾਂ ਹੀ ਇਕ ਖਾਤਾ ਹੈ",
+
+  "rateUs" : "ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ",
+  "noThanks" : "ਨਹੀਂ ਧੰਨਵਾਦ",
+  "rateBtn" : "ਦਰ",
+  "review" : "ਸਮੀਖਿਆ",
+  "productPreview" : "ਉਤਪਾਦ ਝਲਕ",
+  "resetPassword" : "ਪਾਸਵਰਡ ਰੀਸੈਟ ਕਰੋ",
+  "newPassword" : "ਨਵਾਂ ਪਾਸਵਰਡ",
+  "confirmPassword" : "ਪਾਸਵਰਡ ਪੱਕਾ ਕਰੋ",
+  "passwordDoesntMatch" : "ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ!",
+  "getOTP" : "ਓਟੀਪੀ ਪ੍ਰਾਪਤ ਕਰੋ",
+  "pleaseEnterValidMobileNo" : "ਕਿਰਪਾ ਕਰਕੇ ਵੈਧ ਮੋਬਾਈਲ ਨੰ",
+  "enterOTP" : "ਓਟੀਪੀ ਦਰਜ ਕਰੋ",
+  "giftRedeemedSuccessfully" : "ਉਪਹਾਰ ਸਫਲਤਾਪੂਰਵਕ ਛੁਟਕਾਰਾ ਪਾਇਆ",
+  "goTOHome" : "ਘਰ ਨੂੰ ਜਾਓ",
+  "yourRedeemCodeIs" : "ਤੁਹਾਡਾ ਰਿਡੀਮ ਕੋਡ ਹੈ",
+  "thankYouForPurchasingWithUs" : "ਸਾਡੇ ਤੋਂ ਖਰੀਦਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ"
 }

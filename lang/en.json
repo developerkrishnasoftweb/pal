@@ -168,5 +168,22 @@
   "mobileNo" : "Mobile No",
   "bySigningUpYouAgreeToOurTermsAndPolicy" :
   "By signing up you agree to our terms and policy",
-  "alreadyHaveAnAccount" : "Already have an account"
+  "alreadyHaveAnAccount" : "Already have an account",
+  
+  "rateUs" : "Rate Us",
+  "noThanks" : "No Thanks",
+  "rateBtn" : "Rate",
+  "review" : "Review",
+  "productPreview" : "Product Preview",
+  "resetPassword" : "Reset Password",
+  "newPassword" : "New Password",
+  "confirmPassword" : "Confirm Password",
+  "passwordDoesntMatch" : "Password doesn't matched",
+  "getOTP" : "GET OTP",
+  "pleaseEnterValidMobileNo" : "Please enter valid mobile no",
+  "enterOTP" : "Enter OTP",
+  "giftRedeemedSuccessfully" : "Gift redeemed successfully",
+  "goTOHome" : "GO TO HOME",
+  "yourRedeemCodeIs" : "You redeem code is",
+  "thankYouForPurchasingWithUs" : "Thank you for purchasing from us"
 }

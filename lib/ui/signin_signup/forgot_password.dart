@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/custom_button.dart';
 import '../../ui/widgets/page_route.dart';
@@ -26,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       //TODO: Add to locale strings
-      appBar: appBar(context: context, title: "Forgot Password"),
+      appBar: appBar(context: context, title: translate(context, LocaleStrings.forgotPassword)),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
@@ -45,7 +47,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: TextStyle(fontSize: 17),
                 autoFocus: true,
                 context: context,
-                text: "Mobile Number",
+                text: translate(context, LocaleStrings.mobileNo),
                 onChanged: (value) {
                   setState(() {
                     mobile = value;
@@ -59,7 +61,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             customButton(
                 context: context,
                 onPressed: isLoading ? null : _forgotPassword,
-                text: isLoading ? null : "GET OTP",
+                text: isLoading ? null : translate(context, LocaleStrings.getOTP),
                 child: isLoading
                     ? SizedBox(
                         height: 30,
@@ -104,7 +106,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
       });
     } else {
-      Fluttertoast.showToast(msg: "Please enter valid mobile number");
+      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseEnterValidMobileNo));
     }
   }
 }

@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../constant/strings.dart';
+import '../../localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/custom_button.dart';
@@ -12,10 +14,11 @@ import '../../constant/global.dart';
 import '../../constant/models.dart';
 import '../../services/services.dart';
 
-
 class ProductReview extends StatefulWidget {
   final GiftData giftData;
+
   ProductReview({@required this.giftData});
+
   @override
   _ProductReviewState createState() => _ProductReviewState();
 }
@@ -24,11 +27,12 @@ class _ProductReviewState extends State<ProductReview> {
   int feedback = 0;
   String review = "";
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //TODO: Add in localization
-      appBar: appBar(context: context, title: "Review"),
+      appBar: appBar(
+          context: context, title: translate(context, LocaleStrings.review)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -63,9 +67,7 @@ class _ProductReviewState extends State<ProductReview> {
               text: isLoading ? null : "SUBMIT",
               child: isLoading
                   ? SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: circularProgressIndicator())
+                      height: 30, width: 30, child: circularProgressIndicator())
                   : null)
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

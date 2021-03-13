@@ -166,22 +166,21 @@ class _HomeState extends State<Home> {
             );
           }),
           title: Text(
-            "RATE US",
+            translate(context, LocaleStrings.rateUs),
             style: TextStyle(color: primaryColor),
           ),
           actions: [
             FlatButton(
               onPressed: () => Navigator.pop(context),
               child: Text(
-                "NO, THANKS",
+                translate(context, LocaleStrings.noThanks),
                 style: TextStyle(color: Colors.grey),
               ),
             ),
             FlatButton(
-              //TODO: check once
               onPressed: _rateApp,
               child: Text(
-                "RATE",
+                translate(context, LocaleStrings.rateBtn),
                 style: TextStyle(color: primaryColor),
               ),
             ),
