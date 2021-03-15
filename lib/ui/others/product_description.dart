@@ -19,7 +19,11 @@ import 'kyc_details.dart';
 class ProductDescription extends StatefulWidget {
   final GiftData giftData;
   final bool readOnly;
-  ProductDescription({@required this.giftData, this.readOnly: false});
+  final StoreDetails storeDetails;
+
+  const ProductDescription({Key key, @required this.giftData, this.readOnly : false, @required this.storeDetails}) : super(key: key);
+
+
   @override
   _ProductDescriptionState createState() => _ProductDescriptionState();
 }
@@ -150,6 +154,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               CustomPageRoute(
                                   widget: DeliveryAddress(
                                 giftData: widget.giftData,
+                                    storeDetails: widget.storeDetails,
                               )))
                           .then((value) async => await Services.getUserData())
                       : () {

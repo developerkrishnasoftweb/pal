@@ -20,8 +20,9 @@ import '../../ui/signin_signup/otp.dart';
 
 class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
+  final StoreDetails storeDetails;
 
-  DeliveryAddress({@required this.giftData});
+  const DeliveryAddress({Key key, @required this.giftData, @required this.storeDetails}) : super(key: key);
 
   @override
   _DeliveryAddressState createState() => _DeliveryAddressState();
@@ -39,10 +40,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   TextEditingController areaAPI = TextEditingController();
   TextEditingController cityAPI = TextEditingController();
   List<String> listAreas = [];
-  List<StoreDetails> stores = [];
-  StoreDetails storeDetails;
-
-  // String selectedStoreCode = "";
 
   Future getFile() async {
     setFileLoading(true);
@@ -83,33 +80,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
   @override
   void initState() {
-    getStores();
     super.initState();
-  }
-
-  getStores() async {
-    await Services.getStores().then((value) {
-      if (value.response == "y") {
-        for (int i = 0; i < value.data.length; i++) {
-          setState(() {
-            stores.add(StoreDetails(
-                id: value.data[i]["id"],
-                name: value.data[i]["name"],
-                state: value.data[i]["state"],
-                pinCode: value.data[i]["pincode"],
-                city: value.data[i]["city"],
-                location: value.data[i]["location"],
-                storeCode: value.data[i]["store_code"]));
-          });
-        }
-        if (stores.length > 0)
-          setState(() {
-            storeDetails = stores[0];
-          });
-      } else {
-        Fluttertoast.showToast(msg: value.message);
-      }
-    });
   }
 
   @override
@@ -117,74 +88,70 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(context: context, title: translate(context, LocaleStrings.deliveryAddress)),
-      body: storeDetails != null
-          ? SingleChildScrollView(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: size.width,
-                    height: 20,
-                  ),
-                  Container(
-                    width: size.width - 20,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[200],
-                            blurRadius: 10,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: DropdownButton(
-                      isExpanded: true,
-                      onChanged: (value) {
-                        setState(() {
-                          file = null;
-                          addressType = value;
-                          if (value == "Collect from outlet") {
-                            collectToShop = false;
-                          } else if (value == "Home delivery") {
-                            collectToShop = true;
-                          }
-                        });
-                      },
-                      underline: SizedBox.shrink(),
-                      value: addressType,
-                      //TODO: In future "Home Delivery" option will be added in dropdown
-                      items: ["Collect from outlet"].map((text) {
-                        return DropdownMenuItem(
-                          value: text,
-                          child: Text(text),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Visibility(
-                      replacement: buildCollectToShop(),
-                      visible: collectToShop,
-                      child: buildHomeDelivery())
-                ],
-              ),
-            )
-          : Center(child: Text("Looking for stores...")),
-      floatingActionButton: storeDetails != null
-          ? customButton(
-              context: context,
-              onPressed: isLoading ? null : _redeem,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(
               width: size.width,
-              child: isLoading
-                  ? SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: circularProgressIndicator(),
+              height: 20,
+            ),
+            Container(
+              width: size.width - 20,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[200],
+                      blurRadius: 10,
                     )
-                  : null,
-              text: isLoading ? null : translate(context, LocaleStrings.submitBtn))
-          : null,
+                  ],
+                  borderRadius: BorderRadius.circular(10)),
+              child: DropdownButton(
+                isExpanded: true,
+                onChanged: (value) {
+                  setState(() {
+                    file = null;
+                    addressType = value;
+                    if (value == "Collect from outlet") {
+                      collectToShop = false;
+                    } else if (value == "Home delivery") {
+                      collectToShop = true;
+                    }
+                  });
+                },
+                underline: SizedBox.shrink(),
+                value: addressType,
+                //TODO: In future "Home Delivery" option will be added in dropdown
+                items: ["Collect from outlet"].map((text) {
+                  return DropdownMenuItem(
+                    value: text,
+                    child: Text(text),
+                  );
+                }).toList(),
+              ),
+            ),
+            Visibility(
+                replacement: buildCollectToShop(),
+                visible: collectToShop,
+                child: buildHomeDelivery())
+          ],
+        ),
+      ),
+      floatingActionButton: customButton(
+          context: context,
+          onPressed: isLoading ? null : _redeem,
+          width: size.width,
+          child: isLoading
+              ? SizedBox(
+            height: 30,
+            width: 30,
+            child: circularProgressIndicator(),
+          )
+              : null,
+          text: isLoading ? null : translate(context, LocaleStrings.submitBtn)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
@@ -355,43 +322,13 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
         ),
-        stores.length > 0
-            ? Container(
-                width: size.width - 20,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey[200],
-                        blurRadius: 10,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton<StoreDetails>(
-                    underline: SizedBox.shrink(),
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    value: storeDetails,
-                    isExpanded: true,
-                    items: stores.map((store) {
-                      return DropdownMenuItem(
-                          value: store, child: Text(store.name));
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        storeDetails = value;
-                      });
-                    }),
-              )
-            : Align(
-                alignment: Alignment.center, child: Text("No store found !!!")),
         SizedBox(
           height: 15,
         ),
-        buildTitledRow(title: translate(context, LocaleStrings.area), value: storeDetails.location),
-        buildTitledRow(title: translate(context, LocaleStrings.city), value: storeDetails.city),
-        buildTitledRow(title: translate(context, LocaleStrings.state), value: storeDetails.state),
-        buildTitledRow(title: translate(context, LocaleStrings.pinCode), value: storeDetails.pinCode),
+        buildTitledRow(title: translate(context, LocaleStrings.area), value: widget.storeDetails.location),
+        buildTitledRow(title: translate(context, LocaleStrings.city), value: widget.storeDetails.city),
+        buildTitledRow(title: translate(context, LocaleStrings.state), value: widget.storeDetails.state),
+        buildTitledRow(title: translate(context, LocaleStrings.pinCode), value: widget.storeDetails.pinCode),
         input(
             context: context,
             text: "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
@@ -544,36 +481,29 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       /*
       * Collect from outlet
       * */
-      if (storeDetails != null &&
-              altMobile.isNotEmpty /* &&
-          file != null */
-          ) {
-        if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
-          setLoading(true);
-          FormData data = FormData.fromMap({
-            "customer_id": userdata.id,
-            "api_key": API_KEY,
-            "gift_id": widget.giftData.id,
-            "point": widget.giftData.points,
-            "address": storeDetails.location,
-            "area": storeDetails.location,
-            "city": storeDetails.city,
-            "pincode": storeDetails.pinCode,
-            "alt_mobile": altMobile,
-            "state": storeDetails.state,
-            "proof": file != null
-                ? await MultipartFile.fromFile(file.path,
-                    filename: file.path.split("/").last)
-                : null,
-            "delivery_type": "s",
-            "store_id": storeDetails.id,
-          });
-          sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
-        } else {
-          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
-        }
+      if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
+        setLoading(true);
+        FormData data = FormData.fromMap({
+          "customer_id": userdata.id,
+          "api_key": API_KEY,
+          "gift_id": widget.giftData.id,
+          "point": widget.giftData.points,
+          "address": widget.storeDetails.location,
+          "area": widget.storeDetails.location,
+          "city": widget.storeDetails.city,
+          "pincode": widget.storeDetails.pinCode,
+          "alt_mobile": altMobile,
+          "state": widget.storeDetails.state,
+          "proof": file != null
+              ? await MultipartFile.fromFile(file.path,
+              filename: file.path.split("/").last)
+              : null,
+          "delivery_type": "s",
+          "store_id": widget.storeDetails.id,
+        });
+        sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
+        Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
       }
     }
   }

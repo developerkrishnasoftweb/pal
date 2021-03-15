@@ -96,8 +96,8 @@ class Services {
     }
   }
 
-  static Future<Data> gift(body) async {
-    String url = Urls.baseUrl + Urls.gift;
+  static Future<Data> gift(body, {String departmentId}) async {
+    String url = Urls.baseUrl + Urls.gift + "/$departmentId";
     try {
       dio.Response response = await dio.Dio().post(url, data: body);
       if (response.statusCode == 200) {
