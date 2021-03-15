@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/services/urls.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/models.dart';
@@ -23,6 +24,7 @@ import '../../ui/signin_signup/signin.dart';
 import '../../ui/widgets/show_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'circular_progress_indicator.dart';
 import 'page_route.dart';
 
 
@@ -119,34 +121,78 @@ Widget drawer(
             ),
             Padding(
               padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Text(
-                    "Hi!, " + (userdata != null ? userdata.name : " "),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                            child: Icon(
-                              Icons.account_balance_wallet_outlined,
-                              color: primaryColor,
+                  GestureDetector(
+                    onTap: () {
+                      scaffoldKey.currentState.openEndDrawer();
+                      Navigator.push(context, CustomPageRoute(widget: KYC()));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(70),
+                      child: Image(
+                        image: NetworkImage(
+                            Urls.imageBaseUrl + (userdata.image ?? "")),
+                        loadingBuilder: (context, widget, event) {
+                          return event == null
+                              ? widget
+                              : Container(
+                            height: 70,
+                            width: 70,
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: circularProgressIndicator(),
                             ),
-                            alignment: PlaceholderAlignment.middle),
-                        TextSpan(
-                            text: "\t" + (userdata != null ? userdata.point : "0"),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: primaryColor))
-                      ],
+                          );
+                        },
+                        fit: BoxFit.fill,
+                        errorBuilder: (context, object, stackTrace) {
+                          return Container(
+                            height: 70,
+                            width: 70,
+                            child: Icon(Icons.add_a_photo_outlined),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(color: Colors.grey)),
+                          );
+                        },
+                        height: 70,
+                        width: 70,
+                      ),
                     ),
                   ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userdata.name != null
+                              ? "Hi!, " + userdata.name
+                              : "N/A",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: 3,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            wallet(color: primaryColor),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

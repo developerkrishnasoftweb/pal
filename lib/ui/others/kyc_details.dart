@@ -48,8 +48,8 @@ class _KYCState extends State<KYC> {
                 child: userdata.image != null
                     ? Image.network(
                         Urls.imageBaseUrl + userdata.image,
-                        height: 200,
-                        width: 200,
+                        height: 100,
+                        width: 100,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, progress) {
                           return progress == null
