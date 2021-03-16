@@ -203,10 +203,12 @@ class _HomeState extends State<Home> {
     } else {
       Fluttertoast.showToast(msg: "Please choose your experience to rate");
     } */
-    if (await canLaunch(config.apkLink))
+    if (await canLaunch(config.apkLink)) {
+      Navigator.pop(context);
       launch(config.apkLink);
+    }
     else
-      Fluttertoast.showToast(msg: "Unable to open");
+      Fluttertoast.showToast(msg: "Unable to open Play store");
   }
 
   _languageChanged(Language lang) async {

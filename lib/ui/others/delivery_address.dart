@@ -220,7 +220,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      translate(context, LocaleStrings.area),
+                      translate(context, LocaleStrings.address),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: Colors.grey,
                           fontSize: 13,
@@ -247,7 +247,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               )
             : input(
                 context: context,
-                text: translate(context, LocaleStrings.area),
+                text: translate(context, LocaleStrings.address),
                 controller: areaAPI),
         Padding(
           padding: const EdgeInsets.all(10.0),
@@ -338,7 +338,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           height: 15,
         ),
         buildTitledRow(
-            title: translate(context, LocaleStrings.area),
+            title: translate(context, LocaleStrings.address),
             value: widget.storeDetails.location),
         buildTitledRow(
             title: translate(context, LocaleStrings.city),
@@ -522,7 +522,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   filename: file.path.split("/").last)
               : "",
           "delivery_type": "s",
-          "store_id": widget.storeDetails.id,
+          "store_id": widget.storeDetails.code,
         });
         sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
       } else {

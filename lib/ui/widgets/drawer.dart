@@ -27,7 +27,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'circular_progress_indicator.dart';
 import 'page_route.dart';
 
-
 Widget drawer(
     {@required BuildContext context,
     @required GlobalKey<ScaffoldState> scaffoldKey}) {
@@ -88,7 +87,7 @@ Widget drawer(
   _logout() async {
     var email = userdata.mobile;
     var notificationCount =
-    sharedPreferences.getString(UserParams.lastNotificationId);
+        sharedPreferences.getString(UserParams.lastNotificationId);
     var langCode = sharedPreferences.getString(LANGUAGE_CODE);
     await sharedPreferences.clear();
     await sharedPreferences.setString(
@@ -137,15 +136,15 @@ Widget drawer(
                           return event == null
                               ? widget
                               : Container(
-                            height: 70,
-                            width: 70,
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: circularProgressIndicator(),
-                            ),
-                          );
+                                  height: 70,
+                                  width: 70,
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    height: 25,
+                                    width: 25,
+                                    child: circularProgressIndicator(),
+                                  ),
+                                );
                         },
                         fit: BoxFit.fill,
                         errorBuilder: (context, object, stackTrace) {
@@ -322,51 +321,60 @@ Widget drawer(
               Navigator.push(
                   context, CustomPageRoute(widget: TermsNCondition()));
             }, Icons.ballot_outlined),
-            config.websiteLink != null ? config.websiteLink.isNotEmpty ? ListTile(
-              title: Row(
-                children: [
-                  ImageIcon(
-                    AssetImage("assets/icons/app-icon.png"),
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                  SizedBox(
-                    width: 3,
-                  ),
-                  Text(translate(context, LocaleStrings.visitOurSite)),
-                ],
-              ),
-              onTap: () async {
-                scaffoldKey.currentState.openEndDrawer();
-                if (await canLaunch(config.websiteLink))
-                  launch(config.websiteLink);
-                else
-                  Fluttertoast.showToast(msg: "Unable to open");
-              },
-            ) : SizedBox() : SizedBox(),
-            config.apkLink != null ? config.apkLink.isNotEmpty ? ListTile(
-              title: Row(
-                children: [
-                  SizedBox(
-                    width: 4,
-                  ),
-                  ImageIcon(
-                    AssetImage("assets/icons/playstore.png"),
-                    color: Colors.grey,
-                    size: 18,
-                  ),
-                  gap,
-                  Text(translate(context, LocaleStrings.palShoppie)),
-                ],
-              ),
-              onTap: () async {
-                scaffoldKey.currentState.openEndDrawer();
-                if (await canLaunch(config.apkLink))
-                  launch(config.apkLink);
-                else
-                  Fluttertoast.showToast(msg: "Unable to open");
-              },
-            ) : SizedBox() : SizedBox(),
+            config.websiteLink != null
+                ? config.websiteLink.isNotEmpty
+                    ? ListTile(
+                        title: Row(
+                          children: [
+                            ImageIcon(
+                              AssetImage("assets/icons/app-icon.png"),
+                              color: Colors.grey,
+                              size: 30,
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Text(
+                                translate(context, LocaleStrings.visitOurSite)),
+                          ],
+                        ),
+                        onTap: () async {
+                          scaffoldKey.currentState.openEndDrawer();
+                          if (await canLaunch(config.websiteLink))
+                            launch(config.websiteLink);
+                          else
+                            Fluttertoast.showToast(msg: "Unable to open");
+                        },
+                      )
+                    : SizedBox()
+                : SizedBox(),
+            config.apkLink != null
+                ? config.apkLink.isNotEmpty
+                    ? ListTile(
+                        title: Row(
+                          children: [
+                            SizedBox(
+                              width: 4,
+                            ),
+                            ImageIcon(
+                              AssetImage("assets/icons/playstore.png"),
+                              color: Colors.grey,
+                              size: 18,
+                            ),
+                            gap,
+                            Text(translate(context, LocaleStrings.palShoppie)),
+                          ],
+                        ),
+                        onTap: () async {
+                          scaffoldKey.currentState.openEndDrawer();
+                          if (await canLaunch(config.apkLink))
+                            launch(config.apkLink);
+                          else
+                            Fluttertoast.showToast(msg: "Unable to open");
+                        },
+                      )
+                    : SizedBox()
+                : SizedBox(),
             buildDrawerItems(
                 translate(context, LocaleStrings.logout),
                 () => showDialogBox(
@@ -397,5 +405,6 @@ class DrawerItem {
   final Icon icon;
   final String text;
   final GestureTapCallback onTap;
+
   DrawerItem({this.icon, this.text, this.onTap});
 }

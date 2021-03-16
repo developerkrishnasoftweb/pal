@@ -28,7 +28,6 @@ class _StoresState extends State<Stores> {
   getStores() async {
     await Services.getStores().then((value) {
       if (value.response == "y") {
-        print(value.data.last);
         if (value.data.length == 0) {
           stores = null;
           return;
