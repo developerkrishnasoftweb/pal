@@ -46,6 +46,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
               height: 270,
               width: size.width,
               fit: BoxFit.contain,
+              errorBuilder: (context, object, stackTrace) {
+                return Image(image: AssetImage("assets/images/pal-logo.png"));
+              },
               loadingBuilder: (context, child, progress) {
                 return progress == null
                     ? child
