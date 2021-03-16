@@ -346,10 +346,12 @@ class Services {
         return internetError;
       } else {
         print(e);
+        throw(e);
         return someThingWentWrong;
       }
     } catch (e) {
       print(e);
+      throw(e);
       return someThingWentWrong;
     }
   }

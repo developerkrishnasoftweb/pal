@@ -520,7 +520,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           "proof": file != null
               ? await MultipartFile.fromFile(file.path,
                   filename: file.path.split("/").last)
-              : null,
+              : "",
           "delivery_type": "s",
           "store_id": widget.storeDetails.id,
         });

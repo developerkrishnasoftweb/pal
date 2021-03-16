@@ -81,8 +81,8 @@ class _OTPState extends State<OTP> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(widget.formData.fields);
     return Scaffold(
-      //TODO: Add to locale strings
       appBar: appBar(context: context, title: translate(context, LocaleStrings.enterOTP)),
       body: Column(
         children: [
