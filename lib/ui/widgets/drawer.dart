@@ -86,7 +86,7 @@ Widget drawer(
   }
 
   _logout() async {
-    var email = userdata.email;
+    var email = userdata.mobile;
     var notificationCount =
     sharedPreferences.getString(UserParams.lastNotificationId);
     var langCode = sharedPreferences.getString(LANGUAGE_CODE);
@@ -132,7 +132,7 @@ Widget drawer(
                       borderRadius: BorderRadius.circular(70),
                       child: Image(
                         image: NetworkImage(
-                            Urls.imageBaseUrl + (userdata.image ?? "")),
+                            Urls.imageBaseUrl + (userdata?.image ?? "")),
                         loadingBuilder: (context, widget, event) {
                           return event == null
                               ? widget
