@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pal/services/urls.dart';
+import 'package:pal/ui/customer_bonding_program/stores.dart';
 import '../../constant/color.dart';
 import '../../constant/global.dart';
 import '../../constant/models.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
 import '../../ui/customer_bonding_program/earned_points.dart';
-import '../../ui/customer_bonding_program/redeem_gift_category.dart';
 import '../../ui/customer_bonding_program/redeemed_gifts.dart';
 import '../../ui/home/home.dart';
 import '../../ui/others/kyc_details.dart';
@@ -290,7 +290,7 @@ Widget drawer(
                       onTap: () {
                         scaffoldKey.currentState.openEndDrawer();
                         Navigator.push(
-                            context, CustomPageRoute(widget: GiftCategory()));
+                            context, CustomPageRoute(widget: Stores()));
                       }),
                   buildExpansionChild(
                       title: translate(context, LocaleStrings.redeemedGifts),

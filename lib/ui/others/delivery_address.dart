@@ -22,7 +22,9 @@ class DeliveryAddress extends StatefulWidget {
   final GiftData giftData;
   final StoreDetails storeDetails;
 
-  const DeliveryAddress({Key key, @required this.giftData, @required this.storeDetails}) : super(key: key);
+  const DeliveryAddress(
+      {Key key, @required this.giftData, @required this.storeDetails})
+      : super(key: key);
 
   @override
   _DeliveryAddressState createState() => _DeliveryAddressState();
@@ -87,7 +89,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.deliveryAddress)),
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.deliveryAddress)),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
         physics: BouncingScrollPhysics(),
@@ -146,10 +150,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           width: size.width,
           child: isLoading
               ? SizedBox(
-            height: 30,
-            width: 30,
-            child: circularProgressIndicator(),
-          )
+                  height: 30,
+                  width: 30,
+                  child: circularProgressIndicator(),
+                )
               : null,
           text: isLoading ? null : translate(context, LocaleStrings.submitBtn)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -201,8 +205,14 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                       fit: BoxFit.fill,
                       alignment: Alignment.center,
                     )))),
-        input(context: context, text: translate(context, LocaleStrings.state), controller: stateAPI),
-        input(context: context, text: translate(context, LocaleStrings.city), controller: cityAPI),
+        input(
+            context: context,
+            text: translate(context, LocaleStrings.state),
+            controller: stateAPI),
+        input(
+            context: context,
+            text: translate(context, LocaleStrings.city),
+            controller: cityAPI),
         listAreas.length > 1
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -235,7 +245,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   ],
                 ),
               )
-            : input(context: context, text: translate(context, LocaleStrings.area), controller: areaAPI),
+            : input(
+                context: context,
+                text: translate(context, LocaleStrings.area),
+                controller: areaAPI),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
@@ -310,7 +323,6 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   Widget buildCollectToShop() {
-    Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -325,13 +337,22 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         SizedBox(
           height: 15,
         ),
-        buildTitledRow(title: translate(context, LocaleStrings.area), value: widget.storeDetails.location),
-        buildTitledRow(title: translate(context, LocaleStrings.city), value: widget.storeDetails.city),
-        buildTitledRow(title: translate(context, LocaleStrings.state), value: widget.storeDetails.state),
-        buildTitledRow(title: translate(context, LocaleStrings.pinCode), value: widget.storeDetails.pinCode),
+        buildTitledRow(
+            title: translate(context, LocaleStrings.area),
+            value: widget.storeDetails.location),
+        buildTitledRow(
+            title: translate(context, LocaleStrings.city),
+            value: widget.storeDetails.city),
+        buildTitledRow(
+            title: translate(context, LocaleStrings.state),
+            value: widget.storeDetails.state),
+        buildTitledRow(
+            title: translate(context, LocaleStrings.pinCode),
+            value: widget.storeDetails.pinCode),
         input(
             context: context,
-            text: "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
+            text:
+                "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
             onChanged: (value) {
               setState(() {
                 altMobile = value;
@@ -472,10 +493,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           });
           sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
         } else {
-          Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
+          Fluttertoast.showToast(
+              msg: translate(context, LocaleStrings.invalidMobileNumber));
         }
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.allFieldsAreRequired));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.allFieldsAreRequired));
       }
     } else {
       /*
@@ -496,14 +519,15 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           "state": widget.storeDetails.state,
           "proof": file != null
               ? await MultipartFile.fromFile(file.path,
-              filename: file.path.split("/").last)
+                  filename: file.path.split("/").last)
               : null,
           "delivery_type": "s",
           "store_id": widget.storeDetails.id,
         });
         sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
       } else {
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidMobileNumber));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.invalidMobileNumber));
       }
     }
   }
@@ -534,14 +558,50 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 }
 
 class StoreDetails {
-  final String id, name, location, city, state, pinCode, storeCode;
+  final String id,
+      name,
+      code,
+      status,
+      inserted,
+      insertedBy,
+      modified,
+      modifiedBy,
+      apiType,
+      giftStatus,
+      location,
+      city,
+      state,
+      pinCode;
 
   StoreDetails(
-      {this.state,
-      this.city,
-      this.pinCode,
+      {this.id,
       this.name,
-      this.id,
+      this.code,
+      this.status,
+      this.inserted,
+      this.insertedBy,
+      this.modified,
+      this.modifiedBy,
+      this.apiType,
+      this.giftStatus,
       this.location,
-      this.storeCode});
+      this.city,
+      this.state,
+      this.pinCode});
+
+  StoreDetails.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        code = json['code'],
+        status = json['status'],
+        inserted = json['inserted'],
+        insertedBy = json['inserted_by'],
+        modified = json['modified'],
+        modifiedBy = json['modified_by'],
+        apiType = json['api_type'],
+        giftStatus = json['gift_status'],
+        location = json['location'],
+        city = json['city'],
+        state = json['state'],
+        pinCode = json['pincode'];
 }

@@ -21,7 +21,7 @@ class ProductDescription extends StatefulWidget {
   final bool readOnly;
   final StoreDetails storeDetails;
 
-  const ProductDescription({Key key, @required this.giftData, this.readOnly : false, @required this.storeDetails}) : super(key: key);
+  const ProductDescription({Key key, this.giftData, this.readOnly : false, @required this.storeDetails}) : super(key: key);
 
 
   @override
@@ -173,7 +173,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           msg: translate(context,
                               LocaleStrings.dontHaveEnoughPointToRedeem));
                     },
-              height: 60,
               text: translate(context, LocaleStrings.redeemBtn),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

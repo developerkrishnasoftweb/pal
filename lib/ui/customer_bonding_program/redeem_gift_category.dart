@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/ui/others/delivery_address.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../ui/widgets/page_route.dart';
@@ -13,14 +14,18 @@ import '../../services/services.dart';
 import '../../services/urls.dart';
 import '../../ui/customer_bonding_program/redeem_gift.dart';
 
-
 class GiftCategory extends StatefulWidget {
+  final StoreDetails storeDetails;
+
+  const GiftCategory({Key key, @required this.storeDetails}) : super(key: key);
+
   @override
   _GiftState createState() => _GiftState();
 }
 
 class _GiftState extends State<GiftCategory> {
   List<GiftCategoryData> giftCategoryList = [];
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +57,10 @@ class _GiftState extends State<GiftCategory> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: translate(context, LocaleStrings.redeemGift), actions: [wallet()]),
+        appBar: appBar(
+            context: context,
+            title: translate(context, LocaleStrings.redeemGift),
+            actions: [wallet()]),
         body: giftCategoryList.length != 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -67,10 +75,14 @@ class _GiftState extends State<GiftCategory> {
                         TextSpan(
                           text: "( ",
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold),
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: translate(context, LocaleStrings.cumulativeScore) + " : ",
+                          text: translate(
+                                  context, LocaleStrings.cumulativeScore) +
+                              " : ",
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
                               color: Colors.grey,
                               fontSize: 15,
@@ -86,7 +98,9 @@ class _GiftState extends State<GiftCategory> {
                         TextSpan(
                           text: " )",
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold),
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
                         ),
                       ]),
                     ),
@@ -124,6 +138,7 @@ class _GiftState extends State<GiftCategory> {
             context,
             CustomPageRoute(
                 widget: RedeemGift(
+                    storeDetails: widget.storeDetails,
                     maxPoints: giftCategoryData.max,
                     minPoints: giftCategoryData.min)));
       },
@@ -186,6 +201,7 @@ class GiftCategoryData {
   final String max;
   final String image;
   final String status;
+
   GiftCategoryData(
       {this.id, this.title, this.max, this.min, this.status, this.image});
 }

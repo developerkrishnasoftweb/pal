@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/ui/customer_bonding_program/stores.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/badge.dart';
 import '../../ui/widgets/carousel.dart';
@@ -19,7 +20,6 @@ import '../../localization/localizations_constraints.dart';
 import '../../services/services.dart';
 import '../../services/urls.dart';
 import '../../ui/customer_bonding_program/earned_points.dart';
-import '../../ui/customer_bonding_program/redeem_gift_category.dart';
 import '../../ui/others/notification.dart';
 import '../../ui/product_catalog/product_catalog.dart';
 import '../../ui/service_request/service_request.dart';
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
         image: AssetImage("assets/images/earned-point.png")),
     ItemListBuilder(
         title: LocaleStrings.redeemGift,
-        widget: GiftCategory(),
+        widget: Stores(),
         image: AssetImage("assets/images/redeem-gift.png")),
     ItemListBuilder(
         title: LocaleStrings.serviceRequest,

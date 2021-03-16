@@ -83,7 +83,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           height: 50,
           onPressed: isLoading ? null : _changePassword,
           text: isLoading ? null : translate(context, LocaleStrings.submitBtn),
-          outerPadding: EdgeInsets.symmetric(horizontal: 20),
+          margin: EdgeInsets.symmetric(horizontal: 20),
           child: isLoading
               ? SizedBox(
                   height: 30,
