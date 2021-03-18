@@ -24,9 +24,9 @@ import '../../main.dart';
 import 'forgot_password.dart';
 import 'signup.dart';
 
-
 class SignIn extends StatefulWidget {
   final String email;
+
   SignIn({this.email});
 
   @override
@@ -40,7 +40,8 @@ class _SignInState extends State<SignIn> {
   FocusNode myFocusNode;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  new FlutterLocalNotificationsPlugin();
+      new FlutterLocalNotificationsPlugin();
+
   @override
   void initState() {
     var android = new AndroidInitializationSettings('mipmap/ic_launcher');
@@ -70,7 +71,7 @@ class _SignInState extends State<SignIn> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         showNotification(message);
-    },
+      },
       onResume: (Map<String, dynamic> message) async {
         showNotification(message);
       },
@@ -87,10 +88,12 @@ class _SignInState extends State<SignIn> {
   }
 
   showNotification(Map<String, dynamic> msg) async {
-    var android = new AndroidNotificationDetails('channel_id', 'CHANNEL NAME', 'channelDescription');
+    var android = new AndroidNotificationDetails(
+        'channel_id', 'CHANNEL NAME', 'channelDescription');
     var ios = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: ios);
-    await flutterLocalNotificationsPlugin.show(Random().nextInt(100), msg["notification"]["title"], msg["notification"]["body"], platform);
+    await flutterLocalNotificationsPlugin.show(Random().nextInt(100),
+        msg["notification"]["title"], msg["notification"]["body"], platform);
   }
 
   void iOSPermission() {
@@ -252,7 +255,8 @@ class _SignInState extends State<SignIn> {
             Navigator.pushAndRemoveUntil(
                 context, CustomPageRoute(widget: Home()), (route) => false);
           } else {
-            Fluttertoast.showToast(msg: translate(context, LocaleStrings.somethingWentWrong));
+            Fluttertoast.showToast(
+                msg: translate(context, LocaleStrings.somethingWentWrong));
           }
         } else {
           setState(() {
