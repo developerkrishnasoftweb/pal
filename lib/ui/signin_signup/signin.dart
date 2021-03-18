@@ -72,7 +72,7 @@ class _SignInState extends State<SignIn> {
         showNotification(message);
     },
       onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
+        showNotification(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
