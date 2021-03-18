@@ -26,6 +26,7 @@ class _StoresState extends State<Stores> {
   }
 
   getStores() async {
+    stores.clear();
     await Services.getStores().then((value) {
       if (value.response == "y") {
         if (value.data.length == 0) {
@@ -53,7 +54,6 @@ class _StoresState extends State<Stores> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
           context: context,
@@ -65,43 +65,28 @@ class _StoresState extends State<Stores> {
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      child: Text("Select Store", style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17
-                      )),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
+                      child: Text("Select Store",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17)),
                     )),
-                Container(
-                  width: size.width - 20,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[200],
-                          blurRadius: 10,
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButton(
-                    isExpanded: true,
-                    onChanged: (value) {
-                      setState(() {
-                        storeDetails = value;
-                      });
-                    },
-                    underline: SizedBox.shrink(),
-                    value: storeDetails,
-                    items: stores.map((store) {
-                      return DropdownMenuItem(
-                        value: store,
-                        child: Text(store.name),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Spacer(),
+                Expanded(
+                    child: ListView.builder(
+                        itemBuilder: (_, index) {
+                          return RadioListTile<StoreDetails>(
+                              value: stores[index],
+                              groupValue: storeDetails,
+                              title: Text(stores[index].name),
+                              onChanged: (store) {
+                                setState(() {
+                                  storeDetails = store;
+                                });
+                              });
+                        },
+                        itemCount: stores.length)),
                 customButton(
                     context: context,
                     margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),

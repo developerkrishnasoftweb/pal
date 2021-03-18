@@ -170,7 +170,7 @@ Widget drawer(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userdata.name != null
+                          userdata?.name != null
                               ? "Hi!, " + userdata.name
                               : "N/A",
                           style: TextStyle(

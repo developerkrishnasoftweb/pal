@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/constant/color.dart';
 import 'package:pal/constant/strings.dart';
 import 'package:pal/localization/localizations_constraints.dart';
 import '../../ui/widgets/appbar.dart';
@@ -101,7 +102,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               width: size.width,
               height: 20,
             ),
-            Container(
+            /* Container(
               width: size.width - 20,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               decoration: BoxDecoration(
@@ -136,7 +137,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   );
                 }).toList(),
               ),
-            ),
+            ), */
             Visibility(
                 replacement: buildCollectToShop(),
                 visible: collectToShop,
@@ -326,16 +327,18 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          "${widget.storeDetails.name}",
+          style: Theme.of(context).textTheme.bodyText1.copyWith(
+              color: primaryColor, fontSize: 17, fontWeight: FontWeight.bold),
+        ),
         SizedBox(
           height: 15,
         ),
         Text(
           "${translate(context, LocaleStrings.currentAddress)} :",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
-              color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 15,
+              color: Colors.black, fontSize: 13, fontWeight: FontWeight.bold),
         ),
         buildTitledRow(
             title: translate(context, LocaleStrings.address),
