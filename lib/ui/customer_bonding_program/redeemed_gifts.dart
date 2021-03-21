@@ -14,7 +14,6 @@ import '../../services/services.dart';
 import '../../services/urls.dart';
 import '../../ui/others/product_description.dart';
 
-
 class RedeemedGift extends StatefulWidget {
   @override
   _RedeemedGiftState createState() => _RedeemedGiftState();
@@ -23,6 +22,7 @@ class RedeemedGift extends StatefulWidget {
 class _RedeemedGiftState extends State<RedeemedGift> {
   List<GiftData> giftList = [];
   bool dataFound = false;
+
   @override
   void initState() {
     getRedeemedGifts();
@@ -52,7 +52,9 @@ class _RedeemedGiftState extends State<RedeemedGift> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: appBar(context: context, title: translate(context, LocaleStrings.redeemedGifts)),
+        appBar: appBar(
+            context: context,
+            title: translate(context, LocaleStrings.redeemedGifts)),
         body: giftList.length != 0
             ? SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -98,9 +100,9 @@ class _RedeemedGiftState extends State<RedeemedGift> {
           context,
           CustomPageRoute(
               widget: ProductDescription(
-                    giftData: giftData,
-                    readOnly: true,
-                  ))),
+            giftData: giftData,
+            readOnly: true,
+          ))),
       highlightColor: Colors.grey[200],
       splashColor: Colors.grey[500],
       child: Column(
