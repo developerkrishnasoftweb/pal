@@ -59,7 +59,7 @@ class _StoresState extends State<Stores> {
           context: context,
           title: translate(context, LocaleStrings.redeemGift),
           actions: [wallet()]),
-      body: stores.length > 0
+      body: stores != null ? stores.length > 0
           ? Column(
               children: [
                 Align(
@@ -99,7 +99,7 @@ class _StoresState extends State<Stores> {
                     text: "NEXT"),
               ],
             )
-          : Center(child: Text("Looking for stores...")),
+          : Center(child: Text("Looking for stores...")) : Center(child: Text("Oops, something went wrong, Please try again later"),),
     );
   }
 }

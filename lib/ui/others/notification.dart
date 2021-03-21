@@ -50,16 +50,17 @@ class _NotificationState extends State<Notifications> {
               });
               break;
           }
-          if (days.inDays <= 2) {
-            setState(() {
-              notifications.add(NotificationData(
-                  title: value.data[i]["title"],
-                  message: value.data[i]["content"],
-                  id: value.data[i]["id"],
-                  image: "assets/icons/store-icon.jpg",
-                  time: time));
-            });
-          }
+          setState(() {
+            notifications.add(NotificationData(
+                title: value.data[i]["title"],
+                message: value.data[i]["content"],
+                id: value.data[i]["id"],
+                image: "assets/icons/pal-logo-notification.png",
+                time: time));
+          });
+          // if (days.inDays <= 2) {
+          //
+          // }
         }
         if (notifications.length == 0) {
           setState(() {
@@ -74,6 +75,7 @@ class _NotificationState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
+    print(API_KEY);
     return Scaffold(
         appBar: appBar(
             context: context,
