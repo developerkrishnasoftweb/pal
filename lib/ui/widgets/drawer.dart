@@ -69,7 +69,7 @@ Widget drawer(
           ),
         ],
       ),
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       childrenPadding: EdgeInsets.only(left: 0),
       children: children,
     );
