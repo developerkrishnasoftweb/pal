@@ -73,8 +73,15 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   bool isLoading = false, isFiltered = false;
   DateTime selectedDate = DateTime.now();
 
+  setLoading(bool status) {
+    setState(() {
+      isLoading = status;
+    });
+  }
+
   @override
   void initState() {
+    super.initState();
     _tabController = TabController(length: tabs.length, vsync: this);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (purchaseScrollController.hasClients) {
@@ -107,7 +114,6 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
       }
     });
     _getReports();
-    super.initState();
   }
 
   @override
@@ -117,9 +123,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
   }
 
   _getReports() async {
-    setState(() {
-      isLoading = true;
-    });
+    setLoading(true);
     await Services.getReports().then((value) {
       if (value.response == "y") {
         setState(() {
@@ -145,12 +149,10 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
           filteredFestivalData.forEach((element) {
             totalFestivalPoint += double.parse(element["point"]);
           });
-          isLoading = false;
         });
+        setLoading(false);
       } else {
-        setState(() {
-          isLoading = false;
-        });
+        setLoading(false);
         Fluttertoast.showToast(msg: value.message);
       }
     });
@@ -466,7 +468,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                       text: translate(context, e),
                     );
                   }).toList())),
-          body: TabBarView(
+          body: isLoading ? Center(child: circularProgressIndicator()) : TabBarView(
             physics: BouncingScrollPhysics(),
             controller: _tabController,
             children: [earn(), purchase(), redeem(), festival()],
@@ -501,7 +503,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: earnScrollController),
             ],
           )
-        : Center(child: circularProgressIndicator());
+        : Center(child: Text(translate(context, LocaleStrings.noDataFound)));
   }
 
   Widget purchase() {
@@ -533,7 +535,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: purchaseScrollController),
             ],
           )
-        : Center(child: circularProgressIndicator());
+        : Center(child: Text(translate(context, LocaleStrings.noDataFound)));
   }
 
   Widget redeem() {
@@ -574,7 +576,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: redeemScrollController),
             ],
           )
-        : Center(child: circularProgressIndicator());
+        : Center(child: Text(translate(context, LocaleStrings.noDataFound)));
   }
 
   Widget festival() {
@@ -605,7 +607,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
                   scrollController: festivalScrollController),
             ],
           )
-        : Center(child: circularProgressIndicator());
+        : Center(child: Text(translate(context, LocaleStrings.noDataFound)));
   }
 
   Widget scrollViewBuilder({Widget widget, ScrollController scrollController}) {
