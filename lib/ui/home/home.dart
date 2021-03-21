@@ -203,9 +203,9 @@ class _HomeState extends State<Home> {
     } else {
       Fluttertoast.showToast(msg: "Please choose your experience to rate");
     } */
-    if (await canLaunch(config.apkLink)) {
+    if (await canLaunch("https://play.google.com/store/apps/details?id=com.palgeneralstore.customer")) {
       Navigator.pop(context);
-      launch(config.apkLink);
+      launch("https://play.google.com/store/apps/details?id=com.palgeneralstore.customer");
     }
     else
       Fluttertoast.showToast(msg: "Unable to open Play store");

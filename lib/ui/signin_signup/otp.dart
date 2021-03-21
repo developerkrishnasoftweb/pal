@@ -82,7 +82,8 @@ class _OTPState extends State<OTP> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.enterOTP)),
+      appBar: appBar(
+          context: context, title: translate(context, LocaleStrings.enterOTP)),
       body: Column(
         children: [
           SizedBox(
@@ -176,7 +177,8 @@ class _OTPState extends State<OTP> {
             setLoading(false);
             var dialogStatus = showDialogBox(
                 context: context,
-                title: translate(context, LocaleStrings.giftRedeemedSuccessfully),
+                title:
+                    translate(context, LocaleStrings.giftRedeemedSuccessfully),
                 content:
                     "${translate(context, LocaleStrings.yourRedeemCodeIs)} ${value.data[0]["redeem"]["code"]}.\n${translate(context, LocaleStrings.thankYouForPurchasingWithUs)}.",
                 barrierDismissible: true,
@@ -210,7 +212,8 @@ class _OTPState extends State<OTP> {
           }
         });
       } else
-        Fluttertoast.showToast(msg: translate(context, LocaleStrings.somethingWentWrong));
+        Fluttertoast.showToast(
+            msg: translate(context, LocaleStrings.somethingWentWrong));
     } else
       Fluttertoast.showToast(msg: translate(context, LocaleStrings.invalidOTP));
   }
