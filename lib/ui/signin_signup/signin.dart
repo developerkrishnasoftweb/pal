@@ -44,6 +44,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
+    super.initState();
     var android = new AndroidInitializationSettings('mipmap/ic_launcher');
     var ios = new IOSInitializationSettings();
     var platform = new InitializationSettings(android: android, iOS: ios);
@@ -57,7 +58,7 @@ class _SignInState extends State<SignIn> {
       myFocusNode.requestFocus();
     }
     firebaseCloudMessagingListeners();
-    super.initState();
+    getUpdatedVersion(context: context);
   }
 
   @override

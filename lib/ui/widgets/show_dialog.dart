@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../constant/color.dart';
 
 
-Future showDialogBox(
+Future<T> showDialogBox<T>(
     {@required BuildContext context,
     List<Widget> actions,
     String title,
@@ -10,7 +10,7 @@ Future showDialogBox(
     Widget titleWidget,
     Widget widget,
     bool barrierDismissible}) {
-  return showDialog(
+  return showDialog<T>(
       barrierDismissible: barrierDismissible ?? true,
       context: context,
       builder: (_) => AlertDialog(

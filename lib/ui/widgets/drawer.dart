@@ -321,7 +321,7 @@ Widget drawer(
               Navigator.push(
                   context, CustomPageRoute(widget: TermsNCondition()));
             }, Icons.ballot_outlined),
-            config.websiteLink != null
+            config?.websiteLink != null
                 ? config.websiteLink.isNotEmpty
                     ? ListTile(
                         title: Row(
@@ -340,15 +340,17 @@ Widget drawer(
                         ),
                         onTap: () async {
                           scaffoldKey.currentState.openEndDrawer();
-                          if (await canLaunch(config.websiteLink))
-                            launch(config.websiteLink);
-                          else
-                            Fluttertoast.showToast(msg: "Unable to open");
+                          if(config != null) {
+                            if (await canLaunch(config.websiteLink))
+                              launch(config.websiteLink);
+                            else
+                              Fluttertoast.showToast(msg: "Unable to open");
+                          }
                         },
                       )
                     : SizedBox()
                 : SizedBox(),
-            config.apkLink != null
+            config?.apkLink != null
                 ? config.apkLink.isNotEmpty
                     ? ListTile(
                         title: Row(
@@ -367,10 +369,12 @@ Widget drawer(
                         ),
                         onTap: () async {
                           scaffoldKey.currentState.openEndDrawer();
-                          if (await canLaunch(config.apkLink))
-                            launch(config.apkLink);
-                          else
-                            Fluttertoast.showToast(msg: "Unable to open");
+                          if(config != null) {
+                            if (await canLaunch(config.apkLink))
+                              launch(config.apkLink);
+                            else
+                              Fluttertoast.showToast(msg: "Unable to open");
+                          }
                         },
                       )
                     : SizedBox()

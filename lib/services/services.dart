@@ -625,18 +625,21 @@ class Services {
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
-        await sharedPreferences.setString(
-            UserParams.config, jsonEncode(jsonResponse["data"]));
-        config = Config.fromJson(await jsonDecode(
-            sharedPreferences.getString(UserParams.config) ?? "{}"));
+        if(jsonResponse["status"] == 'y') {
+          config = Config.fromJson(jsonResponse["data"]);
+        }
       }
       return null;
     } on dio.DioError catch (e) {
       if (dio.DioErrorType.DEFAULT == e.type &&
           e.error.runtimeType == SocketException) {
         Fluttertoast.showToast(msg: "No internet connection");
-      } else {}
-    } catch (e) {}
+      } else {
+        throw(e);
+      }
+    } catch (e) {
+      throw(e);
+    }
   }
 
   static Future<Data> getReports() async {

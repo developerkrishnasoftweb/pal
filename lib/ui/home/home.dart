@@ -71,7 +71,19 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    Services.banners(FormData.fromMap({"api_key": API_KEY})).then((value) {
+    scaffoldKey = GlobalKey<ScaffoldState>();
+    if (widget.showRateDialog != null && widget.showRateDialog)
+      Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      getNotificationCount();
+    });
+    getBanners();
+    getUpdatedVersion(context: context);
+  }
+
+  getBanners() async {
+    await Services.banners(FormData.fromMap({"api_key": API_KEY}))
+        .then((value) {
       if (value.response == "y") {
         for (int i = 0; i < value.data.length; i++) {
           setState(() {
@@ -85,12 +97,6 @@ class _HomeState extends State<Home> {
         Fluttertoast.showToast(msg: value.message);
       }
     });
-    scaffoldKey = GlobalKey<ScaffoldState>();
-    if (widget.showRateDialog != null && widget.showRateDialog)
-      Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      getNotificationCount();
-    });
   }
 
   showRatingDialog() async {
@@ -101,18 +107,19 @@ class _HomeState extends State<Home> {
     });
     return showDialog(
         builder: (context) => AlertDialog(
-          content: StatefulBuilder(builder: (context, state) {
-            return Container(
-              width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${translate(context, LocaleStrings.howWouldYouRatePalDepartmentalStore)}?"),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  /* RatingBuilder(
+              content: StatefulBuilder(builder: (context, state) {
+                return Container(
+                  width: (size.width * 0.6) < 200 ? (size.width * 0.6) : 200,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "${translate(context, LocaleStrings.howWouldYouRatePalDepartmentalStore)}?"),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      /* RatingBuilder(
                     itemCount: 5,
                     itemExtent: 35,
                     activeColor: primaryColor,
@@ -161,31 +168,32 @@ class _HomeState extends State<Home> {
                     rateMessage,
                     style: TextStyle(color: Colors.black),
                   ), */
-                ],
-              ),
-            );
-          }),
-          title: Text(
-            translate(context, LocaleStrings.rateUs),
-            style: TextStyle(color: primaryColor),
-          ),
-          actions: [
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                translate(context, LocaleStrings.noThanks),
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-            FlatButton(
-              onPressed: _rateApp,
-              child: Text(
-                translate(context, LocaleStrings.rateBtn),
+                    ],
+                  ),
+                );
+              }),
+              title: Text(
+                translate(context, LocaleStrings.rateUs),
                 style: TextStyle(color: primaryColor),
               ),
+              actions: [
+                FlatButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    translate(context, LocaleStrings.noThanks),
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: _rateApp,
+                  child: Text(
+                    translate(context, LocaleStrings.rateBtn),
+                    style: TextStyle(color: primaryColor),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ), context: context,
+        context: context,
         barrierDismissible: true);
   }
 
@@ -203,11 +211,12 @@ class _HomeState extends State<Home> {
     } else {
       Fluttertoast.showToast(msg: "Please choose your experience to rate");
     } */
-    if (await canLaunch("https://play.google.com/store/apps/details?id=com.palgeneralstore.customer")) {
+    if (await canLaunch(
+        "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer")) {
       Navigator.pop(context);
-      launch("https://play.google.com/store/apps/details?id=com.palgeneralstore.customer");
-    }
-    else
+      launch(
+          "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer");
+    } else
       Fluttertoast.showToast(msg: "Unable to open Play store");
   }
 
@@ -227,7 +236,7 @@ class _HomeState extends State<Home> {
 
   getNotificationCount() async {
     await Services.getNotificationCount().then((value) {
-      if(this.mounted) {
+      if (this.mounted) {
         setState(() {
           lastNotificationCount = int.parse(value);
         });
@@ -286,7 +295,8 @@ class _HomeState extends State<Home> {
                                   child: SizedBox(
                                     height: 20,
                                     width: 20,
-                                    child: circularProgressIndicator(color: Colors.white),
+                                    child: circularProgressIndicator(
+                                        color: Colors.white),
                                   ),
                                 )
                               : PopupMenuButton<Language>(
@@ -308,10 +318,8 @@ class _HomeState extends State<Home> {
                                       "assets/icons/notification-icon.png"),
                                   color: Colors.white,
                                 ),
-                                onPressed: () => Navigator.push(
-                                        context,
-                                        CustomPageRoute(
-                                            widget: Notifications())),
+                                onPressed: () => Navigator.push(context,
+                                    CustomPageRoute(widget: Notifications())),
                                 splashRadius: 23,
                                 iconSize: 20,
                               ),
@@ -355,7 +363,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        floatingActionButton: config.whatsAppNumber != null
+        floatingActionButton: config?.whatsAppNumber != null
             ? config.whatsAppNumber.isNotEmpty
                 ? FloatingActionButton(
                     onPressed: _messaging,
