@@ -59,7 +59,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
     ));
   });
-  // await Services.getConfig();
+  await Services.getConfig();
 }
 
 Future<bool> getCredential() async {
