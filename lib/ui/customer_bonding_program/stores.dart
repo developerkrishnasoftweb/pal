@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/constant/color.dart';
 import 'package:pal/constant/global.dart';
 import 'package:pal/constant/strings.dart';
 import 'package:pal/localization/localizations_constraints.dart';
@@ -20,6 +21,7 @@ class Stores extends StatefulWidget {
 class _StoresState extends State<Stores> {
   List<StoreDetails> stores = [];
   StoreDetails storeDetails;
+  int selectedStoreDetailIndex = 0;
 
   @override
   void initState() {
@@ -61,47 +63,95 @@ class _StoresState extends State<Stores> {
           context: context,
           title: translate(context, LocaleStrings.redeemGift),
           actions: [wallet()]),
-      body: stores != null ? stores.length > 0
-          ? Column(
-              children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
-                      child: Text("Select Store",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17)),
-                    )),
-                Expanded(
-                    child: ListView.builder(
-                        itemBuilder: (_, index) {
-                          return RadioListTile<StoreDetails>(
-                              value: stores[index],
-                              groupValue: storeDetails,
-                              title: Text(stores[index].name),
-                              onChanged: (store) {
-                                setState(() {
-                                  storeDetails = store;
-                                });
-                              });
-                        },
-                        itemCount: stores.length)),
-                customButton(
-                    context: context,
-                    margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                    onPressed: () => Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            widget: GiftCategory(
-                          storeDetails: storeDetails,
-                        ))),
-                    text: "NEXT"),
-              ],
-            )
-          : Center(child: Text("Looking for stores...")) : Center(child: Text("Oops, something went wrong, Please try again later"),),
+      body: stores != null
+          ? stores.length > 0
+              ? Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
+                          child: Text(
+                              "Select Store From Where You Want To Redeem :",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                        )),
+                    Expanded(
+                        child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (_, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedStoreDetailIndex = index;
+                                        storeDetails = stores[index];
+                                      });
+                                    },
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(index ==
+                                                    selectedStoreDetailIndex
+                                                ? primaryColor
+                                                : Colors.grey
+                                                    .withOpacity(0.2))),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(stores[index].name,
+                                                  style: TextStyle(
+                                                      color: index ==
+                                                              selectedStoreDetailIndex
+                                                          ? Colors.white
+                                                          : Colors.black87,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16)),
+                                              Text(
+                                                  stores[index].location +
+                                                      ", " +
+                                                      stores[index].city,
+                                                  style: TextStyle(
+                                                      color: index ==
+                                                              selectedStoreDetailIndex
+                                                          ? Colors.white
+                                                          : Colors.black87,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 13))
+                                            ]),
+                                      ),
+                                    )),
+                              );
+                            },
+                            itemCount: stores.length)),
+                    customButton(
+                        context: context,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                        onPressed: () => Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                widget: GiftCategory(
+                              storeDetails: storeDetails,
+                            ))),
+                        text: "NEXT"),
+                  ],
+                )
+              : Center(child: Text("Looking for stores..."))
+          : Center(
+              child: Text("Oops, something went wrong, Please try again later"),
+            ),
     );
   }
 }
