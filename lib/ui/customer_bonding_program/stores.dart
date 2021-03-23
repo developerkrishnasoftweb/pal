@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -58,6 +57,7 @@ class _StoresState extends State<Stores> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: appBar(
           context: context,
@@ -148,7 +148,9 @@ class _StoresState extends State<Stores> {
                         text: "NEXT"),
                   ],
                 )
-              : Center(child: Text("Looking for stores..."))
+              : Center(
+                  child: Image.asset('assets/images/loading-gif.gif',
+                      height: size.width * 0.4, width: size.width * 0.4))
           : Center(
               child: Text("Oops, something went wrong, Please try again later"),
             ),
