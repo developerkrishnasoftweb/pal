@@ -49,10 +49,8 @@ class _SignInState extends State<SignIn> {
     var ios = new IOSInitializationSettings();
     var platform = new InitializationSettings(android: android, iOS: ios);
     flutterLocalNotificationsPlugin.initialize(platform);
-    setState(() {
-      emailController.text = username = widget.email ?? "";
-      userdata = null;
-    });
+    emailController.text = username = widget.email ?? "";
+    userdata = null;
     myFocusNode = FocusNode();
     if (widget.email != null) {
       myFocusNode.requestFocus();

@@ -23,7 +23,10 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool terms = false;
   bool signUpStatus = false;
-  String fullName = "", email = "", mobile = "", password = "";
+  TextEditingController fullName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController mobile = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,40 +82,26 @@ class _SignUpState extends State<SignUp> {
               ),
               input(
                   context: context,
-                  onChanged: (value) {
-                    setState(() {
-                      fullName = value;
-                    });
-                  },
+                  onChanged: validateName,
+                  controller: fullName,
+                  enableInteractiveSelection: false,
                   textInputAction: TextInputAction.next,
                   text: translate(context, LocaleStrings.userName)),
               input(
                   context: context,
                   keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    setState(() {
-                      email = value;
-                    });
-                  },
+                  controller: email,
                   textInputAction: TextInputAction.next,
                   text: translate(context, LocaleStrings.email)),
               input(
                   context: context,
                   keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    setState(() {
-                      mobile = value;
-                    });
-                  },
+                  controller: mobile,
                   textInputAction: TextInputAction.next,
                   text: translate(context, LocaleStrings.mobileNo)),
               input(
                   context: context,
-                  onChanged: (value) {
-                    setState(() {
-                      password = value;
-                    });
-                  },
+                  controller: password,
                   onEditingComplete: _signUp,
                   obscureText: true,
                   text: translate(context, LocaleStrings.password)),
@@ -198,12 +187,12 @@ class _SignUpState extends State<SignUp> {
 
   _signUp() async {
     FocusScope.of(context).unfocus();
-    if (fullName != "" && email != "" && mobile != "" && password != "") {
+    if (fullName.text.isNotEmpty && email.text.isNotEmpty && mobile.text.isNotEmpty && password.text.isNotEmpty) {
       if (terms) {
         if (RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(email)) {
-          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
+            .hasMatch(email.text)) {
+          if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile.text)) {
             String otp = RandomInt.generate().toString();
             setState(() => signUpStatus = true);
             FormData userData = FormData.fromMap({
@@ -218,7 +207,7 @@ class _SignUpState extends State<SignUp> {
             FormData smsData = SMS_DATA(
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-                mobile: mobile);
+                mobile: mobile.text);
             /* var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {
@@ -242,7 +231,7 @@ class _SignUpState extends State<SignUp> {
                         widget: OTP(
                           otp: otp,
                           formData: userData,
-                          mobile: mobile,
+                          mobile: mobile.text,
                           action: OtpActions.REGISTER,
                         ))).then((value) {
                   setState(() => signUpStatus = false);
@@ -269,6 +258,17 @@ class _SignUpState extends State<SignUp> {
     } else {
       Fluttertoast.showToast(
           msg: translate(context, LocaleStrings.allFieldsAreRequired));
+    }
+  }
+
+  void validateName(String value) {
+    if(value.length > 0) {
+      if(!RegExp(r"^[a-zA-Z]+$").hasMatch(fullName.text)) {
+        setState(() {
+          fullName.text = fullName.text.substring(0, value.length - 1);
+          fullName.selection = TextSelection.fromPosition(TextPosition(offset: fullName.text.length));
+        });
+      }
     }
   }
 }
