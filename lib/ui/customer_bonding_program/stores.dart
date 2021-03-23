@@ -148,7 +148,7 @@ class _StoresState extends State<Stores> {
                   ],
                 )
               : Center(
-                  child: Image.asset('assets/images/loading_gif.gif',
+                  child: Image.asset('assets/images/loading-gif.gif',
                       height: size.width * 0.4, width: size.width * 0.4))
           : Center(
               child: Text("Oops, something went wrong, Please try again later"),

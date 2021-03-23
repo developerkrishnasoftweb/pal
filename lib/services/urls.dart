@@ -36,6 +36,7 @@ class Urls {
   static String weeklyReport = "weekly";
   static String getConfig = "get_config";
   static String getStores = "get_outlet";
+  static String syncCustomerPurchase = "one_customer_sync";
   static String getCycles = "get_cycles";
   static String appRate = "app_rating";
 }

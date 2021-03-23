@@ -618,6 +618,30 @@ class Services {
     }
   }
 
+  static Future<bool> syncCustomerPurchase() async {
+    if(userdata?.id != null) {
+      String url = Urls.baseUrl + Urls.syncCustomerPurchase + userdata.id;
+      try {
+        dio.Response response = await dio.Dio()
+            .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
+        if (response.statusCode == 200) {
+          return true;
+        } else {
+          return false;
+        }
+      } on dio.DioError catch (e) {
+        if (dio.DioErrorType.DEFAULT == e.type &&
+            e.error.runtimeType == SocketException) {
+          throw(e);
+        } else {
+          throw(e);
+        }
+      } catch (e) {
+        throw(e);
+      }
+    }
+  }
+
   static Future<void> getConfig() async {
     String url = Urls.baseUrl + Urls.getConfig;
     try {
