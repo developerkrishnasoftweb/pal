@@ -29,6 +29,15 @@ class _SignUpState extends State<SignUp> {
   TextEditingController password = TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+    fullName.dispose();
+    email.dispose();
+    mobile.dispose();
+    password.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(

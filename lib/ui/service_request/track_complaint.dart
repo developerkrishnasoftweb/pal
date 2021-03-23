@@ -25,12 +25,12 @@ class _TrackComplaintState extends State<TrackComplaint> {
   bool isLoading = false, dataFound = false;
   @override
   void initState() {
+    super.initState();
     setState(() {
       complainNo.text =
           widget.complainNumber != null ? widget.complainNumber : "";
     });
     _getComplainData();
-    super.initState();
   }
 
   _getComplainData() async {
@@ -72,6 +72,12 @@ class _TrackComplaintState extends State<TrackComplaint> {
       Fluttertoast.showToast(
           msg: translate(context, LocaleStrings.enterComplainNo));
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    complainNo.dispose();
   }
 
   @override

@@ -123,6 +123,21 @@ class _ChangeAddressState extends State<ChangeAddress> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    state.dispose();
+    altMobile.dispose();
+    address.dispose();
+    name.dispose();
+    area.dispose();
+    city.dispose();
+    pinCode.dispose();
+    email.dispose();
+    dob.dispose();
+    anniversaryDate.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(

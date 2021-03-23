@@ -82,8 +82,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+    stateAPI.dispose();
+    areaAPI.dispose();
+    cityAPI.dispose();
   }
 
   @override

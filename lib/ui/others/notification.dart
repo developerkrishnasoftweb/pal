@@ -75,7 +75,6 @@ class _NotificationState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    print(API_KEY);
     return Scaffold(
         appBar: appBar(
             context: context,

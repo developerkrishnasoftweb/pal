@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     if (widget.showRateDialog != null && widget.showRateDialog)
       Future.delayed(Duration(microseconds: 5000), () => showRatingDialog());
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(minutes: 10), (timer) {
       getNotificationCount();
     });
     getBanners();

@@ -118,8 +118,14 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+    _tabController.dispose();
+    purchaseScrollController.dispose();
+    redeemScrollController.dispose();
+    earnScrollController.dispose();
+    festivalScrollController.dispose();
+    fromDate.dispose();
+    toDate.dispose();
   }
 
   _getReports() async {

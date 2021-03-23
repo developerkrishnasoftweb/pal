@@ -61,8 +61,9 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
-    myFocusNode.dispose();
     super.dispose();
+    myFocusNode.dispose();
+    emailController.dispose();
   }
 
   void firebaseCloudMessagingListeners() async {
