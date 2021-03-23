@@ -639,6 +639,8 @@ class Services {
       } catch (e) {
         throw(e);
       }
+    } else {
+      return false;
     }
   }
 

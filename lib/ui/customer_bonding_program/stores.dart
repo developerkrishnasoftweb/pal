@@ -102,34 +102,34 @@ class _StoresState extends State<Stores> {
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(stores[index].name,
-                                                  style: TextStyle(
-                                                      color: index ==
-                                                              selectedStoreDetailIndex
-                                                          ? Colors.white
-                                                          : Colors.black87,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16)),
-                                              Text(
-                                                  stores[index].location +
-                                                      ", " +
-                                                      stores[index].city,
-                                                  style: TextStyle(
-                                                      color: index ==
-                                                              selectedStoreDetailIndex
-                                                          ? Colors.white
-                                                          : Colors.black87,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 13))
-                                            ]),
-                                      ),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(stores[index].name,
+                                                    style: TextStyle(
+                                                        color: index ==
+                                                            selectedStoreDetailIndex
+                                                            ? Colors.white
+                                                            : Colors.black87,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 16)),
+                                                Text(
+                                                    stores[index].location +
+                                                        ", " +
+                                                        stores[index].city,
+                                                    style: TextStyle(
+                                                        color: index ==
+                                                            selectedStoreDetailIndex
+                                                            ? Colors.white
+                                                            : Colors.black87,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 13))
+                                              ]),
+                                        ),
                                     )),
                               );
                             },

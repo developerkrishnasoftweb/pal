@@ -97,6 +97,10 @@ class _HomeState extends State<Home> {
         Fluttertoast.showToast(msg: value.message);
       }
     });
+    if(await Services.syncCustomerPurchase()) {
+      await Services.getUserData();
+      setState(() {});
+    }
   }
 
   showRatingDialog() async {
