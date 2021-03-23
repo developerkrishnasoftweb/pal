@@ -4,14 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pal/localization/localizations_constraints.dart';
 import 'package:pal/services/services.dart';
-import 'package:pal/ui/widgets/show_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'models.dart';
-import 'strings.dart';
 
 SharedPreferences sharedPreferences;
 Userdata userdata;
@@ -22,7 +19,7 @@ const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
 const String APP_URL =
     "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer";
-const String APK_VERSION = "2.0.1";
+const String APK_VERSION = "2.0.2";
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
