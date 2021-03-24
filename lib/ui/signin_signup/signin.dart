@@ -133,7 +133,7 @@ class _SignInState extends State<SignIn> {
               input(
                   context: context,
                   style: TextStyle(fontSize: 17),
-                  text: translate(context, LocaleStrings.userName),
+                  text: translate(context, LocaleStrings.email) + ' / ' + translate(context, LocaleStrings.mobileNo),
                   autoFocus: true,
                   keyboardType: TextInputType.emailAddress,
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
