@@ -23,6 +23,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+    statusBarColor: Colors.black12,
+    statusBarIconBrightness: Brightness.light,
+  ));
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
   appLocale = await getLocale();
@@ -55,7 +59,9 @@ Future<void> main() async {
         }
         return supportedLocale.first;
       },
-      home: status ? Home() : SignIn(),
+      home: status
+          ? Home()
+          : SignIn(),
       debugShowCheckedModeBanner: false,
     ));
   });

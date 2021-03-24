@@ -18,8 +18,8 @@ class _NotificationState extends State<Notifications> {
   bool notificationStatus = false;
   @override
   void initState() {
-    getNotifications();
     super.initState();
+    getNotifications();
   }
 
   void getNotifications() async {
@@ -50,17 +50,16 @@ class _NotificationState extends State<Notifications> {
               });
               break;
           }
-          setState(() {
-            notifications.add(NotificationData(
-                title: value.data[i]["title"],
-                message: value.data[i]["content"],
-                id: value.data[i]["id"],
-                image: "assets/icons/pal-logo-notification.png",
-                time: time));
-          });
-          // if (days.inDays <= 2) {
-          //
-          // }
+          if (days.inDays <= 2) {
+            setState(() {
+              notifications.add(NotificationData(
+                  title: value.data[i]["title"],
+                  message: value.data[i]["content"],
+                  id: value.data[i]["id"],
+                  image: "assets/icons/pal-logo-notification.png",
+                  time: time));
+            });
+          }
         }
         if (notifications.length == 0) {
           setState(() {

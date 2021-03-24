@@ -19,7 +19,7 @@ const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
 const String APP_URL =
     "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer";
-const String APK_VERSION = "2.0.2";
+const String APK_VERSION = "2.0.1";
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
@@ -65,7 +65,7 @@ Widget wallet({Color color}) {
                 alignment: PlaceholderAlignment.middle),
             TextSpan(
                 text: "\t" +
-                    "${userdata != null ? userdata.point != null ? double.parse(userdata.point).round() : "0" : "0"}",
+                    "${userdata?.point != null ? double.parse(userdata.point).round() : "0"}",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
