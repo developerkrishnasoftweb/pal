@@ -205,14 +205,15 @@ class _SignUpState extends State<SignUp> {
             String otp = RandomInt.generate().toString();
             setState(() => signUpStatus = true);
             FormData userData = FormData.fromMap({
-              "name": fullName,
-              "email": email,
-              "mobile": mobile,
+              "name": fullName.text,
+              "email": email.text,
+              "mobile": mobile.text,
               "gender": "male",
-              "password": password,
+              "password": password.text,
               "token": "1234",
               "api_key": API_KEY
             });
+            print(userData.fields);
             FormData smsData = SMS_DATA(
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
