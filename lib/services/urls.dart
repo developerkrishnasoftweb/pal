@@ -3,7 +3,7 @@ class Urls {
   /*
   * API Urls
   * */
-  static String baseUrl = "https://www.palloyalty.com/api/";
+  static String baseUrl = "http://palapi.palloyalty.com/api/";
   static String imageBaseUrl = "https://www.palloyalty.com/";
   static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
