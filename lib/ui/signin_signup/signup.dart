@@ -273,7 +273,7 @@ class _SignUpState extends State<SignUp> {
 
   void validateName(String value) {
     if(value.length > 0) {
-      if(!RegExp(r"^[a-zA-Z]+$").hasMatch(fullName.text)) {
+      if(!RegExp(r"^[a-zA-Z\s]+$").hasMatch(fullName.text)) {
         setState(() {
           fullName.text = fullName.text.substring(0, value.length - 1);
           fullName.selection = TextSelection.fromPosition(TextPosition(offset: fullName.text.length));
