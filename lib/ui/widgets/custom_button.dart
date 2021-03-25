@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pal/constant/color.dart';
 
 Widget customButton({@required BuildContext context, double height, String text, @required VoidCallback onPressed, Widget child, double width, Color color, EdgeInsets padding, Color textColor, EdgeInsets margin, ShapeBorder shape}){
   Size size = MediaQuery.of(context).size;
@@ -19,7 +20,7 @@ Widget customButton({@required BuildContext context, double height, String text,
     child: FlatButton(
       padding: padding ?? null,
       child: childData,
-      color: color ?? Colors.red,
+      color: color ?? primaryColor,
       onPressed: onPressed,
       shape: shape ?? RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)

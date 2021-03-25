@@ -19,7 +19,7 @@ class Stores extends StatefulWidget {
 class _StoresState extends State<Stores> {
   List<StoreDetails> stores = [];
   StoreDetails storeDetails;
-  int selectedStoreDetailIndex = 0;
+  int selectedStoreDetailIndex;
 
   @override
   void initState() {
@@ -134,7 +134,7 @@ class _StoresState extends State<Stores> {
                               );
                             },
                             itemCount: stores.length)),
-                    customButton(
+                    selectedStoreDetailIndex != null ? customButton(
                         context: context,
                         margin:
                             EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -144,7 +144,7 @@ class _StoresState extends State<Stores> {
                                 widget: GiftCategory(
                               storeDetails: storeDetails,
                             ))),
-                        text: "NEXT"),
+                        text: "NEXT") : SizedBox(),
                   ],
                 )
               : Center(
