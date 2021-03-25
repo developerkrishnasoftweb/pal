@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:pal/constant/color.dart';
+import 'package:pal/services/services.dart';
 import '../../ui/widgets/appbar.dart';
 import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../constant/strings.dart';
@@ -11,78 +13,55 @@ import '../../localization/localizations_constraints.dart';
 import '../../services/urls.dart';
 import 'package:path_provider/path_provider.dart';
 
+_CatalogPreviewState catalogPreviewState;
+
 class CatalogPreview extends StatefulWidget {
   final String url;
   final bool adhaarView;
+
   CatalogPreview({@required this.url, this.adhaarView: false});
+
   @override
-  _CatalogPreviewState createState() => _CatalogPreviewState();
+  _CatalogPreviewState createState() {
+    catalogPreviewState = _CatalogPreviewState();
+    return catalogPreviewState;
+  }
 }
 
 class _CatalogPreviewState extends State<CatalogPreview> {
   String filePath = "";
-  String loaded = "0";
+  double downloadStatus = 0.0;
   String pageNo = "0/0";
-  File file;
+
   @override
   void initState() {
-    loadPDF().then((value) {
-      setState(() {
-        filePath = value;
-      });
-    });
     super.initState();
+    loadPDF();
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/' + widget.url.split("/").last);
-  }
-
-  Future<String> loadPDF() async {
-    Dio dio = Dio();
-    file = await _localFile;
-    if (await file.exists()) {
-      return file.path;
-    }
-    Response response = await dio.get(
-      Urls.imageBaseUrl + widget.url,
-      onReceiveProgress: showDownloadProgress,
-      options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-          validateStatus: (status) {
-            return status < 500;
-          }),
-    );
-    var path = await _localPath;
+  loadPDF() async {
+    String tempPath = await Services.loadPDF(pdfFile: widget.url);
     setState(() {
-      file = new File(path + "/" + widget.url.split("/").last);
+      filePath = tempPath;
     });
-    await file.writeAsBytes(response.data, flush: true);
-    return file.path;
   }
 
-  void showDownloadProgress(received, total) {
-    if (total != -1) {
-      setState(() {
-        loaded = (received / total * 100).toStringAsFixed(0);
-      });
-    }
+  downloadProgress(received, total) {
+    print(received.toString() + ' ' + total.toString());
+    setState(() {
+      downloadStatus = (total / received);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: appBar(
             context: context,
-            title: widget.adhaarView ? "Adhaar View" : translate(context, LocaleStrings.catalogPreview),
+            title: widget.adhaarView
+                ? "Adhaar View"
+                : translate(context, LocaleStrings.catalogPreview),
             actions: [
               Center(
                   child: Padding(
@@ -103,33 +82,7 @@ class _CatalogPreviewState extends State<CatalogPreview> {
                 onPageChanged: _pageChanged,
               )
             : Center(
-                child: Container(
-                  height: 60,
-                  width: size.width * 0.6,
-                  alignment: AlignmentDirectional.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(color: Colors.grey[200], blurRadius: 3)
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: circularProgressIndicator(),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(loaded + "/100% ${translate(context, LocaleStrings.pleaseWait)}"),
-                    ],
-                  ),
-                ),
+                child: Image.asset('assets/images/loader.gif', height: 100, width: 100,),
               ));
   }
 

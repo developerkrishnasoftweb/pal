@@ -2,7 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pal/ui/product_catalog/catalog_preview.dart';
+import 'package:path_provider/path_provider.dart';
 import '../constant/global.dart';
 import '../constant/models.dart';
 
@@ -934,5 +938,22 @@ class Services {
       return false;
     }
     return false;
+  }
+
+  static Future<String> loadPDF({@required String pdfFile}) async {
+    var dir = await getTemporaryDirectory();
+    var path = dir.path + pdfFile.split("/").last;
+    // if (await File(path).exists()) return path;
+    dio.Response response = await dio.Dio().get(Urls.imageBaseUrl + pdfFile,
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            validateStatus: (status) {
+              return status < 500;
+            }),
+        onReceiveProgress: catalogPreviewState.downloadProgress);
+    File file = new File(path);
+    await file.writeAsBytes(response.data, flush: true);
+    return file.path;
   }
 }
