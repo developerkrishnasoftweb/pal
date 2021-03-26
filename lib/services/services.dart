@@ -943,7 +943,7 @@ class Services {
   static Future<String> loadPDF({@required String pdfFile}) async {
     var dir = await getTemporaryDirectory();
     var path = dir.path + pdfFile.split("/").last;
-    // if (await File(path).exists()) return path;
+    if (await File(path).exists()) return path;
     dio.Response response = await dio.Dio().get(Urls.imageBaseUrl + pdfFile,
         options: Options(
             responseType: ResponseType.bytes,
