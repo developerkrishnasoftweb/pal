@@ -14,12 +14,13 @@ import '../main.dart';
 import 'data.dart';
 import 'urls.dart';
 
-
 class Services {
   static Data internetError =
       Data(message: "No internet connection", response: null, data: null);
-  static Data someThingWentWrong =
-      Data(message: "Something went wrong, please try later", response: null, data: null);
+  static Data someThingWentWrong = Data(
+      message: "Something went wrong, please try later",
+      response: null,
+      data: null);
 
   static Future<Data> signIn(body) async {
     String url = Urls.baseUrl + Urls.signIn;
@@ -118,11 +119,11 @@ class Services {
           e.error.runtimeType == SocketException) {
         return internetError;
       } else {
-        throw(e);
+        throw (e);
         return someThingWentWrong;
       }
     } catch (e) {
-      throw(e);
+      throw (e);
       return someThingWentWrong;
     }
   }
@@ -202,15 +203,16 @@ class Services {
     }
   }
 
-  static Future<Data> sms(body) async {
+  static Future<Data> sms(String message, String mobile,
+      {Map<String, dynamic> body}) async {
     try {
-      dio.Response response = await dio.Dio().post(Urls.smsBaseUrl, data: body);
+      dio.Response response = await dio.Dio().get(Urls.smsBaseUrl +
+          "?SenderId=PALDEP&Is_Unicode=false&MobileNumbers=$mobile&ClientId=54a91a69-16cd-4dac-a172-760ba08698b4&Message=${Uri.encodeComponent(message)}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
       if (response.statusCode == 200) {
         Data data = Data();
-        final jsonResponse = jsonDecode(response.data);
-        data.message = jsonResponse["ErrorMessage"];
-        data.response = jsonResponse["ErrorCode"];
-        data.data = jsonResponse["MessageData"];
+        data.message = response.data["ErrorDescription"];
+        data.response = response.data["ErrorCode"].toString();
+        data.data = response.data["Data"];
         return data;
       }
       return null;
@@ -219,7 +221,7 @@ class Services {
           e.error.runtimeType == SocketException) {
         return internetError;
       } else {
-        throw(e);
+        print(e);
         return someThingWentWrong;
       }
     } catch (e) {
@@ -350,12 +352,12 @@ class Services {
         return internetError;
       } else {
         print(e);
-        throw(e);
+        throw (e);
         return someThingWentWrong;
       }
     } catch (e) {
       print(e);
-      throw(e);
+      throw (e);
       return someThingWentWrong;
     }
   }
@@ -364,15 +366,14 @@ class Services {
     String url = Urls.baseUrl + Urls.getUserData;
     try {
       dio.Response response = await dio.Dio().post(url,
-          data: dio.FormData.fromMap(
-              {"api_key": API_KEY, "id": userdata.id}));
+          data: dio.FormData.fromMap({"api_key": API_KEY, "id": userdata.id}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
         Data data = Data();
         data.message = jsonResponse["message"];
         data.response = jsonResponse["status"];
         data.data = jsonResponse["data"];
-        if(data.response == "y") {
+        if (data.response == "y") {
           await sharedPreferences.setString(
               UserParams.userData, jsonEncode(data.data));
           await setData();
@@ -535,11 +536,11 @@ class Services {
   }
 
   static Future<String> getNotificationCount() async {
-    if(userdata != null) {
+    if (userdata != null) {
       String lastNotification =
-      sharedPreferences.getString(lastNotificationId) != null
-          ? sharedPreferences.getString(lastNotificationId)
-          : "0";
+          sharedPreferences.getString(lastNotificationId) != null
+              ? sharedPreferences.getString(lastNotificationId)
+              : "0";
       if (userdata.id != null && userdata.id.isNotEmpty) {
         String url = Urls.baseUrl +
             Urls.getNotificationCount +
@@ -567,7 +568,8 @@ class Services {
       } else {
         return "0";
       }
-    } else return "0";
+    } else
+      return "0";
   }
 
   static Future<Data> getNotifications() async {
@@ -623,7 +625,7 @@ class Services {
   }
 
   static Future<bool> syncCustomerPurchase() async {
-    if(userdata?.id != null) {
+    if (userdata?.id != null) {
       String url = Urls.baseUrl + Urls.syncCustomerPurchase + userdata.id;
       try {
         dio.Response response = await dio.Dio()
@@ -636,12 +638,12 @@ class Services {
       } on dio.DioError catch (e) {
         if (dio.DioErrorType.DEFAULT == e.type &&
             e.error.runtimeType == SocketException) {
-          throw(e);
+          throw (e);
         } else {
-          throw(e);
+          throw (e);
         }
       } catch (e) {
-        throw(e);
+        throw (e);
       }
     } else {
       return false;
@@ -655,7 +657,7 @@ class Services {
           .post(url, data: dio.FormData.fromMap({"api_key": API_KEY}));
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.data);
-        if(jsonResponse["status"] == 'y') {
+        if (jsonResponse["status"] == 'y') {
           config = Config.fromJson(jsonResponse["data"]);
         }
       }
@@ -665,10 +667,10 @@ class Services {
           e.error.runtimeType == SocketException) {
         Fluttertoast.showToast(msg: "No internet connection");
       } else {
-        throw(e);
+        throw (e);
       }
     } catch (e) {
-      throw(e);
+      throw (e);
     }
   }
 

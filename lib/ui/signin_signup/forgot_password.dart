@@ -14,7 +14,6 @@ import '../../services/services.dart';
 
 import 'otp.dart';
 
-
 class ForgotPassword extends StatefulWidget {
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -23,12 +22,15 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   String mobile = "";
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       //TODO: Add to locale strings
-      appBar: appBar(context: context, title: translate(context, LocaleStrings.forgotPassword)),
+      appBar: appBar(
+          context: context,
+          title: translate(context, LocaleStrings.forgotPassword)),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
@@ -61,7 +63,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             customButton(
                 context: context,
                 onPressed: isLoading ? null : _forgotPassword,
-                text: isLoading ? null : translate(context, LocaleStrings.getOTP),
+                text:
+                    isLoading ? null : translate(context, LocaleStrings.getOTP),
                 child: isLoading
                     ? SizedBox(
                         height: 30,
@@ -87,13 +90,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           message: otp +
               " is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
           mobile: mobile);
-      await Services.sms(smsData).then((value) {
-        if (value.response == "000") {
+      await Services.sms(
+                  "<#> $otp is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
+              mobile)
+          .then((value) {
+        if (value.response == "0") {
           setState(() {
             isLoading = false;
           });
-          Navigator.pushReplacement(context, CustomPageRoute(
-              widget: OTP(
+          Navigator.pushReplacement(
+              context,
+              CustomPageRoute(
+                  widget: OTP(
                 otp: otp,
                 action: OtpActions.FORGOT_PASSWORD,
                 mobile: mobile,
@@ -106,7 +114,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
       });
     } else {
-      Fluttertoast.showToast(msg: translate(context, LocaleStrings.pleaseEnterValidMobileNo));
+      Fluttertoast.showToast(
+          msg: translate(context, LocaleStrings.pleaseEnterValidMobileNo));
     }
   }
 }

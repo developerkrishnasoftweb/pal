@@ -3,9 +3,9 @@ class Urls {
   /*
   * API Urls
   * */
-  static String baseUrl = "http://palapi.palloyalty.com/api/";
+  static String baseUrl = "http://palloyalty.com/api/";
   static String imageBaseUrl = "https://www.palloyalty.com/";
-  static String smsBaseUrl = "http://bulksms.verdin.in/vendorsms/pushsms.aspx";
+  static String smsBaseUrl = "http://164.52.205.46:6005/api/v2/SendSMS";
   static String pinCodeData = "https://api.postalpincode.in/pincode/";
   static String checkUsersPurchaseBPGS =
       "http://logic2.paldepartmentalstores.com/bpgs_api/api/ConsumerDetails/QueryRecords_BymobileNo";

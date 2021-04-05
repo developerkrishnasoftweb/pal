@@ -14,7 +14,6 @@ import '../../services/services.dart';
 
 import 'otp.dart';
 
-
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -196,7 +195,10 @@ class _SignUpState extends State<SignUp> {
 
   _signUp() async {
     FocusScope.of(context).unfocus();
-    if (fullName.text.isNotEmpty && email.text.isNotEmpty && mobile.text.isNotEmpty && password.text.isNotEmpty) {
+    if (fullName.text.isNotEmpty &&
+        email.text.isNotEmpty &&
+        mobile.text.isNotEmpty &&
+        password.text.isNotEmpty) {
       if (terms) {
         if (RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -213,7 +215,6 @@ class _SignUpState extends State<SignUp> {
               "token": "1234",
               "api_key": API_KEY
             });
-            print(userData.fields);
             FormData smsData = SMS_DATA(
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
@@ -232,18 +233,22 @@ class _SignUpState extends State<SignUp> {
                       LocaleStrings
                           .youMustHaveToPurchaseToAvailAllTheFeatures));
             } */
-            await Services.sms(smsData).then((value) {
-              if (value.response == "000") {
+            await Services.sms(
+                    "<#> $otp is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
+                    mobile.text)
+                .then((value) {
+                  print(value.response);
+              if (value.response == "0") {
                 setState(() => signUpStatus = false);
                 Navigator.push(
                     context,
                     CustomPageRoute(
                         widget: OTP(
-                          otp: otp,
-                          formData: userData,
-                          mobile: mobile.text,
-                          action: OtpActions.REGISTER,
-                        ))).then((value) {
+                      otp: otp,
+                      formData: userData,
+                      mobile: mobile.text,
+                      action: OtpActions.REGISTER,
+                    ))).then((value) {
                   setState(() => signUpStatus = false);
                 });
               } else {
@@ -272,11 +277,12 @@ class _SignUpState extends State<SignUp> {
   }
 
   void validateName(String value) {
-    if(value.length > 0) {
-      if(!RegExp(r"^[a-zA-Z\s]+$").hasMatch(fullName.text)) {
+    if (value.length > 0) {
+      if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(fullName.text)) {
         setState(() {
           fullName.text = fullName.text.substring(0, value.length - 1);
-          fullName.selection = TextSelection.fromPosition(TextPosition(offset: fullName.text.length));
+          fullName.selection = TextSelection.fromPosition(
+              TextPosition(offset: fullName.text.length));
         });
       }
     }
