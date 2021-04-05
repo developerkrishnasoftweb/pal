@@ -19,7 +19,7 @@ const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
 const String APP_URL =
     "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer";
-const String APK_VERSION = "2.0.2";
+const String APK_VERSION = "2.0.3";
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
