@@ -239,7 +239,6 @@ class _SignUpState extends State<SignUp> {
 
             await Services.sms(smsData)
                 .then((value) {
-              print(value.response);
               if (value.response == "0") {
                 setState(() => signUpStatus = false);
                 Navigator.push(

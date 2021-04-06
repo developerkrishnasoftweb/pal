@@ -205,9 +205,8 @@ class Services {
 
   static Future<Data> sms(Map<String, dynamic> body) async {
     try {
-      dio.Response response = await dio.Dio().get((Urls.smsBaseUrl +
-              "?${Uri(queryParameters: body).query}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D")
-          .replaceAll("%25", "%"));
+      dio.Response response = await dio.Dio().get(Urls.smsBaseUrl +
+              "?${Uri(queryParameters: body).query.replaceAll("%25", "%")}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
       if (response.statusCode == 200) {
         Data data = Data();
         data.message = response.data["ErrorDescription"];
