@@ -203,11 +203,10 @@ class Services {
     }
   }
 
-  static Future<Data> sms(String message, String mobile,
-      {Map<String, dynamic> body}) async {
+  static Future<Data> sms(Map<String, dynamic> body) async {
     try {
       dio.Response response = await dio.Dio().get(Urls.smsBaseUrl +
-          "?SenderId=PALDEP&Is_Unicode=false&MobileNumbers=$mobile&ClientId=54a91a69-16cd-4dac-a172-760ba08698b4&Message=${Uri.encodeComponent(message)}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
+          "?${Uri(queryParameters: body).query}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
       if (response.statusCode == 200) {
         Data data = Data();
         data.message = response.data["ErrorDescription"];

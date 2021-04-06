@@ -82,17 +82,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   _forgotPassword() async {
     if (mobile.isNotEmpty &&
         RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
-      setState(() {
-        isLoading = true;
-      });
+      // setState(() {
+      //   isLoading = true;
+      // });
       String otp = RandomInt.generate().toString();
-      FormData smsData = SMS_DATA(
+      Map<String, dynamic> smsData = SMS_DATA(
           message: otp +
               " is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
           mobile: mobile);
-      await Services.sms(
-                  "<#> $otp is your OTP to Change Your Password to PAL App. Don't share it with anyone.",
-              mobile)
+      await Services.sms(smsData)
           .then((value) {
         if (value.response == "0") {
           setState(() {

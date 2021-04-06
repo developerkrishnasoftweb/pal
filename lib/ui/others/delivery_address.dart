@@ -539,13 +539,11 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   }
 
   sendSMS({String mobile, String otp, FormData formData}) async {
-    FormData smsData = SMS_DATA(
+    Map<String, dynamic> smsData = SMS_DATA(
         message: otp +
             " is your OTP to Redeem to PAL App. Don't share it with anyone",
         mobile: mobile);
-    await Services.sms(
-                "<#> $otp is your OTP to Redeem to PAL App. Don't share it with anyone",
-            mobile)
+    await Services.sms(smsData)
         .then((value) {
       if (value.response == "0") {
         setLoading(false);

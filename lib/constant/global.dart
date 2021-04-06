@@ -28,15 +28,14 @@ extension RandomInt on int {
   }
 }
 
-FormData SMS_DATA({String mobile, String message}) {
-  return FormData.fromMap({
-    "SenderId": "PALDEP",
-    "Is_Unicode": false,
-    "MobileNumbers": mobile,
-    "ClientId": "54a91a69-16cd-4dac-a172-760ba08698b4",
-    "Message": "<#> $message",
-    "ApiKey": "bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D"
-  });
+Map<String, dynamic> SMS_DATA({String mobile, String message}) {
+  return {
+    'SenderId': 'PALDEP',
+    'Is_Unicode': 'false',
+    'MobileNumbers': mobile,
+    'ClientId': '54a91a69-16cd-4dac-a172-760ba08698b4',
+    'Message': Uri.encodeComponent('<#> $message')
+  };
 }
 
 String removeHtmlTags({String data: "N/A"}) {

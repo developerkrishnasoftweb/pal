@@ -205,7 +205,7 @@ class _SignUpState extends State<SignUp> {
             .hasMatch(email.text)) {
           if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile.text)) {
             String otp = RandomInt.generate().toString();
-            setState(() => signUpStatus = true);
+            // setState(() => signUpStatus = true);
             FormData userData = FormData.fromMap({
               "name": fullName.text,
               "email": email.text,
@@ -215,10 +215,13 @@ class _SignUpState extends State<SignUp> {
               "token": "1234",
               "api_key": API_KEY
             });
-            FormData smsData = SMS_DATA(
+            Map<String, dynamic> smsData = SMS_DATA(
                 message: otp +
                     " is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
                 mobile: mobile.text);
+            /*
+            * The code provided below will check whether the user is already registered with logic software or not
+            * */
             /* var shouldLogin = await Services.checkUsersPurchase(
                 mobile: mobile, fromDate: "01/01/2021", toDate: "31/12/2021");
             if (shouldLogin) {
@@ -233,11 +236,10 @@ class _SignUpState extends State<SignUp> {
                       LocaleStrings
                           .youMustHaveToPurchaseToAvailAllTheFeatures));
             } */
-            await Services.sms(
-                    "<#> $otp is your OTP to Sign-Up to PAL App. Don't share it with anyone.",
-                    mobile.text)
+
+            await Services.sms(smsData)
                 .then((value) {
-                  print(value.response);
+              print(value.response);
               if (value.response == "0") {
                 setState(() => signUpStatus = false);
                 Navigator.push(
