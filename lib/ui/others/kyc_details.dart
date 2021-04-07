@@ -70,7 +70,7 @@ class _KYCState extends State<KYC> {
                         },
                       )
                     : SizedBox()),
-            buildTitledRow(title: "${translate(context, LocaleStrings.referralCode)} :", value: userdata.name),
+            buildTitledRow(title: "${translate(context, LocaleStrings.referralCode)} :", value: userdata.referralCode),
             buildTitledRow(title: "${translate(context, LocaleStrings.name)} :", value: userdata.name),
             buildTitledRow(title: "${translate(context, LocaleStrings.currentAddress)} :", value: userdata.address),
             buildTitledRow(title: "${translate(context, LocaleStrings.pinCode)} :", value: userdata.pinCode),

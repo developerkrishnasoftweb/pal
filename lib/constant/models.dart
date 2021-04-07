@@ -29,6 +29,9 @@ class UserParams {
   static String adhaar = "adhaar";
   static String config = "config";
   static String lastNotificationId = "lastNotificationId";
+  static String customerId = "customer_id";
+  static String referralCode = "referral_code";
+  static String referId = "refer_id";
 }
 
 class Userdata {
@@ -58,7 +61,10 @@ class Userdata {
       membershipSeries,
       kyc,
       vehicleType,
-      adhaar;
+      adhaar,
+      referralCode,
+      customerId,
+      referId;
 
   Userdata(
       {this.maritalStatus,
@@ -87,7 +93,10 @@ class Userdata {
       this.point,
       this.token,
       this.vehicleType,
-      this.totalOrder});
+      this.totalOrder,
+      this.referralCode,
+      this.customerId,
+      this.referId});
 
   Userdata.fromJSON(Map<String, dynamic> json)
       : id = json[UserParams.id],
@@ -116,7 +125,10 @@ class Userdata {
         membershipSeries = json[UserParams.membershipSeries],
         kyc = json[UserParams.kyc],
         vehicleType = json[UserParams.vehicleType],
-        adhaar = json[UserParams.adhaar];
+        adhaar = json[UserParams.adhaar],
+        customerId = json[UserParams.customerId],
+        referralCode = json[UserParams.referralCode],
+        referId = json[UserParams.referId];
 }
 
 class Config {
@@ -143,25 +155,25 @@ class Config {
 
   Config(
       {this.title,
-        this.logo,
-        this.contact,
-        this.whatsAppNumber,
-        this.email,
-        this.copyright,
-        this.about,
-        this.apkLink,
-        this.websiteLink,
-        this.terms,
-        this.termsTitle,
-        this.razorPayKey,
-        this.razorPaySecretKey,
-        this.smsUserName,
-        this.smsPassword,
-        this.smsSenderId,
-        this.smsFL,
-        this.customerVersion,
-        this.agentVersion,
-        this.smsGwID});
+      this.logo,
+      this.contact,
+      this.whatsAppNumber,
+      this.email,
+      this.copyright,
+      this.about,
+      this.apkLink,
+      this.websiteLink,
+      this.terms,
+      this.termsTitle,
+      this.razorPayKey,
+      this.razorPaySecretKey,
+      this.smsUserName,
+      this.smsPassword,
+      this.smsSenderId,
+      this.smsFL,
+      this.customerVersion,
+      this.agentVersion,
+      this.smsGwID});
 
   Config.fromJson(Map<String, dynamic> json)
       : title = json['title'].toString(),
