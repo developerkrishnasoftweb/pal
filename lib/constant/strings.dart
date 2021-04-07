@@ -180,6 +180,7 @@ class LocaleStrings {
   static String createAnAccountOnToUseAllTheFeatures =
       "createAnAccountOnToUseAllTheFeatures";
   static String fullName = "fullName";
+  static String referralCode = "referralCode";
   static String mobileNo = "mobileNo";
   static String bySigningUpYouAgreeToOurTermsAndPolicy =
       "bySigningUpYouAgreeToOurTermsAndPolicy";

@@ -21,10 +21,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   bool terms = false;
-  bool signUpStatus = false;
+  bool signUpStatus = false, validatingReferralCode = false;
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController mobile = TextEditingController();
+  TextEditingController referralCode = TextEditingController();
   TextEditingController password = TextEditingController();
 
   @override
@@ -33,6 +34,7 @@ class _SignUpState extends State<SignUp> {
     fullName.dispose();
     email.dispose();
     mobile.dispose();
+    referralCode.dispose();
     password.dispose();
   }
 
@@ -101,6 +103,21 @@ class _SignUpState extends State<SignUp> {
                   controller: email,
                   textInputAction: TextInputAction.next,
                   text: translate(context, LocaleStrings.email)),
+              input(
+                  context: context,
+                  keyboardType: TextInputType.text,
+                  controller: referralCode,
+                  textInputAction: TextInputAction.next,
+                  onChanged: validateReferralCode,
+                  decoration: validatingReferralCode ? InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      border: border(),
+                      suffixIconConstraints: BoxConstraints(),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: SizedBox(height: 20, width: 20, child: circularProgressIndicator()),
+                      )) : null,
+                  text: translate(context, LocaleStrings.referralCode)),
               input(
                   context: context,
                   keyboardType: TextInputType.number,
@@ -205,14 +222,15 @@ class _SignUpState extends State<SignUp> {
             .hasMatch(email.text)) {
           if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile.text)) {
             String otp = RandomInt.generate().toString();
-            // setState(() => signUpStatus = true);
+            setState(() => signUpStatus = true);
             FormData userData = FormData.fromMap({
               "name": fullName.text,
               "email": email.text,
               "mobile": mobile.text,
+              "refer_code": referralCode.text,
               "gender": "male",
               "password": password.text,
-              "token": "1234",
+              "token": "",
               "api_key": API_KEY
             });
             Map<String, dynamic> smsData = SMS_DATA(
@@ -237,8 +255,7 @@ class _SignUpState extends State<SignUp> {
                           .youMustHaveToPurchaseToAvailAllTheFeatures));
             } */
 
-            await Services.sms(smsData)
-                .then((value) {
+            await Services.sms(smsData).then((value) {
               if (value.response == "0") {
                 setState(() => signUpStatus = false);
                 Navigator.push(
@@ -286,6 +303,25 @@ class _SignUpState extends State<SignUp> {
               TextPosition(offset: fullName.text.length));
         });
       }
+    }
+  }
+
+  void validateReferralCode(String value) async {
+    if (value.length == 13) {
+      setState(() {
+        validatingReferralCode = true;
+      });
+      await Services.validateReferralCode(value).then((value) {
+        if (value.response != "y") {
+          referralCode.clear();
+          Fluttertoast.showToast(msg: value.message);
+        } else {
+          Fluttertoast.showToast(msg: value.message);
+        }
+      });
+      setState(() {
+        validatingReferralCode = false;
+      });
     }
   }
 }

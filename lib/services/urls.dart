@@ -19,6 +19,7 @@ class Urls {
   static String gift = "gift";
   static String banners = "sliders";
   static String giftCategory = "gift_category";
+  static String validateReferralCode = "checkReferral";
   static String addComplain = "add_complain";
   static String getComplain = "get_complain";
   static String trackComplaint = "track_complain";

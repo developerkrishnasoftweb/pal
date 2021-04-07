@@ -206,7 +206,7 @@ class Services {
   static Future<Data> sms(Map<String, dynamic> body) async {
     try {
       dio.Response response = await dio.Dio().get(Urls.smsBaseUrl +
-              "?${Uri(queryParameters: body).query.replaceAll("%25", "%")}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
+          "?${Uri(queryParameters: body).query.replaceAll("%25", "%")}&ApiKey=bPkxFrI7mIoLuY8kfWJlR7JqmVPNVA41PGtnB%2F6tEoE%3D");
       if (response.statusCode == 200) {
         Data data = Data();
         data.message = response.data["ErrorDescription"];
@@ -232,6 +232,33 @@ class Services {
     String url = Urls.baseUrl + Urls.giftCategory;
     try {
       dio.Response response = await dio.Dio().post(url, data: body);
+      if (response.statusCode == 200) {
+        Data data = Data();
+        final jsonResponse = jsonDecode(response.data);
+        data.message = jsonResponse["message"];
+        data.response = jsonResponse["status"];
+        data.data = jsonResponse["data"];
+        return data;
+      }
+      return null;
+    } on dio.DioError catch (e) {
+      if (dio.DioErrorType.DEFAULT == e.type &&
+          e.error.runtimeType == SocketException) {
+        return internetError;
+      } else {
+        return someThingWentWrong;
+      }
+    } catch (e) {
+      return someThingWentWrong;
+    }
+  }
+
+  static Future<Data> validateReferralCode(String referralCode) async {
+    String url = Urls.baseUrl + Urls.validateReferralCode;
+    try {
+      dio.Response response = await dio.Dio().post(url,
+          data: dio.FormData.fromMap(
+              {"refer_code": referralCode, "api_key": API_KEY}));
       if (response.statusCode == 200) {
         Data data = Data();
         final jsonResponse = jsonDecode(response.data);
