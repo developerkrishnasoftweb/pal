@@ -40,7 +40,7 @@ class _ReportState extends State<Report> with SingleTickerProviderStateMixin {
         LocaleStrings.earned,
         LocaleStrings.scored,
         LocaleStrings.redeemed,
-        LocaleStrings.festival
+        LocaleStrings.extraRewards
       ],
       earnTabHeader = ["Sr. No.", "Invoice Date", "Point Earn", "Branch Name"],
       purchaseTabHeader = [

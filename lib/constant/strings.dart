@@ -108,7 +108,7 @@ class LocaleStrings {
   static String earned = "earned";
   static String scored = "scored";
   static String redeemed = "redeemed";
-  static String festival = "festival";
+  static String extraRewards = "extraRewards";
   static String totalEarnedPoint = "totalEarnedPoint";
   static String totalScored = "totalScored";
   static String totalRedeemedPoint = "totalRedeemedPoint";
