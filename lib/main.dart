@@ -5,14 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'constant/color.dart';
 import 'constant/global.dart';
 import 'constant/models.dart';
-import 'constant/strings.dart';
 import 'localization/localization.dart';
 import 'localization/localizations_constraints.dart';
 import 'services/services.dart';
@@ -65,6 +63,7 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
     ));
   });
+  packageInfo = await PackageInfo.fromPlatform();
   await Services.getConfig();
 }
 

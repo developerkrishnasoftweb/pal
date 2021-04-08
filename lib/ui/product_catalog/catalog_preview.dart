@@ -1,17 +1,10 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:pal/constant/color.dart';
 import 'package:pal/services/services.dart';
 import '../../ui/widgets/appbar.dart';
-import '../../ui/widgets/circular_progress_indicator.dart';
 import '../../constant/strings.dart';
 import '../../localization/localizations_constraints.dart';
-import '../../services/urls.dart';
-import 'package:path_provider/path_provider.dart';
 
 _CatalogPreviewState catalogPreviewState;
 

@@ -1,9 +1,8 @@
 import 'dart:math';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
 import 'package:pal/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,12 +13,12 @@ SharedPreferences sharedPreferences;
 Userdata userdata;
 Config config;
 Locale appLocale;
+PackageInfo packageInfo;
 const String API_KEY = "0imfnc8mVLWwsAawjYr4Rx";
 const String mandatoryChar = "*";
 const String lastNotificationId = "last_notification_id";
-const String APP_URL =
-    "https://play.google.com/store/apps/details?id=com.palgeneralstore.customer";
-const String APK_VERSION = "2.0.4";
+String appUrl =
+    "https://play.google.com/store/apps/details?id=${packageInfo?.packageName}";
 
 extension RandomInt on int {
   static int generate({int min = 1000, int max = 9999}) {
@@ -77,7 +76,7 @@ Widget wallet({Color color}) {
 
 getUpdatedVersion({@required BuildContext context}) async {
   if (config?.customerVersion != null) {
-    if (config.customerVersion != APK_VERSION) {
+    if (config.customerVersion != packageInfo?.version) {
       showDialog<Widget>(
           barrierDismissible: true,
           context: context,
@@ -108,8 +107,8 @@ getUpdatedVersion({@required BuildContext context}) async {
 }
 
 void update() async {
-  if (await canLaunch(APP_URL)) {
-    await launch(APP_URL);
+  if (await canLaunch(appUrl)) {
+    await launch(appUrl);
     SystemNavigator.pop();
   } else
     Fluttertoast.showToast(msg: "Unable to open play store");
