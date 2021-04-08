@@ -151,7 +151,8 @@ class Config {
       smsFL,
       customerVersion,
       agentVersion,
-      smsGwID;
+      smsGwID,
+      referralStatus;
 
   Config(
       {this.title,
@@ -173,7 +174,8 @@ class Config {
       this.smsFL,
       this.customerVersion,
       this.agentVersion,
-      this.smsGwID});
+      this.smsGwID,
+      this.referralStatus});
 
   Config.fromJson(Map<String, dynamic> json)
       : title = json['title'].toString(),
@@ -195,7 +197,8 @@ class Config {
         smsFL = json['sms_fl'].toString(),
         customerVersion = json['customer_version'].toString(),
         agentVersion = json['agent_version'].toString(),
-        smsGwID = json['sms_gwid'].toString();
+        smsGwID = json['sms_gwid'].toString(),
+        referralStatus = json['referral_status']?.toString();
 }
 
 class GiftData {

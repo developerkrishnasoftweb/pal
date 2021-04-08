@@ -103,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                   controller: email,
                   textInputAction: TextInputAction.next,
                   text: translate(context, LocaleStrings.email)),
-              input(
+              ((config?.referralStatus ?? "n").toLowerCase() == "y") ? input(
                   context: context,
                   keyboardType: TextInputType.text,
                   controller: referralCode,
@@ -117,7 +117,7 @@ class _SignUpState extends State<SignUp> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: SizedBox(height: 20, width: 20, child: circularProgressIndicator()),
                       )) : null,
-                  text: translate(context, LocaleStrings.referralCode)),
+                  text: translate(context, LocaleStrings.referralCode)) : SizedBox(),
               input(
                   context: context,
                   keyboardType: TextInputType.number,
@@ -227,7 +227,7 @@ class _SignUpState extends State<SignUp> {
               "name": fullName.text,
               "email": email.text,
               "mobile": mobile.text,
-              "refer_code": referralCode.text,
+              "refer_code": referralCode.text ?? "",
               "gender": "male",
               "password": password.text,
               "token": "",
