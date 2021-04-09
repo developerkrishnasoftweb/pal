@@ -177,7 +177,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               });
             },
             textInputAction: TextInputAction.next),
-        input(
+        /* input(
             context: context,
             text: translate(context, LocaleStrings.alternateMobileNumber),
             onChanged: (value) {
@@ -185,7 +185,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 altMobile = value;
               });
             },
-            keyboardType: TextInputType.number),
+            keyboardType: TextInputType.number), */
         input(
             context: context,
             text: translate(context, LocaleStrings.pinCode),
@@ -355,7 +355,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         buildTitledRow(
             title: translate(context, LocaleStrings.pinCode),
             value: widget.storeDetails.pinCode),
-        input(
+        /* input(
             context: context,
             text:
                 "${translate(context, LocaleStrings.alternateMobileNumber)} $mandatoryChar",
@@ -365,7 +365,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               });
             },
             keyboardType: TextInputType.number),
-        /* Text(
+        Text(
           "Upload Proof (Any one) : Aadhaar, Pan, Voter Card, Driving Licence $mandatoryChar",
           style: Theme.of(context).textTheme.bodyText1.copyWith(
               color: Colors.grey, fontSize: 13, fontWeight: FontWeight.bold),
@@ -510,41 +510,40 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       /*
       * Collect from outlet
       * */
-      if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
-        setLoading(true);
-        FormData data = FormData.fromMap({
-          "customer_id": userdata.id,
-          "api_key": API_KEY,
-          "gift_id": widget.giftData.id,
-          "point": widget.giftData.points,
-          "address": widget.storeDetails.location,
-          "area": widget.storeDetails.location,
-          "city": widget.storeDetails.city,
-          "pincode": widget.storeDetails.pinCode,
-          "alt_mobile": altMobile,
-          "state": widget.storeDetails.state,
-          "proof": file != null
-              ? await MultipartFile.fromFile(file.path,
-                  filename: file.path.split("/").last)
-              : "",
-          "delivery_type": "s",
-          "store_id": widget.storeDetails.code,
-        });
-        sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
-      } else {
-        Fluttertoast.showToast(
-            msg: translate(context, LocaleStrings.invalidMobileNumber));
-      }
+      // if (RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(altMobile)) {
+      setLoading(true);
+      FormData data = FormData.fromMap({
+        "customer_id": userdata.id,
+        "api_key": API_KEY,
+        "gift_id": widget.giftData.id,
+        "point": widget.giftData.points,
+        "address": widget.storeDetails.location,
+        "area": widget.storeDetails.location,
+        "city": widget.storeDetails.city,
+        "pincode": widget.storeDetails.pinCode,
+        "alt_mobile": altMobile,
+        "state": widget.storeDetails.state,
+        "proof": file != null
+            ? await MultipartFile.fromFile(file.path,
+                filename: file.path.split("/").last)
+            : "",
+        "delivery_type": "s",
+        "store_id": widget.storeDetails.code,
+      });
+      sendSMS(mobile: userdata.mobile, formData: data, otp: otp);
+      // } else {
+      //   Fluttertoast.showToast(
+      //       msg: translate(context, LocaleStrings.invalidMobileNumber));
+      // }
     }
   }
 
   sendSMS({String mobile, String otp, FormData formData}) async {
     Map<String, dynamic> smsData = SMS_DATA(
         message: otp +
-            " is your OTP to Redeem to PAL App. Don't share it with anyone",
+            " is your OTP to Redeem to PAL App. Don't share it with anyone.",
         mobile: mobile);
-    await Services.sms(smsData)
-        .then((value) {
+    await Services.sms(smsData).then((value) {
       if (value.response == "0") {
         setLoading(false);
         Navigator.pushReplacement(
