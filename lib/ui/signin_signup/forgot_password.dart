@@ -81,9 +81,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   _forgotPassword() async {
     if (mobile.isNotEmpty &&
         RegExp(r"^(?:[+0]9)?[0-9]{10}$").hasMatch(mobile)) {
-      // setState(() {
-      //   isLoading = true;
-      // });
+      setState(() {
+        isLoading = true;
+      });
       String otp = RandomInt.generate().toString();
       Map<String, dynamic> smsData = SMS_DATA(
           message: otp +
