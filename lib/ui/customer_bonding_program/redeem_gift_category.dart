@@ -70,40 +70,6 @@ class _GiftState extends State<GiftCategory> {
                       width: size.width,
                       height: 20,
                     ),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: "( ",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.grey,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: translate(
-                                  context, LocaleStrings.cumulativeScore) +
-                              " : ",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.grey,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: userdata.totalOrder,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(color: Colors.black, fontSize: 15),
-                        ),
-                        TextSpan(
-                          text: " )",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.grey,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ]),
-                    ),
                     GridView.builder(
                         shrinkWrap: true,
                         itemCount: giftCategoryList.length,

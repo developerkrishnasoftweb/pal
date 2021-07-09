@@ -80,39 +80,6 @@ class _RedeemGiftState extends State<RedeemGift> {
         body: Column(
           children: [
             SizedBox(height: 10),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                  text: "( ",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                TextSpan(
-                  text:
-                      translate(context, LocaleStrings.cumulativeScore) + " : ",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                TextSpan(
-                  text: userdata.totalOrder,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.black, fontSize: 15),
-                ),
-                TextSpan(
-                  text: " )",
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-              ]),
-            ),
             Expanded(
                 child: giftList.length != 0
                     ? GridView.builder(

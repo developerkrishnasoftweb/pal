@@ -17,6 +17,7 @@ class EarnedPoints extends StatefulWidget {
 
 class _EarnedPointsState extends State<EarnedPoints> {
   List<CycleData> earnedLists = [];
+  double _cumulativePurchase = 0.0;
 
   @override
   void initState() {
@@ -72,7 +73,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
           ),
           buildRedeemedAmount(
               title: "${translate(context, LocaleStrings.cumulativeScore)} : ",
-              value: "${double.parse(userdata.totalOrder).round()}",
+              value: "${_cumulativePurchase.round()}",
               leadingTrailing: true),
           SizedBox(
             height: 20,
@@ -119,9 +120,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
     var endDate = DateFormat('d MMM').format(DateTime.parse(data.dateTo));
     return ExpansionTile(
       trailing: SizedBox(),
-      tilePadding: EdgeInsets.only(
-        left: 20,
-      ),
+      tilePadding: EdgeInsets.only(left: 20),
       childrenPadding: EdgeInsets.only(left: 20, right: 30),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +196,7 @@ class _EarnedPointsState extends State<EarnedPoints> {
         buildChildrenRow(
             title: translate(context, LocaleStrings.lastTransactionOn),
             value: data.transaction.length > 0
-                ? data.transaction.last["created"]
+                ? data.transaction.last["created"].toString().split(" ").first
                 : "--"),
       ],
     );
@@ -279,36 +278,36 @@ class _EarnedPointsState extends State<EarnedPoints> {
         // ignore: unnecessary_statements
         value.message != "" ? Fluttertoast.showToast(msg: value.message) : null;
         for (int i = value.data.length - 1; i >= 0; i--) {
-          setState(() {
-            closingPoints += ((value.data[i]["total_points"] != null
-                    ? double.parse(
-                        value.data[i]["total_points"][0]["point"] ?? "0")
-                    : 0) -
-                (value.data[i]["redeem"] != null
-                    ? double.parse(value.data[i]["redeem"][0]["point"] ?? "0")
-                    : 0)).round();
-            earnedLists.add(CycleData(
-                cycleNo: value.data[i]["id"],
-                closingPoints: closingPoints.toString(),
-                dateFrom: value.data[i]["start_date"],
-                dateTo: value.data[i]["end_date"],
-                transaction: value.data[i]["transaction"],
-                earnedPoints: value.data[i]["total_points"] != null
-                    ? value.data[i]["total_points"][0]["point"]
-                    : "0.0",
-                redeem: value.data[i]["redeem"] != null
-                    ? value.data[i]["redeem"][0]["point"]
-                    : "0",
-                purchase: value.data[i]["total_purchase"] != null
-                    ? value.data[i]["total_purchase"][0]["purchase"] != null
-                        ? value.data[i]["total_purchase"][0]["purchase"]
-                        : "0.0"
-                    : "0.0"));
-          });
+          closingPoints += ((value.data[i]["total_points"] != null
+                      ? double.parse(
+                          value.data[i]["total_points"][0]["point"] ?? "0")
+                      : 0) -
+                  (value.data[i]["redeem"] != null
+                      ? double.parse(value.data[i]["redeem"][0]["point"] ?? "0")
+                      : 0))
+              .round();
+          var purchase = "0";
+          if (value.data[i]["total_purchase"] != null &&
+              value.data[i]["total_purchase"][0]["purchase"] != null) {
+            purchase = value.data[i]["total_purchase"][0]["purchase"];
+          }
+          _cumulativePurchase += double.tryParse(purchase) ?? 0.0;
+          earnedLists.add(CycleData(
+              cycleNo: value.data[i]["id"],
+              closingPoints: closingPoints.toString(),
+              dateFrom: value.data[i]["start_date"],
+              dateTo: value.data[i]["end_date"],
+              transaction: value.data[i]["transaction"],
+              earnedPoints: value.data[i]["total_points"] != null
+                  ? value.data[i]["total_points"][0]["point"]
+                  : "0.0",
+              redeem: value.data[i]["redeem"] != null
+                  ? value.data[i]["redeem"][0]["point"]
+                  : "0",
+              purchase: purchase));
         }
-        setState(() {
-          earnedLists = earnedLists.reversed.toList();
-        });
+        earnedLists = earnedLists.reversed.toList();
+        setState(() {});
       } else {
         Fluttertoast.showToast(msg: value.message);
       }
